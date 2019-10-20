@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="{% block page_description %}{% endblock %}">
-    <meta name="author" content="">
-    <meta name='yandex-verification' content='5773e8febf6e53a1' />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     {%- for lang in LANGUAGES %}
         {# Ugly! #}
@@ -24,175 +22,206 @@
     {% endblock %}
 
     {% if not disable_css %}
-    {% stylesheet 'css_all' %}
-{#    <link href='//fonts.googleapis.com/css?family=Roboto+Slab:400,300,700,100&subset=latin,cyrillic-ext,cyrillic' rel='stylesheet' type='text/css' />
-    <link href='//fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic,700italic&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css' />
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel='stylesheet' type='text/css' /> #}
-    {% endif %} 
+        {% stylesheet 'css_all' %}
+    {% endif %}
 
     {% stylesheet 'css_print' %}
-    <link rel="apple-touch-icon" sizes="57x57" href="{{ SITE_URL }}{{ static("images/favicon/apple-icon-57x57.png") }}">
-    <link rel="apple-touch-icon" sizes="60x60" href="{{ SITE_URL }}{{ static("images/favicon/apple-icon-60x60.png") }}">
-    <link rel="apple-touch-icon" sizes="72x72" href="{{ SITE_URL }}{{ static("images/favicon/apple-icon-72x72.png") }}">
-    <link rel="apple-touch-icon" sizes="76x76" href="{{ SITE_URL }}{{ static("images/favicon/apple-icon-76x76.png") }}">
-    <link rel="apple-touch-icon" sizes="114x114" href="{{ SITE_URL }}{{ static("images/favicon/apple-icon-114x114.png") }}">
-    <link rel="apple-touch-icon" sizes="120x120" href="{{ SITE_URL }}{{ static("images/favicon/apple-icon-120x120.png") }}">
-    <link rel="apple-touch-icon" sizes="144x144" href="{{ SITE_URL }}{{ static("images/favicon/apple-icon-144x144.png") }}">
-    <link rel="apple-touch-icon" sizes="152x152" href="{{ SITE_URL }}{{ static("images/favicon/apple-icon-152x152.png") }}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ SITE_URL }}{{ static("images/favicon/apple-icon-180x180.png") }}">
-    <link rel="icon" type="image/png" sizes="192x192"  href="{{ SITE_URL }}{{ static("images/favicon/android-icon-192x192.png") }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ SITE_URL }}{{ static("images/favicon/favicon-32x32.png") }}">
-    <link rel="icon" type="image/png" sizes="96x96" href="{{ SITE_URL }}{{ static("images/favicon/favicon-96x96.png") }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ SITE_URL }}{{ static("images/favicon/favicon-16x16.png") }}">
-    <link rel="manifest" href="{{ SITE_URL }}{{ static("images/favicon/manifest.json") }}>
+
+    <link rel="apple-touch-icon" sizes="57x57" href="favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+    <link rel="manifest" href="favicon/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="/static/images/favicon/ms-icon-144x144.png") }}>
+    <meta name="msapplication-TileImage" content="favicon/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="css/slick.css">
+    <link rel="stylesheet" href="css/slick-theme.css">
+    <link rel="stylesheet" href="css/simplebar.css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <link href="css/app.css" rel="stylesheet">
 </head>
 
 {% set calling_page = page.url if page else "" %}
 
-<body class="{% block body_class %}not-front{% endblock %}"> 
-    <h1 class="navbar-brand print-only" href="{{ url("wagtail_serve", "") }}">PEP<span>.org.ua</span></h1>
-    <div id="wrapper">
-        <nav id="navbar" class="navbar navbar-inverse navbar-default" role="navigation">  
-            <div class="container"> 
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                        <span class="sr-only">{{ _("Menu") }}</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="{{ url("wagtail_serve", "") }}">PEP<span>.org.ua</span></a>
-                </div>
-
-                {% block mini_search %}
-                <div class="col-xs-12 col-sm-6 col-md-3 pull-left regularSearch">
-                    <form id="pep-search" action="{{ url("search") }}" method="GET">
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="{{ _("Введіть ім'я або назву компанії") }}" name="q" data-provide="typeahead" id="search-form" autocomplete="off" data-endpoint="{{ url("suggest") }}" value="{{ query }}"/>
-                            <input type="hidden" name="is_exact" value="" />
-                            <span class="input-group-btn"><button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button></span>
-                        </div>
+<body>
+<div class="{% block page_class %}{% endblock%}">
+    <!--    добавлять класс header--show-search если нужно отображать поиск :TODO-->
+    <header class="header header--show-search">
+        <div class="header__inner">
+            <div class="header__left">
+                <a href="{{ url('wagtail_serve', '') }}" class="logo">
+                    <img src="{{ static('images/logo.svg') }}" alt="Logo">
+                </a>
+                <div class="form-wrap">
+                    <form action="" class="search-form">
+                        <input type="text" placeholder="{{ _('Введіть ім’я, назву компанії ...') }}">
+                        <ul class="search-dropdown">
+                            <li><a href="person.html">Олександр Вікторович <strong>Яну</strong>кович</a></li>
+                            <li><a href="person.html">Людмила Олександрівна <strong>Яну</strong>кович</a></li>
+                            <li><a href="person.html">Олександр Вікторович <strong>Яну</strong>кович</a></li>
+                            <li><a href="person.html">Людмила Олександрівна <strong>Яну</strong>кович</a></li>
+                        </ul>
+                        <button>
+                            <svg>
+                                <use xlink:href="#arr-right-w2"></use>
+                            </svg>
+                        </button>
                     </form>
-                </div>
-                {% endblock %}
-                
-                <div class="collapse navbar-collapse navbar-ex1-collapse pull-right">
-                    <div id="languageSelect" class="dropdown asSelect pull-right">
-                    <button class="dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        <span class="btn-text"><img src="{{ static("images/" + LANGUAGE_CODE + ".png") }}" /></span>                        
+                    <button class="search-btn">
+                        <svg class="search">
+                            <use xlink:href="#search"></use>
+                        </svg>
+                        <svg class="close">
+                            <use xlink:href="#close"></use>
+                        </svg>
                     </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
-                        {% for lang in LANGUAGES %}
-                        <li>
-                            <form action="{{ url("set_language") }}" method="POST">
-                                {% csrf_token %}
-                                {# Ugly! #}
-                                {% if request.path.startswith("/" + LANGUAGE_CODE + "/") %}
-                                    <input type="hidden" name="next" value="{{ request.path.replace("/" + LANGUAGE_CODE + "/", "/" + lang.0 + "/", 1) }}{% if request.GET %}?{% endif %}{{ request.GET.urlencode() }}" />
-                                {% else %}
-                                    <input type="hidden" name="next" value="/" />
-                                {% endif %}
-                                <input type="hidden" name="language" value="{{ lang.0 }}" />
-                                <button><img src="{{ static("images/" + lang[0] + ".png") }}" /></button>
-                            </form>
+                </div>
+            </div>
+            <div class="header__right">
+                <nav class="menu">
+                    <ul class="menu__list">
+                        <li class="menu__list-item">
+                            <a href="{{ url('wagtail_serve', 'pitannya-ta-vidpovid/') }}" class="qa-item" title="{{ _("Про реєстр") }}">Про реєстр</a>
                         </li>
-                        {% endfor %}
+                        <li class="menu__list-item">
+                            <a href="blogs.html">Блог</a>
+                        </li>
+                        <li class="menu__list-item">
+                            <a href="investigations.html">Розслідування</a>
+                        </li>
+                        <li class="menu__list-item">
+                            <a href="contacts.html">Контакти</a>
+                        </li>
+                        <li class="menu__list-item">
+                            <a href="api.html">API</a>
+                        </li>
+                        <li class="menu__list-item">
+                            <a href="scoring.html">Scoring</a>
+                        </li>
                     </ul>
-                </div>              
-                
-                    <ul class="nav navbar-nav">
-                        <li><a href="{{ url('wagtail_serve', '') }}" class="home-item" title="{{ _("Домівка") }}"><i></i>{{ _("Домівка") }}</a></li>
-                        <li><a href="{{ url('countries_home') }}" class="countries-item" title="{{ _("Країни") }}"><i></i>{{ _("Країни") }}</a></li>
-                        <li><a href="{{ url('wagtail_serve', 'pitannya-ta-vidpovid/') }}" class="qa-item" title="{{ _("Про реєстр") }}"><i></i>{{ _("Про реєстр") }}</a></li>
-                        <li><a href="{{ url('feedback') }}" class="feedback-item" title="{{ _("Повідомити") }}"><i></i>{{ _("Повідомити") }}</a></li>
-                        <li><a href="{{ url('wagtail_serve', 'data/') }}" class="data-item" title="{{ _("Дані") }}"><i></i>{{ _("Дані") }}</a></li>
-                        {% block extra_menu %}
-                        {% endblock %}
-                    </ul>
-                </div>
-                
+                </nav>
+                <button class="lang">En</button>
+                <button class="burger-btn"></button>
             </div>
-        </nav>
-
-        <div id="page">
-        {% block content %}
-        {% endblock %}
-        </div> <!--page -->
-
-        <footer id="footer">
-            <div class="container">
-                <ul id="copyright" class="col-sm-6">
-                    {% for menuitem in bottom_menu %}
-                    <li class="{% if calling_page.startswith(menuitem.link) %} active{% endif %}">
-                        <a href="{{ menuitem.link }}">
-                            <span class="footer-logo">
-                            {% if menuitem.image %}
-                                <img src="{{ menuitem.image.get_rendition("max-50x50").url }}" alt="" class="" title=""/>
-                            {% endif %}
-                            </span>
-                            <span class="footer-logo-text">{{ menuitem.translated_caption }}</span>
-                        </a>
+        </div>
+        <div class="mob-menu">
+            <div class="form-wrap">
+                <form action="" class="search-form">
+                    <input type="text" placeholder="Введіть ім’я, назву компанії ...">
+                    <ul class="search-dropdown">
+                        <li><a href="person.html">Олександр Вікторович <strong>Яну</strong>кович</a></li>
+                        <li><a href="person.html">Людмила Олександрівна <strong>Яну</strong>кович</a></li>
+                        <li><a href="person.html">Олександр Вікторович <strong>Яну</strong>кович</a></li>
+                        <li><a href="person.html">Людмила Олександрівна <strong>Яну</strong>кович</a></li>
+                    </ul>
+                    <button>
+                        <svg>
+                            <use xlink:href="#arr-right-w2"></use>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+            <nav class="menu">
+                <ul class="menu__list">
+                    <li class="menu__list-item">
+                        <a href="about-us.html">Про реєстр</a>
                     </li>
-                    {% endfor %}
-                    <!-- <li><a href="#"><i class="fa fa-rss"></i> Updates</a></li> -->
-                    {# <li>Copyright 2015</li> #}
+                    <li class="menu__list-item">
+                        <a href="blogs.html">Блог</a>
+                    </li>
+                    <li class="menu__list-item">
+                        <a href="investigations.html">Розслідування</a>
+                    </li>
+                    <li class="menu__list-item">
+                        <a href="contacts.html">Контакти</a>
+                    </li>
+                    <li class="menu__list-item">
+                        <a href="api.html">API</a>
+                    </li>
+                    <li class="menu__list-item">
+                        <a href="scoring.html">Scoring</a>
+                    </li>
                 </ul>
-                <div id="footerInfo" class="hidden-xs text-justify col-sm-6">
-                    {{ root_page.translated_footer|richtext }}
-                </div>
-            </div>
-        </footer>
-        {% block inline_feedback_form %}
-        <div id="send-form" class="animated print-hidden">
-            <a class="btn-close" href="#closeform"><i class="fa fa-times-circle"></i></a>
-            <div class="form-container">
-                <header>
-                    <a class="show-form" href="#showform">{{ _("Надіслати інформацію") }}</a>
-                </header>
-                <div class="form-content">
-                    <div class="form">
-                    {% include "_feedback_form.jinja" %}
-                    </div>
-                </div>
-            </div>
-        </div>     
-        {% endblock %}
-    </div>
-    {% javascript 'js_all' %}
-        {% if SITEHEART_ID %}
-            <!-- Start SiteHeart code -->
-            <script>
-            (function(){
-            var widget_id = {{ SITEHEART_ID }};
-            _shcp =[{widget_id : widget_id}];
-            var lang =(navigator.language || navigator.systemLanguage 
-            || navigator.userLanguage ||"en")
-            .substr(0,2).toLowerCase();
-            var url ="widget.siteheart.com/widget/sh/"+ widget_id +"/"+ lang +"/widget.js";
-            var hcc = document.createElement("script");
-            hcc.type ="text/javascript";
-            hcc.async =true;
-            hcc.src =("https:"== document.location.protocol ?"https":"http")
-            +"://"+ url;
-            var s = document.getElementsByTagName("script")[0];
-            s.parentNode.insertBefore(hcc, s.nextSibling);
-            })();
-            </script>
-            <!-- End SiteHeart code -->
-        {% endif %}
-        {% if GA_ID %}
-            <script>
-              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-              })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+            </nav>
+        </div>
+    </header>
+    {% block content %}
+    {% endblock %}
 
-              ga('create', '{{ GA_ID }}', 'auto');
-              ga('send', 'pageview');
-            </script>
-        {% endif %}
+
+    <footer class="footer">
+        <div class="footer__top">
+            <div class="content">
+                <div class="footer__nav">
+                    <nav class="menu">
+                        <ul class="menu__list">
+                            <li class="menu__list-item">
+                                <a href="about-us.html">Про реєстр</a>
+                            </li>
+                            <li class="menu__list-item">
+                                <a href="contacts.html">Контакти</a>
+                            </li>
+                            <li class="menu__list-item">
+                                <a href="investigations.html">Розслідування</a>
+                            </li>
+                            <li class="menu__list-item">
+                                <a href="api.html">API</a>
+                            </li>
+                            <li class="menu__list-item">
+                                <a href="blogs.html">Блог</a>
+                            </li>
+                            <li class="menu__list-item">
+                                <a href="scoring.html">Scoring</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="footer__founders">
+                    <h6 class="title">
+                        <span>Засновники</span>
+                        <span class="icon">
+                        <svg>
+                            <use xlink:href="#arr-right"></use>
+                        </svg>
+                    </span>
+                    </h6>
+                    <p class="text">Реєстр адмініструють команди <a href="">ГО Центр протидії корупції</a> та <a
+                            href="">ГО Канцелярської Сотні</a>.
+                        Розроблено спільно зі спеціалістами <a href="">Державної служби фінансового моніторингу</a> та
+                        <a
+                                href="">Міністерства юстиції
+                            України</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="footer__bottom">
+            <div class="content">
+                <p class="description">На цьому сайті використано інформацію, що отримана в рамках реалізації ГО «Центр
+                    протидії корупції» свого права на доступ до публічної інформації, а також інформацію з відкритих
+                    загальнодоступних джерел, яка вже була оприлюднена. Вказана інформація не є такою, що має обмежений
+                    доступ та не містить персональних даних в розумінні Закону України «Про захист персональних даних»
+                    відповідно до частини 2 статті 5 вказаного Закону.</p>
+
+                <div class="copy-wrap">
+                    <p class="copy">© ЦЕНТР ПРОТИДІЇ КОРУПЦІЇ, 2015-2018</p>
+                    <p class="design">ДИЗАЙН – <a href="https://demch.co" target="_blank">DEMCH.CO</a></p>
+                    <p class="development">РОЗРОБКА – <a href="" target="_blank">КАНЦЕЛЯРСЬКА СОТНЯ</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    {% javascript 'js_all' %}
 </body>
+
 </html>
