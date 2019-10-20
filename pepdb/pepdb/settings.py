@@ -240,6 +240,8 @@ PIPELINE = {
                 'less/main.less',
                 'css/graph.css',
                 'css/bootstrap-combobox.css',
+                "css/tippy.css",
+                "css/tippy-light.css",
             ),
             'output_filename': 'css/merged.css',
             'extra_context': {
@@ -269,11 +271,20 @@ PIPELINE = {
                 "bower_components/jquery.nicescroll/jquery.nicescroll.min.js",
                 "js/ripples.min.js",
                 "js/bootstrap-combobox.js",
-                "js/vis-network.min.js",
-                "js/pep.js",
-                "js/graph.js",
+                "js/pep.js"
             ),
             'output_filename': 'js/merged.js',
+        },
+        "graph_viz": {
+            "source_filenames": (
+                "bower_components/cytoscape/dist/cytoscape.min.js",
+                "bower_components/popper.js/dist/umd/popper.js",
+                "bower_components/cytoscape-popper/cytoscape-popper.js",
+                "bower_components/cytoscape-euler/cytoscape-euler.js",
+                "js/tippy.js",
+                "js/cytograph_init.js",
+            ),
+            "output_filename": "js/graph.js",
         }
     }
 }

@@ -10,7 +10,7 @@
     {% else %}
         <meta property="og:image" content="{{ SITE_URL }}{{ static("images/pep_fb.png") }}" />
     {% endif %}
-    <meta property="og:image:alt" content="Politically exposed persons" />
+    <meta property="og:image:alt" content="Politically exposed person {{ person.first_name }} {{ person.patronymic }} {{ person.last_name }}" />
     <meta property="og:type" content="profile" />
     <meta property="og:description" content="{{ _("Детальна інформація про членів сім'ї та інших пов'язаних осіб, задекларовані статки, зобов'язання та банківські рахунки, власність в юридичних особах") }}" />
     <meta property="profile:first_name" content="{{ person.first_name }} {{ person.patronymic }}" />
@@ -100,7 +100,7 @@
                 {% endif %}
             </ul>
         </aside>
-        <section id="profile" class="{%- if person.parsed_names %}col-md-8{% else %}col-md-10{% endif -%} {% if person.terminated %} not{% endif %}">
+        <section id="profile" class="{%- if person.parsed_names %}col-md-8{% else %}col-md-10{% endif -%} {% if person.terminated %} not{% endif %}" data-url="{{ url('connections', 'person', person.pk) }}">
             <link itemprop="url" href="{{ person.get_absolute_url() }}" />
             <div id="profile-wrap" class="box">
                 {% if person.died %}<div class="info-label">{{ _(person.get_reason_of_termination_display()) }}</div>{% endif %}
@@ -217,10 +217,9 @@
                     </div>
                 </div>
                 
-                {% if "graph" in request.GET %}
-                <a class="load-pep-modal-tree" data-toggle="modal" data-target="#pep-graph-tree">
-                    <img src="https://dl.dropboxusercontent.com/u/1637697/skitch.png" /><!-- TODO: somehow generate image-preview from data -->
-                    <i class="fa fa-search-plus"></i>
+                <a class="load-pep-modal-tree" data-target="#pep-graph-tree">
+                    <div id="cy-preview"></div>
+                    <i class="fa fa-search-plus hidden"></i>
                 </a>
 
                 <div class="modal fade" id="pep-graph-tree" tabindex="-1" role="dialog" aria-labelledby="pep-graph-tree-label">
@@ -228,15 +227,17 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title">{{ person.last_name }} {{ person.first_name }} {{ person.patronymic }}</h4>
+                                <h4 class="modal-title">{{ person.last_name }} {{ person.first_name }} {{ person.patronymic }}
+                                    <span class="request_took" style="width: 200px; float: right; display: block; font-size: 0.8em; padding: 0 10px"></span>
+                                    <div class="loader" style="width: 100px; float: right; height: 20px"></div>
+                                </h4>
                             </div>
-                            <div class="modal-body">
-                                <div id="graphme" data-url="{{ url('connections', 'person', person.pk) }}"></div>
+                            <div class="modal-body cy-wrapper">
+                                <div class="cy-full"></div>
                             </div>
                         </div>
                     </div>
                 </div>
-                {% endif %}
 
                 {% set last_modified = person.last_modified %}
                 {% if last_modified %}
@@ -488,6 +489,11 @@
         {% endif %}
     </div>
 </div>
+{% endblock %}
+
+{% block javascript %}
+    {{ super() }}
+    {% javascript 'graph_viz' %}
 {% endblock %}
 
 {#

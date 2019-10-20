@@ -425,7 +425,7 @@ class Company(models.Model, AbstractNode):
     @property
     def all_related_companies(self):
         related_companies = [
-            (i.relationship_type, deepcopy(i.to_company), i)
+            (i.relationship_type, deepcopy(i.to_company), i, True)
             for i in self.to_companies.prefetch_related("to_company").defer(
                 "to_company__wiki",
                 "to_company__other_founders",
@@ -436,7 +436,7 @@ class Company(models.Model, AbstractNode):
                 "to_company__sanctions",
             )
         ] + [
-            (i.reverse_relationship_type, deepcopy(i.from_company), i)
+            (i.reverse_relationship_type, deepcopy(i.from_company), i, False)
             for i in self.from_companies.prefetch_related("from_company").defer(
                 "from_company__wiki",
                 "from_company__other_founders",
@@ -450,9 +450,10 @@ class Company(models.Model, AbstractNode):
 
         res = {"founders": [], "rest": [], "banks": [], "all": []}
 
-        for rtp, p, rel in sorted(related_companies, key=lambda x: x[1].name_uk):
+        for rtp, p, rel, direction in sorted(related_companies, key=lambda x: x[1].name_uk):
             p.rtype = rtp
             p.connection = rel
+            p.direction = direction
 
             if rtp in [
                 "Засновник",
@@ -470,59 +471,101 @@ class Company(models.Model, AbstractNode):
 
         return res
 
-    def get_node_info(self, with_connections=False):
-        res = super(Company, self).get_node_info(with_connections)
-        res["name"] = self.name
-        res["description"] = self.edrpou
-        res["kind"] = unicode(
-            ugettext_lazy("Державна компанія чи установа")
-            if self.state_company
-            else ugettext_lazy("Приватна компанія")
-        )
+    def get_node(self):
+        res = super(Company, self).get_node()
 
-        if with_connections:
-            connections = []
+        node = {
+            "name": self.short_name or self.name,
+            "full_name": self.name,
+            "description": self.edrpou,
+            "state_company": self.state_company,
+            "is_closed": bool(self.closed_on_human),
+            "kind": unicode(
+                ugettext_lazy("Державна компанія чи установа")
+                if self.state_company
+                else ugettext_lazy("Приватна компанія")
+            ),
+        }
 
-            persons = self.all_related_persons
-            for k in persons.values():
-                for p in k:
-                    connections.append(
-                        {
-                            "relation": p.connection.relationship_type,
-                            "node": p.get_node_info(False),
-                            "model": p.connection._meta.model_name,
-                            "pk": p.connection.pk,
-                        }
-                    )
-
-            # Because of a complicated logic here we are piggybacking on
-            # existing method that handles both directions of relations
-            for c in self.all_related_companies["all"]:
-                connections.append(
-                    {
-                        "relation": unicode(ugettext_lazy(c.rtype or "")),
-                        "node": c.get_node_info(False),
-                        "model": c.connection._meta.model_name,
-                        "pk": c.connection.pk,
-                    }
-                )
-
-            countries = self.from_countries.prefetch_related("to_country")
-            for c in countries:
-                connections.append(
-                    {
-                        "relation": unicode(
-                            ugettext_lazy(c.get_relationship_type_display())
-                        ),
-                        "node": c.to_country.get_node_info(False),
-                        "model": c._meta.model_name,
-                        "pk": c.pk,
-                    }
-                )
-
-            res["connections"] = connections
+        res["data"].update(node)
 
         return res
+
+
+    def get_node_info(self, with_connections=False):
+        this_node = self.get_node()
+        nodes = [this_node]
+        edges = []
+        all_connected = set()
+
+        # Because of a complicated logic here we are piggybacking on
+        # existing method that handles both directions of relations
+        for p in self.all_related_persons["rest"]:
+            if p.rtype.lower() in [_("клієнт банку")]:
+                continue                    
+
+            child_node_id = p.get_node_id()
+
+            if with_connections:
+                child_node = p.get_node_info(False)
+                nodes += child_node["nodes"]
+                edges += child_node["edges"]
+
+                edges.append(
+                    {
+                        "data": {
+                            "relation": unicode(ugettext_lazy(p.rtype)),
+                            "model": p.connection._meta.model_name,
+                            "pk": p.connection.pk,
+                            "id": "{}-{}".format(
+                                p.connection._meta.model_name, p.connection.pk
+                            ),
+                            "share": 0,
+                            "target": this_node["data"]["id"],
+                            "source": child_node_id,
+                            "is_latest": True,
+                        }
+                    }
+                )
+
+            all_connected.add(child_node_id)
+
+        for c in self.all_related_companies["all"]:
+            child_node_id = c.get_node_id()
+
+            if with_connections:
+                child_node = c.get_node_info(False)
+                nodes += child_node["nodes"]
+                edges += child_node["edges"]
+                if c.direction:
+                    source = child_node_id
+                    target = this_node["data"]["id"]
+                else:
+                    source = this_node["data"]["id"]
+                    target = child_node_id
+
+                edges.append(
+                    {
+                        "data": {
+                            "relation": unicode(c.connection.relationship_type),
+                            "model": c.connection._meta.model_name,
+                            "pk": c.connection.pk,
+                            "id": "{}-{}".format(
+                                c.connection._meta.model_name, c.connection.pk
+                            ),
+                            "source": source,
+                            "share": float(c.connection.equity_part or 0),
+                            "target": target,
+                            "is_latest": True,
+                        }
+                    }
+                )
+
+            all_connected.add(child_node_id)
+
+        this_node["data"]["all_connected"] = list(all_connected)
+        return {"edges": edges, "nodes": nodes}
+
 
     @property
     def closed_on_human(self):

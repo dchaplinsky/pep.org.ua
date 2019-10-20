@@ -541,7 +541,7 @@ def encrypted_redirect(request, enc, model):
 
 
 def connections(request, model, obj_id):
-    if model.lower() not in ("person", "country", "company"):
+    if model.lower() not in ("person", "company"):
         return HttpResponseBadRequest()
 
     model = apps.get_model("core", model)
@@ -551,4 +551,8 @@ def connections(request, model, obj_id):
     except model.DoesNotExist:
         return HttpResponseNotFound()
 
-    return JsonResponse(obj.get_node_info(True))
+    node_info = obj.get_node_info(True)
+
+    node_info["nodes"][0]["data"]["is_main"] = True
+
+    return JsonResponse(node_info)
