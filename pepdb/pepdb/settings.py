@@ -242,6 +242,11 @@ PIPELINE = {
                 'css/bootstrap-combobox.css',
                 "css/tippy.css",
                 "css/tippy-light.css",
+                'css/app.css',
+                'css/simplebar.css',
+                'css/perfect-scrollbar.min.css',
+                'css/slick.css',
+                'css/slick-theme.css',
             ),
             'output_filename': 'css/merged.css',
             'extra_context': {
@@ -263,7 +268,7 @@ PIPELINE = {
     'JAVASCRIPT': {
         'js_all': {
             'source_filenames': (
-                "bower_components/jquery/dist/jquery.js",
+                "js/jQuery-3.4.1.min.js",
                 "bower_components/bootstrap/dist/js/bootstrap.js",
                 "bower_components/bootstrap/js/tab.js",
                 "bower_components/bootstrap3-typeahead/bootstrap3-typeahead.js",
@@ -271,7 +276,11 @@ PIPELINE = {
                 "bower_components/jquery.nicescroll/jquery.nicescroll.min.js",
                 "js/ripples.min.js",
                 "js/bootstrap-combobox.js",
-                "js/pep.js"
+                "js/pep.js",
+                "js/chart.js",
+                "js/main.js",
+                "js/simplebar.js",
+                "js/slick.min.js",
             ),
             'output_filename': 'js/merged.js',
         },

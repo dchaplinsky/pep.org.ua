@@ -1,6 +1,5 @@
 {% extends "base.jinja" %}
-{% from "macros/_connections.jinja" import render_connection, render_related_persons, render_person_companies, render_related_grouped_persons with context %}
-{% block body_class %}not-front profile-page person-profile page{% endblock %}
+{% from "macros/_connections.jinja" import render_person_banks, render_related_persons, render_person_companies with context %}
 
 {% set last_workplace = person.translated_last_workplace %}
 
@@ -18,7 +17,9 @@
     <link rel="canonical" href="{{ SITE_URL }}{{ person.get_absolute_url() }}" />
 {% endblock %}
 
-{% block page_title %}{{ person.last_name }} {{ person.first_name }} {{ person.patronymic }}{% if last_workplace %}, {{ last_workplace.company }}, {{ last_workplace.position }}{% endif %}{% endblock %}
+{% block page_title %}
+{{_("Профіль:")}} {{ person.last_name }} {{ person.first_name }} {{ person.patronymic }}{% if last_workplace %}, {{ last_workplace.company }}, {{ last_workplace.position }}{% endif %}
+{% endblock page_title %}
 
 {% block extra_menu %}
     {% if request.user.is_superuser %}
@@ -30,7 +31,9 @@
 
 {% block page_description %}{% if person.description %}{{ person.description }}{% endif %}{% endblock %}
 
-{% block content %}
+{% block page_class %}profile-page{% endblock %}
+
+{% block content%}
 {% set related_persons = person.all_related_persons %}
 {% set related_companies = person.all_related_companies %}
 {% set workplaces = person.workplaces %}
@@ -38,98 +41,66 @@
 {% set external_links = person.external_links %}
 {% set documents = person.all_documents %}
 {% set any_documents = documents.values()|map("length")|sum %}
+    <main>
+        <div class="profile-page__content" itemscope itemtype="http://schema.org/Person" data-url="{{ url('connections', 'person', person.pk) }}">
+            <div class="profile-page__header">
+                <div class="breadcrumbs-wrap">
+                    <ul class="breadcrumbs">
+                        <li>
+                            <a href="{{ url('wagtail_serve', '') }}">{{ _("Головна")}} </a>
+                        </li>
+                        <li>
+                            <a href="">{{ _("Публічні діячі") }}</a>
+                        </li>
+                        <li>
+                            <span class="name"> {{ person.last_name }} {{ person.first_name }} {{ person.patronymic }} </span>
+                        </li>
+                    </ul>
 
-
-<div class="container" itemscope itemtype="http://schema.org/Person">
-    <div class="row">
-        <div id="breadcrumbs">
-            <ol class="breadcrumb">
-                <li><a href="{{ url("wagtail_serve", "") }}">{{ _("Головна") }}</a></li>
-                <li class="active">{{ _("Публічні діячі") }}</li>
-                <li class="active">{{ person.last_name }} {{ person.first_name }} {{ person.patronymic }}</li>
-            </ol>
-        </div>
-        <aside id="profile-nav" role="complementary" class="col-md-2">
-            <ul id="side-profilemenu">
-                <li><a href="#personal" class="btn btn-transp trans"><i class="fa fa-male"></i><span>{{ _("Персональні дані") }}</span></a></li>
-                {% if LANGUAGE_CODE == "en" %}
-                    {% if person.wiki_en or person.wiki_uk %}
-                        <li><a href="#profile" class="btn btn-transp trans"><i class="fa fa-briefcase"></i><span>{{ _("Досьє") }}</span></a></li>
-                    {% endif %}
-                {% else %}
-                    {% if person.wiki_uk %}
-                        <li><a href="#profile" class="btn btn-transp trans"><i class="fa fa-briefcase"></i><span>{{ _("Досьє") }}</span></a></li>
-                    {% endif %}
-                {% endif %}
-
-                {% if LANGUAGE_CODE == "en" %}
-                    {% if person.reputation_sanctions_en or person.reputation_crimes_en or person.reputation_manhunt_en or person.reputation_convictions_en or person.reputation_sanctions_uk or person.reputation_crimes_uk or person.reputation_manhunt_uk or person.reputation_convictions_uk or manhunt_records %}
-                    <li><a href="#reputation" class="btn btn-transp trans"><i class="fa fa-bullhorn"></i><span>{{ _("Кримінальні провадження та санкції") }}</span></a></li>
-                    {% endif %}
-                {% else %}
-                    {% if person.reputation_sanctions_uk or person.reputation_crimes_uk or person.reputation_manhunt_uk or person.reputation_convictions_uk or manhunt_records %}
-                    <li><a href="#reputation" class="btn btn-transp trans"><i class="fa fa-bullhorn"></i><span>{{ _("Кримінальні провадження та санкції") }}</span></a></li>
-                    {% endif %}
-                {% endif %}
-                {% if workplaces %}
-                <li><a href="#workbefore" class="btn btn-transp trans"><i class="fa fa-wrench"></i><span>{{ _("Кар'єра") }}</span></a></li>
-                {% endif %}
-                {% if related_persons.all %}
-                <li><a href="#connections" class="btn btn-transp trans"><i class="fa fa-heart"></i><span>{{ _("Зв'язки") }}</span></a></li>
-                {% endif %}
-                {% if all_declarations %}
-                    <li><a href="#declarations" class="btn btn-transp trans"><i class="fa fa-file-text-o"></i><span>{{ _("Декларації") }}</span></a></li>
-                {% endif %}
-                {% if LANGUAGE_CODE == "en" %}
-                    {% if person.reputation_assets_en %}
-                        <li><a href="#assets" class="btn btn-transp trans"><i class="fa fa-cubes"></i><span>{{ _("Статки") }}</span></a></li>
-                    {% endif %}
-                {% else %}
-                    {% if person.reputation_assets %}
-                        <li><a href="#assets" class="btn btn-transp trans"><i class="fa fa-cubes"></i><span>{{ _("Статки") }}</span></a></li>
-                    {% endif %}
-                {% endif %}
-                {% if related_companies.rest %}
-                    <li><a href="#related-companies" class="btn btn-transp trans"><i class="fa fa-building-o"></i><span>{{ _("Пов'язані юридичні особи") }}</span></a></li>
-                {% endif %}
-                {% if related_companies.banks %}
-                    <li><a href="#bank-accounts" class="btn btn-transp trans"><i class="fa fa-money"></i><span>{{ _("Банківські рахунки") }}</span></a></li>
-                {% endif %}
-                {% if any_documents %}
-                    <li><a href="#documents" class="btn btn-transp trans"><i class="fa fa-book"></i><span>{{ _("Документи та джерела") }}</span></a></li>
-                {% endif %}
-            </ul>
-        </aside>
-        <section id="profile" class="{%- if person.parsed_names %}col-md-8{% else %}col-md-10{% endif -%} {% if person.terminated %} not{% endif %}" data-url="{{ url('connections', 'person', person.pk) }}">
-            <link itemprop="url" href="{{ person.get_absolute_url() }}" />
-            <div id="profile-wrap" class="box">
-                {% if person.died %}<div class="info-label">{{ _(person.get_reason_of_termination_display()) }}</div>{% endif %}
-                <ul class="profileActions">
-                    <li><a href="?format=pdf" class="tooltip-anchor" data-toggle="tooltip" data-placement="top" title="{{ _("Скачати PDF") }}" target="_blank"><i class="fa fa-file-pdf-o"></i></a></li>
-                    <li><a href="#" class="tooltip-anchor print-me" data-toggle="tooltip" data-placement="top" title="{{ _("Роздрукувати профайл") }}"><i class="fa fa-print"></i></a></li>
-                </ul>
-                <header class="profile-header">
-                    {% if person.photo %}
-                    <div class="avatar">
-                    <img src="{{ person.photo|thumbnail_url("avatar") }}" itemprop="image" alt="{{ person.last_name }} {{ person.first_name }} {{ person.patronymic }}"/>
+                    {% set last_modified = person.last_modified %}
+                    {% if last_modified %}
+                    <div class="date">{{ _("Остання зміна профілю:") }}
+                        <time> {{ last_modified | date }} </time>
                     </div>
                     {% endif %}
-                    <h1 class="pep-name" itemprop="name"><span itemprop="familyName">{{ person.last_name }}</span> <span class="pep-pib"><span itemprop="givenName">{{ person.first_name }}</span> <span itemprop="additionalName">{{ person.patronymic }}</span></h1>
-                </header>
-                <div id="personal" class="sub">
-                    <div class="table-responsive">
-                        <table class="table table-condensed">
-                            {% if person.also_known_as %}
-                            <tr>
-                                <td>{{ _("Інші імена") }}</td>
-                                <td itemprop="name">{{ person.also_known_as|replace("\n", "<br/>")|safe }}</td>
-                            </tr>
-                            {% endif %}
+                </div>
+                <div class="profile-actions">
+                    <a href="?format=pdf" class="pdf" title="pdf">
+                        {{ _("PDF") }}
+                    </a>
+                    <a href="" class="print" title="print">
+                        <svg>
+                            <use xlink:href="#print"></use>
+                        </svg>
+                    </a>
+                </div>
+            </div>
 
+            <div class="profile-page__body">
+                <link itemprop="url" href="{{ person.get_absolute_url() }}" />
+
+                <div class="profile-page__top">
+                    <div class="side-menu-btn">
+                        <a href=""><span class="icon"></span>{{ _("зміст") }}</a>
+                    </div>
+                    <div class="profile-image">
+                        {% if person.photo %}
+                        <img src="{{ person.photo | thumbnail_url("avatar") }}" itemprop="image" alt="{{ person.last_name }} {{ person.first_name }} {{ person.patronymic }}">
+                        {% endif %}
+                        <div class="icon">
+                            <svg>
+                                <use xlink:href="#block"></use>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="profile-main-info">
+                        <h1 class="profile-name" itemprop="name">{{ person.last_name }} {{ person.first_name }} {{ person.patronymic }}</h1>
+                        <table>
+                            <tbody>
                             {% if person.type_of_official %}
                             <tr>
-                                <td>{{ _("Категорія") }} </td>
-                                <td><strong>{{ _(person.get_type_of_official_display()) }}</strong></td>
+                                <td>{{ _("Категорія") }}</td>
+                                <td>{{ _(person.get_type_of_official_display()) }}</td>
                             </tr>
                             {% endif %}
                             {% if person.dob %}
@@ -137,14 +108,16 @@
                                 <td>{{ _("Дата народження") }}</td>
                                 <td>
                                     <meta itemprop="birthDate" content="{{ person.dob }} "/>
-                                    {{ person.date_of_birth }}
+                                    <time> {{ person.date_of_birth }} </time>
                                 </td>
                             </tr>
                             {% endif %}
                             {% if person.city_of_birth %}
                             <tr>
                                 <td>{{ _("Місце народження") }}</td>
-                                <td itemprop="birthPlace">{{ person.city_of_birth }}</td>
+                                <td itemprop="birthPlace">
+                                    {{ person.city_of_birth }}
+                                </td>
                             </tr>
                             {% endif %}
                             {% if person.foreign_citizenship %}
@@ -164,59 +137,30 @@
                                 <td>
                                     <strong>
                                         {% if last_workplace.company_id %}
-                                            <a href="{{ url("company_details", company_id=last_workplace.company_id) }}" itemprop="worksFor" itemscope itemtype="http://schema.org/Organization"><span itemprop="name">{{ last_workplace.company }}</span></a>,
+                                            <a href="{{ url("company_details", company_id=last_workplace.company_id) }}" itemprop="worksFor" itemscope itemtype="http://schema.org/Organization"><span>{{ last_workplace.company }}</span></a>,
                                         {% else %}
-                                            <span itemprop="worksFor" itemscope itemtype="http://schema.org/Organization"><span itemprop="name">{{ last_workplace.company }}</span></span>,
+                                            <span itemprop="worksFor" itemscope itemtype="http://schema.org/Organization"><span>{{ last_workplace.company }}</span></span>,
                                         {% endif %}
+
                                         <span itemprop="jobTitle">{{ last_workplace.position }}</span>
                                     </strong>
                                 </td>
                             </tr>
+                            {% endif %}{% set day_of_dismissal = person.day_of_dismissal %}
+                            {% if day_of_dismissal %}
+                            <tr>
+                                <td>{{ _("Дата звільнення") }}</td>
+                                <td>
+                                    <time>{{ day_of_dismissal }}</time>
+                                </td>
+                            </tr>
                             {% endif %}
-                            {% if person.terminated %}
-                                <tr class="non-pep-info{% if person.died %} dead-pep-info{% endif %}">
-                                    {% if person.termination_date %}
-                                        <td><strong>{{ person.termination_date_human }}</strong></td>
-                                    {% else %}
-                                        <td></td>
-                                    {% endif %}
-                                    <td>{{ _(person.get_reason_of_termination_display()) }}</td>
-                                </tr>
-                            {% else %}
-                                {% set day_of_dismissal = person.day_of_dismissal %}
-                                {% if day_of_dismissal %}
-                                <tr>
-                                    <td>{{ _("Дата звільнення") }}</td>
-                                    <td>{{ day_of_dismissal }}</td>
-                                </tr>
-                                {% endif %}
-                            {% endif %}
-                            {% if external_links.social_networks %}
-                                <tr>
-                                    <td>{{ _("Профілі в соціальних мережах") }}</td>
-                                    <td>
-                                        {% set comma = joiner(", ") %}
-                                        {% for network in external_links.social_networks -%}
-                                        {{ comma() }}<a href="{{ network.url }}" target="_blank">{{ network.title }}</a>
-                                        {%- endfor %}
-                                    </td>
-                                </tr>
-                            {% endif %}
-                            {% if external_links.other %}
-                                <tr>
-                                    <td>{{ _("Інші вебсайти") }}</td>
-                                    <td>
-                                        {% set comma = joiner(", ") %}
-                                        {% for network in external_links.other -%}
-                                        {{ comma() }}<a href="{{ network.url }}" target="_blank">{{ network.title }}</a>
-                                        {%- endfor %}
-                                    </td>
-                                </tr>
-                            {% endif %}
+
+
+                            </tbody>
                         </table>
                     </div>
                 </div>
-                
                 <a class="load-pep-modal-tree" data-target="#pep-graph-tree">
                     <div id="cy-preview"></div>
                     <i class="fa fa-search-plus hidden"></i>
@@ -239,256 +183,1507 @@
                     </div>
                 </div>
 
-                {% set last_modified = person.last_modified %}
-                {% if last_modified %}
-                    <div class="last_modified">
-                        {{ _("Остання зміна профілю: ") }}<strong>{{ last_modified|date }}</strong>
+                <div class="scoring">
+                    <div class="scoring__header">
+                        <div class="content">
+                            <h6 class="scoring__title">Скоринг ризику</h6>
+                            <!-- добавлять класс index--N, где N - номер индекса от 1 до 10 -->
+                            <div class="progressbar">
+                                <span class="index index--4">4</span>
+                            </div>
+                            <button class="scoring__btn">
+                                Розгорнути
+                                <svg>
+                                    <use xlink:href="#arr-right-w2"></use>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
-                {% endif %}
-            </div>
-
-
-            {% if LANGUAGE_CODE == "en" %}
-                {% if person.wiki_en or person.wiki_uk %}
-                <div id="profile-wiki" class="sub box" itemprop="description">
-                    <h3>{{ _("Досьє:") }}</h3>
-                    <div class="printWrap">
-                        {{ person.wiki_en|richtext }}
-
-                        {% if person.wiki_uk %}
-                            <p><a href="{{ person.url_uk }}#dossier">more information is available in Ukrainian version of the dossier</a></p>
-                        {% endif %}
-                    </div>
-                </div>
-                {% endif %}
-            {% else %}
-                {% if person.wiki_uk %}
-                <div id="profile-wiki" class="sub box" itemprop="description">
-                    <h3>{{ _("Досьє:") }}</h3>
-                    <div class="printWrap">
-                        {{ person.wiki_uk|richtext }}
-                    </div>
-                </div>
-                {% endif %}
-            {% endif %}
-
-            {% if LANGUAGE_CODE == "en" %}
-                {% if person.reputation_sanctions_en or person.reputation_crimes_en or person.reputation_manhunt_en or person.reputation_convictions_en or person.reputation_sanctions_uk or person.reputation_crimes_uk or person.reputation_manhunt_uk or person.reputation_convictions_uk or manhunt_records %}
-                <div id="reputation" class="sub box">
-                    <h3>{{ _("Кримінальні провадження та санкції:") }}</h3>
-                    <div class="printWrap">
-                        {% if person.reputation_sanctions_en %}
-                            <h4>{{ _("Санкції") }}</h4>
-                            {{ person.reputation_sanctions_en|richtext }}
-                        {% endif %}
-                        {% if person.reputation_crimes_en %}
-                            <h4>{{ _("Кримінальні провадження") }}</h4>
-                            {{ person.reputation_crimes_en|richtext }}
-                        {% endif %}
-                        {% if person.reputation_manhunt_en or manhunt_records %}
-                            <h4>{{ _("Перебування у розшуку") }}</h4>
-                            {% include "_manhunt_records_en.jinja" with context %}
-                            {{ person.reputation_manhunt_en|richtext }}
-                        {% endif %}
-                        {% if person.reputation_convictions_en %}
-                            <h4>{{ _("Наявність судимості") }}</h4>
-                            {{ person.reputation_convictions_en|richtext }}
-                        {% endif %}
-
-                        {% if person.reputation_sanctions_uk or person.reputation_crimes_uk or person.reputation_manhunt_uk or person.reputation_convictions_uk %}
-                            <p><a href="{{ person.url_uk }}#reputation">more information is available in Ukrainian version of the dossier</a></p>
-                        {% endif %}
-                    </div>
-                </div>
-                {% endif %}
-            {% else %}
-                {% if person.reputation_sanctions_uk or person.reputation_crimes_uk or person.reputation_manhunt_uk or person.reputation_convictions_uk or manhunt_records %}
-                <div id="reputation" class="sub box">
-                    <h3>{{ _("Кримінальні провадження та санкції:") }}</h3>
-                    <div class="printWrap">
-                        {% if person.reputation_sanctions_uk %}
-                            <h4>{{ _("Санкції") }}</h4>
-                            {{ person.reputation_sanctions_uk|richtext }}
-                        {% endif %}
-                        {% if person.reputation_crimes_uk %}
-                            <h4>{{ _("Кримінальні провадження") }}</h4>
-                            {{ person.reputation_crimes_uk|richtext }}
-                        {% endif %}
-                        {% if person.reputation_manhunt_uk or manhunt_records %}
-                            <h4>{{ _("Перебування у розшуку") }}</h4>
-                            {% include "_manhunt_records_uk.jinja" with context %}
-                            {{ person.reputation_manhunt_uk|richtext }}
-                        {% endif %}
-                        {% if person.reputation_convictions_uk %}
-                            <h4>{{ _("Наявність судимості") }}</h4>
-                            {{ person.reputation_convictions_uk|richtext }}
-                        {% endif %}
-                    </div>
-                </div>
-                {% endif %}
-            {% endif %}
-
-            {% if workplaces %}
-            <div id="workbefore" class="sub box">
-                <h3>{{ _("Кар'єра:") }}</h3>
-                <div class="printWrap">
-                    <div id="element">
-                        <ul class="timeline">
-                            {% for connection in person.workplaces %}
-                            <li class="tl-item">
-                                <div class="tl-wrap">
-                                    <span class="tl-date">
-                                        {% if connection.date_established %}
-                                            {{ connection.date_established_human }}
-                                            <br/>
-                                        {% endif %}
-                                        {% if connection.date_finished %}
-                                            {{ _("до") }}
-                                            {{ connection.date_finished_human }}
-                                        {% endif %}
-                                    </span>
-                                    <div class="tl-content panel padder b-a">
-                                        <span class="arrow left pull-up"></span>
-                                        <div>
-                                            <a href="{{ connection.to_company.get_absolute_url() }}" itemscope itemtype="http://schema.org/Organization" itemprop="worksFor"><span itemprop="name">{{ connection.to_company }}</span></a>, {{ connection.relationship_type }}
-                                            {% if connection.has_additional_info %}
-                                                <a href="#" class="modalConnectionShow" data-toggle="modal" data-target="#modalWork-{{ loop.index }}">
-                                                   <i class="fa fa-info-circle info-gray"></i>
-                                                </a>
-                                            {% endif %}
-                                        </div>   
-                                    </div>
-                                </div>
-                                {{ render_connection(connection, "modalWork-{}".format(loop.index)) }}
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            {% endif %}
-                        
-            {% if related_persons.all %}
-            <div id="connections" class="sub box">
-                <h3>{{ _("Зв'язки:") }}</h3>
-                <div class="printWrap">
-                    <div class="tree">
-                        <ul>
+                    <div class="scoring__body content">
+                        <h6 class="scoring__title">ризики</h6>
+                        <ol class="scoring__list">
                             <li>
-                                <span><i class="fa"></i> {{ person.last_name }} {{ person.first_name }} {{ person.patronymic }}</span>
-                                <ul>
-                                    {% if related_persons.family %}
-                                    <li>
-                                        <span class="badge badge-success"><i class="faicon fa fa-plus-square"></i> {{ _("Члени сім'ї") }}</span>
-                                        <ul class="h">
-                                            {{ render_related_persons(related_persons.family, "family") }}
-                                        </ul>
-                                    </li>
-                                    {% endif %}
-                                    {% if related_persons.personal %}
-                                    <li>
-                                        <span class="badge badge-success"><i class="faicon fa fa-plus-square"></i> {{ _("Особисті зв'язки") }}</span>
-                                        <ul class="h">
-                                            {{ render_related_persons(related_persons.personal, "personal") }}
-                                        </ul>
-                                    </li>
-                                    {% endif %}
-                                    {% if related_persons.business %}
-                                    <li>
-                                        <span class="badge badge-success"><i class="faicon fa fa-plus-square"></i> {{ _("Ділові зв'язки") }}</span>
-                                        <ul class="h">
-                                            {{ render_related_grouped_persons(related_persons.business) }}
-                                        </ul>
-                                    </li>
-                                    {% endif %}
-                                </ul>
+                                <p><strong>1</strong> дитина не внесена до електронної декларації.</p>
                             </li>
-                        </ul>
+                            <li>
+                                <p>Не зазначена вартість <strong>3</strong> об'єктів нерухомого майна.</p>
+                            </li>
+                            <li>
+                                <p>Сукупна готівка декларанта та членів родини <strong>4 107 929,77 грн</strong></p>
+                            </li>
+                            <li>
+                                <p><strong>2</strong> компанії, де є ймовірним бенефіціарним власником не зазначені в
+                                    декларації.</p>
+                            </li>
+                        </ol>
                     </div>
                 </div>
-            </div>
-            {% endif %}
 
-            {% if all_declarations %}
-                {% include "_declaration.jinja" %}
-            {% endif %}
+                <div class="profile-page__blocks">
+                    <div class="column-left">
+                        {% if related_persons %}
+                        <section id="relation_with_individual" class="profile-section">
+                            <div class="profile-section__header">
+                                <div class="title-wrap">
+                                    <img src="{{ static('images/icon-individual.svg') }}" alt="icon" class="icon">
+                                    <h6 class="title">{{ _('ЗВ’ЯЗКИ з фізичними особами') }}</h6>
+                                </div>
+                                <a href="" class="download">
+                                    <svg>
+                                        <use xlink:href="#arr-down"></use>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="profile-section__body">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th class="no-wrap">{{_('Iм’я')}}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="no-wrap">{{_('Тип зв’язку')}}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th>{{_('Перiод')}}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{ render_related_persons(related_persons.all) }}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="profile-section__footer">
+                                <button class="more-btn">
+                                    <span class="icon">
+                                        <svg>
+                                            <use xlink:href="#arr-right-w2"></use>
+                                        </svg>
+                                    </span>
+                                    <span class="more">{{_("Показати більше")}}</span>
+                                    <span class="less">{{_("Показати менше")}}</span>
+                                </button>
 
-            {# TODO: remove at all? #}
-            {% if LANGUAGE_CODE == "en" %}
-                {% if person.reputation_assets_en %}
-                    <div id="assets" class="sub box">
-                        <h3>{{ _("Статки:") }}</h3>
-                        <div class="printWrap">
-                            {% if person.reputation_assets %}
-                                {{ person.reputation_assets|richtext }}
-                            {% endif %}
+                                <button class="visualization-btn">
+                                    <span class="icon">
+                                        <svg>
+                                            <use xlink:href="#visualization"></use>
+                                        </svg>
+                                    </span>
+                                    {{_("Візуалізація звязків")}}
+                                </button>
+                            </div>
+                        </section>
+                        {% endif %}
+
+                        {% if related_companies.rest %}
+                        <section id="relation_with_entities" class="profile-section">
+                            <div class="profile-section__header">
+                                <div class="title-wrap">
+                                    <img src="{{ static('images/icon-entities.svg') }}" alt="icon" class="icon">
+                                    <h6 class="title">{{_("ЗВ’ЯЗКИ з юридичними особами")}}</h6>
+                                </div>
+                                <a href="" class="download">
+                                    <svg>
+                                        <use xlink:href="#arr-down"></use>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="profile-section__body">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th class="no-wrap">{{_("Iм’я")}}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="no-wrap">{{_("Тип зв’язку")}}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th>Код
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{ render_person_companies(related_companies.rest) }}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="profile-section__footer">
+                                <button class="more-btn">
+                                    <span class="icon">
+                                        <svg>
+                                            <use xlink:href="#arr-right-w2"></use>
+                                        </svg>
+                                    </span>
+                                    <span class="more">{{_("Показати більше")}}</span>
+                                    <span class="less">{{_("Показати менше")}}</span>
+                                </button>
+
+                                <button class="visualization-btn">
+                                    <span class="icon">
+                                        <svg>
+                                            <use xlink:href="#visualization"></use>
+                                        </svg>
+                                    </span>
+                                    {{_("Візуалізація звязків")}}
+                                </button>
+                            </div>
+                        </section>
+                        {% endif %}
+
+                        {% if all_declarations %}
+                        <section id="declarations" class="profile-section">
+                            <div class="profile-section__header">
+                                <div class="title-wrap">
+                                    <img src="{{ static('images/icon-income-expenses.svg') }}" alt="icon" class="icon">
+                                    <h6 class="title">{{_("доходи та витрати")}}</h6>
+                                </div>
+                                <div class="showing">
+                                    <button class="show-table active">
+                                        <svg>
+                                            <use xlink:href="#show-table-icon"></use>
+                                        </svg>
+                                    </button>
+                                    <button class="show-graph">
+                                        <svg>
+                                            <use xlink:href="#show-graph-icon"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <a href="" class="download">
+                                    <svg>
+                                        <use xlink:href="#arr-down"></use>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="profile-section__body">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th class="no-wrap">Рiк
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="position">{{_("Посада")}}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th>{{_("Доходи декларанта")}}, {{ _("UAH") }}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th>{{ _("Доходи родини") }}, {{ _("UAH") }}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th>{{ _("Витрати та інші правочини декларанта") }}, {{ _("UAH") }}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>{{_("Показати менше")}}
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for declaration in all_declarations %}
+                                        {% set income = declaration.get_income() %}
+                                        <tr>
+                                            <td class="no-wrap">
+                                                <strong>{{ income.year }}</strong>
+                                            </td>
+                                            <td class="position" itemscope="" itemtype="http://schema.org/Organization" itemprop="worksFor">
+                                                <p><span itemprop="name">{{ income.office }}</span>, {{ income.position }}{% if declaration.doc_type == "Кандидата на посаду" %} ({{ _("кандидат") }}){% endif %}</p>
+                                            </td>
+                                            <td class="no-wrap"><span>{{ income.income_of_declarant|curformat() }}</span></td>
+                                            <td class="no-wrap"><span>{{ income.income_of_family|curformat() }}</span></td>
+                                            <td class="no-wrap"><span>{{ income.expenses_of_declarant|curformat() }}</span></td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+
+                                <div id="declarations-line-chart" class="chart"></div>
+
+                                <div class="chart-popup" id="declarations-pie-popup">
+                                    <div class="chart-popup__header">
+                                        <span class="year">{{_("2018")}}</span>
+                                        <span class="title">{{_("Доходи декларанта")}}</span>
+
+                                        <button class="chart-popup__close">
+                                            <svg>
+                                                <use xlink:href="#close"></use>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div id="declarations-pie-chart"></div>
+                                </div>
+                            </div>
+                            <div class="profile-section__footer">
+                                <button class="more-btn">
+                                    <span class="icon">
+                                        <svg>
+                                            <use xlink:href="#arr-right-w2"></use>
+                                        </svg>
+                                    </span>
+                                    <span class="more">{{_("Показати більше")}}</span>
+                                    <span class="less">{{_("Показати менше")}}</span>
+                                </button>
+                            </div>
+                        </section>
+                        {% endif %}
+
+                        {% if all_declarations %}
+                        <section id="cash-assets" class="profile-section">
+                            <div class="profile-section__header">
+                                <div class="title-wrap">
+                                    <img src="{{ static('images/icon-cash-assets.svg') }}" alt="icon" class="icon">
+                                    <h6 class="title">{{ _("Грошові активи:") }}</h6>
+                                </div>
+                                <div class="showing">
+                                    <button class="show-table active">
+                                        <svg>
+                                            <use xlink:href="#show-table-icon"></use>
+                                        </svg>
+                                    </button>
+                                    <button class="show-graph ">
+                                        <svg>
+                                            <use xlink:href="#show-graph-icon"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <a href="" class="download">
+                                    <svg>
+                                        <use xlink:href="#arr-down"></use>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="profile-section__body">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th class="no-wrap" colspan="4">{{ _("Декларант") }}</th>
+                                        <th class="no-wrap" colspan="4">{{ _("Родина") }}</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="no-wrap">{{ _("Рік") }}
+                                        <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="no-wrap">{{ _("Вид активу") }}
+                                        <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="no-wrap">{{ _("UAH") }}
+                                        <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="no-wrap">{{ _("USD") }}
+                                        <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="no-wrap">{{ _("EUR") }}
+                                        <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="no-wrap">{{ _("Інше") }}
+                                        <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="no-wrap">{{ _("UAH") }}
+                                        <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="no-wrap">{{ _("USD") }}
+                                        <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg></th>
+                                        <th class="no-wrap">{{ _("EUR") }}
+                                        <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="no-wrap">{{ _("Інше") }}
+                                        <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for declaration in  all_declarations %}
+                                        {% set assets = declaration.get_assets() %}
+                                        <tr>
+                                            <td class="no-wrap" {% if declaration.nacp_declaration %}rowspan="3"{% endif %}><a href="{{ assets.url }}" target="_blank"  data-toggle="tooltip" data-placement="bottom" title="{% if declaration.nacp_declaration %}{{ _('Електронна декларація') }}{% else %}{{ _('Паперова декларація') }}{% endif %}">
+                                                {{ assets.year }}
+                                            </td>
+                                            <td class="no-wrap">
+                                                {{ _("Вклади") }}
+                                            </td>
+                                            <td class="no-wrap">
+                                                {{ assets.accounts.declarant.UAH|curformat() }}
+                                            </td>
+                                            <td class="no-wrap">
+                                                {{ assets.accounts.declarant.USD|curformat() }}
+                                            </td>
+                                            <td class="no-wrap">
+                                                {{ assets.accounts.declarant.EUR|curformat() }}
+                                            </td>
+                                            <td class="no-wrap">
+                                                {% for asset in assets.accounts.declarant.OTH %}
+                                                    {{ _(asset.currency) }} {{ asset.amount|curformat() }}<br/>
+                                                {% endfor %}
+                                            </td>
+                                            <td class="no-wrap">
+                                                {{ assets.accounts.family.UAH|curformat() }}
+                                            </td>
+                                            <td class="no-wrap">
+                                                {{ assets.accounts.family.USD|curformat() }}
+                                            </td>
+                                            <td class="no-wrap">
+                                                {{ assets.accounts.family.EUR|curformat() }}
+                                            </td>
+                                            <td class="no-wrap">
+                                                {% for asset in assets.accounts.family.OTH %}
+                                                    {{ _(asset.currency) }} {{ asset.amount|curformat() }}<br/>
+                                                {% endfor %}
+                                            </td>
+                                        </tr>
+                                        {% if declaration.nacp_declaration %}
+                                        <tr>
+                                            <td class="no-wrap">
+                                                {{ _("Готівка") }}
+                                            </td>
+                                            <td class="no-wrap">
+                                                {{ assets.cash.declarant.UAH|curformat() }}
+                                            </td>
+                                            <td class="no-wrap">
+                                                {{ assets.cash.declarant.USD|curformat() }}
+                                            </td>
+                                            <td class="no-wrap">
+                                                {{ assets.cash.declarant.EUR|curformat() }}
+                                            </td>
+                                            <td class="no-wrap">
+                                                {% for asset in assets.cash.declarant.OTH %}
+                                                    {{ _(asset.currency) }} {{ asset.amount|curformat() }}<br/>
+                                                {% endfor %}
+                                            </td>
+                                            <td class="no-wrap">
+                                                {{ assets.cash.family.UAH|curformat() }}
+                                            </td>
+                                            <td class="no-wrap">
+                                                {{ assets.cash.family.USD|curformat() }}
+                                            </td>
+                                            <td class="no-wrap">
+                                                {{ assets.cash.family.EUR|curformat() }}
+                                            </td>
+                                            <td class="no-wrap">
+                                                {% for asset in assets.cash.family.OTH %}
+                                                    {{ _(asset.currency) }} {{ asset.amount|curformat() }}<br/>
+                                                {% endfor %}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="no-wrap">
+                                                {{ _("Інше") }}
+                                            </td>
+                                            <td class="no-wrap">
+                                                {{ assets.misc.declarant.UAH|curformat() }}
+                                            </td>
+                                            <td class="no-wrap">
+                                                {{ assets.misc.declarant.USD|curformat() }}
+                                            </td>
+                                            <td class="no-wrap">
+                                                {{ assets.misc.declarant.EUR|curformat() }}
+                                            </td>
+                                            <td class="no-wrap">
+                                                {% for asset in assets.misc.declarant.OTH %}
+                                                    {{ _(asset.currency) }} {{ asset.amount|curformat() }}<br/>
+                                                {% endfor %}
+                                            </td>
+                                            <td class="no-wrap">
+                                                {{ assets.misc.family.UAH|curformat() }}
+                                            </td>
+                                            <td class="no-wrap">
+                                                {{ assets.misc.family.USD|curformat() }}
+                                            </td>
+                                            <td class="no-wrap">
+                                                {{ assets.misc.family.EUR|curformat() }}
+                                            </td>
+                                            <td class="no-wrap">
+                                                {% for asset in assets.misc.family.OTH %}
+                                                    {{ _(asset.currency) }} {{ asset.amount|curformat() }}<br/>
+                                                {% endfor %}
+                                            </td>
+
+                                        </tr>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                <div id="cash-assets-line-chart" class="chart"></div>
+                                <div class="chart-popup" id="cashAssets-pie-popup">
+                                    <div class="chart-popup__header">
+                                        <span class="year">{{_("2018")}}</span>
+                                        <span class="title">{{_("Доходи декларанта")}}</span>
+
+                                        <button class="chart-popup__close">
+                                            <svg>
+                                                <use xlink:href="#close"></use>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div id="cashAssets-pie-chart"></div>
+                                </div>
+                            </div>
+                            <div class="profile-section__footer">
+                                <button class="more-btn">
+                                    <span class="icon">
+                                        <svg>
+                                            <use xlink:href="#arr-right-w2"></use>
+                                        </svg>
+                                    </span>
+                                    <span class="more">{{_("Показати більше")}}</span>
+                                    <span class="less">{{_("Показати менше")}}</span>
+                                </button>
+                            </div>
+                        </section>
+                        {% endif %}
+
+                        {% if all_declarations %}
+                        <section id="liabilities" class="profile-section">
+                            <div class="profile-section__header">
+                                <div class="title-wrap">
+                                    <img src="{{ static('images/icon-liabilities.svg') }}" alt="icon" class="icon">
+                                    <h6 class="title">{{_("ФІНАНСОВІ ЗОБОВ’ЯЗАННЯ")}}</h6>
+                                </div>
+                                <a href="" class="download">
+                                    <svg>
+                                        <use xlink:href="#arr-down"></use>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="profile-section__body">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th class="no-wrap">{{_("Рiк")}}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th>{{_("Cума в декларанта, UAH")}}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th>{{_("Сума в сім'ї, UAH")}}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for declaration in all_declarations %}
+                                            {% set liability = declaration.get_liabilities()%}
+                                            <tr>
+                                                <td class="no-wrap">
+                                                    <strong><a href="{{ liability.url }}" target="_blank"  data-toggle="tooltip" data-placement="bottom" title="{% if declaration.nacp_declaration %}{{ _("Електронна декларація") }}{% else %}{{ _("Паперова декларація") }}{% endif %}">{{ liability.year }}</a></strong>
+                                                </td>
+                                                <td class="no-wrap"><span>{% for currency, amount in liability.liabilities_of_declarant.items() %}
+                                                    {{ _(currency) }} {{ amount|curformat() }}<br/>
+                                                {% else %}
+                                                    {{ _("UAH") }} {{ 0|curformat() }}
+                                                {% endfor %}</span></td>
+                                                <td class="no-wrap"><span>{% for currency, amount in liability.liabilities_of_family.items() %}
+                                                    {{ _(currency) }} {{ amount|curformat() }}<br/>
+                                                {% else %}
+                                                    {{ _("UAH") }} {{ 0|curformat() }}
+                                                {% endfor %}</span></td>
+                                            </tr>
+                                        {% endfor %}    
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="profile-section__footer">
+                                <button class="more-btn">
+                                    <span class="icon">
+                                        <svg>
+                                            <use xlink:href="#arr-right-w2"></use>
+                                        </svg>
+                                    </span>
+                                    <span class="more">{{_("Показати більше")}}</span>
+                                    <span class="less">{{_("Показати менше")}}</span>
+                                </button>
+                            </div>
+                        </section>
+                        {% endif %}
+
+                        {% if all_declarations %}
+                        <section id="gifts" class="profile-section">
+                            <div class="profile-section__header">
+                                <div class="title-wrap">
+                                    <img src="{{ static('images/icon-gifts.png') }}" alt="icon" class="icon">
+                                    <h6 class="title">{{ _("Дарунки, призи, виграші:") }}</h6>
+                                </div>
+                                <a href="" class="download">
+                                    <svg>
+                                        <use xlink:href="#arr-down"></use>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="profile-section__body">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th class="no-wrap">{{ _("Рік") }}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="no-wrap">{{ _("Cума в декларанта") }}, {{ _("UAH") }}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="no-wrap">{{ _("Сума в сім'ї") }}, {{ _("UAH") }}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for declaration in all_declarations%}
+                                        {% set gifts = declaration.get_gifts() %}
+                                            <tr>
+                                                <td class="no-wrap">
+                                                    <strong><a href="{{ gifts.url }}" target="_blank"  data-toggle="tooltip" data-placement="bottom" title="{% if declaration.nacp_declaration %}{{ _("Електронна декларація") }}{% else %}{{ _("Паперова декларація") }}{% endif %}">{{ gifts.year }}</strong>
+                                                </td>
+                                                <td class="no-wrap"><span>{{ gifts.gifts_of_declarant|curformat() }}</span></td>
+                                                <td class="no-wrap"><span>{{ gifts.gifts_of_family|curformat() }}</span></td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="profile-section__footer">
+                                <button class="more-btn">
+                                    <span class="icon">
+                                        <svg>
+                                            <use xlink:href="#arr-right-w2"></use>
+                                        </svg>
+                                    </span>
+                                    <span class="more">{{_("Показати більше")}}</span>
+                                    <span class="less">{{_("Показати менше")}}</span>
+                                </button>
+                            </div>
+                        </section>
+                        {% endif %}
+
+                        {% if all_declarations %}
+                        <section id="real-estate" class="profile-section">
+                            <div class="profile-section__header">
+                                <div class="title-wrap">
+                                    <img src="{{ static('images/icon-real-estate.svg') }}" alt="icon" class="icon">
+                                    <h6 class="title">{{ _("НЕРУХОМІСТЬ ДЕКЛАРАНТА І РОДИНИ:") }}</h6>
+                                </div>
+                                <a href="" class="download">
+                                    <svg>
+                                        <use xlink:href="#arr-down"></use>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="profile-section__body">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th class="no-wrap">{{ _("Рік") }}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="no-wrap">{{ _("Земля") }}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="no-wrap">{{ _("Будинки") }}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="no-wrap">{{ _("Квартири") }}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="no-wrap">{{ _("Інша нерухомість") }}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for declaration in all_declarations %}
+                                            {% set asset = declaration.get_real_estate() %}
+                                            <tr>
+                                                <td class="no-wrap">
+                                                    <strong><a href="{{ asset.url }}" target="_blank"  data-toggle="tooltip" data-placement="bottom" title="{% if declaration.nacp_declaration %}{{ _("Електронна декларація") }}{% else %}{{ _("Паперова декларація") }}{% endif %}">{{ asset.year }}</a></strong>
+                                                </td>
+                                                <td class="no-wrap">
+                                                    <span>
+                                                        {% set cnt = asset.assets_of_declarant.land|count + asset.assets_of_family.land|count %}
+                                                        {% if cnt %}
+                                                        {{ asset.assets_of_declarant.land|sum + asset.assets_of_family.land|sum }} {{ _("м²") }}
+                                                        ({{ cnt }})
+                                                        {% else %}
+                                                        —
+                                                        {% endif %}
+                                                    </span>
+                                                </td>
+                                                <td class="no-wrap">
+                                                    <span>
+                                                        {% set cnt = asset.assets_of_declarant.houses|count + asset.assets_of_family.houses|count %}
+                                                        {% if cnt %}
+                                                        {{ asset.assets_of_declarant.houses|sum + asset.assets_of_family.houses|sum }} {{ _("м²") }}
+                                                        ({{ cnt }})
+                                                        {% else %}
+                                                        —
+                                                        {% endif %}
+                                                    </span>
+                                                </td>
+                                                <td class="no-wrap">
+                                                    <span>
+                                                        {% set cnt = asset.assets_of_declarant.apartments|count + asset.assets_of_family.apartments|count %}
+                                                        {% if cnt %}
+                                                        {{ asset.assets_of_declarant.apartments|sum + asset.assets_of_family.apartments|sum }} {{ _("м²") }}
+                                                        ({{ cnt }})
+                                                        {% else %}
+                                                        —
+                                                        {% endif %}
+                                                    </span>
+                                                </td>
+                                                <td class="no-wrap">
+                                                    <span>
+                                                        {% set cnt = asset.assets_of_declarant.other|count + asset.assets_of_family.other|count %}
+                                                        {% if cnt %}
+                                                        {{ asset.assets_of_declarant.other|sum + asset.assets_of_family.other|sum }} {{ _("м²") }}
+                                                        ({{ cnt }})
+                                                        {% else %}
+                                                        —
+                                                        {% endif %}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="profile-section__footer">
+                                <button class="more-btn">
+                                    <span class="icon">
+                                        <svg>
+                                            <use xlink:href="#arr-right-w2"></use>
+                                        </svg>
+                                    </span>
+                                    <span class="more">{{_("Показати більше")}}</span>
+                                    <span class="less">{{_("Показати менше")}}</span>
+                                </button>
+                            </div>
+                        </section>
+                        {% endif %}
+
+                        {% if all_declarations %}
+                        <section id="transport" class="profile-section">
+                            <div class="profile-section__header">
+                                <div class="title-wrap">
+                                    <img src="{{ static('images/icon-transport.svg') }}" alt="icon" class="icon">
+                                    <h6 class="title">{{ _("Транспортні засоби:") }}</h6>
+                                </div>
+                                <a href="" class="download">
+                                    <svg>
+                                        <use xlink:href="#arr-down"></use>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="profile-section__body">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th class="no-wrap">{{ _("Рік") }}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="no-wrap">{{ _("Декларант")}}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="no-wrap">{{ _("Родина") }}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for declaration in all_declarations %}
+                                            {% set asset = declaration.get_vehicles() %}
+                                            <tr>
+                                                <td class="no-wrap">
+                                                    <strong><a href="{{ asset.url }}" target="_blank"  data-toggle="tooltip" data-placement="bottom" title="{% if declaration.nacp_declaration %}{{ _("Електронна декларація") }}{% else %}{{ _("Паперова декларація") }}{% endif %}">{{ asset.year }}</a></strong>
+                                                </td>
+                                                <td class="no-wrap">
+                                                    {% if asset.assets_of_declarant.vehicles %}
+                                                    <ul>
+                                                        {% for vehicle in asset.assets_of_declarant.vehicles %}
+                                                        <li>{{ vehicle }}</li>
+                                                        {% endfor%}
+                                                    </ul>
+                                                    {% else %}
+                                                        —
+                                                    {% endif %}
+                                                </td>
+                                                <td class="no-wrap">
+                                                    {% if asset.assets_of_family.vehicles %}
+                                                    <ul>
+                                                        {% for vehicle in asset.assets_of_family.vehicles %}
+                                                        <li>{{ vehicle }}</li>
+                                                        {% endfor%}
+                                                    </ul>
+                                                    {% else %}
+                                                        —
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="profile-section__footer">
+                                <button class="more-btn">
+                                    <span class="icon">
+                                        <svg>
+                                            <use xlink:href="#arr-right-w2"></use>
+                                        </svg>
+                                    </span>
+                                    <span class="more">{{_("Показати більше")}}</span>
+                                    <span class="less">{{_("Показати менше")}}</span>
+                                </button>
+                            </div>
+                        </section>
+                        {% endif %}
+                    </div>
+                    <div class="column-right">
+                        <section id="criminal" class="profile-section">
+                            <div class="profile-section__header">
+                                <div class="title-wrap">
+                                    <img src="{{ static('images/icon-criminal.svg') }}" alt="icon" class="icon">
+                                    <h6 class="title">{{ _("Кримінальні провадження та санкції:") }}</h6>
+                                </div>
+                            </div>
+                            <div class="profile-section__body">
+                                <p class="criminal-status">
+                                    {% if person.reputation_sanctions_uk %}
+                                    <h4>{{ _("Санкції") }}</h4>
+                                    {{ person.reputation_sanctions_uk|richtext }}
+                                    {% endif %}
+                                    {% if person.reputation_crimes_uk %}
+                                        <h4>{{ _("Кримінальні провадження") }}</h4>
+                                        {{ person.reputation_crimes_uk|richtext }}
+                                    {% endif %}
+                                    {% if person.reputation_manhunt_uk or manhunt_records %}
+                                        <h4>{{ _("Перебування у розшуку") }}</h4>
+                                        {% include "_manhunt_records_uk.jinja" with context %}
+                                        {{ person.reputation_manhunt_uk|richtext }}
+                                    {% endif %}
+                                    {% if person.reputation_convictions_uk %}
+                                        <h4>{{ _("Наявність судимості") }}</h4>
+                                        {{ person.reputation_convictions_uk|richtext }}
+                                    {% endif %}
+                                </p>
+                            </div>
+                            <div class="profile-section__footer">
+                                <button id="show-criminal-story" class="more-link">
+                                    <span class="icon">
+                                        <svg>
+                                            <use xlink:href="#arr-right-w2"></use>
+                                        </svg>
+                                    </span>
+                                    {{_("Читати більше")}}
+                                </button>
+                            </div>
+                        </section>
+
+                        <section id="investigations" class="profile-section">
+                            <div class="profile-section__header">
+                                <div class="title-wrap">
+                                    <img src="{{ static('images/icon-investigation.svg') }}" alt="icon" class="icon">
+                                    <h6 class="title">{{_("розслiдування")}}</h6>
+                                </div>
+                            </div>
+                            <!--  тут не body а content -->
+                            <div class="profile-section__content">
+                                <div class="investigation-grid">
+                                    <article class="blog-card">
+                                        <a href="investigation-single.html" class="card-link"></a>
+                                        <div class="blog-card__header">
+                                            <span class="direction">{{_("Розслідування")}}</span>
+                                            <time class="date">20.08.2019</time>
+                                        </div>
+                                        <div class="blog-card__body">
+                                            <h6 class="title">{{_("Високопосадовці легко відмивають брудні гроші через міжнародну банківську систему")}} </h6>
+                                            <span class="icon">
+                                                <svg>
+                                                    <use xlink:href="#arr-right"></use>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                    </article>
+                                    <article class="blog-card blog-card--with-img">
+                                        <a href="investigation-single.html" class="card-link"></a>
+                                        <img src="content/card-bg.png') }}" alt="img">
+                                        <div class="blog-card__header">
+                                            <span class="direction">{{_("Розслідування")}}</span>
+                                            <time class="date">20.08.2019</time>
+                                        </div>
+                                        <div class="blog-card__body">
+                                            <h6 class="title">{{_("Високопосадовці легко відмивають брудні гроші через міжнародну банківську систему")}} </h6>
+                                            <span class="icon">
+                                                <svg>
+                                                    <use xlink:href="#arr-right"></use>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                    </article>
+                                </div>
+                            </div>
+                            <div class="profile-section__footer">
+                                <a href="investigations.html" class="more-link">
+                                    <span class="icon">
+                                        <svg>
+                                            <use xlink:href="#arr-right-w2"></use>
+                                        </svg>
+                                    </span>
+                                    {{_("Дивитись усi")}}
+                                </a>
+                            </div>
+                        </section>
+
+                        {% if workplaces %}
+                        <section id="career" class="profile-section">
+                            <div class="profile-section__header">
+                                <div class="title-wrap">
+                                    <img src="{{ static('images/icon-career.svg') }}" alt="icon" class="icon">
+                                    <h6 class="title">{{ _("Кар'єра:") }}</h6>
+                                </div>
+                            </div>
+                            <div class="profile-section__body">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th class="no-wrap">{{_("Період")}}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="no-wrap">{{_("Посада")}}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for connection in person.workplaces %}
+                                            <tr>
+                                                <td class="no-wrap">
+                                                    <strong>{% if connection.date_established %}
+                                                    {{ connection.date_established_human }}{% endif %} — {% if connection.date_finished %}
+                                                    {{ _("до") }}
+                                                    {{ connection.date_finished_human }}{% endif %}</strong>
+                                                </td>
+                                                <td class="no-wrap"><a href="{{ connection.to_company.get_absolute_url() }}" itemscope itemtype="http://schema.org/Organization" itemprop="worksFor"><span itemprop="name">{{ connection.to_company }}</span></a>, {{ connection.relationship_type }}</td>
+                                                <td class="no-wrap">
+                                                    <button class="toggle-row-btn">
+                                                        <svg>
+                                                            <use xlink:href="#arr-right-w2"></use>
+                                                        </svg>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            {% if connection.has_additional_info %}
+                                                {% set proofs = connection.proofs.all() %}
+                                                <tr class="toggle-row">
+                                                    <td colspan="3">
+                                                        <div class="toggle-content">
+                                                            <span class="confirmed-date">{{ _("Підтверджено: ") }}{{ connection.date_confirmed_human }}</span>
+                                                            {% if connection.proofs %}
+                                                                {% set comma = joiner(", ") %}
+                                                                {% for proof in proofs -%}
+                                                                    <a href="{% if proof.proof %}{{ proof.proof }}{% else %}{{ proof.proof_document.doc.url }}{% endif%}" class="link confirmed-link">{{ proof.proof_title|default(_("Посилання"), true) }}</a>
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% endif %}
+                                        {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="profile-section__footer">
+                                <button class="more-btn">
+                                    <span class="icon">
+                                        <svg>
+                                            <use xlink:href="#arr-right-w2"></use>
+                                        </svg>
+                                    </span>
+                                    <span class="more">{{_("Показати більше")}}</span>
+                                    <span class="less">{{_("Показати менше")}}</span>
+                                </button>
+                            </div>
+                        </section>
+                        {% endif %}
+
+                        {% if person.wiki_en or person.wiki_uk %}
+                        <section id="dossier" class="profile-section">
+                            <div class="profile-section__header">
+                                <div class="title-wrap">
+                                    <img src="{{ static('images/icon-dossier.svg') }}" alt="icon" class="icon">
+                                    <h6 class="title">{{ _("Досьє:") }}</h6>
+                                </div>
+                                <a href="" class="print" title="print">
+                                    <svg>
+                                        <use xlink:href="#print"></use>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="profile-section__body">
+                                <div class="dossier-content"itemprop="description">
+                                    <p>
+                                    {% if LANGUAGE_CODE == "en" %}
+                                        {{ person.wiki_en|richtext }}
+
+                                        {% if person.wiki_uk %}
+                                            <p><a href="{{ person.url_uk }}#dossier">more information is available in Ukrainian version of the dossier</a></p>
+                                        {% endif %}
+                                    {% else %}
+                                        <meta itemprop="description">
+                                        {{ person.wiki_uk|richtext }}
+                                    {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="profile-section__footer">
+                                <button id="show-dossier" class="more-link">
+                                    <span class="icon">
+                                        <svg>
+                                            <use xlink:href="#arr-right-w2"></use>
+                                        </svg>
+                                    </span>
+                                    {{_("Читати більше")}}
+                                </button>
+                            </div>
+                        </section>
+                        {% endif %}
+
+                        {% set bank_accounts = related_companies.banks %}
+                        {% if bank_accounts %}
+                        <section id="bank-accounts" class="profile-section">
+                            <div class="profile-section__header">
+                                <div class="title-wrap">
+                                    <img src="{{ static('images/icon-banks.svg') }}" alt="icon" class="icon">
+                                    <h6 class="title">{{ _("Банківські рахунки:") }}</h6>
+                                </div>
+                                <a href="" class="download">
+                                    <svg>
+                                        <use xlink:href="#arr-down"></use>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="profile-section__body">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th class="no-wrap">{{_("Банк")}}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="no-wrap">{{_("ЄДРПОУ")}}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="no-wrap">{{_("Статус")}}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{ render_person_banks(bank_accounts) }}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="profile-section__footer">
+                                <button class="more-btn more-btn--right-arr">
+                                    <span class="icon">
+                                        <svg>
+                                            <use xlink:href="#arr-right-w2"></use>
+                                        </svg>
+                                    </span>
+                                    <span class="more">{{_("Показати більше")}}</span>
+                                    <span class="less">{{_("Показати менше")}}</span>
+                                </button>
+                            </div>
+                        </section>
+                        {% endif %}
+
+                        {% if documents %}
+                        <section id="documents" class="profile-section">
+                            <div class="profile-section__header">
+                                <div class="title-wrap">
+                                    <img src="{{ static('images/icon-documents.svg') }}" alt="icon" class="icon">
+                                    <h6 class="title">{{ _("ДОКУМЕНТИ") }}</h6>
+                                </div>
+                            </div>
+                            <div class="profile-section__body">
+                                {% for proof_category in documents if documents[proof_category] -%}
+                                <h6 class="documents-type">{{ proof_category }}</h6>
+                                <ul class="documents-list">
+                                    {% for doc in documents[proof_category] %}
+                                        <li><a href="{{ doc.proof_document.doc.url }}" target="_blank">{{ doc.proof_document.name|default(_("Посилання"), true) }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                                {% endfor %}
+                            </div>
+                            <div class="profile-section__footer">
+                                <button class="more-btn">
+                                    <span class="icon">
+                                        <svg>
+                                            <use xlink:href="#arr-right-w2"></use>
+                                        </svg>
+                                    </span>
+                                    <span class="more">{{_("Показати більше")}}</span>
+                                    <span class="less">{{_("Показати менше")}}</span>
+                                </button>
+                            </div>
+                        </section>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if person.parsed_names %}
+                <div class="names-section">
+                    <section class="profile-section">
+                        <h6 class="title">{{_("інші варіації імені")}}</h6>
+                        <div class="profile-section__body">
+                            <div class="names-grid">
+                                {% for name_alt in person.parsed_names %}
+                                <p itemprop="alternateName">{{ name_alt }}</p>
+                                {% endfor %}
+                            </div>
                         </div>
-                    </div>
-                {% endif %}
-            {% else %}
-                {% if person.reputation_assets_uk %}
-                    <div id="assets" class="sub box">
-                        <h3>{{ _("Статки:") }}</h3>
-                        <div class="printWrap">
-                            {% if person.reputation_assets_uk %}
-                                {{ person.reputation_assets_uk|richtext }}
-                            {% endif %}
+                        <div class="profile-section__footer">
+                            <button class="more-btn">
+                                <span class="icon">
+                                    <svg>
+                                        <use xlink:href="#arr-right-w2"></use>
+                                    </svg>
+                                </span>
+                                <span class="more">{{_("Показати більше")}}</span>
+                                <span class="less">{{_("Показати менше")}}</span>
+                            </button>
                         </div>
-                    </div>
+                    </section>
+                </div>
                 {% endif %}
-            {% endif %}
-
-            {% if related_companies.rest %}
-                <div id="related-companies" class="sub box">
-                    <h3>{{ _("Пов'язані юридичні особи:") }}</h3>
-                    <div class="printWrap">
-                        {{ render_person_companies(related_companies.rest, "RelatedCompany") }}
-                    </div>
-                </div>
-            {% endif %}
-
-            {% if related_companies.banks %}
-                <div id="bank-accounts" class="sub box">
-                    <h3>{{ _("Банківські рахунки:") }}</h3>
-                    <div class="printWrap">
-                        {{ render_person_companies(related_companies.banks, "Banks") }}
-                    </div>
-                </div>
-            {% endif %}
-
-            {% if any_documents %}
-                <div id="documents" class="sub box">
-                    <h3>{{ _("Документи та джерела") }}</h3>
-                    <div class="printWrap">
-                        {% for proof_category in documents if documents[proof_category] -%}
-                            <h4>{{ proof_category }}</h4>
-                            {% for doc in documents[proof_category] %}
-                            <a href="{{ doc.proof_document.doc.url }}" target="_blank">
-                                {{ doc.proof_document.name|default(_("Посилання"), true) }}
-                            </a><br />
-                            {% endfor %}
-                        {%- endfor %}
-                    </div>
-                </div>
-            {% endif %}
-        </section>
-        {% if person.parsed_names %}
-        <aside id="profile-suggest" role="complementary" class="col-md-2">
-            <h3>{{ _("Можливо ви шукали:") }}</h3>
-            <div class="printWrap">
-                <ul>
-                    {% for name_alt in person.parsed_names %}
-                    <li itemprop="alternateName">{{ name_alt }}</li>
-                    {% endfor %}
-                    {% for name_alt in person.parsed_names %}
-                    <li itemprop="alternateName">{{ name_alt }}</li>
-                    {% endfor %}
-                </ul>
             </div>
-        </aside>
-        {% endif %}
+        </div>
+    </main>
+
+    <div class="side-menu">
+        <button class="side-menu-close">
+            <svg>
+                <use xlink:href="#close"></use>
+            </svg>
+        </button>
+        <div class="side-menu__container">
+            <ul class="links-wrap">
+                {% if related_persons.all %}
+                <li>
+                    <a href="#relation_with_individual">{{_("ЗВ’ЯЗКИ з фізичними особами")}}</a>
+                </li>
+                {% endif %}
+                {% if related_companies.rest %}
+                <li>
+                    <a href="#relation_with_entities">{{_("ЗВ’ЯЗКИ з юридичними особами")}}</a>
+                </li>
+                {% endif %}
+                <li>
+                    <a href="#declarations">{{_("ДОХОДИ ТА ВИТРАТИ")}}</a>
+                </li>
+                <li>
+                    <a href="#cash-assets">{{_("ГРОШОВІ АКТИВИ")}}</a>
+                </li>
+                <li>
+                    <a href="#liabilities">{{_("ФІНАНСОВІ ЗОБОВ’ЯЗАННЯ")}}</a>
+                </li>
+                <li>
+                    <a href="#gifts">{{_("ДАРУНКИ, ПРИЗИ, ВИГРАШІ")}}</a>
+                </li>
+                <li>
+                    <a href="#real-estate">{{_("НЕРУХОМІСТЬ ДЕКЛАРАНТА І РОДИНИ")}}</a>
+                </li>
+                <li>
+                    <a href="#transport">{{_("ТРАНСПОРТНІ ЗАСОБИ")}}</a>
+                </li>
+                {% if LANGUAGE_CODE == "en" %}
+                    {% if person.reputation_sanctions_en or person.reputation_crimes_en or person.reputation_manhunt_en or person.reputation_convictions_en or person.reputation_sanctions_uk or person.reputation_crimes_uk or person.reputation_manhunt_uk or person.reputation_convictions_uk or manhunt_records %}
+                        <li>
+                            <a href="#clriminal">{{_("КРИМІНАЛЬНІ ПРОВАДЖЕННЯ ТА САНКЦІЇ")}}</a>
+                        </li>
+                    {% endif %}
+                {% else %}
+                    {% if person.reputation_sanctions_uk or person.reputation_crimes_uk or person.reputation_manhunt_uk or person.reputation_convictions_uk or manhunt_records %}
+                    
+                        <li>
+                            <a href="#clriminal">{{_("КРИМІНАЛЬНІ ПРОВАДЖЕННЯ ТА САНКЦІЇ")}}</a>
+                        </li>
+                    {% endif %}
+                {% endif %}
+                <li>
+                    <a href="#investigations">{{_("РОЗСЛІДУВАННЯ")}}</a>
+                </li>
+                {% if workplaces %}
+                <li>
+                    <a href="#career">КАР’ЄРА</a>
+                </li>
+                {% endif %}
+                {% if LANGUAGE_CODE == "en" %}
+                    {% if person.wiki_en or person.wiki_uk %}
+                        <li>
+                            <a href="#dossier">{{ _("Досьє") }}</a>
+                        </li>
+                    {% endif %}
+                {% else %}
+                    {% if person.wiki_uk %}
+                        <li>
+                            <a href="#dossier">{{ _("Досьє") }}</a>
+                        </li>
+                    {% endif %}
+                {% endif %}
+                {% if related_companies.banks %}
+                <li>
+                    <a href="#bank-accounts">{{_("БАНКІВСЬКІ РАХУНКИ")}}</a>
+                </li>
+                {% endif %}
+                {% if any_documents %}
+                <li>
+                    <a href="#documents">{{_("ДОКУМЕНТИ")}}</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
     </div>
+
+    <div class="modal" id="dossier-modal">
+        <div class="modal-container">
+            <div class="modal-inner">
+                <button class="modal-close">
+                    <svg>
+                        <use xlink:href="#close"></use>
+                    </svg>
+                </button>
+                <div class="modal-content">
+                    <div class="dossier-modal">
+                        <div class="dossier-modal__header">
+                            <div class="title-wrap">
+                                <img src="{{ static('images/icon-individual.svg') }}" alt="icon" class="icon">
+                                <h2 class="name">{{ person.first_name }} {{ person.last_name }}</h2>
+                            </div>
+                            <a href="" class="print" title="print">
+                                <svg>
+                                    <use xlink:href="#print"></use>
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="dossier-modal__body">
+                            <p>
+                                {% if LANGUAGE_CODE == "en" %}
+                                    {{ person.wiki_en|richtext }}
+
+                                    {% if person.wiki_uk %}
+                                        <p><a href="{{ person.url_uk }}#dossier">more information is available in Ukrainian version of the dossier</a></p>
+                                    {% endif %}
+                                {% else %}
+                                    {{ person.wiki_uk|richtext }}
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="criminal-modal">
+        <div class="modal-container">
+            <div class="modal-inner">
+                <button class="modal-close">
+                    <svg>
+                        <use xlink:href="#close"></use>
+                    </svg>
+                </button>
+                <div class="modal-content">
+                    <div class="dossier-modal">
+                        <div class="dossier-modal__header">
+                            <div class="title-wrap">
+                                <img src="{{ static('images/icon-individual.svg') }}" alt="icon" class="icon">
+                                <h2 class="name">{{ person.first_name }} {{ person.last_name }}</h2>
+                            </div>
+                            <a href="" class="print" title="print">
+                                <svg>
+                                    <use xlink:href="#print"></use>
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="dossier-modal__body">
+                            <p>
+                                {% if person.reputation_sanctions_uk %}
+                                <h4>{{ _("Санкції") }}</h4>
+                                {{ person.reputation_sanctions_uk|richtext }}
+                                {% endif %}
+                                {% if person.reputation_crimes_uk %}
+                                    <h4>{{ _("Кримінальні провадження") }}</h4>
+                                    {{ person.reputation_crimes_uk|richtext }}
+                                {% endif %}
+                                {% if person.reputation_manhunt_uk or manhunt_records %}
+                                    <h4>{{ _("Перебування у розшуку") }}</h4>
+                                    {% include "_manhunt_records_uk.jinja" with context %}
+                                    {{ person.reputation_manhunt_uk|richtext }}
+                                {% endif %}
+                                {% if person.reputation_convictions_uk %}
+                                    <h4>{{ _("Наявність судимості") }}</h4>
+                                    {{ person.reputation_convictions_uk|richtext }}
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="visualization-modal">
+        <div class="modal-container">
+            <div class="modal-inner">
+                <button class="modal-close">
+                    <svg>
+                        <use xlink:href="#close"></use>
+                    </svg>
+                </button>
+                <div class="modal-content">
+                    <div class="visualization-modal">
+                        <div class="visualization-modal__header">
+                            <h2 class="name">{{ person.last_name }} {{ person.first_name }} {{ person.patronymic }}</h2>
+                            <ul class="legend">
+                                <li class="legend__item green">
+                                    <svg>
+                                        <use xlink:href="#legend-dashed-line"></use>
+                                    </svg>
+                                    <span>{{_("члени сім’ї")}}</span>
+                                </li>
+                                <li class="legend__item black">
+                                    <svg>
+                                        <use xlink:href="#legend-dashed-line"></use>
+                                    </svg>
+                                    <span>{{_("особисті зв’язки")}}</span>
+                                </li>
+                                <li class="legend__item orange">
+                                    <svg>
+                                        <use xlink:href="#legend-dashed-line"></use>
+                                    </svg>
+                                    <span>{{_("ділові зв’язки")}}</span>
+                                </li>
+                                <li class="legend__item green">
+                                    <svg>
+                                        <use xlink:href="#legend-line"></use>
+                                    </svg>
+                                    <span>{{_("власник")}}</span>
+                                </li>
+                                <li class="legend__item black">
+                                    <svg>
+                                        <use xlink:href="#legend-line"></use>
+                                    </svg>
+                                    <span>{{_("бенефіціарний власник")}}</span>
+                                </li>
+                                <li class="legend__item orange">
+                                    <svg>
+                                        <use xlink:href="#legend-line"></use>
+                                    </svg>
+                                    <span>{{_("співробітник")}}</span>
+                                </li>
+                                <li class="legend__item yellow">
+                                    <svg>
+                                        <use xlink:href="#legend-line"></use>
+                                    </svg>
+                                    <span>{{_("клієнт")}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="visualization-modal__body">
+                            <div id="graphme" data-url="{{ url('connections', 'person', person.pk) }}"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
+
+<!--SVG elements start-->
+<svg style="display: none;">
+    <symbol id="fb" viewBox="0 0 30 30">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M30 0H0V30H30V0ZM12.5973 12.7463V10.5664C12.5973 10.5583 12.5972 10.5493 12.5972 10.5394C12.5954 10.061 12.586 7.49982 15.9588 7.5H18.3892V10.2751H16.6017C16.2481 10.2751 15.8904 10.6415 15.8904 10.9139V12.7365H18.3857C18.2858 14.134 18.0796 15.4122 18.0796 15.4122H15.878V23.3333H12.5973V15.412H11.0002V12.7463H12.5973Z"
+        />
+    </symbol>
+    <symbol id="tw" viewBox="0 0 30 30">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M30 0H0V30H30V0ZM21.463 10.3691C22.1171 10.2859 22.7445 10.1147 23.3333 9.85646C22.892 10.5135 22.3507 11.0845 21.7065 11.5417C21.7134 11.6793 21.7183 11.8178 21.7183 11.9613C21.7183 16.2502 18.4527 21.1981 12.4796 21.1981C10.6419 21.1981 8.93786 20.6687 7.5 19.7414C7.75531 19.7741 8.01062 19.7859 8.27682 19.7859C9.79484 19.7859 11.1971 19.2654 12.3015 18.4015C10.8824 18.3708 9.68896 17.4258 9.26838 16.1403C9.46531 16.1839 9.6751 16.1957 9.88292 16.1957C10.1818 16.1957 10.4697 16.1611 10.734 16.0889C9.25849 15.787 8.13333 14.4768 8.13333 12.8994V12.8638C8.56677 13.1023 9.07839 13.2537 9.5999 13.2636C8.73698 12.6867 8.15807 11.6902 8.15807 10.566C8.15807 9.9673 8.32234 9.41115 8.6024 8.92527C10.2065 10.8955 12.5944 12.1889 15.293 12.3205C15.2395 12.085 15.2178 11.8376 15.2178 11.5803C15.2178 9.79214 16.6645 8.3335 18.4616 8.3335C19.3879 8.3335 20.2369 8.72636 20.8327 9.36068C21.5709 9.21324 22.2636 8.94902 22.891 8.57495C22.6495 9.33594 22.1359 9.9673 21.463 10.3691Z"
+        />
+    </symbol>
+    <symbol id="tg" viewBox="0 0 30 30">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M30 0H0V30H30V0ZM6.33988 13.9773L20.9732 8.05465C21.5301 7.82924 22.1057 8.33553 21.9834 8.94321L19.485 21.3491C19.3678 21.9313 18.7104 22.1928 18.2487 21.8408L14.4765 18.965L12.554 21.0038C12.2166 21.3617 11.6337 21.2168 11.4887 20.7391L10.101 16.1656L6.38252 15.0252C5.89462 14.8756 5.8659 14.1691 6.33988 13.9773ZM12.3415 17.0506L19.1385 10.8078C19.3013 10.6584 19.1123 10.3945 18.9277 10.5135L10.9011 15.6839C10.7597 15.7749 10.6954 15.9537 10.7448 16.1187L11.8214 19.722C11.8441 19.7977 11.9503 19.7873 11.9588 19.7085L12.2205 17.2923C12.2306 17.199 12.2737 17.1128 12.3415 17.0506Z"
+        />
+    </symbol>
+    <symbol id="back-link-arr" viewBox="0 0 20 8">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M2.00816 4.5167L4.92553 7.2676L4.23949 7.99516L0.385793 4.36136L0 3.99758L0.385793 3.6338L4.23949 0L4.92553 0.72756L1.96762 3.5167H19.9975V4.5167H2.00816Z"
+        />
+    </symbol>
+    <symbol id="arr-right" viewBox="0 0 7 11" fill="none">
+        <path d="M1.25 9.75L5.75 5.25L1.25 0.75"/>
+    </symbol>
+    <symbol id="arr-right-w2" viewBox="0 0 8 13" fill="none">
+        <path d="M1 1L7 7L1 13" stroke-width="2"/>
+    </symbol>
+    <symbol id="arr-down" viewBox="0 0 13 17" fill="none">
+        <path d="M1 10L6.5 15.5L12 10"/>
+        <line x1="6.5" y1="15" x2="6.5" y2="2.18557e-08"/>
+    </symbol>
+    <symbol id="search" viewBox="0 0 21 21">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M16 9.5C16 13.0899 13.0899 16 9.5 16C5.91015 16 3 13.0899 3 9.5C3 5.91015 5.91015 3 9.5 3C13.0899 3 16 5.91015 16 9.5ZM14.4271 16.4271C13.0372 17.4175 11.3367 18 9.5 18C4.80558 18 1 14.1944 1 9.5C1 4.80558 4.80558 1 9.5 1C14.1944 1 18 4.80558 18 9.5C18 11.6364 17.2118 13.5887 15.9104 15.082L20.4142 19.5858L19 21L14.4271 16.4271Z"
+        />
+    </symbol>
+    <symbol id="close" viewBox="0 0 29 29" fill="none">
+        <path d="M28.4541 28.4541L1 1M28.4541 1L1 28.4541L28.4541 1Z"/>
+    </symbol>
+    <symbol id="dots" viewBox="0 0 9 9">
+        <path d="M3 7.5C3 8.32843 2.32843 9 1.5 9C0.671573 9 0 8.32843 0 7.5C0 6.67157 0.671573 6 1.5 6C2.32843 6 3 6.67157 3 7.5Z"
+              fill="#4EAD33"/>
+        <path d="M9 7.5C9 8.32843 8.32843 9 7.5 9C6.67157 9 6 8.32843 6 7.5C6 6.67157 6.67157 6 7.5 6C8.32843 6 9 6.67157 9 7.5Z"
+              fill="#4EAD33"/>
+        <path d="M9 1.5C9 2.32843 8.32843 3 7.5 3C6.67157 3 6 2.32843 6 1.5C6 0.671573 6.67157 0 7.5 0C8.32843 0 9 0.671573 9 1.5Z"
+              fill="#4EAD33"/>
+        <path d="M3 1.5C3 2.32843 2.32843 3 1.5 3C0.671573 3 0 2.32843 0 1.5C0 0.671573 0.671573 0 1.5 0C2.32843 0 3 0.671573 3 1.5Z"
+              fill="#4EAD33"/>
+    </symbol>
+    <symbol id="plus" viewBox="0 0 10 10" fill="none">
+        <path d="M5 0V10M10 5L0 5"/>
+    </symbol>
+    <symbol id="minus" viewBox="0 0 10 1" fill="none">
+        <line y1="0.5" x2="10" y2="0.5"/>
+    </symbol>
+    <symbol id="print" viewBox="0 0 23 21">
+        <path d="M18.4576 -0.741928H4.55664V3.89543H18.4576V-0.741928Z"/>
+        <path d="M23 9.1736C23 7.25221 21.4426 5.70642 19.5392 5.70642H3.46081C1.54295 5.70642 0 7.26665 0 9.1736V16.1369H4.58558V20.7742H18.4288V16.1369H23.0144V9.1736H23ZM16.0928 18.4483H6.90721V12.6697H16.0928V18.4483ZM19.6257 10.4016C18.9768 10.4016 18.4433 9.86704 18.4433 9.21694C18.4433 8.56684 18.9768 8.03232 19.6257 8.03232C20.2746 8.03232 20.8082 8.56684 20.8082 9.21694C20.8082 9.86704 20.2746 10.4016 19.6257 10.4016Z"
+        />
+    </symbol>
+    <symbol id="block" viewBox="0 0 45 45" fill="none">
+        <circle cx="22.5849" cy="22.4041" r="14" transform="rotate(-45 22.5849 22.4041)" stroke="white"
+                stroke-width="3"/>
+        <line x1="12.2172" y1="32.7718" x2="33.545" y2="11.4439" stroke="white" stroke-width="3"/>
+    </symbol>
+    <symbol id="visualization" viewBox="0 0 21 19">
+        <circle cx="10.5" cy="3.5" r="3" stroke="white" fill="none"/>
+        <circle cx="17.5" cy="15.5" r="3" stroke="white" fill="none"/>
+        <circle cx="3.5" cy="15.5" r="3" stroke="white" fill="none"/>
+        <rect x="10" y="7" width="1" height="3" fill="white"/>
+        <rect x="3" y="10" width="1" height="2" fill="white"/>
+        <rect x="17" y="10" width="1" height="2" fill="white"/>
+        <path d="M3 10L4 9L17 9L18 10L3 10Z" fill="white"/>
+    </symbol>
+    <symbol id="show-table-icon" viewBox="0 0 21 21" fill="none">
+        <line y1="3.5" x2="21" y2="3.5"/>
+        <line y1="10.5" x2="21" y2="10.5"/>
+        <line y1="17.5" x2="21" y2="17.5"/>
+        <line x1="5.5" y1="2.18557e-08" x2="5.5" y2="21"/>
+    </symbol>
+    <symbol id="show-graph-icon" viewBox="0 0 21 11" fill="none">
+        <path d="M1 10.5L8.5 3.5L13 8L19.9999 1"/>
+        <path d="M15 0.5H20.5V6"/>
+    </symbol>
+    <symbol id="link-icon" viewBox="0 0 12 15">
+        <path d="M6.07075 9.09927C5.8978 9.09927 5.73349 9.02124 5.64701 8.88857C5.57783 8.78712 5.55189 8.66226 5.58648 8.5452C5.62107 8.42815 5.6989 8.3267 5.81132 8.26426C6.73663 7.7336 7.29874 6.83616 7.29874 5.85288V3.74584C7.29874 2.17727 5.8805 0.905245 4.15094 0.905245C2.41274 0.905245 1.00314 2.17727 1.00314 3.74584V5.85288C1.00314 6.38354 1.16745 6.9064 1.48742 7.35902C1.63443 7.56972 1.56525 7.85066 1.33176 7.98333C1.25393 8.03015 1.15881 8.05356 1.06368 8.05356C0.890723 8.05356 0.726415 7.97552 0.639937 7.84286C0.216195 7.24196 0 6.55522 0 5.85288V3.74584C0 1.67783 1.85928 0 4.15094 0C6.44261 0 8.30189 1.67783 8.30189 3.74584V5.85288C8.30189 7.14832 7.56682 8.3423 6.33884 9.02904C6.26101 9.07586 6.16588 9.09927 6.07075 9.09927Z"
+        />
+        <path d="M6.84918 14.1176C4.55752 14.1176 2.69824 12.4398 2.69824 10.3718V8.26473C2.69824 6.7976 3.65815 5.46315 5.14557 4.85445C5.21475 4.83104 5.28393 4.81543 5.35312 4.81543C5.55201 4.81543 5.73362 4.91688 5.81145 5.08076C5.92387 5.30707 5.81145 5.58021 5.56066 5.68166C4.43645 6.14208 3.70139 7.15658 3.70139 8.27253V10.3796C3.70139 11.9481 5.11098 13.2202 6.84918 13.2202C8.58739 13.2202 9.99698 11.9481 9.99698 10.3796V8.27253C9.99698 7.73406 9.82403 7.2034 9.50406 6.75078C9.35704 6.54008 9.42623 6.25914 9.65972 6.12647C9.73755 6.07965 9.83267 6.05624 9.9278 6.05624C10.1008 6.05624 10.2564 6.13428 10.3515 6.26694C10.7753 6.86784 11.0088 7.56238 11.0088 8.28033V10.3874C11.0001 12.4398 9.14085 14.1176 6.84918 14.1176Z"
+        />
+    </symbol>
+    <symbol id="legend-dashed-line" viewBox="0 0 20 20" fill="none">
+        <line x1="0.646447" y1="19.6464" x2="19.6464" y2="0.646447" stroke-dasharray="6 4"/>
+    </symbol>
+    <symbol id="legend-line" viewBox="0 0 20 20" fill="none">
+        <line x1="0.646447" y1="19.6464" x2="19.6464" y2="0.646447"/>
+    </symbol>
+
+</svg>
+<!--SVG elements end-->
+
 {% endblock %}
 
 {% block javascript %}

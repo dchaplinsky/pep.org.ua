@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{% block page_description %}{% endblock %}">
     <meta name="author" content="">
@@ -24,13 +24,11 @@
     {% endblock %}
 
     {% if not disable_css %}
-    {% stylesheet 'css_all' %}
-{#    <link href='//fonts.googleapis.com/css?family=Roboto+Slab:400,300,700,100&subset=latin,cyrillic-ext,cyrillic' rel='stylesheet' type='text/css' />
-    <link href='//fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic,700italic&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css' />
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel='stylesheet' type='text/css' /> #}
-    {% endif %} 
+        {% stylesheet 'css_all' %}
+    {% endif %}
 
     {% stylesheet 'css_print' %}
+
     <link rel="apple-touch-icon" sizes="57x57" href="{{ SITE_URL }}{{ static("images/favicon/apple-icon-57x57.png") }}">
     <link rel="apple-touch-icon" sizes="60x60" href="{{ SITE_URL }}{{ static("images/favicon/apple-icon-60x60.png") }}">
     <link rel="apple-touch-icon" sizes="72x72" href="{{ SITE_URL }}{{ static("images/favicon/apple-icon-72x72.png") }}">
@@ -52,115 +50,186 @@
 
 {% set calling_page = page.url if page else "" %}
 
-<body class="{% block body_class %}not-front{% endblock %}"> 
-    <h1 class="navbar-brand print-only" href="{{ url("wagtail_serve", "") }}">PEP<span>.org.ua</span></h1>
-    <div id="wrapper">
-        <nav id="navbar" class="navbar navbar-inverse navbar-default" role="navigation">  
-            <div class="container"> 
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                        <span class="sr-only">{{ _("Menu") }}</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="{{ url("wagtail_serve", "") }}">PEP<span>.org.ua</span></a>
-                </div>
-
-                {% block mini_search %}
-                <div class="col-xs-12 col-sm-6 col-md-3 pull-left regularSearch">
-                    <form id="pep-search" action="{{ url("search") }}" method="GET">
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="{{ _("Введіть ім'я або назву компанії") }}" name="q" data-provide="typeahead" id="search-form" autocomplete="off" data-endpoint="{{ url("suggest") }}" value="{{ query }}"/>
-                            <input type="hidden" name="is_exact" value="" />
-                            <span class="input-group-btn"><button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button></span>
-                        </div>
+<body>
+<div class="{% block page_class %}{% endblock%}">
+    <!--    добавлять класс header--show-search если нужно отображать поиск :TODO-->
+    <header class="header header--show-search">
+        <div class="header__inner">
+            <div class="header__left">
+                <a href="{{ url('wagtail_serve', '') }}" class="logo">
+                    <img src="{{ static('images/logo.svg') }}" alt="Logo">
+                </a>
+                <div class="form-wrap">
+                    <form action="" class="search-form">
+                        <input type="text" placeholder="{{ _('Введіть ім’я, назву компанії ...') }}">
+                        <ul class="search-dropdown">
+                            <li><a href="person.html">Олександр Вікторович <strong>Яну</strong>кович</a></li>
+                            <li><a href="person.html">Людмила Олександрівна <strong>Яну</strong>кович</a></li>
+                            <li><a href="person.html">Олександр Вікторович <strong>Яну</strong>кович</a></li>
+                            <li><a href="person.html">Людмила Олександрівна <strong>Яну</strong>кович</a></li>
+                        </ul>
+                        <button>
+                            <svg>
+                                <use xlink:href="#arr-right-w2"></use>
+                            </svg>
+                        </button>
                     </form>
-                </div>
-                {% endblock %}
-                
-                <div class="collapse navbar-collapse navbar-ex1-collapse pull-right">
-                    <div id="languageSelect" class="dropdown asSelect pull-right">
-                    <button class="dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        <span class="btn-text"><img src="{{ static("images/" + LANGUAGE_CODE + ".png") }}" /></span>                        
+                    <button class="search-btn">
+                        <svg class="search">
+                            <use xlink:href="#search"></use>
+                        </svg>
+                        <svg class="close">
+                            <use xlink:href="#close"></use>
+                        </svg>
                     </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
-                        {% for lang in LANGUAGES %}
-                        <li>
-                            <form action="{{ url("set_language") }}" method="POST">
-                                {% csrf_token %}
-                                {# Ugly! #}
-                                {% if request.path.startswith("/" + LANGUAGE_CODE + "/") %}
-                                    <input type="hidden" name="next" value="{{ request.path.replace("/" + LANGUAGE_CODE + "/", "/" + lang.0 + "/", 1) }}{% if request.GET %}?{% endif %}{{ request.GET.urlencode() }}" />
-                                {% else %}
-                                    <input type="hidden" name="next" value="/" />
-                                {% endif %}
-                                <input type="hidden" name="language" value="{{ lang.0 }}" />
-                                <button><img src="{{ static("images/" + lang[0] + ".png") }}" /></button>
-                            </form>
+                </div>
+            </div>
+            <div class="header__right">
+                <nav class="menu">
+                    <ul class="menu__list">
+                        <li class="menu__list-item">
+                            <a href="{{ url('wagtail_serve', 'pitannya-ta-vidpovid/') }}" class="qa-item" title="{{ _("Про реєстр") }}">Про реєстр</a>
                         </li>
-                        {% endfor %}
+                        <li class="menu__list-item">
+                            <a href="blogs.html">Блог</a>
+                        </li>
+                        <li class="menu__list-item">
+                            <a href="investigations.html">Розслідування</a>
+                        </li>
+                        <li class="menu__list-item">
+                            <a href="contacts.html">Контакти</a>
+                        </li>
+                        <li class="menu__list-item">
+                            <a href="api.html">API</a>
+                        </li>
+                        <li class="menu__list-item">
+                            <a href="scoring.html">Scoring</a>
+                        </li>
                     </ul>
-                </div>              
-                
-                    <ul class="nav navbar-nav">
-                        <li><a href="{{ url('wagtail_serve', '') }}" class="home-item" title="{{ _("Домівка") }}"><i></i>{{ _("Домівка") }}</a></li>
-                        <li><a href="{{ url('countries_home') }}" class="countries-item" title="{{ _("Країни") }}"><i></i>{{ _("Країни") }}</a></li>
-                        <li><a href="{{ url('wagtail_serve', 'pitannya-ta-vidpovid/') }}" class="qa-item" title="{{ _("Про реєстр") }}"><i></i>{{ _("Про реєстр") }}</a></li>
-                        <li><a href="{{ url('feedback') }}" class="feedback-item" title="{{ _("Повідомити") }}"><i></i>{{ _("Повідомити") }}</a></li>
-                        <li><a href="{{ url('wagtail_serve', 'data/') }}" class="data-item" title="{{ _("Дані") }}"><i></i>{{ _("Дані") }}</a></li>
-                        {% block extra_menu %}
-                        {% endblock %}
-                    </ul>
-                </div>
-                
+                </nav>
+                {% for lang in LANGUAGES if request.path.startswith("/" + LANGUAGE_CODE + "/") and lang.0 != LANGUAGE_CODE %}
+                    <form action="{{ url("set_language") }}" method="POST">
+                        {% csrf_token %}
+                        {# Ugly! #}
+                        {% if request.path.startswith("/" + LANGUAGE_CODE + "/") %}
+                            <input type="hidden" name="next" value="{{ request.path.replace("/" + LANGUAGE_CODE + "/", "/" + lang.0 + "/", 1) }}{% if request.GET %}?{% endif %}{{ request.GET.urlencode() }}" />
+                        {% else %}
+                            <input type="hidden" name="next" value="/" />
+                        {% endif %}
+                        <input type="hidden" name="language" value="{{ lang.0 }}" />
+                        <button class="lang">{{ lang.0 }}</button>
+                    </form>
+                {% endfor %}
+                <button class="burger-btn"></button>
             </div>
-        </nav>
-
-        <div id="page">
-        {% block content %}
-        {% endblock %}
-        </div> <!--page -->
-
-        <footer id="footer">
-            <div class="container">
-                <ul id="copyright" class="col-sm-6">
-                    {% for menuitem in bottom_menu %}
-                    <li class="{% if calling_page.startswith(menuitem.link) %} active{% endif %}">
-                        <a href="{{ menuitem.link }}">
-                            <span class="footer-logo">
-                            {% if menuitem.image %}
-                                <img src="{{ menuitem.image.get_rendition("max-50x50").url }}" alt="" class="" title=""/>
-                            {% endif %}
-                            </span>
-                            <span class="footer-logo-text">{{ menuitem.translated_caption }}</span>
-                        </a>
+        </div>
+        <div class="mob-menu">
+            <div class="form-wrap">
+                <form action="" class="search-form">
+                    <input type="text" placeholder="Введіть ім’я, назву компанії ...">
+                    <ul class="search-dropdown">
+                        <li><a href="person.html">Олександр Вікторович <strong>Яну</strong>кович</a></li>
+                        <li><a href="person.html">Людмила Олександрівна <strong>Яну</strong>кович</a></li>
+                        <li><a href="person.html">Олександр Вікторович <strong>Яну</strong>кович</a></li>
+                        <li><a href="person.html">Людмила Олександрівна <strong>Яну</strong>кович</a></li>
+                    </ul>
+                    <button>
+                        <svg>
+                            <use xlink:href="#arr-right-w2"></use>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+            <nav class="menu">
+                <ul class="menu__list">
+                    <li class="menu__list-item">
+                        <a href="about-us.html">Про реєстр</a>
                     </li>
-                    {% endfor %}
-                    <!-- <li><a href="#"><i class="fa fa-rss"></i> Updates</a></li> -->
-                    {# <li>Copyright 2015</li> #}
+                    <li class="menu__list-item">
+                        <a href="blogs.html">Блог</a>
+                    </li>
+                    <li class="menu__list-item">
+                        <a href="investigations.html">Розслідування</a>
+                    </li>
+                    <li class="menu__list-item">
+                        <a href="contacts.html">Контакти</a>
+                    </li>
+                    <li class="menu__list-item">
+                        <a href="api.html">API</a>
+                    </li>
+                    <li class="menu__list-item">
+                        <a href="scoring.html">Scoring</a>
+                    </li>
                 </ul>
-                <div id="footerInfo" class="hidden-xs text-justify col-sm-6">
-                    {{ root_page.translated_footer|richtext }}
+            </nav>
+        </div>
+    </header>
+    {% block content %}
+    {% endblock %}
+
+
+    <footer class="footer">
+        <div class="footer__top">
+            <div class="content">
+                <div class="footer__nav">
+                    <nav class="menu">
+                        <ul class="menu__list">
+                            <li class="menu__list-item">
+                                <a href="about-us.html">Про реєстр</a>
+                            </li>
+                            <li class="menu__list-item">
+                                <a href="contacts.html">Контакти</a>
+                            </li>
+                            <li class="menu__list-item">
+                                <a href="investigations.html">Розслідування</a>
+                            </li>
+                            <li class="menu__list-item">
+                                <a href="api.html">API</a>
+                            </li>
+                            <li class="menu__list-item">
+                                <a href="blogs.html">Блог</a>
+                            </li>
+                            <li class="menu__list-item">
+                                <a href="scoring.html">Scoring</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="footer__founders">
+                    <h6 class="title">
+                        <span>Засновники</span>
+                        <span class="icon">
+                        <svg>
+                            <use xlink:href="#arr-right"></use>
+                        </svg>
+                    </span>
+                    </h6>
+                    <p class="text">Реєстр адмініструють команди <a href="">ГО Центр протидії корупції</a> та <a
+                            href="">ГО Канцелярської Сотні</a>.
+                        Розроблено спільно зі спеціалістами <a href="">Державної служби фінансового моніторингу</a> та
+                        <a
+                                href="">Міністерства юстиції
+                            України</a></p>
                 </div>
             </div>
-        </footer>
-        {% block inline_feedback_form %}
-        <div id="send-form" class="animated print-hidden">
-            <a class="btn-close" href="#closeform"><i class="fa fa-times-circle"></i></a>
-            <div class="form-container">
-                <header>
-                    <a class="show-form" href="#showform">{{ _("Надіслати інформацію") }}</a>
-                </header>
-                <div class="form-content">
-                    <div class="form">
-                    {% include "_feedback_form.jinja" %}
-                    </div>
+        </div>
+        <div class="footer__bottom">
+            <div class="content">
+                <p class="description">На цьому сайті використано інформацію, що отримана в рамках реалізації ГО «Центр
+                    протидії корупції» свого права на доступ до публічної інформації, а також інформацію з відкритих
+                    загальнодоступних джерел, яка вже була оприлюднена. Вказана інформація не є такою, що має обмежений
+                    доступ та не містить персональних даних в розумінні Закону України «Про захист персональних даних»
+                    відповідно до частини 2 статті 5 вказаного Закону.</p>
+
+                <div class="copy-wrap">
+                    <p class="copy">© ЦЕНТР ПРОТИДІЇ КОРУПЦІЇ, 2015-2018</p>
+                    <p class="design">ДИЗАЙН – <a href="https://demch.co" target="_blank">DEMCH.CO</a></p>
+                    <p class="development">РОЗРОБКА – <a href="" target="_blank">КАНЦЕЛЯРСЬКА СОТНЯ</a></p>
                 </div>
             </div>
-        </div>     
-        {% endblock %}
-    </div>
+        </div>
+    </footer>
+    
     {% block javascript %}
         {% javascript 'js_all' %}
         {% if SITEHEART_ID %}
@@ -197,4 +266,5 @@
         {% endif %}
     {% endblock %}
 </body>
+
 </html>

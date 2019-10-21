@@ -381,7 +381,8 @@ $(function() {
             previousTapStamp = currentTapStamp;
         });
     }
-    $.getJSON($("#profile").data("url"), function(elements) {
+    
+    $.getJSON($("#profile, .profile-page__content").data("url"), function(elements) {
         $(".load-pep-modal-tree").on("click", function() {
             var anchor = $(this).data("target");
             $(anchor).modal().on('shown.bs.modal', function(e) {

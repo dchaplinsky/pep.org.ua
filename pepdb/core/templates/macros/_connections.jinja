@@ -1,207 +1,130 @@
-{% macro render_connection(connection, id) %}
-    {% if connection.has_additional_info %}
-        <div class="modalConnectionBox modal fade" id="{{ id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">{{ _("Підтвердження зв'язку") }}</h4>
-                    </div>
-                    <div class="modal-body">
-                        {% if connection.date_established %}
-                            <p><b>{{ _("Зв'язок почався: ") }}</b> {{ connection.date_established_human }}</p>
-                        {% endif %}
-                                            
-                        {% if connection.date_finished %}
-                            <p><b>{{ _("Зв'язок скінчився: ") }}</b> {{ connection.date_finished_human }}</p>
-                        {% endif %}
-                                            
-                        {% if connection.date_confirmed %}
-                            <p><b>{{ _("Підтверджено: ") }}</b> {{ connection.date_confirmed_human }}</p>
-                        {% endif %}
-
-                        {% set proofs = connection.proofs.all() %}
-                        {% if connection.proofs %}
-                            {% set comma = joiner(", ") %}
-                            {% for proof in proofs -%}
-                                {{ comma() }}<a href="{% if proof.proof %}{{ proof.proof }}{% else %}{{ proof.proof_document.doc.url }}{% endif%}" target="_blank">
-                                    {{ proof.proof_title|default(_("Посилання"), true) }}
-                                </a>
-                            {%- endfor %}
-                        {% endif %}
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ _("Закрити") }}</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-   {% endif %}
+{% macro render_person_banks(connections) %}
+	{% for company in companies %}
+		{% set countries = company.to_company.foreign_registration %}
+	    <tr itemscope itemtype="http://schema.org/Organization" itemprop="affiliation">
+	        <td class="no-wrap">
+	            <div class="name-wrap">
+	                <div class="flags">
+	                	{% for country in countries %}
+	                    	<img src="{{ static('images/flags/') }}{{ country.to_country.iso3|lower }}.svg" alt="{{ country.to_country.name }}">
+	                    {% endfor %}
+	                </div>
+	                <p class="name name-entities" itemprop="name"><a href="{{ company.to_company.get_absolute_url() }}">{{ company.to_company }}</a></p>
+	            </div>
+	        </td>	        <td class="no-wrap" itemprop="taxID">{% if company.to_company.edrpou %}{{ company.to_company.edrpou }}{% endif %}</td>
+	        <td class="no-wrap">{{ company.relationship_type }}</td>
+	        <td class="no-wrap">
+	            <button class="toggle-row-btn">
+	                <svg>
+	                    <use xlink:href="#arr-right-w2"></use>
+	                </svg>
+	            </button>
+	        </td>
+	    </tr>
+	    <tr class="toggle-row">
+	        <td colspan="3">
+	            <div class="toggle-content">
+	                {% if company.share %}
+	                	{{ _("Частка") }} {{ "{:2.3f}".format(company.share) }}%
+	                {% endif %}
+	            </div>
+	        </td>
+	    </tr>
+	{% endfor %}
 {% endmacro %}
 
-{% macro render_related_persons(persons, type, for_company=False) %}
-    {% for person in persons|sort(attribute="last_name") %}
-        <li itemprop="{% if type == "family" %}relatedTo{% elif type == "worked" %}employee{% else %}knows{% endif %}" itemscope itemtype="http://schema.org/Person">
-            <a href="{{ person.get_absolute_url() }}" itemprop="url">
-                <span class="{% if person.is_pep %}is_pep {% endif %}name-pill" itemprop="name">
-                    <span itemprop="familyName">{{ person.last_name }}</span> <span itemprop="givenName">{{ person.first_name }}</span> <span itemprop="additionalName">{{ person.patronymic }}</span>
-                </span>
-            </a> &ndash;
-
-            {% if for_company %}
-                {{ person.connection.relationship_type }}
-            {% else %}
-                {% if person.rtype %}{{ _(person.rtype) }},{% endif %}
-            {% endif %}
-            {% set countries = person.foreign_citizenship_or_registration %}
-            {% for country in countries %}
-                <span class="flag flag-{{ country.to_country.iso3|lower }}" title="{{ country.to_country.name }}"></span>
-            {% endfor %}
-            {% if person.connection.has_additional_info %}
-                <a href="#" class="modalConnectionShow" data-toggle="modal" data-target="#modalPerson-{{ person.connection.pk }}">
-                   <i class="fa fa-info-circle info-gray"></i>
-                </a>
-            {% endif %}
-            {% if person.dob %}<meta itemprop="birthDate" content="{{ person.dob }} "/>{% endif %}
-
-            {% if type != "worked" %}
-                {% set last_workplace = person.translated_last_workplace %}
-                {% if last_workplace %}
-                    {% if last_workplace.company_id %}
-                        <a href="{{ url("company_details", company_id=last_workplace.company_id) }}" itemscope itemtype="http://schema.org/Organization" itemprop="worksFor"><span itemprop="name">{{ last_workplace.company }}</span></a>,
-                    {% else %}
-                        <span itemscope itemtype="http://schema.org/Organization" itemprop="worksFor"><span itemprop="name">{{ last_workplace.company }}</span></span>,
-                    {% endif %}
-                    <span itemprop="jobTitle">{{ last_workplace.position }}</span>
-                {% endif %}
-            {% endif %}
-            {{ render_connection(person.connection, "modalPerson-{}".format(person.connection.pk)) }}
-        </li>
+{% macro render_related_persons(persons, for_company=False) %}
+	{% for person in persons | sort(attribute="last_name") %}
+		{% set countries = person.foreign_citizenship_or_registration %}
+		{% set connection = person.connection %}
+		{% set proofs = connection.proofs %}
+	    <tr>
+	        <td class="no-wrap">
+	            <div class="name-wrap">
+	                <div class="flags">
+	                	{% for country in countries %}
+	                    	<img src="{{ static('images/flags/') }}{{ country.to_country.iso3|lower }}.svg" alt="{{ country.to_country.name }}">
+	                    {% endfor %}
+	                </div>
+	                <p class="name"><a href="{{ person.get_absolute_url() }}">{{ person.last_name }} {{ person.first_name }} {{ person.patronymic }}</a></p>
+	            </div>
+	        </td>
+	        <td class="no-wrap"><span>
+	        	{% if for_company %}
+	        		{{ person.connection.relationship_type }}
+	        	{% else %}
+	        		{% if person.rtype %}{{ _(person.rtype) }}{% endif %}
+	        	{% endif %}
+	        </span></td>
+	        <td class="no-wrap">{% if connection.date_established %}{{ connection.date_established_human }}{% endif %}—{% if connection.date_finished %}{{ connection.date_finished_human }}{% endif %}</td>
+	        <td class="no-wrap">
+	            <button class="toggle-row-btn">
+	                <svg>
+	                    <use xlink:href="#arr-right-w2"></use>
+	                </svg>
+	            </button>
+	        </td>
+	    </tr>
+	    {% if connection.date_confirmed or proofs %}
+	    <tr class="toggle-row">
+	        <td colspan="3">
+	            <div class="toggle-content">
+	            	{% if connection.date_confirmed %}
+	                <span class="confirmed-date">{{ _("Підтверджено: ") }}{{ connection.date_confirmed_human }}</span>
+	                {% endif %}
+	                {% if proofs %}
+                        {% for proof in proofs.all() -%}
+	                		<a href="{% if proof.proof %}{{ proof.proof }}{% else %}{{ proof.proof_document.doc.url }}{% endif%}" target="_blank" class="link confirmed-link">{{ proof.proof_title|default(_("Посилання"), true) }}</a>
+                        {%- endfor %}
+	                {% endif %}
+	            </div>
+	        </td>
+	    </tr>
+	    {% endif %}
     {% endfor %}
 {% endmacro %}
 
 {% macro render_related_grouped_persons(persons) %}
-    {% for grouper, list in persons|groupbyandsort("pk", True) %}
-        {% set first_person = list[0] %}
-        <li itemprop="knows" itemscope itemtype="http://schema.org/Person">
-            <a href="{{ first_person.get_absolute_url() }}" itemprop="url">
-                <span class="{% if first_person.is_pep %}is_pep {% endif %}name-pill" itemprop="name">
-                    <span itemprop="familyName">{{ first_person.last_name }}</span> <span itemprop="givenName">{{ first_person.first_name }}</span> <span itemprop="additionalName">{{ first_person.patronymic }}</span>
-                </span>
-            </a>
-
-            {% set countries = first_person.foreign_citizenship_or_registration %}
-            {% for country in countries %}
-                <span class="flag flag-{{ country.to_country.iso3|lower }}" title="{{ country.to_country.name }}"></span>
-            {% endfor %}
-            {% if first_person.dob %}<meta itemprop="birthDate" content="{{ first_person.dob }} "/>{% endif %}
-
-            <ul>
-                {% for person in list %}
-                    <li class="detailed_relations">
-                        {% if person.connection.relationship_details %}
-                            {{ person.connection.relationship_details|safe }}
-                        {% else %}
-                            {% if person.rtype %}{{ _(person.rtype) }},{% endif %}
-                        {% endif %}
-                        {% if person.connection.has_additional_info %}
-                        <a href="#" class="modalConnectionShow" data-toggle="modal" data-target="#modalPerson-{{ person.connection.pk }}">
-                            <i class="fa fa-info-circle info-gray"></i>
-                        </a>
-                        {% endif %}
-                        {{ render_connection(person.connection, "modalPerson-{}".format(person.connection.pk)) }}
-                    </li>
-                {% endfor %}
-            </ul>
-        </li>
-    {% endfor %}
 {% endmacro %}
 
 {% macro render_company_persons(persons, prefix) %}
-    {% for person in persons %}
-        <div class="panel panel-default">
-            <div class="panel-body" itemscope itemtype="http://schema.org/Person" itemprop="affiliation">
-                <a href="{{ person.get_absolute_url() }}"><span itemprop="name">{{ person }}</span></a>
-                {% set last_workplace = person.translated_last_workplace %}
-                {% if last_workplace and last_workplace.company not in [company.name, company.short_name] %}<br/>
-                {% if last_workplace.company_id %}
-                    <a href="{{ url("company_details", company_id=last_workplace.company_id) }}" itemscope itemtype="http://schema.org/Organization" itemprop="worksFor"><span itemprop="name">{{ last_workplace.company }}</span></a>,
-                {% else %}
-                    <span itemscope itemtype="http://schema.org/Organization" itemprop="worksFor"><span itemprop="name">{{ last_workplace.company }}</span></span>,
-                {% endif %}
-                <span itemprop="jobTitle">{{ last_workplace.position }}</span>
-                {% endif %}
-            </div>
-            <div class="panel-footer">
-                {{ person.connection.relationship_type }}
-                {% if person.connection.has_additional_info %}
-                <a href="#" class="modalConnectionShow" data-toggle="modal" data-target="#modal{{ prefix }}-{{ loop.index }}">
-                    <i class="fa fa-info-circle info-gray"></i>
-                </a>
-                {% endif %}
-            </div>
-        </div>
-
-        {{ render_connection(person.connection, "modal{}-{}".format(prefix, loop.index)) }}
-    {% endfor %}
 {% endmacro %}
 
 {% macro render_company_companies(companies, prefix) %}
-    {% for company in companies %}
-        <div class="panel panel-default">
-            <div class="panel-body" itemscope itemtype="http://schema.org/Organization" itemprop="affiliation">
-                <a href="{{ company.get_absolute_url() }}"><span itemprop="name">{{ company }}</span></a>
-                {% set countries = company.foreign_registration %}
-                {% for country in countries %}
-                    <span class="flag flag-{{ country.to_country.iso3|lower }}" title="{{ country.to_country.name }}"></span>
-                {% endfor %}
-            </div>
-            <div class="panel-footer">
-                {{ company.connection.relationship_type }}
-                {% if company.connection.equity_part %}
-                , {{ _("Частка") }} {{ "{:2.3f}".format(company.connection.equity_part) }}%
-                {% endif %}
-
-                {% if company.connection.has_additional_info %}
-                <a href="#" class="modalConnectionShow" data-toggle="modal" data-target="#modal{{ prefix }}-{{ loop.index }}">
-                    <i class="fa fa-info-circle info-gray"></i>
-                </a>
-                {% endif %}
-            </div>
-        </div>
-
-        {{ render_connection(company.connection, "modal{}-{}".format(prefix, loop.index)) }}
-    {% endfor %}
 {% endmacro %}
 
-{% macro render_person_companies(companies, prefix) %}
-    {% for company in companies %}
-        <div class="panel panel-default">
-            <div class="panel-body" itemscope itemtype="http://schema.org/Organization" itemprop="affiliation">
-                <a href="{{ company.to_company.get_absolute_url() }}"><span itemprop="name">{{ company.to_company }}</span></a>
-                {% if company.to_company.edrpou %}
-                , {{ _("ЄДРПОУ") }} <span itemprop="taxID">{{ company.to_company.edrpou }}</span>
-                {% if company.declarations %}<span class="tooltip-link" data-toggle="tooltip" title="{{ _("Інформація з декларації") }}"> <i class="fa fa-long-arrow-right" aria-hidden="true"></i><i class="fa fa-file-text-o"></i></span>{% endif %}
-                {% endif %}
-                {% if company.share %}
-                , {{ _("Частка") }} {{ "{:2.3f}".format(company.share) }}%
-                {% endif %}
-                {% set countries = company.to_company.foreign_registration %}
-                {% for country in countries %}
-                    <span class="flag flag-{{ country.to_country.iso3|lower }}" title="{{ country.to_country.name }}"></span>
-                {% endfor %}
-            </div>
-            <div class="panel-footer">
-                {{ company.relationship_type }}
-
-                {% if company.has_additional_info %}
-                <a href="#" class="modalConnectionShow" data-toggle="modal" data-target="#modal{{ prefix }}-{{ loop.index }}">
-                    <i class="fa fa-info-circle info-gray"></i>
-                </a>
-                {% endif %}
-            </div>
-        </div>
-
-        {{ render_connection(company, "modal{}-{}".format(prefix, loop.index)) }}
-    {% endfor %}
+{% macro render_person_companies(companies) %}
+	{% for company in companies %}
+		{% set countries = company.to_company.foreign_registration %}
+	    <tr>
+	        <td class="no-wrap">
+	            <div class="name-wrap">
+	                <div class="flags">
+	                	{% for country in countries %}
+	                    	<img src="{{ static('images/flags/') }}{{ country.to_country.iso3|lower }}.svg" alt="{{ country.to_country.name }}">
+	                    {% endfor %}
+	                </div>
+	                <p class="name name-entities"><a href="{{ company.to_company.get_absolute_url() }}">{{ company.to_company }}</a></p>
+	            </div>
+	        </td>
+	        <td class="no-wrap">{{ company.relationship_type }}</td>
+	        <td class="no-wrap">{% if company.to_company.edrpou %}{{ company.to_company.edrpou }}{% endif %}</td>
+	        <td class="no-wrap">
+	            <button class="toggle-row-btn">
+	                <svg>
+	                    <use xlink:href="#arr-right-w2"></use>
+	                </svg>
+	            </button>
+	        </td>
+	    </tr>
+	    <tr class="toggle-row">
+	        <td colspan="3">
+	            <div class="toggle-content">
+	                {% if company.share %}
+	                	{{ _("Частка") }} {{ "{:2.3f}".format(company.share) }}%
+	                {% endif %}
+	            </div>
+	        </td>
+	    </tr>
+	{% endfor %}
 {% endmacro %}
