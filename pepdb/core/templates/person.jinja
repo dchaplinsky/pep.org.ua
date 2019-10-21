@@ -1,11 +1,33 @@
 {% extends "base.jinja" %}
-{% from "macros/_connections.jinja" import render_person_banks, render_related_persons, render_person_companies, render_related_grouped_persons with context %}
+{% from "macros/_connections.jinja" import render_person_banks, render_related_persons, render_person_companies with context %}
 
 {% set last_workplace = person.translated_last_workplace %}
+
+{% block og_tags %}
+    {% if person.photo %}
+        <meta property="og:image" content="{{ SITE_URL }}{{ person.photo.url }}" />
+    {% else %}
+        <meta property="og:image" content="{{ SITE_URL }}{{ static("images/pep_fb.png") }}" />
+    {% endif %}
+    <meta property="og:image:alt" content="Politically exposed persons" />
+    <meta property="og:type" content="profile" />
+    <meta property="og:description" content="{{ _('Детальна інформація про членів сім'ї та інших пов'язаних осіб, задекларовані статки, зобов'язання та банківські рахунки, власність в юридичних особах') }}" />
+    <meta property="profile:first_name" content="{{ person.first_name }} {{ person.patronymic }}" />
+    <meta property="profile:last_name" content="{{ person.last_name }}" />
+    <link rel="canonical" href="{{ SITE_URL }}{{ person.get_absolute_url() }}" />
+{% endblock %}
 
 {% block page_title %}
 {{_("Профіль:")}} {{ person.last_name }} {{ person.first_name }} {{ person.patronymic }}{% if last_workplace %}, {{ last_workplace.company }}, {{ last_workplace.position }}{% endif %}
 {% endblock page_title %}
+
+{% block extra_menu %}
+    {% if request.user.is_superuser %}
+        <li class="edit-page">
+            <a href="{{ url('admin:core_person_change', person.id) }}" target="_blank"><i class="fa fa-pencil-square-o"></i></a>
+        </li>
+    {% endif %}
+{% endblock %}
 
 {% block page_description %}{% if person.description %}{{ person.description }}{% endif %}{% endblock %}
 
@@ -240,7 +262,7 @@
                         </section>
                         {% endif %}
 
-                        {% if related_companies %}
+                        {% if related_companies.rest %}
                         <section id="relation_with_entities" class="profile-section">
                             <div class="profile-section__header">
                                 <div class="title-wrap">
@@ -408,6 +430,7 @@
                         </section>
                         {% endif %}
 
+                        {% if all_declarations %}
                         <section id="cash-assets" class="profile-section">
                             <div class="profile-section__header">
                                 <div class="title-wrap">
@@ -592,7 +615,9 @@
                                 </button>
                             </div>
                         </section>
+                        {% endif %}
 
+                        {% if all_declarations %}
                         <section id="liabilities" class="profile-section">
                             <div class="profile-section__header">
                                 <div class="title-wrap">
@@ -627,7 +652,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        {% for declaration in all_declarations%}
+                                        {% for declaration in all_declarations %}
                                             {% set liability = declaration.get_liabilities()%}
                                             <tr>
                                                 <td class="no-wrap">
@@ -660,7 +685,9 @@
                                 </button>
                             </div>
                         </section>
+                        {% endif %}
 
+                        {% if all_declarations %}
                         <section id="gifts" class="profile-section">
                             <div class="profile-section__header">
                                 <div class="title-wrap">
@@ -720,7 +747,9 @@
                                 </button>
                             </div>
                         </section>
+                        {% endif %}
 
+                        {% if all_declarations %}
                         <section id="real-estate" class="profile-section">
                             <div class="profile-section__header">
                                 <div class="title-wrap">
@@ -832,7 +861,9 @@
                                 </button>
                             </div>
                         </section>
+                        {% endif %}
 
+                        {% if all_declarations %}
                         <section id="transport" class="profile-section">
                             <div class="profile-section__header">
                                 <div class="title-wrap">
@@ -912,6 +943,7 @@
                                 </button>
                             </div>
                         </section>
+                        {% endif %}
                     </div>
                     <div class="column-right">
                         <section id="criminal" class="profile-section">
@@ -975,10 +1007,10 @@
                                                 міжнародну банківську
                                                 систему </h6>
                                             <span class="icon">
-                            <svg>
-                                <use xlink:href="#arr-right"></use>
-                            </svg>
-                        </span>
+                                                <svg>
+                                                    <use xlink:href="#arr-right"></use>
+                                                </svg>
+                                            </span>
                                         </div>
                                     </article>
                                     <article class="blog-card blog-card--with-img">
@@ -993,10 +1025,10 @@
                                                 міжнародну банківську
                                                 систему </h6>
                                             <span class="icon">
-                            <svg>
-                                <use xlink:href="#arr-right"></use>
-                            </svg>
-                        </span>
+                                                <svg>
+                                                    <use xlink:href="#arr-right"></use>
+                                                </svg>
+                                            </span>
                                         </div>
                                     </article>
                                 </div>
@@ -1013,6 +1045,7 @@
                             </div>
                         </section>
 
+                        {% if workplaces %}
                         <section id="career" class="profile-section">
                             <div class="profile-section__header">
                                 <div class="title-wrap">
@@ -1089,7 +1122,9 @@
                                 </button>
                             </div>
                         </section>
+                        {% endif %}
 
+                        {% if person.wiki_en or person.wiki_uk %}
                         <section id="dossier" class="profile-section">
                             <div class="profile-section__header">
                                 <div class="title-wrap">
@@ -1128,6 +1163,7 @@
                                 </button>
                             </div>
                         </section>
+                        {% endif %}
 
                         {% set bank_accounts = related_companies.banks %}
                         {% if bank_accounts %}
@@ -1255,12 +1291,16 @@
         </button>
         <div class="side-menu__container">
             <ul class="links-wrap">
+                {% if related_persons.all %}
                 <li>
-                    <a href="#relation_with_individual">ЗВ’ЯЗКИ з фізичними особами</a>
+                    <a href="#relation_with_individual">{{_("ЗВ’ЯЗКИ з фізичними особами")}}</a>
                 </li>
+                {% endif %}
+                {% if related_companies.rest %}
                 <li>
-                    <a href="#relation_with_entities">ЗВ’ЯЗКИ з ЮРИДИЧНИМИ особами</a>
+                    <a href="#relation_with_entities">{{_("ЗВ’ЯЗКИ з юридичними особами")}}</a>
                 </li>
+                {% endif %}
                 <li>
                     <a href="#declarations">ДОХОДИ ТА ВИТРАТИ</a>
                 </li>
@@ -1279,35 +1319,51 @@
                 <li>
                     <a href="#transport">ТРАНСПОРТНІ ЗАСОБИ</a>
                 </li>
-                <li>
-                    <a href="#clriminal">КРИМІНАЛЬНІ ПРОВАДЖЕННЯ ТА САНКЦІЇ</a>
-                </li>
+                {% if LANGUAGE_CODE == "en" %}
+                    {% if person.reputation_sanctions_en or person.reputation_crimes_en or person.reputation_manhunt_en or person.reputation_convictions_en or person.reputation_sanctions_uk or person.reputation_crimes_uk or person.reputation_manhunt_uk or person.reputation_convictions_uk or manhunt_records %}
+                        <li>
+                            <a href="#clriminal">{{_("КРИМІНАЛЬНІ ПРОВАДЖЕННЯ ТА САНКЦІЇ")}}</a>
+                        </li>
+                    {% endif %}
+                {% else %}
+                    {% if person.reputation_sanctions_uk or person.reputation_crimes_uk or person.reputation_manhunt_uk or person.reputation_convictions_uk or manhunt_records %}
+                    
+                        <li>
+                            <a href="#clriminal">{{_("КРИМІНАЛЬНІ ПРОВАДЖЕННЯ ТА САНКЦІЇ")}}</a>
+                        </li>
+                    {% endif %}
+                {% endif %}
                 <li>
                     <a href="#investigations">РОЗСЛІДУВАННЯ</a>
                 </li>
+                {% if workplaces %}
                 <li>
                     <a href="#career">КАР’ЄРА</a>
                 </li>
+                {% endif %}
                 {% if LANGUAGE_CODE == "en" %}
                     {% if person.wiki_en or person.wiki_uk %}
                         <li>
-                            <a href="#dossier">ДОСЬЄ</a>
+                            <a href="#dossier">{{ _("Досьє") }}</a>
                         </li>
                     {% endif %}
                 {% else %}
                     {% if person.wiki_uk %}
-                        <li><a href="#profile" class="btn btn-transp trans"><i class="fa fa-briefcase"></i><span>{{ _("Досьє") }}</span></a></li>
+                        <li>
+                            <a href="#dossier">{{ _("Досьє") }}</a>
+                        </li>
                     {% endif %}
                 {% endif %}
-                <li>
-                    <a href="#dossier">ДОСЬЄ</a>
-                </li>
+                {% if related_companies.banks %}
                 <li>
                     <a href="#bank-accounts">БАНКІВСЬКІ РАХУНКИ</a>
                 </li>
+                {% endif %}
+                {% if any_documents %}
                 <li>
                     <a href="#documents">ДОКУМЕНТИ</a>
                 </li>
+                {% endif %}
             </ul>
         </div>
     </div>
