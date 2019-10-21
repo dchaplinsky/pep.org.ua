@@ -172,9 +172,9 @@ function drawChart() {
         if (selection.length) {
             $('#cashAssets-pie-popup').addClass('show');
             cashAssetsPieChart.draw(dataDeclarationsPieChart, pieOptions);
-
-            // var year = data.getValue(selection[0].row, 0);
+            var year = data.getValue(selection[0].row, 0);
             // var count = data.getValue(selection[0].row, selection[0].column);
+            alert(year);
             // alert(year + ': ' + count);
             // console.log(year + ': ' + count);
         }
@@ -192,9 +192,9 @@ function drawChart() {
 
             $('#declarations-pie-popup').addClass('show')
             declarationPieChart.draw(dataDeclarationsPieChart, pieOptions);
-            // var year = data.getValue(selection[0].row, 0);
+            var year = dataDeclarationsLineChart.getValue(selection[0].row, 0);
             // var count = data.getValue(selection[0].row, selection[0].column);
-            // alert(year + ': ' + count);
+            alert(year);
             // alert(count);
             // console.log(year + ': ' + count);
         }

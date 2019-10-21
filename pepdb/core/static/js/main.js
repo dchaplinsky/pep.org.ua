@@ -120,7 +120,7 @@ $(document).ready(function () {
     }
 
     // profiles filters
-    $('.profiles-filters a').on('click', function (e) {
+    $('.profiles-filters button').on('click', function (e) {
         e.preventDefault();
         if ($(this).attr('id') == 'individuals-filter') {
             $(this).addClass('active');
@@ -274,18 +274,24 @@ $(document).ready(function () {
 
     $('.chart-popup__close').on('click', function () {
         $(this).parents('.chart-popup').removeClass('show');
-    })
+    });
 
     // open dossier modal
     $('#show-dossier').on('click', function () {
         $('#dossier-modal').addClass('modal--open');
         $('body').addClass('modal-open');
-    })
+    });
 
     // open criminal modal
     $('#show-criminal-story').on('click', function () {
         $('#criminal-modal').addClass('modal--open');
         $('body').addClass('modal-open');
-    })
+    });
+
+    // open visualization modal
+    $('.visualization-btn').on('click', function () {
+        $('#visualization-modal').addClass('modal--open');
+        $('body').addClass('modal-open');
+    });
 
 });
