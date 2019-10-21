@@ -107,7 +107,19 @@
                         </li>
                     </ul>
                 </nav>
-                <button class="lang">En</button>
+                {% for lang in LANGUAGES if request.path.startswith("/" + LANGUAGE_CODE + "/") and lang.0 != LANGUAGE_CODE %}
+                    <form action="{{ url("set_language") }}" method="POST">
+                        {% csrf_token %}
+                        {# Ugly! #}
+                        {% if request.path.startswith("/" + LANGUAGE_CODE + "/") %}
+                            <input type="hidden" name="next" value="{{ request.path.replace("/" + LANGUAGE_CODE + "/", "/" + lang.0 + "/", 1) }}{% if request.GET %}?{% endif %}{{ request.GET.urlencode() }}" />
+                        {% else %}
+                            <input type="hidden" name="next" value="/" />
+                        {% endif %}
+                        <input type="hidden" name="language" value="{{ lang.0 }}" />
+                        <button class="lang">{{ lang.0 }}</button>
+                    </form>
+                {% endfor %}
                 <button class="burger-btn"></button>
             </div>
         </div>
@@ -219,6 +231,38 @@
     </footer>
     
     {% javascript 'js_all' %}
+    {% if SITEHEART_ID %}
+        <!-- Start SiteHeart code -->
+        <script>
+        (function(){
+        var widget_id = {{ SITEHEART_ID }};
+        _shcp =[{widget_id : widget_id}];
+        var lang =(navigator.language || navigator.systemLanguage 
+        || navigator.userLanguage ||"en")
+        .substr(0,2).toLowerCase();
+        var url ="widget.siteheart.com/widget/sh/"+ widget_id +"/"+ lang +"/widget.js";
+        var hcc = document.createElement("script");
+        hcc.type ="text/javascript";
+        hcc.async =true;
+        hcc.src =("https:"== document.location.protocol ?"https":"http")
+        +"://"+ url;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hcc, s.nextSibling);
+        })();
+        </script>
+        <!-- End SiteHeart code -->
+    {% endif %}
+    {% if GA_ID %}
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', '{{ GA_ID }}', 'auto');
+          ga('send', 'pageview');
+        </script>
+    {% endif %}
 </body>
 
 </html>

@@ -1,17 +1,17 @@
 {% macro render_person_banks(connections) %}
 	{% for company in companies %}
 		{% set countries = company.to_company.foreign_registration %}
-	    <tr>
+	    <tr itemscope itemtype="http://schema.org/Organization" itemprop="affiliation">
 	        <td class="no-wrap">
 	            <div class="name-wrap">
 	                <div class="flags">
-                		{% for country in countries %}
-	                    	<img src="img/flag-{{ country.to_country.iso3|lower }}.svg" alt="flag">
-	                   	{% endfor %}
+	                	{% for country in countries %}
+	                    	<img src="{{ static('images/flags/') }}{{ country.to_country.iso3|lower }}.svg" alt="{{ country.to_country.name }}">
+	                    {% endfor %}
 	                </div>
-	                <p class="name name-entities"><a href="{{ company.to_company.get_absolute_url() }}">{{ company.to_company }}</a></p>
+	                <p class="name name-entities" itemprop="name"><a href="{{ company.to_company.get_absolute_url() }}">{{ company.to_company }}</a></p>
 	            </div>
-	        </td>	        <td class="no-wrap">{% if company.to_company.edrpou %}{{ company.to_company.edrpou }}{% endif %}</td>
+	        </td>	        <td class="no-wrap" itemprop="taxID">{% if company.to_company.edrpou %}{{ company.to_company.edrpou }}{% endif %}</td>
 	        <td class="no-wrap">{{ company.relationship_type }}</td>
 	        <td class="no-wrap">
 	            <button class="toggle-row-btn">
@@ -43,7 +43,7 @@
 	            <div class="name-wrap">
 	                <div class="flags">
 	                	{% for country in countries %}
-	                    	<img src="img/flag-{{ country.to_country.iso3|lower }}.svg" alt="{{ country.to_country.name }}">
+	                    	<img src="{{ static('images/flags/') }}{{ country.to_country.iso3|lower }}.svg" alt="{{ country.to_country.name }}">
 	                    {% endfor %}
 	                </div>
 	                <p class="name"><a href="{{ person.get_absolute_url() }}">{{ person.last_name }} {{ person.first_name }} {{ person.patronymic }}</a></p>
@@ -100,9 +100,9 @@
 	        <td class="no-wrap">
 	            <div class="name-wrap">
 	                <div class="flags">
-                		{% for country in countries %}
-	                    	<img src="img/flag-{{ country.to_country.iso3|lower }}.svg" alt="flag">
-	                   	{% endfor %}
+	                	{% for country in countries %}
+	                    	<img src="{{ static('images/flags/') }}{{ country.to_country.iso3|lower }}.svg" alt="{{ country.to_country.name }}">
+	                    {% endfor %}
 	                </div>
 	                <p class="name name-entities"><a href="{{ company.to_company.get_absolute_url() }}">{{ company.to_company }}</a></p>
 	            </div>
