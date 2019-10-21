@@ -388,6 +388,7 @@ $(function() {
             $(anchor).modal().on('shown.bs.modal', function(e) {
                 init_full(elements);
             });
+            $("#pep-graph-tree").css("visibility", "visible").css("z-index", "2000");
         }).find("i").removeClass("hidden");
         init_preview(elements);
     });
