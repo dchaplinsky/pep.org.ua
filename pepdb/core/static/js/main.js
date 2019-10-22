@@ -75,7 +75,8 @@ $(document).ready(function () {
 
     // first section bg
     if ($('div').is('#particles-js')) {
-        particlesJS.load('particles-js', 'js/particlesjs-config.json', function () {
+        console.log($(location).attr('href') + '/static/js/particlesjs-config.json');
+        particlesJS.load('particles-js', $(location).attr('origin') + '/static/js/particlesjs-config.json', function () {
         });
     }
 

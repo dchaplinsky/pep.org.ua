@@ -281,6 +281,7 @@ PIPELINE = {
                 "js/main.js",
                 "js/simplebar.js",
                 "js/slick.min.js",
+                "js/particles.min.js"
             ),
             'output_filename': 'js/merged.js',
         },

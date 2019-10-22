@@ -46,6 +46,8 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/static/images/favicon/ms-icon-144x144.png") }}>
     <meta name="theme-color" content="#ffffff">
+    {% block head %}
+    {% endblock %}
 </head>
 
 {% set calling_page = page.url if page else "" %}
@@ -60,8 +62,9 @@
                     <img src="{{ static('images/logo.svg') }}" alt="Logo">
                 </a>
                 <div class="form-wrap">
-                    <form action="" class="search-form">
-                        <input type="text" placeholder="{{ _('Введіть ім’я, назву компанії ...') }}">
+                    <form action="{{ url("search") }}" method="GET" class="search-form">
+                        <input type="text" placeholder="{{ _("Введіть ім'я або назву компанії") }}" name="q" data-provide="typeahead" id="search-form" autocomplete="off" data-endpoint="{{ url("suggest") }}">
+                        <input type="hidden" name="is_exact" value="" />
                         <ul class="search-dropdown">
                             <li><a href="person.html">Олександр Вікторович <strong>Яну</strong>кович</a></li>
                             <li><a href="person.html">Людмила Олександрівна <strong>Яну</strong>кович</a></li>
@@ -88,22 +91,22 @@
                 <nav class="menu">
                     <ul class="menu__list">
                         <li class="menu__list-item">
-                            <a href="{{ url('wagtail_serve', 'pitannya-ta-vidpovid/') }}" class="qa-item" title="{{ _("Про реєстр") }}">Про реєстр</a>
+                            <a href="{{ url('wagtail_serve', 'pitannya-ta-vidpovid/') }}" class="qa-item" title="{{ _("Про реєстр") }}">{{ _("Про реєстр") }}</a>
                         </li>
                         <li class="menu__list-item">
-                            <a href="blogs.html">Блог</a>
+                            <a href="blogs.html">{{_("Блог")}}</a>
                         </li>
                         <li class="menu__list-item">
-                            <a href="investigations.html">Розслідування</a>
+                            <a href="investigations.html">{{_("Розслідування")}}</a>
                         </li>
                         <li class="menu__list-item">
-                            <a href="contacts.html">Контакти</a>
+                            <a href="contacts.html">{{_("Контакти")}}</a>
                         </li>
                         <li class="menu__list-item">
-                            <a href="api.html">API</a>
+                            <a href="api.html">{{_("API")}}</a>
                         </li>
                         <li class="menu__list-item">
-                            <a href="scoring.html">Scoring</a>
+                            <a href="scoring.html">{{_("Scoring")}}</a>
                         </li>
                     </ul>
                 </nav>

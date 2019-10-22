@@ -3,6 +3,10 @@
 
 {% set last_workplace = person.translated_last_workplace %}
 
+{% block head %}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+{% endblock %}
+
 {% block og_tags %}
     {% if person.photo %}
         <meta property="og:image" content="{{ SITE_URL }}{{ person.photo.url }}" />
@@ -1008,45 +1012,87 @@
                         {% endif %}
                     </div>
                     <div class="column-right">
-                        <section id="criminal" class="profile-section">
-                            <div class="profile-section__header">
-                                <div class="title-wrap">
-                                    <img src="{{ static('images/icon-criminal.svg') }}" alt="icon" class="icon">
-                                    <h6 class="title">{{ _("Кримінальні провадження та санкції:") }}</h6>
-                                </div>
-                            </div>
-                            <div class="profile-section__body">
-                                <p class="criminal-status">
-                                    {% if person.reputation_sanctions_uk %}
-                                    <h4>{{ _("Санкції") }}</h4>
-                                    {{ person.reputation_sanctions_uk|richtext }}
-                                    {% endif %}
-                                    {% if person.reputation_crimes_uk %}
-                                        <h4>{{ _("Кримінальні провадження") }}</h4>
-                                        {{ person.reputation_crimes_uk|richtext }}
-                                    {% endif %}
-                                    {% if person.reputation_manhunt_uk or manhunt_records %}
-                                        <h4>{{ _("Перебування у розшуку") }}</h4>
-                                        {% include "_manhunt_records_uk.jinja" with context %}
-                                        {{ person.reputation_manhunt_uk|richtext }}
-                                    {% endif %}
-                                    {% if person.reputation_convictions_uk %}
-                                        <h4>{{ _("Наявність судимості") }}</h4>
-                                        {{ person.reputation_convictions_uk|richtext }}
-                                    {% endif %}
-                                </p>
-                            </div>
-                            <div class="profile-section__footer">
-                                <button id="show-criminal-story" class="more-link">
-                                    <span class="icon">
-                                        <svg>
-                                            <use xlink:href="#arr-right-w2"></use>
-                                        </svg>
-                                    </span>
-                                    {{_("Читати більше")}}
-                                </button>
-                            </div>
-                        </section>
+                        {% if LANGUAGE_CODE == "en" %}
+                            {% if person.reputation_sanctions_en or person.reputation_crimes_en or person.reputation_manhunt_en or person.reputation_convictions_en or person.reputation_sanctions_uk or person.reputation_crimes_uk or person.reputation_manhunt_uk or person.reputation_convictions_uk or manhunt_records %}
+                                <section id="criminal" class="profile-section en">
+                                    <div class="profile-section__header">
+                                        <div class="title-wrap">
+                                            <img src="{{ static('images/icon-criminal.svg') }}" alt="icon" class="icon">
+                                            <h6 class="title">{{ _("Кримінальні провадження та санкції:") }}</h6>
+                                        </div>
+                                    </div>
+                                    <div class="profile-section__body">
+                                        <p class="criminal-status">
+                                            {% if person.reputation_sanctions_en %}
+                                                {{ person.reputation_sanctions_en|richtext }}
+                                            {% endif %}
+                                            {% if person.reputation_crimes_en %}
+                                                {{ person.reputation_crimes_en|richtext }}
+                                            {% endif %}
+                                            {% if person.reputation_manhunt_en or manhunt_records %}
+                                                {% include "_manhunt_records_en.jinja" with context %}
+                                                {{ person.reputation_manhunt_en|richtext }}
+                                            {% endif %}
+                                            {% if person.reputation_convictions_en %}
+                                                {{ person.reputation_convictions_en|richtext }}
+                                            {% endif %}
+
+                                            {% if person.reputation_sanctions_uk or person.reputation_crimes_uk or person.reputation_manhunt_uk or person.reputation_convictions_uk %}
+                                                <a href="{{ person.url_uk }}#reputation">more information is available in Ukrainian version of the dossier</a>
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                    <div class="profile-section__footer">
+                                        <button id="show-criminal-story" class="more-link">
+                                            <span class="icon">
+                                                <svg>
+                                                    <use xlink:href="#arr-right-w2"></use>
+                                                </svg>
+                                            </span>
+                                            {{_("Читати більше")}}
+                                        </button>
+                                    </div>
+                                </section>
+                            {% endif %}
+                        {% else %}
+                            {% if person.reputation_sanctions_uk or person.reputation_crimes_uk or person.reputation_manhunt_uk or person.reputation_convictions_uk or manhunt_records %}
+                                <section id="criminal" class="profile-section">
+                                    <div class="profile-section__header">
+                                        <div class="title-wrap">
+                                            <img src="{{ static('images/icon-criminal.svg') }}" alt="icon" class="icon">
+                                            <h6 class="title">{{ _("Кримінальні провадження та санкції:") }}</h6>
+                                        </div>
+                                    </div>
+                                    <div class="profile-section__body">
+                                        <p class="criminal-status">
+                                            {% if person.reputation_sanctions_uk %}
+                                                {{ person.reputation_sanctions_uk|richtext }}
+                                            {% endif %}
+                                            {% if person.reputation_crimes_uk %}
+                                                {{ person.reputation_crimes_uk|richtext }}
+                                            {% endif %}
+                                            {% if person.reputation_manhunt_uk or manhunt_records %}
+                                                {% include "_manhunt_records_uk.jinja" with context %}
+                                                {{ person.reputation_manhunt_uk|richtext }}
+                                            {% endif %}
+                                            {% if person.reputation_convictions_uk %}
+                                                {{ person.reputation_convictions_uk|richtext }}
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                    <div class="profile-section__footer">
+                                        <button id="show-criminal-story" class="more-link">
+                                            <span class="icon">
+                                                <svg>
+                                                    <use xlink:href="#arr-right-w2"></use>
+                                                </svg>
+                                            </span>
+                                            {{_("Читати більше")}}
+                                        </button>
+                                    </div>
+                                </section>
+                            {% endif %}
+                        {% endif %}
 
                         <section id="investigations" class="profile-section">
                             <div class="profile-section__header">
@@ -1075,7 +1121,7 @@
                                     </article>
                                     <article class="blog-card blog-card--with-img">
                                         <a href="investigation-single.html" class="card-link"></a>
-                                        <img src="content/card-bg.png') }}" alt="img">
+                                        <img src="{{ static('images/card-bg.png') }}" alt="img">
                                         <div class="blog-card__header">
                                             <span class="direction">{{_("Розслідування")}}</span>
                                             <time class="date">20.08.2019</time>
@@ -1279,7 +1325,7 @@
                         </section>
                         {% endif %}
 
-                        {% if documents %}
+                        {% if any_documents %}
                         <section id="documents" class="profile-section">
                             <div class="profile-section__header">
                                 <div class="title-wrap">
@@ -1288,14 +1334,16 @@
                                 </div>
                             </div>
                             <div class="profile-section__body">
-                                {% for proof_category in documents if documents[proof_category] -%}
-                                <h6 class="documents-type">{{ proof_category }}</h6>
-                                <ul class="documents-list">
-                                    {% for doc in documents[proof_category] %}
-                                        <li><a href="{{ doc.proof_document.doc.url }}" target="_blank">{{ doc.proof_document.name|default(_("Посилання"), true) }}</a></li>
+                                <div>
+                                    {% for proof_category in documents if documents[proof_category] -%}
+                                    <h6 class="documents-type">{{ proof_category }}</h6>
+                                    <ul class="documents-list">
+                                        {% for doc in documents[proof_category] %}
+                                            <li><a href="{{ doc.proof_document.doc.url }}" target="_blank">{{ doc.proof_document.name|default(_("Посилання"), true) }}</a></li>
+                                        {% endfor %}
+                                    </ul>
                                     {% endfor %}
-                                </ul>
-                                {% endfor %}
+                                </div>
                             </div>
                             <div class="profile-section__footer">
                                 <button class="more-btn">
@@ -1490,22 +1538,42 @@
                         </div>
                         <div class="dossier-modal__body">
                             <p>
-                                {% if person.reputation_sanctions_uk %}
-                                <h4>{{ _("Санкції") }}</h4>
-                                {{ person.reputation_sanctions_uk|richtext }}
-                                {% endif %}
-                                {% if person.reputation_crimes_uk %}
-                                    <h4>{{ _("Кримінальні провадження") }}</h4>
-                                    {{ person.reputation_crimes_uk|richtext }}
-                                {% endif %}
-                                {% if person.reputation_manhunt_uk or manhunt_records %}
-                                    <h4>{{ _("Перебування у розшуку") }}</h4>
-                                    {% include "_manhunt_records_uk.jinja" with context %}
-                                    {{ person.reputation_manhunt_uk|richtext }}
-                                {% endif %}
-                                {% if person.reputation_convictions_uk %}
-                                    <h4>{{ _("Наявність судимості") }}</h4>
-                                    {{ person.reputation_convictions_uk|richtext }}
+                                {% if LANGUAGE_CODE == "en" %}
+                                    {% if person.reputation_sanctions_en or person.reputation_crimes_en or person.reputation_manhunt_en or person.reputation_convictions_en or person.reputation_sanctions_uk or person.reputation_crimes_uk or person.reputation_manhunt_uk or person.reputation_convictions_uk or manhunt_records %}
+                                        {% if person.reputation_sanctions_en %}
+                                            {{ person.reputation_sanctions_en|richtext }}
+                                        {% endif %}
+                                        {% if person.reputation_crimes_en %}
+                                            {{ person.reputation_crimes_en|richtext }}
+                                        {% endif %}
+                                        {% if person.reputation_manhunt_en or manhunt_records %}
+                                            {% include "_manhunt_records_en.jinja" with context %}
+                                            {{ person.reputation_manhunt_en|richtext }}
+                                        {% endif %}
+                                        {% if person.reputation_convictions_en %}
+                                            {{ person.reputation_convictions_en|richtext }}
+                                        {% endif %}
+
+                                        {% if person.reputation_sanctions_uk or person.reputation_crimes_uk or person.reputation_manhunt_uk or person.reputation_convictions_uk %}
+                                            <p><a href="{{ person.url_uk }}#reputation">more information is available in Ukrainian version of the dossier</a></p>
+                                        {% endif %}
+                                    {% endif %}
+                                {% else %}
+                                    {% if person.reputation_sanctions_uk or person.reputation_crimes_uk or person.reputation_manhunt_uk or person.reputation_convictions_uk or manhunt_records %}
+                                        {% if person.reputation_sanctions_uk %}
+                                            {{ person.reputation_sanctions_uk|richtext }}
+                                        {% endif %}
+                                        {% if person.reputation_crimes_uk %}
+                                            {{ person.reputation_crimes_uk|richtext }}
+                                        {% endif %}
+                                        {% if person.reputation_manhunt_uk or manhunt_records %}
+                                            {% include "_manhunt_records_uk.jinja" with context %}
+                                            {{ person.reputation_manhunt_uk|richtext }}
+                                        {% endif %}
+                                        {% if person.reputation_convictions_uk %}
+                                            {{ person.reputation_convictions_uk|richtext }}
+                                        {% endif %}
+                                    {% endif %}
                                 {% endif %}
                             </p>
                         </div>

@@ -115,7 +115,7 @@ $(function() {
             $.get($("#search-form").data("endpoint"), {
                     "q": query
                 })
-                .success(function(data) {
+                .done(function(data) {
                     process(data);
                 })
         },
