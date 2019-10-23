@@ -190,37 +190,35 @@
                 <div class="scoring">
                     <div class="scoring__header">
                         <div class="content">
-                            <h6 class="scoring__title">Скоринг ризику</h6>
+                            <h6 class="scoring__title">{{ _("Скоринг ризику") }}</h6>
                             <!-- добавлять класс index--N, где N - номер индекса от 1 до 10 -->
+                            <!-- а что делать для тех, у которых скор — 0 -->
                             <div class="progressbar">
-                                <span class="index index--4">4</span>
+                                <span class="index index--{{ scoring_score|round|int }}">{{ scoring_score }}</span>
                             </div>
+
+                            {% if scoring_flags %}
                             <button class="scoring__btn">
-                                Розгорнути
+                                {{ _("Розгорнути") }}
                                 <svg>
                                     <use xlink:href="#arr-right-w2"></use>
                                 </svg>
                             </button>
+                            {% endif %}
                         </div>
                     </div>
+                    {% if scoring_flags %}
                     <div class="scoring__body content">
-                        <h6 class="scoring__title">ризики</h6>
+                        <h6 class="scoring__title">{{ _("ризики") }}</h6>
                         <ol class="scoring__list">
+                            {% for flag in scoring_flags %}
                             <li>
-                                <p><strong>1</strong> дитина не внесена до електронної декларації.</p>
+                                <p>{{ flag.comment|safe }}</p>
                             </li>
-                            <li>
-                                <p>Не зазначена вартість <strong>3</strong> об'єктів нерухомого майна.</p>
-                            </li>
-                            <li>
-                                <p>Сукупна готівка декларанта та членів родини <strong>4 107 929,77 грн</strong></p>
-                            </li>
-                            <li>
-                                <p><strong>2</strong> компанії, де є ймовірним бенефіціарним власником не зазначені в
-                                    декларації.</p>
-                            </li>
+                            {% endfor %}
                         </ol>
                     </div>
+                    {% endif %}
                 </div>
 
                 <div class="profile-page__blocks">

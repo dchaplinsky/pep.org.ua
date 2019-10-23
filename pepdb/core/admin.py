@@ -60,6 +60,7 @@ from core.models import (
     DeclarationToLink,
     DeclarationToWatch,
     CompanyCategories,
+    Rule,
 )
 
 from core.forms import EDRImportForm, ForeignImportForm, ZIPImportForm
@@ -1573,6 +1574,22 @@ class Person2CompanyAdmin(TranslationAdmin):
         return False
 
 
+class RuleAdmin(TranslationAdmin):
+    list_display = [
+        "pk",
+        "get_id_display",
+        "template_uk",
+        "template_en",
+        "weight",
+
+    ]
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_add_permission(self, request):
+        return False
+
 admin.site.register(Person, PersonAdmin)
 admin.site.register(Company, CompanyAdmin)
 admin.site.register(Country, CountryAdmin)
@@ -1586,6 +1603,8 @@ admin.site.register(ActionLog, ActionLogAdmin)
 admin.site.register(LogEntry, LogEntryAdmin)
 admin.site.register(Person2Company, Person2CompanyAdmin)
 admin.site.register(CompanyCategories, CompanyCategoriesAdmin)
+admin.site.register(Rule, RuleAdmin)
 
 admin.site.unregister(TOTPDevice)
 admin.site.register(TOTPDevice, RiggedTOTPDeviceAdmin)
+

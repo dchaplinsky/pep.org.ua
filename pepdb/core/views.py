@@ -16,7 +16,6 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.apps import apps
-from django.db.models import Count, F
 from django.conf import settings
 from django.views.decorators.cache import never_cache
 
@@ -337,10 +336,14 @@ def _search_related(request):
 @pdf_response("person.jinja")
 def person_details(request, person_id):
     person = get_object_or_404(Person, pk=person_id)
+
+    flags_qs = person.flags.select_related("rule").order_by("rule__id")
     context = {
         "person": person,
         "query": "",
         "all_declarations": person.get_declarations(),
+        "scoring_score": sum(flags_qs.values_list("rule__weight", flat=True)),
+        "scoring_flags": flags_qs.all()
     }
 
     full_name = "%s %s %s" % (
@@ -368,18 +371,7 @@ def countries(request, sources=("persons", "companies"), country_id=None):
     if country_id is not None:
         country = get_object_or_404(Country, iso2=country_id)
 
-    used_countries = (
-        Country.objects.annotate(
-            persons_count=Count("person2country", distinct=True),
-            companies_count=Count("company2country", distinct=True),
-        )
-        .annotate(usages=F("persons_count") + F("companies_count"))
-        .exclude(usages=0)
-        .exclude(iso2="")
-        .order_by("-usages")
-    )
-
-    params = {"used_countries": used_countries, "country": country}
+    params = {"country": country}
 
     if "persons" in sources:
         if country_id is None:

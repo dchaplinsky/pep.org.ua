@@ -1,7 +1,6 @@
 # coding: utf-8
 from __future__ import unicode_literals
 
-from datetime import datetime
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -26,6 +25,7 @@ from core.model.connections import (
     Company2Country,
     RelationshipProof,
 )
+from core.model.flags import Rule, Flag
 from core.model.supplementaries import ActionLog, Document, FeedbackMessage
 
 __all__ = [
@@ -49,6 +49,8 @@ __all__ = [
     DeclarationToLink,
     DeclarationToWatch,
     CompanyCategories,
+    Rule,
+    Flag
 ]
 
 
