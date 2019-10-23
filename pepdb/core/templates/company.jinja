@@ -1,10 +1,9 @@
 {% extends "base.jinja" %}
-{% from "macros/_connections.jinja" import render_connection, render_company_persons, render_related_persons, render_company_companies with context %}
+{% from "macros/_connections.jinja" import render_person_banks, render_related_persons, render_person_companies, render_company_persons, render_company_companies with context %}
 {% from "macros/_articles.jinja" import render_article_snippet with context %}
+{% block page_class %}profile-page{% endblock %}
 
-{% block body_class %}not-front profile-page company-profile page{% endblock %}
-
-{% block page_title %}{{ company.name }} {% endblock %}
+{% block page_description %}{{ company.name }} {% endblock %}
 
 {% block extra_menu %}
     {% if request.user.is_superuser %}
@@ -27,112 +26,99 @@
 {% set documents = company.all_documents %}
 {% set any_documents = documents.values()|map("length")|sum %}
 
+    <main>
+        <div class="profile-page__content" itemscope itemtype="http://schema.org/Organization">
+            <div class="profile-page__header">
+                <div class="breadcrumbs-wrap">
+                    <ul class="breadcrumbs">
+                        <li>
+                            <a href="{{ url("wagtail_serve", "") }}">{{ _("Головна") }}</a>
+                        </li>
+                        <li>
+                            <a href="{{ url('countries_home') }}">{{ _("Публічні діячі") }}</a>
+                        </li>
+                        <li>
+                            <span class="name">{{ company.name }}</span>
+                        </li>
+                    </ul>
+                    {% set last_modified = company.last_modified %}
+                    {% if last_modified %}
+                        <div class="last_modified">
+                            <div class="date">Остання зміна профілю:
+                                <time>{{ last_modified|date }}</time>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="profile-actions">
+                    <a href="" class="pdf" title="pdf">
+                        PDF
+                    </a>
+                    <a href="" class="print" title="print">
+                        <svg>
+                            <use xlink:href="#print"></use>
+                        </svg>
+                    </a>
+                </div>
+            </div>
 
-<div class="container" itemscope itemtype="http://schema.org/Organization">
-    <div class="row">
-        <div id="breadcrumbs">
-            <ol class="breadcrumb">
-                <li><a href="{{ url("wagtail_serve", "") }}">{{ _("Головна") }}</a></li>
-                <li class="active">{{ _("Публічні діячі") }}</li>
-                <li class="active">{{ company.name }}</li>
-            </ol>
-        </div>
-        <aside id="profile-nav" role="complementary" class="col-sm-2 hidden-xs">
-            <ul id="side-profilemenu">
-                <li><a href="#personal" class="btn btn-transp trans"><i class="fa fa-info"></i><span>{{ _("Дані юридичної особи") }}</span></a></li>
-                {% if related_persons.founders or related_companies.founders or
-                   (company.other_founders_en and LANGUAGE_CODE == "en") or (company.other_owners_en and LANGUAGE_CODE == "en") or 
-                   (company.other_founders_uk and LANGUAGE_CODE == "uk") or (company.other_owners_uk and LANGUAGE_CODE == "uk") %}
-                <li><a href="#founders" class="btn btn-transp trans"><i class="fa fa-male"></i><span>{{ _("Засновники") }}</span></a></li>
-                {% endif %}
+            <div class="profile-page__body">
 
-                {% if related_persons.managers or
-                    (company.other_managers_en and LANGUAGE_CODE == "en") or
-                    (company.other_managers_uk and LANGUAGE_CODE == "uk") %}
-                <li><a href="#managers" class="btn btn-transp trans"><i class="fa fa-users"></i><span>{{ _("Керівництво") }}</span></a></li>
-                {% endif %}
-
-                {% if related_persons.bank_customers or related_persons.rest or related_countries.rest or related_companies.rest %}
-                <li><a href="#connections" class="btn btn-transp trans"><i class="fa fa-heart"></i><span>{{ _("Зв'язки") }}</span></a></li>
-                {% endif %}
-
-                {% if 
-                        ((company.wiki_en or company.wiki_uk)  and LANGUAGE_CODE == "en") or
-                        ((company.sanctions_en or company.sanctions_uk) and LANGUAGE_CODE == "en") or
-                        (company.wiki_uk and LANGUAGE_CODE == "uk") or
-                        (company.sanctions_uk and LANGUAGE_CODE == "uk") or
-                        related_persons.sanctions %}
-                <li><a href="#dossier" class="btn btn-transp trans"><i class="fa fa-briefcase"></i><span>{{ _("Досьє") }}</span></a></li>
-                {% endif %}
-
-                {% if related_companies.banks or (company.bank_name_en and LANGUAGE_CODE == "en") or (company.bank_name_uk and LANGUAGE_CODE == "uk") %}
-                <li><a href="#bank" class="btn btn-transp trans"><i class="fa fa-money"></i><span>{{ _("Банківські рахунки") }}</span></a></li>
-                {% endif %}
-                {% if any_documents %}
-                    <li><a href="#documents" class="btn btn-transp trans"><i class="fa fa-book"></i><span>{{ _("Документи та джерела") }}</span></a></li>
-                {% endif %}
-            </ul>
-        </aside>
-        <section id="profile" class="col-sm-8" data-url="{{ url('connections', 'company', company.pk) }}">
-            <link itemprop="url" href="{{ company.get_absolute_url() }}" />
-            <div id="profile-wrap" class="box">
-                <ul class="profileActions">
-                    <li><a href="?format=pdf" class="tooltip-anchor" data-toggle="tooltip" data-placement="top" title="{{ _("Скачати PDF") }}" target="_blank"><i class="fa fa-file-pdf-o"></i></a></li>
-                    <li><a href="#" class="tooltip-anchor print-me" data-toggle="tooltip" data-placement="top" title="{{ _("Роздрукувати профайл") }}"><i class="fa fa-print"></i></a></li>
-                </ul>
-                <header class="profile-header">
-                    <h1 class="pep-name" itemprop="name">{{ company.name }}</h1>
-                </header>
-                <div id="personal" class="sub">
-                    <div class="table-responsive">
-                        <table class="table table-condensed">
-                            {% if company.edrpou %}
+                <div class="profile-page__top">
+                    <div class="side-menu-btn">
+                        <a href=""><span class="icon"></span>{{_("зміст")}}</a>
+                    </div>
+                    <div class="profile-image">
+                        <img src="{{ static('images/profile-empty-entities.svg') }}" alt="photo">
+                        {% if ((company.sanctions_en or company.sanctions_uk) and LANGUAGE_CODE == "en") or (company.sanctions_uk and LANGUAGE_CODE == "uk") %}
+                        <div class="icon">
+                            <svg>
+                                <use xlink:href="#block"></use>
+                            </svg>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="profile-main-info">
+                        <h1 class="profile-name" itemprop="name">{{ company.name }}</h1>
+                        <table>
+                            <tbody>
                             <tr>
-                                {% if related_countries.registered_in and related_countries.registered_in[0].iso2 != "UA" %}
-                                    <td>{{ _("Реєстраційний №") }} </td>
-                                {% else %}
-                                    <td>{{ _("ЄДРПОУ") }} </td>
-                                {% endif %}
-                                <td><strong>{{ company.edrpou }}</strong></td>
-                            </tr>
-                            {% endif %}
-                            {% if company.also_known_as %}
-                            <tr>
-                                <td>{{ _("Також відома як") }}</td>
-                                <td itemprop="name">{{ company.also_known_as|replace("\n", "<br/>")|safe }}</td>
-                            </tr>
-                            {% endif %}
-                            {% if company.founded %}
-                            <tr>
-                                <td>{{ _("Дата створення") }} </td>
-                                <td><strong>{{ company.founded_human }}</strong></td>
-                            </tr>
-                            {% endif %}
-                            {% if company.status %}
-                            <tr>
-                                <td>{{ _("Поточний стан") }} </td>
-                                <td><strong>{{ _(company.get_status_display()) }}</strong>
-                                    {% if company.closed_on %}
-                                        {{ _("з") }} <strong>{{ company.closed_on_human }}</strong>
+                                <td>{{_("Категорія")}}</td>
+                                <td>
+                                    {% if company.state_company %}
+                                        {{_("Державна компанія чи установа")}}
+                                    {% else %}
+                                        {{_("Приватна компанія")}}
                                     {% endif %}
                                 </td>
                             </tr>
+                            {% if related_countries.registered_in and related_countries.registered_in[0].iso2 != "UA" %}
+                                <tr>
+                                    <td>{{ _("Реєстраційний №") }}</td>
+                                    <td>
+                                        {{ company.edrpou }}
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td>{{ _("ЄДРПОУ") }}</td>
+                                    <td>
+                                        {{ company.edrpou }}
+                                    </td>
+                                </tr>
                             {% endif %}
-                            {% if not company.legal_entity %}
                             <tr>
-                                <td colspan="2">{{ _("Не є окремою юридичною особою") }} </td>
+                                <td>{{ _("Поточний стан") }}</td>
+                                <td>
+                                    {{ _(company.get_status_display()) }}
+                                    {% if company.closed_on %}
+                                        {{ _(" з ") }} {{ company.closed_on_human }}
+                                    {% endif %}
+                                </td>
                             </tr>
-                            {% endif %}
-                            {% if related_countries.registered_in %}
                             <tr>
-                                <td>{{ _("Країна") }} </td>
-                                <td><strong>{{ related_countries.registered_in|first }}</strong></td>
-                            </tr>
-                            {% endif %}
-                            {% if company.zip_code or company.city or company.street or company.appt or company.raw_address %}
-                            <tr>
-                                <td>{{ _("Адреса") }} </td>
-                                <td><strong>
+                                <td>{{ _("Адреса") }}</td>
+                                <td>
                                     {% if company.zip_code -%}
                                         {{ company.zip_code }}, 
                                     {%- endif %}
@@ -148,235 +134,919 @@
                                     {% if company.raw_address -%}
                                         {{ company.raw_address }}
                                     {%- endif %}
-                                </strong></td>
+                                </td>
                             </tr>
-                            {% endif %}
-                            {% if company.other_recipient_en and LANGUAGE_CODE == "en" %}
-                            <tr>
-                                <td>{{ _("Бенефіціарний власник") }} </td>
-                                <td><strong>{{ company.other_recipient_en }}</strong></td>
-                            </tr>
-                            {% elif company.other_recipient_uk and LANGUAGE_CODE == "uk" %}
-                            <tr>
-                                <td>{{ _("Бенефіціарний власник") }} </td>
-                                <td><strong>{{ company.other_recipient_uk }}</strong></td>
-                            </tr>
-                            {% endif %}
+                            </tbody>
                         </table>
                     </div>
                 </div>
-                <a class="load-pep-modal-tree" data-target="#pep-graph-tree">
-                    <div id="cy-preview"></div>
-                    <i class="fa fa-search-plus hidden"></i>
-                </a>
 
-                <div class="modal fade" id="pep-graph-tree" tabindex="-1" role="dialog" aria-labelledby="pep-graph-tree-label">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title">{{ company.name }}
-                                    <span class="request_took" style="width: 200px; float: right; display: block; font-size: 0.8em; padding: 0 10px"></span>
-                                    <div class="loader" style="width: 100px; float: right; height: 20px"></div>
-                                </h4>
+                <div class="profile-page__blocks">
+                    <div class="column-left">
+                        {% if related_persons.managers %}
+                        <section id="leadership" class="profile-section">
+                            <div class="profile-section__header">
+                                <div class="title-wrap">
+                                    <img src="{{ static('images/icon-leadership.svg') }}" alt="icon" class="icon">
+                                    <h6 class="title">{{_("керівництво")}}</h6>
+                                </div>
+                                <a href="" class="download">
+                                    <svg>
+                                        <use xlink:href="#arr-down"></use>
+                                    </svg>
+                                </a>
                             </div>
-                            <div class="modal-body cy-wrapper">
-                                <div class="cy-full"></div>
+                            <div class="profile-section__body">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th class="no-wrap">{{_("Iм’я")}}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="no-wrap">{{_("Посада")}}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="no-wrap">{{_("Власність")}}, %
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="no-wrap">{{_("Перiод")}}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{ render_company_persons(related_persons.managers, True) }}
+                                    </tbody>
+                                </table>
                             </div>
+                            <div class="profile-section__footer">
+                                <button class="more-btn">
+                                    <span class="icon">
+                                        <svg>
+                                            <use xlink:href="#arr-right-w2"></use>
+                                        </svg>
+                                    </span>
+                                    <span class="more">{{_("Показати більше")}}</span>
+                                    <span class="less">{{_("Показати менше")}}</span>
+                                </button>
+
+                                <button class="visualization-btn">
+                                    <span class="icon">
+                                        <svg>
+                                            <use xlink:href="#visualization"></use>
+                                        </svg>
+                                    </span>
+                                    {{_("Візуалізація звязків")}}
+                                </button>
+                            </div>
+                        </section>
+                        {% endif %}
+
+                        {% if related_persons.all %}
+                        <section id="relation_with_public-actions" class="profile-section">
+                            <div class="profile-section__header">
+                                <div class="title-wrap">
+                                    <img src="{{ static('images/icon-individual.svg') }}" alt="icon" class="icon">
+                                    <h6 class="title">{{_("ПОВ’ЯЗАНІ ПУБЛІЧНІ ДІЯЧІ")}}</h6>
+                                </div>
+                                <a href="" class="download">
+                                    <svg>
+                                        <use xlink:href="#arr-down"></use>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="profile-section__body">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th class="no-wrap">{{_("Iм’я")}}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="no-wrap">{{_("Тип зв’язку")}}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th>{{_("Перiод")}}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{ render_related_persons(related_persons.all) }}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="profile-section__footer">
+                                <button class="more-btn">
+                                    <span class="icon">
+                                        <svg>
+                                            <use xlink:href="#arr-right-w2"></use>
+                                        </svg>
+                                    </span>
+                                    <span class="more">Показати більше</span>
+                                    <span class="less">Показати менше</span>
+                                </button>
+
+                                <button class="visualization-btn">
+                                    <span class="icon">
+                                        <svg>
+                                            <use xlink:href="#visualization"></use>
+                                        </svg>
+                                    </span>
+                                    Візуалізація звязків
+                                </button>
+                            </div>
+                        </section>
+                        {% endif %}
+
+                        {% if related_persons.rest %}
+                        <section id="structure" class="profile-section">
+                            <div class="profile-section__header">
+                                <div class="title-wrap">
+                                    <img src="{{ static('images/icon-structure.svg') }}" alt="icon" class="icon">
+                                    <h6 class="title">СТРУКТУРА</h6>
+                                </div>
+                                <a href="" class="download">
+                                    <svg>
+                                        <use xlink:href="#arr-down"></use>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="profile-section__body">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th class="no-wrap">{{_("Iм’я")}}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="no-wrap">{{_("Посада")}}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="no-wrap">{{("Власність, ")}}%
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="no-wrap">{{_("Перiод")}}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{ render_company_persons(related_persons.rest) }}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="profile-section__footer">
+                                <button class="more-btn">
+                                    <span class="icon">
+                                        <svg>
+                                            <use xlink:href="#arr-right-w2"></use>
+                                        </svg>
+                                    </span>
+                                    <span class="more">Показати більше</span>
+                                    <span class="less">Показати менше</span>
+                                </button>
+                            </div>
+                        </section>
+                        {% endif %}
+
+                        {% if related_companies.all %}
+                        <section id="relation_with_entities" class="profile-section">
+                            <div class="profile-section__header">
+                                <div class="title-wrap">
+                                    <img src="{{ static('images/icon-entities.svg') }}" alt="icon" class="icon">
+                                    <h6 class="title">{{_("ЗВ’ЯЗКИ з юридичними особами")}}</h6>
+                                </div>
+                                <a href="" class="download">
+                                    <svg>
+                                        <use xlink:href="#arr-down"></use>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="profile-section__body">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th class="no-wrap">{{_("Iм’я")}}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="no-wrap">{{_("Тип зв'язку")}}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th>{{_("Код")}}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{ render_company_companies(related_companies.all) }}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="profile-section__footer">
+                                <button class="more-btn">
+                                    <span class="icon">
+                                        <svg>
+                                            <use xlink:href="#arr-right-w2"></use>
+                                        </svg>
+                                    </span>
+                                    <span class="more">Показати більше</span>
+                                    <span class="less">Показати менше</span>
+                                </button>
+
+                                <button class="visualization-btn">
+                                    <span class="icon">
+                                        <svg>
+                                            <use xlink:href="#visualization"></use>
+                                        </svg>
+                                    </span>
+                                    Візуалізація звязків
+                                </button>
+                            </div>
+                        </section>
+                        {% endif %}
+
+                        {% if related_companies.banks %}
+                        <section id="bank-accounts" class="profile-section">
+                            <div class="profile-section__header">
+                                <div class="title-wrap">
+                                    <img src="{{ static('images/icon-banks.svg') }}" alt="icon" class="icon">
+                                    <h6 class="title">{{_("БАНКІВСЬКІ РАХУНКИ")}}</h6>
+                                </div>
+                                <a href="" class="download">
+                                    <svg>
+                                        <use xlink:href="#arr-down"></use>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="profile-section__body">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th class="no-wrap">{{_("Банк")}}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="no-wrap">{{_("ЄДРПОУ")}}
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                        {{ render_person_banks(related_companies.banks) }}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="profile-section__footer">
+                                <button class="more-btn more-btn--right-arr">
+                                    <span class="icon">
+                                        <svg>
+                                            <use xlink:href="#arr-right-w2"></use>
+                                        </svg>
+                                    </span>
+                                    <span class="more">Показати більше</span>
+                                    <span class="less">Показати менше</span>
+                                </button>
+                            </div>
+                        </section>
+                        {% endif %}
+
+                        {% if related_persons.bank_customers %}
+                        <section id="bank-clients" class="profile-section">
+                            <div class="profile-section__header">
+                                <div class="title-wrap">
+                                    <img src="{{ static('images/icon-clients-banks.svg') }}" alt="icon" class="icon">
+                                    <h6 class="title">КЛІЄНТИ БАНКУ</h6>
+                                </div>
+                                <a href="" class="download">
+                                    <svg>
+                                        <use xlink:href="#arr-down"></use>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="profile-section__body">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th class="no-wrap">Ім’я
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="no-wrap">Дата
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="no-wrap">Останнє місце роботи
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th class="no-wrap">Посада
+                                            <svg class="sort-arr">
+                                                <use xlink:href="#arr-right-w2"></use>
+                                            </svg>
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td class="no-wrap">
+                                            <div class="name-wrap">
+                                                <div class="flags">
+                                                    <img src="{{ static('images/flag-1.svg') }}" alt="flag">
+                                                    <img src="{{ static('images/flag-3.svg') }}" alt="flag">
+                                                    <img src="{{ static('images/flag-2.svg') }}" alt="flag">
+                                                </div>
+                                                <p class="name">Підкоморна Юлія Анатоліївна</p>
+                                            </div>
+                                        </td>
+                                        <td class="no-wrap"><span>20.07.2001</span></td>
+                                        <td class="no-wrap">Антимонопольний комітет України</td>
+                                        <td>
+                                            Голова
+                                        </td>
+                                        <td class="no-wrap">
+                                            <a href="" class="table-link">
+                                                <svg>
+                                                    <use xlink:href="#link-icon"></use>
+                                                </svg>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="no-wrap">
+                                            <div class="name-wrap">
+                                                <div class="flags">
+                                                    <img src="{{ static('images/flag-1.svg') }}" alt="flag">
+                                                </div>
+                                                <p class="name">Підкоморна Юлія Анатоліївна</p>
+                                            </div>
+                                        </td>
+                                        <td class="no-wrap"><span>20.07.2001</span></td>
+                                        <td class="no-wrap">Антимонопольний комітет України</td>
+                                        <td>
+                                            Голова
+                                        </td>
+                                        <td class="no-wrap">
+                                            <a href="" class="table-link">
+                                                <svg>
+                                                    <use xlink:href="#link-icon"></use>
+                                                </svg>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="profile-section__footer">
+                                <button class="more-btn more-btn--right-arr">
+                                    <span class="icon">
+                                        <svg>
+                                            <use xlink:href="#arr-right-w2"></use>
+                                        </svg>
+                                    </span>
+                                    <span class="more">Показати більше</span>
+                                    <span class="less">Показати менше</span>
+                                </button>
+                            </div>
+                        </section>
+                        {% endif %}
+
+
+                    </div>
+                    <div class="column-right">
+                        {% if ((company.sanctions_en or company.sanctions_uk) and LANGUAGE_CODE == "en") or (company.sanctions_uk and LANGUAGE_CODE == "uk") %}
+                        <section id="criminal" class="profile-section">
+                            <div class="profile-section__header">
+                                <div class="title-wrap">
+                                    <img src="{{ static('images/icon-criminal.svg') }}" alt="icon" class="icon">
+                                    <h6 class="title">{{_("Кримінальні провадження та санкції")}}</h6>
+                                </div>
+                            </div>
+                            <div class="profile-section__body">
+                                <p class="criminal-status">
+                                    {% if company.sanctions_en and LANGUAGE_CODE == "en" %}
+                                        {{ company.sanctions_en|richtext }}
+                                    {% elif company.sanctions_uk and LANGUAGE_CODE == "uk" %}
+                                        {{ company.sanctions_uk|richtext }}
+                                    {% endif %}
+                                </p>
+                            </div>
+                            <div class="profile-section__footer">
+                                <button id="show-criminal-story" class="more-link">
+                                    <span class="icon">
+                                        <svg>
+                                            <use xlink:href="#arr-right-w2"></use>
+                                        </svg>
+                                    </span>
+                                    {{_("Читати більше")}}
+                                </button>
+                            </div>
+                        </section>
+                        {% endif %}
+
+                        <section id="investigations" class="profile-section">
+                            <div class="profile-section__header">
+                                <div class="title-wrap">
+                                    <img src="{{ static('images/icon-investigation.svg') }}" alt="icon" class="icon">
+                                    <h6 class="title">розслiдування</h6>
+                                </div>
+                            </div>
+                            <!--  тут не body а content -->
+                            <div class="profile-section__content">
+                                <div class="investigation-grid">
+                                    <article class="blog-card">
+                                        <a href="investigation-single.html" class="card-link"></a>
+                                        <div class="blog-card__header">
+                                            <span class="direction">Розслідування</span>
+                                            <time class="date">20.08.2019</time>
+                                        </div>
+                                        <div class="blog-card__body">
+                                            <h6 class="title">Високопосадовці легко відмивають брудні гроші через
+                                                міжнародну банківську
+                                                систему </h6>
+                                            <span class="icon">
+                                                <svg>
+                                                    <use xlink:href="#arr-right"></use>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                    </article>
+                                    <article class="blog-card blog-card--with-img">
+                                        <a href="investigation-single.html" class="card-link"></a>
+                                        <img src="content/card-bg.png" alt="img">
+                                        <div class="blog-card__header">
+                                            <span class="direction">Розслідування</span>
+                                            <time class="date">20.08.2019</time>
+                                        </div>
+                                        <div class="blog-card__body">
+                                            <h6 class="title">Високопосадовці легко відмивають брудні гроші через
+                                                міжнародну банківську
+                                                систему </h6>
+                                            <span class="icon">
+                                                <svg>
+                                                    <use xlink:href="#arr-right"></use>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                    </article>
+                                </div>
+                            </div>
+                            <div class="profile-section__footer">
+                                <a href="investigations.html" class="more-link">
+                                    <span class="icon">
+                                        <svg>
+                                            <use xlink:href="#arr-right-w2"></use>
+                                        </svg>
+                                    </span>
+                                    Дивитись усi
+                                </a>
+                            </div>
+                        </section>
+
+                        {% if ((company.wiki_en or company.wiki_uk) and LANGUAGE_CODE == "en") or (company.wiki_uk and LANGUAGE_CODE == "uk") or related_persons.sanctions %}
+                        <section id="dossier" class="profile-section">
+                            <div class="profile-section__header">
+                                <div class="title-wrap">
+                                    <img src="{{ static('images/icon-dossier.svg') }}" alt="icon" class="icon">
+                                    <h6 class="title">{{_("Досьє")}}</h6>
+                                </div>
+                                <a href="" class="print" title="print">
+                                    <svg>
+                                        <use xlink:href="#print"></use>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="profile-section__body">
+                                <div class="dossier-content">
+                                    <p>
+                                        {% if company.wiki_en and LANGUAGE_CODE == "en" %}
+                                            {{ company.wiki_en|richtext }}
+                                        {% elif company.wiki_uk and LANGUAGE_CODE == "uk" %}
+                                            {{ company.wiki_uk|richtext }}
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="profile-section__footer">
+                                <button id="show-dossier" class="more-link">
+                                    <span class="icon">
+                                        <svg>
+                                            <use xlink:href="#arr-right-w2"></use>
+                                        </svg>
+                                    </span>
+                                    {{_("Читати більше")}}
+                                </button>
+                            </div>
+                        </section>
+                        {% endif %}
+
+
+                        {% if any_documents %}
+                        <section id="documents" class="profile-section">
+                            <div class="profile-section__header">
+                                <div class="title-wrap">
+                                    <img src="{{ static('images/icon-documents.svg') }}" alt="icon" class="icon">
+                                    <h6 class="title">{{_("ДОКУМЕНТИ")}}</h6>
+                                </div>
+                            </div>
+                            <div class="profile-section__body">
+                                <div>
+                                    {% for proof_category in documents if documents[proof_category] -%}
+                                        <h6 class="documents-type">{{ proof_category }}</h4>
+                                        <ul class="documents-list">
+                                        {% for doc in documents[proof_category] %}
+                                            <li><a href="{{ doc.proof_document.doc.url }}" target="_blank">
+                                            {{ doc.proof_document.name|default(_("Посилання"), true) }}</a></li>
+                                        </a>
+                                        {% endfor %}
+                                        </ul>
+                                    {%- endfor %}
+                                </div>
+                            </div>
+                            <div class="profile-section__footer">
+                                <button class="more-btn">
+                                    <span class="icon">
+                                        <svg>
+                                            <use xlink:href="#arr-right-w2"></use>
+                                        </svg>
+                                    </span>
+                                    <span class="more">{{_("Показати більше")}}</span>
+                                    <span class="less">{{_("Показати менше")}}</span>
+                                </button>
+                            </div>
+                        </section>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <div class="side-menu">
+        <button class="side-menu-close">
+            <svg>
+                <use xlink:href="#close"></use>
+            </svg>
+        </button>
+        <div class="side-menu__container">
+            <ul class="links-wrap">
+                {% if related_persons.managers %}
+                <li>
+                    <a href="#leadership">керівництво</a>
+                </li>
+                {% endif %}
+
+                {% if related_persons.all %}
+                <li>
+                    <a href="#relation_with_public-actions">ПОВ’ЯЗАНІ ПУБЛІЧНІ ДІЯЧІ</a>
+                </li>
+                {% endif %}
+
+                {% if related_persons.rest %}
+                <li>
+                    <a href="#structure">СТРУКТУРА</a>
+                </li>
+                {% endif %}
+
+                {% if related_companies.all %}
+                <li>
+                    <a href="#relation_with_entities">ЗВ’ЯЗКИ з юридичними особами</a>
+                </li>
+                {% endif %}
+
+                {% if related_companies.banks %}
+                <li>
+                    <a href="#bank-accounts">БАНКІВСЬКІ РАХУНКИ</a>
+                </li>
+                {% endif %}
+
+                {% if related_persons.bank_customers %}
+                <li>
+                    <a href="#bank-clients">КЛІЄНТИ БАНКУ</a>
+                </li>
+                {% endif %}
+
+                {% if ((company.sanctions_en or company.sanctions_uk) and LANGUAGE_CODE == "en") or (company.sanctions_uk and LANGUAGE_CODE == "uk") %}
+                <li>
+                    <a href="#criminal">КРИМІНАЛЬНІ ПРОВАДЖЕННЯ ТА САНКЦІЇ</a>
+                </li>
+                {% endif %}
+                <li>
+                    <a href="#investigations">РОЗСЛІДУВАННЯ</a>
+                </li>
+                {% if ((company.wiki_en or company.wiki_uk) and LANGUAGE_CODE == "en") or (company.wiki_uk and LANGUAGE_CODE == "uk") or related_persons.sanctions %}
+                <li>
+                    <a href="#dossier">ДОСЬЄ</a>
+                </li>
+                {% endif %}
+                {% if any_documents %}
+                <li>
+                    <a href="#documents">ДОКУМЕНТИ</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="modal" id="dossier-modal">
+        <div class="modal-container">
+            <div class="modal-inner">
+                <button class="modal-close">
+                    <svg>
+                        <use xlink:href="#close"></use>
+                    </svg>
+                </button>
+                <div class="modal-content">
+                    <div class="dossier-modal">
+                        <div class="dossier-modal__header">
+                            <div class="title-wrap">
+                                <img src="{{ static('images/icon-individual.svg') }}" alt="icon" class="icon">
+                                <h2 class="name">{{company.name}}</h2>
+                            </div>
+                            <a href="" class="print" title="print">
+                                <svg>
+                                    <use xlink:href="#print"></use>
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="dossier-modal__body">
+                            {% if company.wiki_en and LANGUAGE_CODE == "en" %}
+                                {{ company.wiki_en|richtext }}
+                            {% elif company.wiki_uk and LANGUAGE_CODE == "uk" %}
+                                {{ company.wiki_uk|richtext }}
+                            {% endif %}
                         </div>
                     </div>
                 </div>
-
-                {% set last_modified = company.last_modified %}
-                {% if last_modified %}
-                    <div class="last_modified">
-                        {{ _("Остання зміна профілю: ") }}<strong>{{ last_modified|date }}</strong>
-                    </div>
-                {% endif %}
             </div>
-            {% if related_persons.founders or related_companies.founders or
-               (company.other_founders_en and LANGUAGE_CODE == "en") or (company.other_owners_en and LANGUAGE_CODE == "en") or 
-               (company.other_founders_uk and LANGUAGE_CODE == "uk") or (company.other_owners_uk and LANGUAGE_CODE == "uk") %}
-                <div id="founders" class="sub box">
-                    <h3>{{ _("Засновники:") }}</h3>
-                    <div class="printWrap">
-                        {{ render_company_companies(related_companies.founders, "Companies") }}
+        </div>
+    </div>
 
-                        {{ render_company_persons(related_persons.founders, "Founders") }}
-
-                        {% if company.other_founders_en and LANGUAGE_CODE == "en" %}
-                            <h4>{{ _("Інші засновники") }}</h4>
-                            {{ company.other_founders_en|richtext }}
-                        {% elif company.other_founders_uk and LANGUAGE_CODE == "uk" %}
-                            <h4>{{ _("Інші засновники") }}</h4>
-                            {{ company.other_founders_uk|richtext }}
-                        {% endif %}
-
-                        {% if company.other_owners_en and LANGUAGE_CODE == "en" %}
-                            <h4>{{ _("Інші власники") }}</h4>
-                            {{ company.other_owners_en|richtext }}
-                        {% elif company.other_owners_uk and LANGUAGE_CODE == "uk" %}
-                            <h4>{{ _("Інші власники") }}</h4>
-                            {{ company.other_owners_uk|richtext }}
-                        {% endif %}
+    <div class="modal" id="criminal-modal">
+        <div class="modal-container">
+            <div class="modal-inner">
+                <button class="modal-close">
+                    <svg>
+                        <use xlink:href="#close"></use>
+                    </svg>
+                </button>
+                <div class="modal-content">
+                    <div class="dossier-modal">
+                        <div class="dossier-modal__header">
+                            <div class="title-wrap">
+                                <img src="{{ static('images/icon-individual.svg') }}" alt="icon" class="icon">
+                                <h2 class="name">Iгор Коломойський</h2>
+                            </div>
+                            <a href="" class="print" title="print">
+                                <svg>
+                                    <use xlink:href="#print"></use>
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="dossier-modal__body">
+                            <p>Ігор Коломойський - український олігарх, екс-губернатор Дніпропетровської області.
+                                Власник медіа, сталеварних, феросплавних, нафтових і газових активів; елітної
+                                нерухомості, морських терміналів, курортів та літаків. Усі ці активи входять в умовну
+                                групу “Приват” й нині частково арештовані.</p>
+                            <p><strong>Приватбанк</strong></p>
+                            <p>18 грудня 2016 року Національний банк України відніс найбільший Ігор Коломойський -
+                                український олігарх, екс-губернатор Дніпропетровської області. Власник медіа,
+                                сталеварних, феросплавних, нафтових і газових активів; елітної нерухомості, морських
+                                терміналів, курортів та літаків. Усі ці активи входять в умовну групу “Приват” й нині
+                                частково арештовані.</p>
+                            <img src="content/dossier-img.png" alt="img">
+                            <p>
+                                Ігор Коломойський - український олігарх, екс-губернатор Дніпропетровської області.
+                                Власник медіа, сталеварних, феросплавних, нафтових і газових активів; елітної
+                                нерухомості, морських терміналів, курортів та літаків. Усі ці активи входять в умовну
+                                групу “Приват” й нині частково арештовані.
+                            </p>
+                            <p><strong>Приватбанк</strong></p>
+                            <p>18 грудня 2016 року Національний банк України відніс найбільший Ігор Коломойський -
+                                український олігарх, екс-губернатор Дніпропетровської області. Власник медіа,
+                                сталеварних, феросплавних, нафтових і газових активів; елітної нерухомості, морських
+                                терміналів, курортів та літаків. Усі ці активи входять в умовну групу “Приват” й нині
+                                частково арештовані.</p>
+                        </div>
                     </div>
                 </div>
-            {% endif %}
+            </div>
+        </div>
+    </div>
 
-            {% if related_persons.managers or
-                (company.other_managers_en and LANGUAGE_CODE == "en") or
-                (company.other_managers_uk and LANGUAGE_CODE == "uk") %}
-                <div id="managers" class="sub box">
-                    <h3>{{ _("Керівництво:") }}</h3>
-                    <div class="printWrap">
-                        {{ render_company_persons(related_persons.managers, "Managers") }}
-
-                        {% if LANGUAGE_CODE == "en" %}
-                            {{ company.other_managers_en|richtext }}
-                        {% elif LANGUAGE_CODE == "uk" %}
-                            {{ company.other_managers_uk|richtext }}
-                        {% endif %}
-                    </div>
-                </div>
-            {% endif %}
-
-            {% if related_persons.bank_customers or related_persons.rest or related_countries.rest or related_companies.rest %}
-                <div id="connections" class="sub box">
-                    <h3>{{ _("Зв'язки:") }}</h3>
-                    <div class="printWrap">
-                        <div class="tree">
-                            <ul>
-                                <li>
-                                    <span><i class="fa"></i> {{ company.name }}</span>
-                                    <ul>
-                                        {% if related_persons.rest %}
-                                        <li>
-                                            <span class="badge badge-success"><i class="faicon fa fa-plus-square"></i> {{ _("Пов'язані особи") }}</span>
-                                            <ul class="h">
-                                                {{ render_related_persons(related_persons.rest, "worked", for_company=True) }}
-                                            </ul>
-                                        </li>
-                                        {% endif %}
-                                        {% if related_persons.bank_customers %}
-                                        <li>
-                                            <span class="badge badge-success"><i class="faicon fa fa-plus-square"></i> {{ _("Клієнти банку") }}</span>
-                                            <ul class="h">
-                                                {% if request.GET.showall %}
-                                                    {% set limit=None %}
-                                                {% else %}
-                                                    {% set limit=1000 %}
-                                                {% endif %}
-                                                {{ render_related_persons(related_persons.bank_customers[:limit], "bank_customers", for_company=True) }}
-                                                {% if related_persons.bank_customers|count > limit %}
-                                                <li><a href="{{ company.get_absolute_url() }}?showall=true"><strong>{{ _("Показати всіх клієнтів банку") }}</strong></a></li>
-                                                {% endif %}
-                                            </ul>
-                                        </li>
-                                        {% endif %}
-                                        {% if related_companies.rest %}
-                                        <li>
-                                            <span class="badge badge-success"><i class="faicon fa fa-plus-square"></i> {{ _("Пов'язані компанії") }}</span>
-                                            <ul class="h">
-                                                {% for company in related_companies.rest %}
-                                                    <li>
-                                                        <a href="{{ company.get_absolute_url() }}">
-                                                            <span class="name-pill">
-                                                                {{ company.name }}
-                                                            </span>
-                                                        </a> &ndash;
-                                                        {% if company.rtype %}{{ _(company.rtype) }}{% endif %}
-                                                        {% if company.connection.equity_part %}
-                                                        , {{ _("Частка") }} {{ "{:2.3f}".format(company.connection.equity_part) }}%
-                                                        {% endif %}
-
-                                                        {% if company.connection.has_additional_info %}
-                                                            <a href="#" class="modalConnectionShow" data-toggle="modal" data-target="#modalCompany-{{ company.pk }}">
-                                                               <i class="fa fa-info-circle info-gray"></i>
-                                                            </a>
-                                                        {% endif %}
-                                                        {{ render_connection(company.connection, "modalCompany-{}".format(company.pk)) }}
-                                                    </li>
-                                                {% endfor %}
-                                            </ul>
-                                        </li>
-                                        {% endif %}
-                                    </ul>
+    <div class="modal" id="visualization-modal">
+        <div class="modal-container">
+            <div class="modal-inner">
+                <button class="modal-close">
+                    <svg>
+                        <use xlink:href="#close"></use>
+                    </svg>
+                </button>
+                <div class="modal-content">
+                    <div class="visualization-modal">
+                        <div class="visualization-modal__header">
+                            <h2 class="name">Зеленський Володимир Олександрович</h2>
+                            <ul class="legend">
+                                <li class="legend__item green">
+                                    <svg>
+                                        <use xlink:href="#legend-dashed-line"></use>
+                                    </svg>
+                                    <span>члени сім’ї</span>
+                                </li>
+                                <li class="legend__item black">
+                                    <svg>
+                                        <use xlink:href="#legend-dashed-line"></use>
+                                    </svg>
+                                    <span>особисті зв’язки</span>
+                                </li>
+                                <li class="legend__item orange">
+                                    <svg>
+                                        <use xlink:href="#legend-dashed-line"></use>
+                                    </svg>
+                                    <span>ділові зв’язки</span>
+                                </li>
+                                <li class="legend__item green">
+                                    <svg>
+                                        <use xlink:href="#legend-line"></use>
+                                    </svg>
+                                    <span>власник</span>
+                                </li>
+                                <li class="legend__item black">
+                                    <svg>
+                                        <use xlink:href="#legend-line"></use>
+                                    </svg>
+                                    <span>бенефіціарний власник</span>
+                                </li>
+                                <li class="legend__item orange">
+                                    <svg>
+                                        <use xlink:href="#legend-line"></use>
+                                    </svg>
+                                    <span>співробітник</span>
+                                </li>
+                                <li class="legend__item yellow">
+                                    <svg>
+                                        <use xlink:href="#legend-line"></use>
+                                    </svg>
+                                    <span>клієнт</span>
                                 </li>
                             </ul>
                         </div>
+                        <div class="visualization-modal__body">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                            Atque dicta ipsum iure minima molestias numquam quo rem totam. Assumenda atque cum cumque
+                            error exercitationem magni maxime quae veritatis! Adipisci aperiam aut consectetur et eum
+                            ipsam modi neque odit sunt unde.
+                        </div>
                     </div>
                 </div>
-            {% endif %}
-
-
-            {% if   ((company.wiki_en or company.wiki_uk) and LANGUAGE_CODE == "en") or
-                    ((company.sanctions_en or company.sanctions_uk) and LANGUAGE_CODE == "en") or
-                    (company.wiki_uk and LANGUAGE_CODE == "uk") or
-                    (company.sanctions_uk and LANGUAGE_CODE == "uk") or
-                    related_persons.sanctions %}
-
-                <div id="dossier" class="sub box">
-                    <h3>{{ _("Досьє:") }}</h3>
-                    <div class="printWrap">
-                        {% if company.wiki_en and LANGUAGE_CODE == "en" %}
-                            {{ company.wiki_en|richtext }}
-                        {% elif company.wiki_uk and LANGUAGE_CODE == "uk" %}
-                            {{ company.wiki_uk|richtext }}
-                        {% endif %}
-                        {% if (company.sanctions_en and LANGUAGE_CODE == "en") or (company.sanctions_uk and LANGUAGE_CODE == "uk") or related_persons.sanctions %}
-                            <h4>{{ _("Санкції") }}</h4>
-
-                            {% if company.sanctions_en and LANGUAGE_CODE == "en" %}
-                                {{ company.sanctions_en|richtext }}
-                            {% elif company.sanctions_uk and LANGUAGE_CODE == "uk" %}
-                                {{ company.sanctions_uk|richtext }}
-                            {% endif %}
-
-                            {{ render_company_persons(related_persons.sanctions, "Sanctions") }}
-                        {% endif %}
-
-                        {% if (company.wiki_uk and LANGUAGE_CODE == "en") or (company.sanctions_uk and LANGUAGE_CODE == "en") %}
-                            <p><a href="{{ company.url_uk }}#dossier">more information is available in Ukrainian version of the dossier</a></p>
-                        {% endif %}
-                    </div>
-                </div>
-            {% endif %}
-
-            {% if related_companies.banks or (company.bank_name_en and LANGUAGE_CODE == "en") or (company.bank_name_uk and LANGUAGE_CODE == "uk") %}
-                <div id="bank" class="sub box">
-                    <h3>{{ _("Банківські рахунки:") }}</h3>
-                    <div class="printWrap">
-                        {{ render_company_companies(related_companies.banks, "Banks") }}
-
-                        {% if company.bank_name_en and LANGUAGE_CODE == "en" %}
-                            {{ company.bank_name_en|richtext }}
-                        {% elif company.bank_name_uk and LANGUAGE_CODE == "uk" %}
-                            {{ company.bank_name_uk|richtext }}
-                        {% endif %}
-                    </div>
-                </div>
-            {% endif %}
-            {% if any_documents %}
-                <div id="documents" class="sub box">
-                    <h3>{{ _("Документи та джерела") }}</h3>
-                    <div class="printWrap">
-                        {% for proof_category in documents if documents[proof_category] -%}
-                            <h4>{{ proof_category }}</h4>
-                            {% for doc in documents[proof_category] %}
-                            <a href="{{ doc.proof_document.doc.url }}" target="_blank">
-                                {{ doc.proof_document.name|default(_("Посилання"), true) }}
-                            </a><br />
-                            {% endfor %}
-                        {%- endfor %}
-                    </div>
-                </div>
-            {% endif %}
-        </section>
+            </div>
+        </div>
     </div>
 </div>
+
+{% block svg_code %}
+<!--SVG elements start-->
+<svg style="display: none;">
+    <symbol id="fb" viewBox="0 0 30 30">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M30 0H0V30H30V0ZM12.5973 12.7463V10.5664C12.5973 10.5583 12.5972 10.5493 12.5972 10.5394C12.5954 10.061 12.586 7.49982 15.9588 7.5H18.3892V10.2751H16.6017C16.2481 10.2751 15.8904 10.6415 15.8904 10.9139V12.7365H18.3857C18.2858 14.134 18.0796 15.4122 18.0796 15.4122H15.878V23.3333H12.5973V15.412H11.0002V12.7463H12.5973Z"
+        />
+    </symbol>
+    <symbol id="tw" viewBox="0 0 30 30">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M30 0H0V30H30V0ZM21.463 10.3691C22.1171 10.2859 22.7445 10.1147 23.3333 9.85646C22.892 10.5135 22.3507 11.0845 21.7065 11.5417C21.7134 11.6793 21.7183 11.8178 21.7183 11.9613C21.7183 16.2502 18.4527 21.1981 12.4796 21.1981C10.6419 21.1981 8.93786 20.6687 7.5 19.7414C7.75531 19.7741 8.01062 19.7859 8.27682 19.7859C9.79484 19.7859 11.1971 19.2654 12.3015 18.4015C10.8824 18.3708 9.68896 17.4258 9.26838 16.1403C9.46531 16.1839 9.6751 16.1957 9.88292 16.1957C10.1818 16.1957 10.4697 16.1611 10.734 16.0889C9.25849 15.787 8.13333 14.4768 8.13333 12.8994V12.8638C8.56677 13.1023 9.07839 13.2537 9.5999 13.2636C8.73698 12.6867 8.15807 11.6902 8.15807 10.566C8.15807 9.9673 8.32234 9.41115 8.6024 8.92527C10.2065 10.8955 12.5944 12.1889 15.293 12.3205C15.2395 12.085 15.2178 11.8376 15.2178 11.5803C15.2178 9.79214 16.6645 8.3335 18.4616 8.3335C19.3879 8.3335 20.2369 8.72636 20.8327 9.36068C21.5709 9.21324 22.2636 8.94902 22.891 8.57495C22.6495 9.33594 22.1359 9.9673 21.463 10.3691Z"
+        />
+    </symbol>
+    <symbol id="tg" viewBox="0 0 30 30">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M30 0H0V30H30V0ZM6.33988 13.9773L20.9732 8.05465C21.5301 7.82924 22.1057 8.33553 21.9834 8.94321L19.485 21.3491C19.3678 21.9313 18.7104 22.1928 18.2487 21.8408L14.4765 18.965L12.554 21.0038C12.2166 21.3617 11.6337 21.2168 11.4887 20.7391L10.101 16.1656L6.38252 15.0252C5.89462 14.8756 5.8659 14.1691 6.33988 13.9773ZM12.3415 17.0506L19.1385 10.8078C19.3013 10.6584 19.1123 10.3945 18.9277 10.5135L10.9011 15.6839C10.7597 15.7749 10.6954 15.9537 10.7448 16.1187L11.8214 19.722C11.8441 19.7977 11.9503 19.7873 11.9588 19.7085L12.2205 17.2923C12.2306 17.199 12.2737 17.1128 12.3415 17.0506Z"
+        />
+    </symbol>
+    <symbol id="back-link-arr" viewBox="0 0 20 8">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M2.00816 4.5167L4.92553 7.2676L4.23949 7.99516L0.385793 4.36136L0 3.99758L0.385793 3.6338L4.23949 0L4.92553 0.72756L1.96762 3.5167H19.9975V4.5167H2.00816Z"
+        />
+    </symbol>
+    <symbol id="arr-right" viewBox="0 0 7 11" fill="none">
+        <path d="M1.25 9.75L5.75 5.25L1.25 0.75"/>
+    </symbol>
+    <symbol id="arr-right-w2" viewBox="0 0 8 13" fill="none">
+        <path d="M1 1L7 7L1 13" stroke-width="2"/>
+    </symbol>
+    <symbol id="arr-down" viewBox="0 0 13 17" fill="none">
+        <path d="M1 10L6.5 15.5L12 10"/>
+        <line x1="6.5" y1="15" x2="6.5" y2="2.18557e-08"/>
+    </symbol>
+    <symbol id="search" viewBox="0 0 21 21">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M16 9.5C16 13.0899 13.0899 16 9.5 16C5.91015 16 3 13.0899 3 9.5C3 5.91015 5.91015 3 9.5 3C13.0899 3 16 5.91015 16 9.5ZM14.4271 16.4271C13.0372 17.4175 11.3367 18 9.5 18C4.80558 18 1 14.1944 1 9.5C1 4.80558 4.80558 1 9.5 1C14.1944 1 18 4.80558 18 9.5C18 11.6364 17.2118 13.5887 15.9104 15.082L20.4142 19.5858L19 21L14.4271 16.4271Z"
+        />
+    </symbol>
+    <symbol id="close" viewBox="0 0 29 29" fill="none">
+        <path d="M28.4541 28.4541L1 1M28.4541 1L1 28.4541L28.4541 1Z"/>
+    </symbol>
+    <symbol id="dots" viewBox="0 0 9 9">
+        <path d="M3 7.5C3 8.32843 2.32843 9 1.5 9C0.671573 9 0 8.32843 0 7.5C0 6.67157 0.671573 6 1.5 6C2.32843 6 3 6.67157 3 7.5Z"
+              fill="#4EAD33"/>
+        <path d="M9 7.5C9 8.32843 8.32843 9 7.5 9C6.67157 9 6 8.32843 6 7.5C6 6.67157 6.67157 6 7.5 6C8.32843 6 9 6.67157 9 7.5Z"
+              fill="#4EAD33"/>
+        <path d="M9 1.5C9 2.32843 8.32843 3 7.5 3C6.67157 3 6 2.32843 6 1.5C6 0.671573 6.67157 0 7.5 0C8.32843 0 9 0.671573 9 1.5Z"
+              fill="#4EAD33"/>
+        <path d="M3 1.5C3 2.32843 2.32843 3 1.5 3C0.671573 3 0 2.32843 0 1.5C0 0.671573 0.671573 0 1.5 0C2.32843 0 3 0.671573 3 1.5Z"
+              fill="#4EAD33"/>
+    </symbol>
+    <symbol id="plus" viewBox="0 0 10 10" fill="none">
+        <path d="M5 0V10M10 5L0 5"/>
+    </symbol>
+    <symbol id="minus" viewBox="0 0 10 1" fill="none">
+        <line y1="0.5" x2="10" y2="0.5"/>
+    </symbol>
+    <symbol id="print" viewBox="0 0 23 21">
+        <path d="M18.4576 -0.741928H4.55664V3.89543H18.4576V-0.741928Z"/>
+        <path d="M23 9.1736C23 7.25221 21.4426 5.70642 19.5392 5.70642H3.46081C1.54295 5.70642 0 7.26665 0 9.1736V16.1369H4.58558V20.7742H18.4288V16.1369H23.0144V9.1736H23ZM16.0928 18.4483H6.90721V12.6697H16.0928V18.4483ZM19.6257 10.4016C18.9768 10.4016 18.4433 9.86704 18.4433 9.21694C18.4433 8.56684 18.9768 8.03232 19.6257 8.03232C20.2746 8.03232 20.8082 8.56684 20.8082 9.21694C20.8082 9.86704 20.2746 10.4016 19.6257 10.4016Z"
+        />
+    </symbol>
+    <symbol id="block" viewBox="0 0 45 45" fill="none">
+        <circle cx="22.5849" cy="22.4041" r="14" transform="rotate(-45 22.5849 22.4041)" stroke="white"
+                stroke-width="3"/>
+        <line x1="12.2172" y1="32.7718" x2="33.545" y2="11.4439" stroke="white" stroke-width="3"/>
+    </symbol>
+    <symbol id="visualization" viewBox="0 0 21 19">
+        <circle cx="10.5" cy="3.5" r="3" stroke="white" fill="none"/>
+        <circle cx="17.5" cy="15.5" r="3" stroke="white" fill="none"/>
+        <circle cx="3.5" cy="15.5" r="3" stroke="white" fill="none"/>
+        <rect x="10" y="7" width="1" height="3" fill="white"/>
+        <rect x="3" y="10" width="1" height="2" fill="white"/>
+        <rect x="17" y="10" width="1" height="2" fill="white"/>
+        <path d="M3 10L4 9L17 9L18 10L3 10Z" fill="white"/>
+    </symbol>
+    <symbol id="show-table-icon" viewBox="0 0 21 21" fill="none">
+        <line y1="3.5" x2="21" y2="3.5"/>
+        <line y1="10.5" x2="21" y2="10.5"/>
+        <line y1="17.5" x2="21" y2="17.5"/>
+        <line x1="5.5" y1="2.18557e-08" x2="5.5" y2="21"/>
+    </symbol>
+    <symbol id="show-graph-icon" viewBox="0 0 21 11" fill="none">
+        <path d="M1 10.5L8.5 3.5L13 8L19.9999 1"/>
+        <path d="M15 0.5H20.5V6"/>
+    </symbol>
+    <symbol id="link-icon" viewBox="0 0 12 15">
+        <path d="M6.07075 9.09927C5.8978 9.09927 5.73349 9.02124 5.64701 8.88857C5.57783 8.78712 5.55189 8.66226 5.58648 8.5452C5.62107 8.42815 5.6989 8.3267 5.81132 8.26426C6.73663 7.7336 7.29874 6.83616 7.29874 5.85288V3.74584C7.29874 2.17727 5.8805 0.905245 4.15094 0.905245C2.41274 0.905245 1.00314 2.17727 1.00314 3.74584V5.85288C1.00314 6.38354 1.16745 6.9064 1.48742 7.35902C1.63443 7.56972 1.56525 7.85066 1.33176 7.98333C1.25393 8.03015 1.15881 8.05356 1.06368 8.05356C0.890723 8.05356 0.726415 7.97552 0.639937 7.84286C0.216195 7.24196 0 6.55522 0 5.85288V3.74584C0 1.67783 1.85928 0 4.15094 0C6.44261 0 8.30189 1.67783 8.30189 3.74584V5.85288C8.30189 7.14832 7.56682 8.3423 6.33884 9.02904C6.26101 9.07586 6.16588 9.09927 6.07075 9.09927Z"
+        />
+        <path d="M6.84918 14.1176C4.55752 14.1176 2.69824 12.4398 2.69824 10.3718V8.26473C2.69824 6.7976 3.65815 5.46315 5.14557 4.85445C5.21475 4.83104 5.28393 4.81543 5.35312 4.81543C5.55201 4.81543 5.73362 4.91688 5.81145 5.08076C5.92387 5.30707 5.81145 5.58021 5.56066 5.68166C4.43645 6.14208 3.70139 7.15658 3.70139 8.27253V10.3796C3.70139 11.9481 5.11098 13.2202 6.84918 13.2202C8.58739 13.2202 9.99698 11.9481 9.99698 10.3796V8.27253C9.99698 7.73406 9.82403 7.2034 9.50406 6.75078C9.35704 6.54008 9.42623 6.25914 9.65972 6.12647C9.73755 6.07965 9.83267 6.05624 9.9278 6.05624C10.1008 6.05624 10.2564 6.13428 10.3515 6.26694C10.7753 6.86784 11.0088 7.56238 11.0088 8.28033V10.3874C11.0001 12.4398 9.14085 14.1176 6.84918 14.1176Z"
+        />
+    </symbol>
+    <symbol id="legend-dashed-line" viewBox="0 0 20 20" fill="none">
+        <line x1="0.646447" y1="19.6464" x2="19.6464" y2="0.646447" stroke-dasharray="6 4"/>
+    </symbol>
+    <symbol id="legend-line" viewBox="0 0 20 20" fill="none">
+        <line x1="0.646447" y1="19.6464" x2="19.6464" y2="0.646447"/>
+    </symbol>
+
+</svg>
+<!--SVG elements end-->
 {% endblock %}
 
-{% block javascript %}
-    {{ super() }}
-    {% javascript 'graph_viz' %}
+
 {% endblock %}

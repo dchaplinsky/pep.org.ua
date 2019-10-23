@@ -131,6 +131,30 @@ $(function() {
         }
     });
 
+    $("#search-form-body").typeahead({
+        minLength: 2,
+        items: 100,
+        autoSelect: false,
+        source: function(query, process) {
+            $.get($("#search-form-body").data("endpoint"), {
+                    "q": query
+                })
+                .done(function(data) {
+                    process(data);
+                })
+        },
+        matcher: function() {
+            // Big guys are playing here
+            return true;
+        },
+        afterSelect: function(item) {
+            var form = $("#search-form-body").closest("form");
+            form.find("input[name=is_exact]").val("on");
+
+            form.submit();
+        }
+    });
+
     $('.tree > ul > li > ul > li:has(ul)')
         .addClass('parent_li')
         .find(' > span')

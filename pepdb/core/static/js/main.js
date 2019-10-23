@@ -75,17 +75,16 @@ $(document).ready(function () {
 
     // first section bg
     if ($('div').is('#particles-js')) {
-        console.log($(location).attr('href') + '/static/js/particlesjs-config.json');
         particlesJS.load('particles-js', $(location).attr('origin') + '/static/js/particlesjs-config.json', function () {
         });
     }
 
     //open/close search dropdown
-    $('.search-form input').focusin(function () {
-        $(this).parents('.search-form').addClass('search-form--open-dropdown');
-    }).focusout(function () {
-        $(this).parents('.search-form').removeClass('search-form--open-dropdown');
-    })
+    // $('.search-form input').focusin(function () {
+    //     $(this).parents('.search-form').addClass('search-form--open-dropdown');
+    // }).focusout(function () {
+    //     $(this).parents('.search-form').removeClass('search-form--open-dropdown');
+    // })
 
     // main section blog scroll
     // $('.blog-and-investigation .items').perfectScrollbar({
@@ -123,14 +122,17 @@ $(document).ready(function () {
     // profiles filters
     $('.profiles-filters button').on('click', function (e) {
         e.preventDefault();
+        $(this).addClass("active");
         if ($(this).attr('id') == 'individuals-filter') {
-            $(this).addClass('active');
             $('#entities-filter').removeClass('active');
+            $('.pagination.persons').addClass('active');
+            $('.pagination.companies').removeClass('active');
             $('#entities-items').removeClass('active');
             $('#individuals-items').addClass('active');
         } else if ($(this).attr('id') == 'entities-filter') {
-            $(this).addClass('active');
             $('#individuals-filter').removeClass('active');
+            $('.pagination.persons').removeClass('active');
+            $('.pagination.companies').addClass('active');
             $('#individuals-items').removeClass('active');
             $('#entities-items').addClass('active');
         }

@@ -1,0 +1,14 @@
+<svg width="214" height="166" viewBox="0 0 214 166" fill="none" xmlns="http://www.w3.org/2000/svg">
+<line x1="195.494" y1="20.9225" x2="211.494" y2="122.923" stroke="black" stroke-opacity="0.07"/>
+<line x1="208.146" y1="125.478" x2="97.1464" y2="159.478" stroke="black" stroke-opacity="0.07"/>
+<line x1="98.7226" y1="159.416" x2="17.7227" y2="105.416" stroke="black" stroke-opacity="0.07"/>
+<line x1="195.199" y1="21.4589" x2="17.1985" y2="98.4589" stroke="black" stroke-opacity="0.07"/>
+<line x1="96.5282" y1="158.165" x2="42.5282" y2="4.16545" stroke="black" stroke-opacity="0.07"/>
+<line x1="41.0549" y1="3.50302" x2="195.055" y2="20.503" stroke="black" stroke-opacity="0.07"/>
+<circle cx="97" cy="159" r="7" transform="rotate(-180 97 159)" fill="#F39200"/>
+<circle cx="201" cy="14" r="8.5" transform="rotate(-180 201 14)" stroke="#F39200" stroke-width="3"/>
+<circle cx="10" cy="103" r="8.5" transform="rotate(-180 10 103)" stroke="#F39200" stroke-width="3"/>
+<circle cx="210.5" cy="123.5" r="3.5" transform="rotate(-180 210.5 123.5)" fill="#F39200"/>
+<ellipse cx="10" cy="103" rx="3" ry="3" transform="rotate(-180 10 103)" fill="#F39200"/>
+<circle cx="41" cy="4" r="4" transform="rotate(-180 41 4)" fill="#F39200"/>
+</svg>

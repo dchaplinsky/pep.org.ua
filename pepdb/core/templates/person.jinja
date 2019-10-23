@@ -55,7 +55,7 @@
                             <a href="{{ url('wagtail_serve', '') }}">{{ _("Головна")}} </a>
                         </li>
                         <li>
-                            <a href="">{{ _("Публічні діячі") }}</a>
+                            <a href="{{ url('countries_home') }}">{{ _("Публічні діячі") }}</a>
                         </li>
                         <li>
                             <span class="name"> {{ person.last_name }} {{ person.first_name }} {{ person.patronymic }} </span>
@@ -91,12 +91,16 @@
                     <div class="profile-image">
                         {% if person.photo %}
                         <img src="{{ person.photo | thumbnail_url("avatar") }}" itemprop="image" alt="{{ person.last_name }} {{ person.first_name }} {{ person.patronymic }}">
+                        {% else %}
+                        <img src="{{ static('images/profile-empty-individual.svg') }}" alt="photo" class="profile-card__img">
                         {% endif %}
+                        {% if person.reputation_sanctions_en or person.reputation_crimes_en or person.reputation_manhunt_en or person.reputation_convictions_en or person.reputation_sanctions_uk or person.reputation_crimes_uk or person.reputation_manhunt_uk or person.reputation_convictions_uk or manhunt_records %}
                         <div class="icon">
                             <svg>
                                 <use xlink:href="#block"></use>
                             </svg>
                         </div>
+                        {% endif %}
                     </div>
                     <div class="profile-main-info">
                         <h1 class="profile-name" itemprop="name">{{ person.last_name }} {{ person.first_name }} {{ person.patronymic }}</h1>
@@ -1659,6 +1663,7 @@
 
 </div>
 
+{% block svg_code %}
 <!--SVG elements start-->
 <svg style="display: none;">
     <symbol id="fb" viewBox="0 0 30 30">
@@ -1759,6 +1764,7 @@
 
 </svg>
 <!--SVG elements end-->
+{% endblock %}
 
 {% endblock %}
 

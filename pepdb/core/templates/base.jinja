@@ -65,12 +65,6 @@
                     <form action="{{ url("search") }}" method="GET" class="search-form">
                         <input type="text" placeholder="{{ _("Введіть ім'я або назву компанії") }}" name="q" data-provide="typeahead" id="search-form" autocomplete="off" data-endpoint="{{ url("suggest") }}">
                         <input type="hidden" name="is_exact" value="" />
-                        <ul class="search-dropdown">
-                            <li><a href="person.html">Олександр Вікторович <strong>Яну</strong>кович</a></li>
-                            <li><a href="person.html">Людмила Олександрівна <strong>Яну</strong>кович</a></li>
-                            <li><a href="person.html">Олександр Вікторович <strong>Яну</strong>кович</a></li>
-                            <li><a href="person.html">Людмила Олександрівна <strong>Яну</strong>кович</a></li>
-                        </ul>
                         <button>
                             <svg>
                                 <use xlink:href="#arr-right-w2"></use>
@@ -128,14 +122,9 @@
         </div>
         <div class="mob-menu">
             <div class="form-wrap">
-                <form action="" class="search-form">
-                    <input type="text" placeholder="Введіть ім’я, назву компанії ...">
-                    <ul class="search-dropdown">
-                        <li><a href="person.html">Олександр Вікторович <strong>Яну</strong>кович</a></li>
-                        <li><a href="person.html">Людмила Олександрівна <strong>Яну</strong>кович</a></li>
-                        <li><a href="person.html">Олександр Вікторович <strong>Яну</strong>кович</a></li>
-                        <li><a href="person.html">Людмила Олександрівна <strong>Яну</strong>кович</a></li>
-                    </ul>
+                <form action="{{ url("search") }}" method="GET" class="search-form">
+                    <input type="text" placeholder="{{ _("Введіть ім'я або назву компанії") }}" name="q" data-provide="typeahead" id="search-form" autocomplete="off" data-endpoint="{{ url("suggest") }}">
+                    <input type="hidden" name="is_exact" value="" />
                     <button>
                         <svg>
                             <use xlink:href="#arr-right-w2"></use>
@@ -232,6 +221,9 @@
             </div>
         </div>
     </footer>
+
+    {% block svg_code %}
+    {% endblock %}
     
     {% block javascript %}
         {% javascript 'js_all' %}

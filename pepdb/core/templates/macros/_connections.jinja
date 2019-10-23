@@ -11,7 +11,8 @@
 	                </div>
 	                <p class="name name-entities" itemprop="name"><a href="{{ company.to_company.get_absolute_url() }}">{{ company.to_company }}</a></p>
 	            </div>
-	        </td>	        <td class="no-wrap" itemprop="taxID">{% if company.to_company.edrpou %}{{ company.to_company.edrpou }}{% endif %}</td>
+	        </td>
+	        <td class="no-wrap" itemprop="taxID">{% if company.to_company.edrpou %}{{ company.to_company.edrpou }}{% endif %}</td>
 	        <td class="no-wrap">{{ company.relationship_type }}</td>
 	        <td class="no-wrap">
 	            <button class="toggle-row-btn">
@@ -87,10 +88,112 @@
 {% macro render_related_grouped_persons(persons) %}
 {% endmacro %}
 
-{% macro render_company_persons(persons, prefix) %}
+{% macro render_company_persons(persons, isManagement=False) %}
+	{% for person in persons %}
+		{% set countries = person.foreign_citizenship_or_registration %}
+		{% set last_workplace = person.translated_last_workplace %}
+		<tr itemscope itemtype="http://schema.org/Person" itemprop="affiliation">
+	        <td class="no-wrap">
+	            <div class="name-wrap">
+	                <div class="flags">
+	                	{% for country in countries %}
+	                    	<img src="{{ static('images/flags/') }}{{ country.to_country.iso3|lower }}.svg" alt="{{ country.to_country.name }}">
+	                    {% endfor %}
+	                </div>
+	                <p class="name"><a href="{{ person.get_absolute_url() }}" itemprop="name">{{ person }}</a></p>
+	            </div>
+	        </td>
+	        <td class="no-wrap">
+	        	<span itemprop="jobTitle">
+				{% if for_company %}
+	        		{{ person.connection.relationship_type }}
+	        	{% else %}
+	        		{% if person.rtype %}{{ _(person.rtype) }}{% endif %}
+	        	{% endif %}
+				</span>
+	        </td>
+	        <td class="no-wrap">—</td>
+	        <td>
+	        	{% set connection = person.connection %}
+	            {% if connection.date_established %} {{ connection.date_established_human }}{% endif %} — {% if connection.date_finished %}{{ connection.date_finished_human }}{% endif %}
+	        </td>
+	    	{% if isManagement %}
+	        <td class="no-wrap">
+	            <a href="" class="table-link">
+	                <svg>
+	                    <use xlink:href="#link-icon"></use>
+	                </svg>
+	            </a>
+	        </td>
+	    	{% else %}
+	        <td class="no-wrap">
+	            <button class="toggle-row-btn">
+	                <svg>
+	                    <use xlink:href="#arr-right-w2"></use>
+	                </svg>
+	            </button>
+	        </td>
+    		{% endif %}
+	    </tr>
+	    {% if isManagement %}
+	    {% else %}
+	    <tr class="toggle-row">
+	        <td colspan="3">
+	            <div class="toggle-content">
+	            	{% if connection.date_confirmed %}
+	                <span class="confirmed-date">{{ _("Підтверджено: ") }}{{ connection.date_confirmed_human }}</span>
+	                {% endif %}
+	                {% if proofs %}
+                        {% for proof in proofs.all() -%}
+	                		<a href="{% if proof.proof %}{{ proof.proof }}{% else %}{{ proof.proof_document.doc.url }}{% endif%}" target="_blank" class="link confirmed-link">{{ proof.proof_title|default(_("Посилання"), true) }}</a>
+                        {%- endfor %}
+	                {% endif %}
+	            </div>
+	        </td>
+	    </tr>
+	    {% endif %}
+    {% endfor %}
 {% endmacro %}
 
-{% macro render_company_companies(companies, prefix) %}
+{% macro render_company_companies(companies) %}
+	{% for company in companies %}
+		{% set countries = company.foreign_registration %}
+	    <tr>
+	        <td class="no-wrap">
+	            <div class="name-wrap">
+	                <div class="flags">
+	                	{% for country in countries %}
+	                    	<img src="{{ static('images/flags/') }}{{ country.to_country.iso3|lower }}.svg" alt="{{ country.to_country.name }}">
+	                    {% endfor %}
+	                </div>
+	                <p class="name name-entities"><a href="{{ company.get_absolute_url() }}">{{ company }}</a></p>
+	            </div>
+	        </td>
+	        <td class="no-wrap">{{ company.connection.relationship_type }}</td>
+	        <td class="no-wrap">{% if company.edrpou %}{{ company.edrpou }}{% endif %}</td>
+	        <td class="no-wrap">
+	            <button class="toggle-row-btn">
+	                <svg>
+	                    <use xlink:href="#arr-right-w2"></use>
+	                </svg>
+	            </button>
+	        </td>
+	    </tr>
+	    <tr class="toggle-row">
+	        <td colspan="3">
+	            <div class="toggle-content">
+	            	{% if company.connection.date_confirmed %}
+	                <span class="confirmed-date">{{ _("Підтверджено: ") }}{{ company.connection.date_confirmed_human }}</span>
+	                {% endif %}
+	                {% if proofs %}
+                        {% for proof in proofs.all() -%}
+	                		<a href="{% if proof.proof %}{{ proof.proof }}{% else %}{{ proof.proof_document.doc.url }}{% endif%}" target="_blank" class="link confirmed-link">{{ proof.proof_title|default(_("Посилання"), true) }}</a>
+                        {%- endfor %}
+	                {% endif %}
+	            </div>
+	        </td>
+	    </tr>
+	{% endfor %}
 {% endmacro %}
 
 {% macro render_person_companies(companies) %}
