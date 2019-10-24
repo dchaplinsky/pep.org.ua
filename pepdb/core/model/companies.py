@@ -194,7 +194,7 @@ class Company(models.Model, AbstractNode):
 
     @staticmethod
     def autocomplete_search_fields():
-        return ("id__iexact", "short_name__icontains", "name__icontains")
+        return ("id__iexact", "short_name__icontains", "name__icontains", "also_known_as__icontains")
 
     def __unicode__(self):
         return self.short_name or self.name

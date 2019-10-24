@@ -61,6 +61,7 @@ from core.models import (
     DeclarationToWatch,
     CompanyCategories,
     Rule,
+    Article,
 )
 
 from core.forms import EDRImportForm, ForeignImportForm, ZIPImportForm
@@ -1590,6 +1591,64 @@ class RuleAdmin(TranslationAdmin):
     def has_add_permission(self, request):
         return False
 
+
+class NoTranslationArticleFilter(admin.SimpleListFilter):
+    title = _("Наявність перекладу")
+
+    # Parameter for the filter that will be used in the URL query.
+    parameter_name = "translation"
+    fields = ["caption", "header", "text"]
+
+    def lookups(self, request, model_admin):
+        return (("no", _("Немає")),)
+
+    def queryset(self, request, queryset):
+        # to decide how to filter the queryset.
+        if self.value() == "no":
+            q = Q()
+            for field in self.fields:
+                q |= (
+                    Q(**{field + "_en": ""}) | Q(**{field + "_en" + "__isnull": True})
+                ) & ~(
+                    Q(**{field + "_uk": ""}) | Q(**{field + "_uk" + "__isnull": True})
+                )
+
+            return queryset.filter(q)
+        else:
+            return queryset
+
+
+class ArticleAdmin(TranslationAdmin):
+    list_display = [
+        "pk",
+        "caption",
+        "publish",
+        "date",
+        "kind",
+        "last_editor",
+        "last_modified",
+    ]
+    fields = [
+        "kind",
+        "caption",
+        "photo",
+        "header",
+        "text",
+        "publish",
+        "date",
+        "related_persons",
+        "related_companies",
+        "last_editor",
+        "last_modified",
+    ]
+    raw_id_fields = ("related_companies", "related_persons")
+    autocomplete_lookup_fields = {"m2m": ["related_persons", "related_companies"]}
+    inlines = [ProofsInline]
+
+    readonly_fields = ("last_editor", "last_modified")
+    list_filter = (NoTranslationArticleFilter, "kind")
+
+
 admin.site.register(Person, PersonAdmin)
 admin.site.register(Company, CompanyAdmin)
 admin.site.register(Country, CountryAdmin)
@@ -1604,7 +1663,7 @@ admin.site.register(LogEntry, LogEntryAdmin)
 admin.site.register(Person2Company, Person2CompanyAdmin)
 admin.site.register(CompanyCategories, CompanyCategoriesAdmin)
 admin.site.register(Rule, RuleAdmin)
+admin.site.register(Article, ArticleAdmin)
 
 admin.site.unregister(TOTPDevice)
 admin.site.register(TOTPDevice, RiggedTOTPDeviceAdmin)
-

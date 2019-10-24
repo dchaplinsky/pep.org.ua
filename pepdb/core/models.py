@@ -26,6 +26,7 @@ from core.model.connections import (
     RelationshipProof,
 )
 from core.model.flags import Rule, Flag
+from core.model.articles import Article
 from core.model.supplementaries import ActionLog, Document, FeedbackMessage
 
 __all__ = [
@@ -50,7 +51,8 @@ __all__ = [
     DeclarationToWatch,
     CompanyCategories,
     Rule,
-    Flag
+    Flag,
+    Article,
 ]
 
 

@@ -82,6 +82,11 @@ class Rule(models.Model):
     weight = models.FloatField("Weight of that rule")
     scale = models.FloatField("Scale that should be applied to the weight", default=1.0)
 
+    class Meta:
+        verbose_name = "Правило скорингу"
+        verbose_name_plural = "Правила скорингу"
+
+
 
 class Flag(models.Model):
     person = models.ForeignKey("Person", related_name="flags")
@@ -99,3 +104,7 @@ class Flag(models.Model):
     @property
     def rule_name(self):
         return unicode(ugettext_lazy(self.rule.get_id_display() or ""))
+
+    class Meta:
+        verbose_name = "Червоний прапорець"
+        verbose_name_plural = "Червоні прапорці"
