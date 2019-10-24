@@ -48,6 +48,9 @@
 {% set any_documents = documents.values()|map("length")|sum %}
     <main>
         <div class="profile-page__content" itemscope itemtype="http://schema.org/Person" data-url="{{ url('connections', 'person', person.pk) }}">
+            <div class="side-menu-btn">
+                <a href=""><span class="icon"></span>{{ _("зміст") }}</a>
+            </div>
             <div class="profile-page__header">
                 <div class="breadcrumbs-wrap">
                     <ul class="breadcrumbs">
@@ -85,9 +88,6 @@
                 <link itemprop="url" href="{{ person.get_absolute_url() }}" />
 
                 <div class="profile-page__top">
-                    <div class="side-menu-btn">
-                        <a href=""><span class="icon"></span>{{ _("зміст") }}</a>
-                    </div>
                     <div class="profile-image">
                         {% if person.photo %}
                         <img src="{{ person.photo | thumbnail_url("avatar") }}" itemprop="image" alt="{{ person.last_name }} {{ person.first_name }} {{ person.patronymic }}">

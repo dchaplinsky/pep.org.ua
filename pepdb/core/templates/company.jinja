@@ -28,6 +28,10 @@
 
     <main>
         <div class="profile-page__content" itemscope itemtype="http://schema.org/Organization">
+            
+            <div class="side-menu-btn">
+                <a href=""><span class="icon"></span>{{_("зміст")}}</a>
+            </div>
             <div class="profile-page__header">
                 <div class="breadcrumbs-wrap">
                     <ul class="breadcrumbs">
@@ -65,9 +69,6 @@
             <div class="profile-page__body">
 
                 <div class="profile-page__top">
-                    <div class="side-menu-btn">
-                        <a href=""><span class="icon"></span>{{_("зміст")}}</a>
-                    </div>
                     <div class="profile-image">
                         <img src="{{ static('images/profile-empty-entities.svg') }}" alt="photo">
                         {% if ((company.sanctions_en or company.sanctions_uk) and LANGUAGE_CODE == "en") or (company.sanctions_uk and LANGUAGE_CODE == "uk") %}

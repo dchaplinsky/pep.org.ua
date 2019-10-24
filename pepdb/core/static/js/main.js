@@ -26,39 +26,74 @@ $(document).ready(function () {
         }
 
         // for main partners-slider
-        if ($(window).width() <= 767) {
-            $('.partners .items').slick({
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    dots: true,
-                    arrows: false,
-                    infinite: false
-                }
-            );
-        } else {
-            $('.partners .items').slick('unslick');
+        if ($("div").is(".partners")) {
+            if ($(window).width() <= 767) {
+                $('.partners .items').slick({
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        dots: true,
+                        arrows: false,
+                        infinite: false
+                    }
+                );
+            } else {
+                $('.partners .items').slick('unslick');
+            }
         }
 
         // for main opportunities-slider
-        if ($(window).width() <= 767) {
-            $('.opportunities .items').slick({
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    dots: true,
-                    arrows: false,
-                    infinite: false,
-                    adaptiveHeight: true
-                }
-            );
-        } else {
-            $('.opportunities .items').slick('unslick');
+        if ($("div").is(".opportunities")) {
+            if ($(window).width() <= 767) {
+                $('.opportunities .items').slick({
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        dots: true,
+                        arrows: false,
+                        infinite: false,
+                        adaptiveHeight: true
+                    }
+                );
+            } else {
+                $('.opportunities .items').slick('unslick');
+            }
         }
 
-        //create trigger to resizeEnd event
+        // create trigger to resizeEnd event
         if (this.resizeTO) clearTimeout(this.resizeTO);
         this.resizeTO = setTimeout(function () {
             $(this).trigger('resizeEnd');
         }, 500);
+
+        //  for fixed side btn
+        if ($('div').hasClass('profile-page')) {
+            offsetSideBtn = $('.side-menu-btn').offset();
+            // console.log("SHARING", offsetSideBtn);
+
+            parentHeight = $('.side-menu-btn').parents('.profile-page__content').height();
+            // console.log("PARENT-HEIGHT", parentHeight);
+
+            $(window).on("scroll", function (e) {
+                if ($(window).width() >= 768) {
+                    if ($(window).scrollTop() >= offsetSideBtn.top - 50
+                        && $(window).scrollTop() <= parentHeight - ($('.side-menu-btn').height() + 50)) {
+                        $('.side-menu-btn').addClass("side-menu-btn--fixed").removeClass('side-menu-btn--fixed-bottom')
+                    } else if ($(window).scrollTop() >= parentHeight - ($('.side-menu-btn').height() + 50)) {
+                        $('.side-menu-btn').addClass("side-menu-btn--fixed-bottom")
+                    } else {
+                        $('.side-menu-btn').removeClass('side-menu-btn--fixed side-menu-btn--fixed-bottom')
+                    }
+                } else if ($(window).width() <= 767) {
+                    if ($(window).scrollTop() >= offsetSideBtn.top
+                        && $(window).scrollTop() <= parentHeight - ($('.side-menu-btn').height())) {
+                        $('.side-menu-btn').addClass("side-menu-btn--fixed").removeClass('side-menu-btn--fixed-bottom')
+                    } else if ($(window).scrollTop() >= parentHeight - ($('.side-menu-btn').height() + 56)) {
+                        $('.side-menu-btn').addClass("side-menu-btn--fixed-bottom")
+                    } else {
+                        $('.side-menu-btn').removeClass('side-menu-btn--fixed side-menu-btn--fixed-bottom')
+                    }
+                }
+            });
+        }
     });
 
     //resize chart after window resize end
@@ -75,16 +110,16 @@ $(document).ready(function () {
 
     // first section bg
     if ($('div').is('#particles-js')) {
-        particlesJS.load('particles-js', $(location).attr('origin') + '/static/js/particlesjs-config.json', function () {
+        particlesJS.load('particles-js', 'js/particlesjs-config.json', function () {
         });
     }
 
     //open/close search dropdown
-    // $('.search-form input').focusin(function () {
-    //     $(this).parents('.search-form').addClass('search-form--open-dropdown');
-    // }).focusout(function () {
-    //     $(this).parents('.search-form').removeClass('search-form--open-dropdown');
-    // })
+    $('.search-form input').focusin(function () {
+        $(this).parents('.search-form').addClass('search-form--open-dropdown');
+    }).focusout(function () {
+        $(this).parents('.search-form').removeClass('search-form--open-dropdown');
+    })
 
     // main section blog scroll
     // $('.blog-and-investigation .items').perfectScrollbar({
@@ -98,41 +133,42 @@ $(document).ready(function () {
 
     // main partners-slider
     if ($(window).width() <= 767) {
-        $('.partners .items').slick({
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            dots: true,
-            arrows: false,
-            infinite: false
-        });
+        if ($("div").is(".partners")) {
+            $('.partners .items').slick({
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                dots: true,
+                arrows: false,
+                infinite: false
+            });
+        }
     }
 
     // main opportunities-slider section
     if ($(window).width() <= 767) {
-        $('.opportunities .items').slick({
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            dots: true,
-            arrows: false,
-            infinite: false,
-            adaptiveHeight: true
-        });
+        if ($("div").is(".opportunities")) {
+            $('.opportunities .items').slick({
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                dots: true,
+                arrows: false,
+                infinite: false,
+                adaptiveHeight: true
+            });
+        }
     }
 
     // profiles filters
-    $('.profiles-filters button').on('click', function (e) {
+    $('.profiles-filters button').on('click touchstart', function (e) {
         e.preventDefault();
-        $(this).addClass("active");
         if ($(this).attr('id') == 'individuals-filter') {
+            $(this).addClass('active');
             $('#entities-filter').removeClass('active');
-            $('.pagination.persons').addClass('active');
-            $('.pagination.companies').removeClass('active');
             $('#entities-items').removeClass('active');
             $('#individuals-items').addClass('active');
         } else if ($(this).attr('id') == 'entities-filter') {
+            $(this).addClass('active');
             $('#individuals-filter').removeClass('active');
-            $('.pagination.persons').removeClass('active');
-            $('.pagination.companies').addClass('active');
             $('#individuals-items').removeClass('active');
             $('#entities-items').addClass('active');
         }
@@ -216,7 +252,6 @@ $(document).ready(function () {
         new SimpleBar($('.side-menu__container')[0]);
     }
 
-
     // scoring open/close
     $('.scoring__btn').on('click', function (e) {
         e.preventDefault();
@@ -230,13 +265,6 @@ $(document).ready(function () {
         $(window).resize(function () {
             $('.progressbar .index').height($('.progressbar').width() / 10);
         });
-    });
-
-    // toggle-table-row
-    $('.toggle-row-btn').on('click', function () {
-        var parentRow = $(this).parents('tr');
-        parentRow.next('.toggle-row').toggleClass('toggle-row--open');
-        $(this).toggleClass('toggle-row-btn--open');
     });
 
     // check profile-section content height
@@ -296,5 +324,113 @@ $(document).ready(function () {
         $('#visualization-modal').addClass('modal--open');
         $('body').addClass('modal-open');
     });
+
+    // сортировка таблицы
+    $(".sort-table tr th").click(function (event) {
+
+        // если текущий столбец не сортируемый - ничего не делаем
+        if ($(this).attr("data-colnum") == undefined) return false;
+
+        // текущая таблица (3 шт parent, т.к. боаузер дорисовывает tbody и thead)
+        var currTable = $(this).parent().parent().parent();
+
+        // удаляем ряд с доп инфо
+        currTable.find('.toggle-row').remove();
+
+        // сносим флаг открытого доп инфо
+        currTable.find(".toggle-row-btn").removeClass("open");
+
+        // количество игнорируемых сортировкой строк (шапка таблицы)
+        var sliceCnt = currTable.data("slice-count");
+
+        // получаем идентификатор сортируемого столбца
+        var sortColNum = $(this).data("colnum");
+        var from, to;
+
+        // определяем в какую сторону сортировать
+        if (!$(this).hasClass("asc") && !$(this).hasClass("desc")) {
+            $(this).addClass("asc");
+            from = 1;
+            to = -1;
+
+        } else if ($(this).hasClass("asc")) {
+            $(this).removeClass("asc").addClass("desc");
+            from = -1;
+            to = 1;
+
+        } else if ($(this).hasClass("desc")) {
+            $(this).removeClass("desc").addClass("asc");
+            from = 1;
+            to = -1;
+        }
+
+        // удаляем старые классы указывающие текущее направление сортировки
+        $(this).siblings("th").removeClass("asc desc");
+
+        // сортируем
+        currTable.find('tr').slice(sliceCnt).sort(function (a, b) {
+            return $(a).find('.sort-col.' + sortColNum).text() > $(b).find('.sort-col.' + sortColNum).text() ? from : to;
+        }).appendTo(currTable);
+    });
+
+    // скрытие/отображение доп инфо
+    $(".toggle-row-btn").click(function (event) {
+        var infoRow = $(this).parent().parent();
+
+        // если для текущего ряда доп инфо уже отображается - скрываем (по факту удаляем)
+        if ($(this).hasClass("open")) {
+            // удаляем ряд с доп инфо
+            infoRow.siblings(".toggle-row").remove();
+            $(this).removeClass("open");
+
+            // если доп инфо еще не было отображено - показываем
+        } else {
+            // удаляем другие ряды с доп инфо, если были открыты
+            infoRow.siblings(".toggle-row").remove();
+
+            // копируем лежащий рядом с кнопкой блок контента с доп инфо (который имеет класс .toggle-content)
+            var content = $(this).siblings(".toggle-content")[0].outerHTML;
+
+            // формируем ряд с доп инфо и вставляем его после родительского ряда
+            $(this).parent().parent().after('<tr class="toggle-row"><td colspan="4">' + content + '</td></tr>');
+
+            // отображаем скрытый контент
+            infoRow.siblings(".toggle-row").find(".toggle-content").show();
+
+            // добавляем класс на будущее, чтобы знать, что для текущего ряда инфо блок уже открыт
+            $(this).addClass("open");
+        }
+    });
+
+    // fixed side menu
+    if ($('div').hasClass('profile-page')) {
+        var offsetSideBtn = $('.side-menu-btn').offset();
+        // console.log("SHARING", offsetSideBtn);
+
+        var parentHeight = $('.side-menu-btn').parents('.profile-page__content').height();
+        // console.log("PARENT-HEIGHT", parentHeight);
+
+        $(window).on("scroll", function (e) {
+            if ($(window).width() >= 768) {
+                if ($(window).scrollTop() >= offsetSideBtn.top - 50
+                    && $(window).scrollTop() <= parentHeight - ($('.side-menu-btn').height() + 50)) {
+                    $('.side-menu-btn').addClass("side-menu-btn--fixed").removeClass('side-menu-btn--fixed-bottom')
+                } else if ($(window).scrollTop() >= parentHeight - ($('.side-menu-btn').height() + 50)) {
+                    $('.side-menu-btn').addClass("side-menu-btn--fixed-bottom")
+                } else {
+                    $('.side-menu-btn').removeClass('side-menu-btn--fixed side-menu-btn--fixed-bottom')
+                }
+            } else if ($(window).width() <= 767) {
+                if ($(window).scrollTop() >= offsetSideBtn.top
+                    && $(window).scrollTop() <= parentHeight - ($('.side-menu-btn').height())) {
+                    $('.side-menu-btn').addClass("side-menu-btn--fixed").removeClass('side-menu-btn--fixed-bottom')
+                } else if ($(window).scrollTop() >= parentHeight - ($('.side-menu-btn').height() + 56)) {
+                    $('.side-menu-btn').addClass("side-menu-btn--fixed-bottom")
+                } else {
+                    $('.side-menu-btn').removeClass('side-menu-btn--fixed side-menu-btn--fixed-bottom')
+                }
+            }
+        });
+    }
 
 });
