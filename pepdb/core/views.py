@@ -115,6 +115,7 @@ def suggest(request):
 
 def search(request, sources=("persons", "companies")):
     query = request.GET.get("q", "")
+    country = request.GET.get("country", "")
     is_exact = request.GET.get("is_exact", "") == "on"
 
     params = {"query": query, "sources": sources, "today": datetime.now()}
@@ -133,6 +134,14 @@ def search(request, sources=("persons", "companies")):
             ],
         )
 
+        if country:
+            persons = persons.query(
+                "match",
+                related_countries__to_country_uk={
+                    "query": country, "operator": "and"
+                }
+            )
+
         # Special case when we were looking for one exact person and found it.
         if persons.count() == 1:
             person = persons.execute()[0]
@@ -145,6 +154,14 @@ def search(request, sources=("persons", "companies")):
             operator="and",
             fields=["short_name_en", "short_name_uk", "name_en", "name_uk"],
         )
+
+        if country:
+            companies = companies.query(
+                "match",
+                related_countries__to_country_uk={
+                    "query": country, "operator": "and"
+                }
+            )
 
         # Special case when we were looking for one exact company and found it.
         if companies.count() == 1:
@@ -173,6 +190,8 @@ def search(request, sources=("persons", "companies")):
 
 def _search_person(request):
     query = request.GET.get("q", "")
+    country = request.GET.get("country", "")
+
     _fields = [
         "full_name^3",
         "names^2",
@@ -196,6 +215,14 @@ def _search_person(request):
     else:
         persons = ElasticPerson.search().query("match_all")
 
+    if country:
+        persons = persons.query(
+            "match",
+            related_countries__to_country_uk={
+                "query": country, "operator": "and"
+            }
+        )
+
     return paginated_search(
         request,
         persons.highlight(
@@ -203,7 +230,7 @@ def _search_person(request):
         ).highlight(
             "related_persons.person_en", order="score", pre_tags=[""], post_tags=[""]
         ),
-        settings.CATALOG_PER_PAGE * 2,
+        settings.CATALOG_PER_PAGE,
     )
 
 
@@ -234,6 +261,8 @@ def _suggest_person(request):
 
 def _search_company(request):
     query = request.GET.get("q", "")
+    country = request.GET.get("country", "")
+
     _fields = [
         "name_uk",
         "short_name_uk",
@@ -267,6 +296,14 @@ def _search_company(request):
 
     else:
         companies = ElasticCompany.search().query("match_all")
+
+    if country:
+        companies = companies.query(
+            "match",
+            related_countries__to_country_uk={
+                "query": country, "operator": "and"
+            }
+        )
 
     return paginated_search(
         request,
@@ -342,8 +379,8 @@ def person_details(request, person_id):
         "person": person,
         "query": "",
         "all_declarations": person.get_declarations(),
-        "scoring_score": sum(flags_qs.values_list("rule__weight", flat=True)),
-        "scoring_flags": flags_qs.all()
+        "scoring_score": sum(x[0] * x[1] for x in flags_qs.values_list("rule__weight", "rule__scale")),
+        "scoring_flags": flags_qs.order_by("-rule__weight") 
     }
 
     full_name = "%s %s %s" % (

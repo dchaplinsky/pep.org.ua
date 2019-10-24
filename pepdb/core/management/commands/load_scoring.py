@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 import json
+from collections import defaultdict
 from django.core.management.base import BaseCommand
 from django.conf import settings
 from core.models import Rule, Flag, Person
@@ -35,6 +36,7 @@ class Command(BaseCommand):
 
             return
 
+        scores = defaultdict(float)
 
         for l in content.splitlines():
             d = json.loads(l)
@@ -46,6 +48,7 @@ class Command(BaseCommand):
             except Rule.DoesNotExist:
                 self.stderr.write("Rule with id '{}' doesn't exists".format(d.get("Rule")))
 
+            scores[pep.pk] += rule.weight
             flags.append(Flag(
                 person=pep,
                 rule=rule,
@@ -64,4 +67,21 @@ class Command(BaseCommand):
         Flag.objects.all().delete()
         Flag.objects.bulk_create(flags)
 
+        max_score = max(scores.values())
+
+        for pep_id, score in scores.items():
+            if score == max_score:
+                self.stdout.write("Max score is {} (pep {})".format(score, pep_id))
+                break
+
+        if max_score < 1. and not kwargs["force"]:
+            self.stderr.write(
+                "Max score is {} which is too low".format(
+                    max_score
+                )
+            )
+
+            return
+
+        Rule.objects.update(scale=10 / max_score)
         self.stdout.write("Import is complete, {} new flags added".format(len(flags)))
