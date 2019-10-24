@@ -297,6 +297,7 @@ class HomePage(AbstractJinjaPage, Page):
         ctx = super(HomePage, self).get_context(request, *args, **kwargs)
 
         ctx["persons_total"] = Person.objects.count()
+        ctx["articles"] = Article.objects.filter(publish=True)[:10]
         ctx["blogs_total"] = Article.objects.filter(kind="b", publish=True).count()
         ctx["investigations_total"] = Article.objects.filter(kind="i", publish=True).count()
         ctx["registries_total"] = 9  # Say 9
@@ -480,29 +481,6 @@ class BlogIndexPage(AbstractJinjaPage, Page):
             self).live().order_by(
             '-date_published')
         return context
-
-    # # This defines a Custom view that utilizes Tags. This view will return all
-    # # related BlogPages for a given Tag or redirect back to the BlogIndexPage.
-    # # More information on RoutablePages is at
-    # # http://docs.wagtail.io/en/latest/reference/contrib/routablepage.html
-    # @route('^tags/$', name='tag_archive')
-    # @route('^tags/([\w-]+)/$', name='tag_archive')
-    # def tag_archive(self, request, tag=None):
-
-    #     try:
-    #         tag = Tag.objects.get(slug=tag)
-    #     except Tag.DoesNotExist:
-    #         if tag:
-    #             msg = 'There are no blog posts tagged with "{}"'.format(tag)
-    #             messages.add_message(request, messages.INFO, msg)
-    #         return redirect(self.url)
-
-    #     posts = self.get_posts(tag=tag)
-    #     context = {
-    #         'tag': tag,
-    #         'posts': posts
-    #     }
-    #     return render(request, 'blog/blog_index_page.html', context)
 
     def serve_preview(self, request, mode_name):
         # Needed for previews to work

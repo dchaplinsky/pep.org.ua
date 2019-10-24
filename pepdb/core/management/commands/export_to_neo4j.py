@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 import os
 import re
 import os.path
+from tqdm import tqdm
+from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 import csv
 from unicodecsv import writer
@@ -22,6 +24,7 @@ class Command(BaseCommand):
         return re.sub("\s+", " ", unicode(s).replace("\n", " ").strip())
 
     def export_nodes(self, fname, qs, fields, labels=[]):
+        self.nodes.append(os.path.basename(fname))
         with open(fname, "w") as fp:
             w = writer(fp, quoting=csv.QUOTE_ALL)
             id_fields = "%sId:ID(%s)" % (
@@ -29,7 +32,7 @@ class Command(BaseCommand):
 
             w.writerow([id_fields] + fields + [":LABEL"])
 
-            for obj in qs:
+            for obj in tqdm(qs.iterator(), total=qs.count()):
                 w.writerow([
                     getattr(obj, "get_%s_display" % x)()
                     if hasattr(obj, "get_%s_display" % x) else
@@ -37,6 +40,7 @@ class Command(BaseCommand):
                 ] + [";".join(labels)])
 
     def export_relations(self, fname, qs, src, dst, fields):
+        self.relationships.append(os.path.basename(fname))
         with open(fname, "w") as fp:
             w = writer(fp, quoting=csv.QUOTE_ALL)
             if_fld_from = getattr(qs.model, src).field.related_model.__name__
@@ -49,7 +53,7 @@ class Command(BaseCommand):
                     ":TYPE"
                 ] + fields)
 
-            for obj in qs:
+            for obj in tqdm(qs.iterator(), total=qs.count()):
                 w.writerow(
                     [
                         getattr(obj, src + "_id"),
@@ -65,6 +69,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         output_dir = options["output_dir"]
+        self.relationships = []
+        self.nodes = []
 
         try:
             if not os.path.isdir(output_dir):
@@ -74,7 +80,7 @@ class Command(BaseCommand):
 
         self.export_nodes(
             os.path.join(output_dir, "persons.csv"),
-            Person.objects.all(),
+            Person.objects.all().nocache(),
             [
                 "full_name",
                 "date_of_birth",
@@ -87,7 +93,7 @@ class Command(BaseCommand):
 
         self.export_nodes(
             os.path.join(output_dir, "companies.csv"),
-            Company.objects.all(),
+            Company.objects.all().nocache(),
             [
                 "name_uk",
                 "founded_human",
@@ -100,7 +106,7 @@ class Command(BaseCommand):
 
         self.export_nodes(
             os.path.join(output_dir, "countries.csv"),
-            Country.objects.exclude(iso2=""),
+            Country.objects.exclude(iso2="").nocache(),
             [
                 "name_uk",
                 "iso2",
@@ -113,7 +119,7 @@ class Command(BaseCommand):
 
         self.export_relations(
             os.path.join(output_dir, "person2person.csv"),
-            Person2Person.objects.all(),
+            Person2Person.objects.all().nocache(),
             "from_person",
             "to_person",
             [
@@ -129,7 +135,7 @@ class Command(BaseCommand):
 
         self.export_relations(
             os.path.join(output_dir, "person2company.csv"),
-            Person2Company.objects.all(),
+            Person2Company.objects.all().nocache(),
             "from_person",
             "to_company",
             [
@@ -145,7 +151,7 @@ class Command(BaseCommand):
 
         self.export_relations(
             os.path.join(output_dir, "company2company.csv"),
-            Company2Company.objects.all(),
+            Company2Company.objects.all().nocache(),
             "from_company",
             "to_company",
             [
@@ -162,7 +168,7 @@ class Command(BaseCommand):
 
         self.export_relations(
             os.path.join(output_dir, "person2country.csv"),
-            Person2Country.objects.all(),
+            Person2Country.objects.all().nocache(),
             "from_person",
             "to_country",
             [
@@ -177,7 +183,7 @@ class Command(BaseCommand):
 
         self.export_relations(
             os.path.join(output_dir, "company2country.csv"),
-            Company2Country.objects.all(),
+            Company2Country.objects.all().nocache(),
             "from_company",
             "to_country",
             [
@@ -189,3 +195,16 @@ class Command(BaseCommand):
                 "proof",
             ]
         )
+
+        with open(os.path.join(output_dir, "neo4j_import.sh"), "w") as fp:
+            cmd = '{} import --id-type=STRING --database={} \\\n'
+            fp.write(cmd.format(settings.NEO4J_ADMIN_PATH, settings.NEO4J_DATABASE_NAME))
+            fp.write('\t--multiline-fields=true \\\n')
+
+            for node in self.nodes:
+                cmd = '\t--nodes={} \\\n'
+                fp.write(cmd.format(node))
+
+            for relationship in self.relationships:
+                cmd = '\t--relationships={} \\\n'
+                fp.write(cmd.format(relationship))

@@ -364,6 +364,9 @@ SITEHEART_ID = None
 GA_ID = None
 SUPERADMINS = []
 
+NEO4J_ADMIN_PATH = ""
+NEO4J_DATABASE_NAME = ""
+
 try:
     from local_settings import *
 except ImportError:
