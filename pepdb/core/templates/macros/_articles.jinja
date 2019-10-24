@@ -1,10 +1,20 @@
 {% macro render_article_snippet(article) %}
-<div>
-	<h2><a href="{{ article.get_absolute_url() }}">{{ article.caption }}</a></h2>
-	<date>{{ article.date|date }}</date>
-
-	{% if article.photo %}
-		<img src="{{ article.photo | thumbnail_url("article") }}" alt="{{ article.header }}" />
+<article class="blog-card">
+    <a href="{{ article.get_absolute_url() }}" class="card-link"></a>
+    {% if article.photo %}
+	<img src="{{ article.photo | thumbnail_url("article") }}" alt="{{ article.header }}">
 	{% endif %}
-</div>
+    <div class="blog-card__header">
+        <span class="direction">{{_("Розслідування")}}</span>
+        <time class="date">20.08.2019</time>
+    </div>
+    <div class="blog-card__body">
+        <h6 class="title">{{ article.caption }}</h6>
+        <span class="icon">
+            <svg>
+                <use xlink:href="#arr-right"></use>
+            </svg>
+        </span>
+    </div>
+</article>
 {% endmacro %}

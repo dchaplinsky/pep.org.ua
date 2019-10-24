@@ -88,10 +88,10 @@
                             <a href="{{ url('wagtail_serve', 'pitannya-ta-vidpovid/') }}" class="qa-item" title="{{ _("Про реєстр") }}">{{ _("Про реєстр") }}</a>
                         </li>
                         <li class="menu__list-item">
-                            <a href="blogs.html">{{_("Блог")}}</a>
+                            <a href="{{ url('wagtail_serve', 'blogs/') }}">{{_("Блог")}}</a>
                         </li>
                         <li class="menu__list-item">
-                            <a href="investigations.html">{{_("Розслідування")}}</a>
+                            <a href="{{ url('investigations') }}">{{_("Розслідування")}}</a>
                         </li>
                         <li class="menu__list-item">
                             <a href="contacts.html">{{_("Контакти")}}</a>
@@ -135,22 +135,22 @@
             <nav class="menu">
                 <ul class="menu__list">
                     <li class="menu__list-item">
-                        <a href="about-us.html">Про реєстр</a>
+                        <a href="{{ url('wagtail_serve', 'pitannya-ta-vidpovid/') }}" class="qa-item" title="{{ _("Про реєстр") }}">{{ _("Про реєстр") }}</a>
                     </li>
                     <li class="menu__list-item">
-                        <a href="blogs.html">Блог</a>
+                        <a href="{{ url('wagtail_serve', 'blogs/') }}">{{_("Блог")}}</a>
                     </li>
                     <li class="menu__list-item">
-                        <a href="investigations.html">Розслідування</a>
+                        <a href="{{ url('investigations') }}">{{_("Розслідування")}}</a>
                     </li>
                     <li class="menu__list-item">
-                        <a href="contacts.html">Контакти</a>
+                        <a href="contacts.html">{{_("Контакти")}}</a>
                     </li>
                     <li class="menu__list-item">
-                        <a href="api.html">API</a>
+                        <a href="api.html">{{_("API")}}</a>
                     </li>
                     <li class="menu__list-item">
-                        <a href="scoring.html">Scoring</a>
+                        <a href="scoring.html">{{_("Scoring")}}</a>
                     </li>
                 </ul>
             </nav>
@@ -167,22 +167,22 @@
                     <nav class="menu">
                         <ul class="menu__list">
                             <li class="menu__list-item">
-                                <a href="about-us.html">Про реєстр</a>
+                            <a href="{{ url('wagtail_serve', 'pitannya-ta-vidpovid/') }}" class="qa-item" title="{{ _("Про реєстр") }}">{{ _("Про реєстр") }}</a>
                             </li>
                             <li class="menu__list-item">
-                                <a href="contacts.html">Контакти</a>
+                                <a href="{{ url('wagtail_serve', 'blogs/') }}">{{_("Блог")}}</a>
                             </li>
                             <li class="menu__list-item">
-                                <a href="investigations.html">Розслідування</a>
+                                <a href="{{ url('investigations') }}">{{_("Розслідування")}}</a>
                             </li>
                             <li class="menu__list-item">
-                                <a href="api.html">API</a>
+                                <a href="contacts.html">{{_("Контакти")}}</a>
                             </li>
                             <li class="menu__list-item">
-                                <a href="blogs.html">Блог</a>
+                                <a href="api.html">{{_("API")}}</a>
                             </li>
                             <li class="menu__list-item">
-                                <a href="scoring.html">Scoring</a>
+                                <a href="scoring.html">{{_("Scoring")}}</a>
                             </li>
                         </ul>
                     </nav>
@@ -221,6 +221,7 @@
             </div>
         </div>
     </footer>
+</div>
 
     {% block svg_code %}
     {% endblock %}
