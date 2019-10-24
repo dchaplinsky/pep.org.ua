@@ -27,7 +27,7 @@ from wagtail.wagtailcore.blocks import (
 )
 
 from core.utils import TranslatedField
-from core.models import Person
+from core.models import Person, Article, Document
 
 
 @hooks.register('construct_whitelister_element_rules')
@@ -297,6 +297,10 @@ class HomePage(AbstractJinjaPage, Page):
         ctx = super(HomePage, self).get_context(request, *args, **kwargs)
 
         ctx["persons_total"] = Person.objects.count()
+        ctx["blogs_total"] = Article.objects.filter(kind="b", publish=True).count()
+        ctx["investigations_total"] = Article.objects.filter(kind="i", publish=True).count()
+        ctx["registries_total"] = 9  # Say 9
+        ctx["docs_total"] = Document.objects.filter(doc__isnull=False).count()
         ctx["persons_pep"] = Person.objects.filter(type_of_official=1).count()
         ctx["persons_related"] = Person.objects.exclude(
             type_of_official=1).count()
