@@ -1,5 +1,6 @@
 {% extends "base.jinja" %}
 {% from "macros/_connections.jinja" import render_person_banks, render_related_persons, render_person_companies with context %}
+{% from "macros/_articles.jinja" import render_article_snippet with context %}
 
 {% set last_workplace = person.translated_last_workplace %}
 
@@ -37,7 +38,7 @@
 
 {% block page_class %}profile-page{% endblock %}
 
-{% block content%}
+{% block content %}
 {% set related_persons = person.all_related_persons %}
 {% set related_companies = person.all_related_companies %}
 {% set workplaces = person.workplaces %}
@@ -1101,6 +1102,15 @@
                             </div>
                             <!--  тут не body а content -->
                             <div class="profile-section__content">
+                                {% if articles %}
+                                <ul>
+                                    {% for article in articles %}
+                                    <li>
+                                        {{ render_article_snippet(article) }}
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                                {% endif %}
                                 <div class="investigation-grid">
                                     <article class="blog-card">
                                         <a href="investigation-single.html" class="card-link"></a>

@@ -1,0 +1,10 @@
+{% macro render_article_snippet(article) %}
+<div>
+	<h2><a href="{{ article.get_absolute_url() }}">{{ article.caption }}</a></h2>
+	<date>{{ article.date|date }}</date>
+
+	{% if article.photo %}
+		<img src="{{ article.photo | thumbnail_url("article") }}" alt="{{ article.header }}" />
+	{% endif %}
+</div>
+{% endmacro %}

@@ -1,0 +1,38 @@
+{% extends "base.jinja" %}
+
+{% block content %}
+<main>
+	<div class="profile-page__content">
+		<h1>{{ article.caption }}</h1>
+		{% if article.photo %}
+			<img src="{{ article.photo.url }}" alt="{{ article.caption }}" />
+		{% endif %}
+
+		<p>{{ article.get_kind_display() }}</p>
+		<h2>{{ article.header }}</h2>
+		<p>{{ article.text|safe }}</p>
+		<date>{{ article.date|date}}</date>
+
+		{% set persons = article.related_persons.all() %}
+		{% set companies = article.related_companies.all() %}
+		{% if persons %}
+		<ul>
+			{% for p in persons %}
+				<a href="{{ p.get_absolute_url() }}">
+					{{ p.full_name }}
+				</a>
+			{% endfor %}
+		</ul>
+		{% endif %}
+		{% if companies %}
+		<ul>
+			{% for c in companies %}
+				<a href="{{ c.get_absolute_url() }}">
+					{{ c.name }}
+				</a>
+			{% endfor %}
+		</ul>
+		{% endif %}
+	</div>
+</main>
+{% endblock %}

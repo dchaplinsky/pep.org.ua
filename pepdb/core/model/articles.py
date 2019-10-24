@@ -4,6 +4,7 @@ from django.db import models
 from django.utils.translation import ugettext_noop as _
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 
 import select2.fields
 from core.fields import RedactorField
@@ -27,9 +28,9 @@ class Article(models.Model):
         "RelationshipProof", verbose_name="Посилання, соціальні мережі та документи"
     )
 
-    related_persons = models.ManyToManyField("Person", verbose_name="Пов'язані особи")
+    related_persons = models.ManyToManyField("Person", verbose_name="Пов'язані особи", related_name="articles")
     related_companies = models.ManyToManyField(
-        "Company", verbose_name="Пов'язані компанії"
+        "Company", verbose_name="Пов'язані компанії", related_name="articles"
     )
 
     last_editor = models.ForeignKey(
@@ -44,6 +45,9 @@ class Article(models.Model):
 
     def __unicode__(self):
         return '{} ({})'.format(self.caption_uk, self.get_kind_display())
+
+    def get_absolute_url(self):
+        return reverse("article_details", kwargs={"article_id": self.pk})
 
     class Meta:
         verbose_name = "Стаття"

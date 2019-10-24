@@ -1,5 +1,7 @@
 {% extends "base.jinja" %}
 {% from "macros/_connections.jinja" import render_connection, render_company_persons, render_related_persons, render_company_companies with context %}
+{% from "macros/_articles.jinja" import render_article_snippet with context %}
+
 {% block body_class %}not-front profile-page company-profile page{% endblock %}
 
 {% block page_title %}{{ company.name }} {% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.jinja" %}
+{% from "macros/_articles.jinja" import render_article_snippet with context %}
+
+{% block content %}
+<main>
+	<div class="profile-page__content">
+		<h1>{{ kind_readble }}</h1>
+
+		<ul>
+			{% for article in articles %}
+			<li>
+				{{ render_article_snippet(article) }}
+			</li>
+			{% endfor %}
+		</ul>
+	</div>
+</main>
+{% endblock %}

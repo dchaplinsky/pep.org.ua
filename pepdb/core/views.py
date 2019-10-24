@@ -23,7 +23,7 @@ from elasticsearch_dsl.query import Q
 from translitua import translit
 from cryptography.fernet import InvalidToken
 
-from core.models import Person, Declaration, Country, Company, ActionLog
+from core.models import Person, Declaration, Country, Company, ActionLog, Article
 from core.pdf import pdf_response
 from core.utils import is_cyr, add_encrypted_url, unique, blacklist
 from core.paginator import paginated_search
@@ -380,7 +380,8 @@ def person_details(request, person_id):
         "query": "",
         "all_declarations": person.get_declarations(),
         "scoring_score": sum(x[0] * x[1] for x in flags_qs.values_list("rule__weight", "rule__scale")),
-        "scoring_flags": flags_qs.order_by("-rule__weight") 
+        "scoring_flags": flags_qs.order_by("-rule__weight"),
+        "articles": person.articles.filter(kind="i", publish=True).order_by("-date"),
     }
 
     full_name = "%s %s %s" % (
@@ -446,7 +447,10 @@ def countries(request, sources=("persons", "companies"), country_id=None):
 @pdf_response("company.jinja")
 def company_details(request, company_id):
     company = get_object_or_404(Company, pk=company_id)
-    context = {"company": company}
+    context = {
+        "company": company,
+        "articles": company.articles.filter(kind="i", publish=True).order_by("-date"),
+    }
 
     if is_cyr(company.name_uk):
         context["filename"] = translit(
@@ -585,3 +589,21 @@ def connections(request, model, obj_id):
     node_info["nodes"][0]["data"]["is_main"] = True
 
     return JsonResponse(node_info)
+
+
+def article_details(request, article_id):
+    article = get_object_or_404(Article, pk=article_id, publish=True)
+    return render(request, "article.jinja", {
+        "kind": article.kind,
+        "article": article
+    })
+
+
+def articles(request, kind):
+    articles = Article.objects.filter(kind=kind, publish=True).order_by("-date")
+
+    return render(request, "articles.jinja", {
+        "kind": kind,
+        "kind_readble": Article.ARTICLE_KINDS[kind],
+        "articles": articles
+    })
