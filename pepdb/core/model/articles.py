@@ -11,7 +11,12 @@ from core.fields import RedactorField
 
 
 class Article(models.Model):
-    ARTICLE_KINDS = {"b": _("блог"), "i": _("розслідування")}
+    ARTICLE_KINDS = {
+        "b": _("блог"),
+        "i": _("розслідування"),
+        "f": _("FAQ (загальний)"),
+        "r": _("FAQ (видалення)"),
+    }
 
     photo = models.ImageField("Головна світлина", blank=True, upload_to="images")
 
@@ -28,9 +33,14 @@ class Article(models.Model):
         "RelationshipProof", verbose_name="Посилання, соціальні мережі та документи"
     )
 
-    related_persons = models.ManyToManyField("Person", verbose_name="Пов'язані особи", related_name="articles")
+    related_persons = models.ManyToManyField(
+        "Person", verbose_name="Пов'язані особи", related_name="articles", blank=True
+    )
     related_companies = models.ManyToManyField(
-        "Company", verbose_name="Пов'язані компанії", related_name="articles"
+        "Company",
+        verbose_name="Пов'язані компанії",
+        related_name="articles",
+        blank=True,
     )
 
     last_editor = models.ForeignKey(
@@ -44,7 +54,7 @@ class Article(models.Model):
     last_modified = models.DateTimeField("Остання зміна", auto_now=True)
 
     def __unicode__(self):
-        return '{} ({})'.format(self.caption_uk, self.get_kind_display())
+        return "{} ({})".format(self.caption_uk, self.get_kind_display())
 
     def get_absolute_url(self):
         return reverse("article_details", kwargs={"article_id": self.pk})

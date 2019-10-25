@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.db import models
 from django.conf import settings
 from django.core.urlresolvers import reverse
+from django.forms.models import model_to_dict
 from django.utils.translation import ugettext_lazy, activate, deactivate
 
 from core.model.base import AbstractNode
@@ -34,6 +35,25 @@ class Country(models.Model, AbstractNode):
     @property
     def url_uk(self):
         return settings.SITE_URL + self.localized_url("uk")
+
+    def get_node(self):
+        res = super(Country, self).get_node()
+
+        d = model_to_dict(
+            self,
+            fields=[
+                "name_uk",
+                "name_en",
+                "iso2",
+                "iso3",
+                "is_jurisdiction",
+                "url_uk",
+                "url_en",
+            ],
+        )
+        res["data"].update(d)
+
+        return res
 
     class Meta:
         verbose_name = "Країна/юрісдикція"

@@ -1,33 +1,52 @@
 {% extends "base.jinja" %}
+{% from "macros/_articles.jinja" import render_article_snippet with context %}
 
 {% block content %}
-<div class="container">
-    <div class="row">
-    
-        <div id="breadcrumbs">
-            <ol class="breadcrumb">
-                <li><a href="{{ url("wagtail_serve", "") }}">{{ _("Головна") }}</a></li>
-                <li class="active">{{ _("Напишіть нам листа") }}</li>
-            </ol> 
+    <main>
+        <div class="page-grid">
+            {% for faq_item in faq %}
+                {{ render_article_snippet(faq_item) }}
+            {% endfor %}
         </div>
+
+        {# <div class="pagination">
+            <ul>
+                <li><span class="page-numbers current">1</span></li>
+                <li><a href="#" class="page-numbers">2</a></li>
+                <li><a href="#" class="page-numbers">3</a></li>
+                <li><a href="#" class="page-numbers">4</a></li>
+                <li><span class="page-numbers dots">...</span></li>
+                <li><a href="#" class="page-numbers">30</a></li>
+            </ul>
+        </div> #}
+    </main>
+
+    <div class="container">
+        <div class="row">
         
-        <section id="search-by-country">
-            <h1>{{ _("Напишіть нам листа") }}</h1>
-            <div class="page-content">
-                <div id="data-send-form">
-                    <div class="form-container">
-                        <div class="form-content">
-                            <div class="form">
-                                {% include "_feedback_form.jinja" %}    
+            <div id="breadcrumbs">
+                <ol class="breadcrumb">
+                    <li><a href="{{ url("wagtail_serve", "") }}">{{ _("Головна") }}</a></li>
+                    <li class="active">{{ _("Напишіть нам листа") }}</li>
+                </ol> 
+            </div>
+            
+            <section id="search-by-country">
+                <h1>{{ _("Напишіть нам листа") }}</h1>
+                <div class="page-content">
+                    <div id="data-send-form">
+                        <div class="form-container">
+                            <div class="form-content">
+                                <div class="form">
+                                    {% include "_feedback_form.jinja" %}    
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-
-</div>
-</div>
+            </section>
+        </div>
+    </div>
 {% endblock %}
 
 {% block inline_feedback_form %}

@@ -28,6 +28,7 @@ from wagtail.wagtailcore.blocks import (
 
 from core.utils import TranslatedField
 from core.models import Person, Article, Document
+from core.neo_models import Person as NeoPerson
 
 
 @hooks.register('construct_whitelister_element_rules')

@@ -475,6 +475,35 @@ class Company(models.Model, AbstractNode):
         res = super(Company, self).get_node()
 
         node = {
+            "description": self.edrpou,
+            "state_company": self.state_company,
+            "is_closed": bool(self.closed_on_human),
+        }
+
+        curr_lang = get_language()
+        for lang in settings.LANGUAGE_CODES:
+            activate(lang)
+            node.update({
+                "name": self.short_name or self.name,
+                "full_name": self.name,
+                "kind": unicode(
+                    ugettext_lazy("Державна компанія чи установа")
+                    if self.state_company
+                    else ugettext_lazy("Приватна компанія")
+                )
+            })
+
+        activate(curr_lang)
+
+        res["data"].update(node)
+
+        return res
+
+    # temporary hack to keep old viz afloat
+    def get_node_old(self):
+        res = super(Company, self).get_node()
+
+        node = {
             "name": self.short_name or self.name,
             "full_name": self.name,
             "description": self.edrpou,
@@ -491,9 +520,8 @@ class Company(models.Model, AbstractNode):
 
         return res
 
-
     def get_node_info(self, with_connections=False):
-        this_node = self.get_node()
+        this_node = self.get_node_old()
         nodes = [this_node]
         edges = []
         all_connected = set()

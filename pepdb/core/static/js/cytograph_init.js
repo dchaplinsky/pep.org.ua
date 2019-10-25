@@ -382,14 +382,11 @@ $(function() {
         });
     }
     
-    $.getJSON($("#profile, .profile-page__content").data("url"), function(elements) {
-        $(".load-pep-modal-tree").on("click", function() {
-            var anchor = $(this).data("target");
-            $(anchor).modal().on('shown.bs.modal', function(e) {
-                init_full(elements);
-            });
-            $("#pep-graph-tree").css("visibility", "visible").css("z-index", "2000");
-        }).find("i").removeClass("hidden");
-        init_preview(elements);
-    });
+    $(".load-pep-modal-tree").on("click", function() {
+        var anchor = $(this).data("target");
+        $(anchor).modal().on('shown.bs.modal', function(e) {
+            init_full(elements);
+        });
+        $("#pep-graph-tree").css("visibility", "visible").css("z-index", "2000");
+    }).find("i").removeClass("hidden");
 });

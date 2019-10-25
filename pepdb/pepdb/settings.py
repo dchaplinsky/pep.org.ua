@@ -70,6 +70,7 @@ INSTALLED_APPS = (
     'django_pickling',
     'nested_admin',
     'cacheops',
+    'django_neomodel',
 
     'cms_pages',
     'qartez',
@@ -179,7 +180,7 @@ LANGUAGES = (
     ('uk', gettext('Ukrainian')),
     ('en', gettext('English')),
 )
-
+LANGUAGE_CODES = list(dict(LANGUAGES).keys())
 
 TIME_ZONE = 'Europe/Kiev'
 
@@ -366,6 +367,7 @@ SUPERADMINS = []
 
 NEO4J_ADMIN_PATH = ""
 NEO4J_DATABASE_NAME = ""
+NEOMODEL_NEO4J_BOLT_URL = 'bolt://neo4j:test@localhost:7687'
 
 try:
     from local_settings import *

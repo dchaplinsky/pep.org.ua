@@ -67,7 +67,8 @@ urlpatterns = i18n_patterns(
         name="article_details",
     ),
     url(r"^investigations/$", core.views.articles, name="investigations", kwargs={"kind": "i"}),
-    url(r"^blogs/$", core.views.articles, kwargs={"kind": "b"}),
+    url(r"^blogs/$", core.views.articles, kwargs={"kind": "b"}, name="blogs"),
+    url(r"^faq/$", core.views.faq, name="faq"),
     # WS to feed graph ui
     url(
         r"connections/(?P<model>[a-zA-Z]+)/(?P<obj_id>[0-9]+)",
@@ -77,7 +78,7 @@ urlpatterns = i18n_patterns(
     # Aux pages
     url(
         r"^feedback",
-        TemplateView.as_view(template_name="feedback.jinja"),
+        core.views.feedback,
         name="feedback",
     ),
     url(r"^documents/", include(wagtaildocs_urls)),

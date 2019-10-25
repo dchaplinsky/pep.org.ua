@@ -273,6 +273,8 @@ class Person(models.Model, AbstractNode):
                 "relationship_type_en",
                 "date_finished",
                 "date_finished_details",
+                "from_person_id",
+                "id",
             )
         )
 
@@ -297,6 +299,8 @@ class Person(models.Model, AbstractNode):
                 "relationship_type_en",
                 "date_finished",
                 "date_finished_details",
+                "from_person_id",
+                "id",
             )
         )
 
@@ -758,6 +762,39 @@ class Person(models.Model, AbstractNode):
         res = super(Person, self).get_node()
 
         node = {
+            "is_pep": self.is_pep,
+            "type_of_official": self.type_of_official,
+            "reason_of_termination": self.reason_of_termination,
+            "is_dead": self.reason_of_termination in [1, 3],
+        }
+
+        curr_lang = get_language()
+        for lang in settings.LANGUAGE_CODES:
+            activate(lang)
+            node.update({
+                "name_{}".format(lang): self.short_name,
+                "full_name_{}".format(lang): self.full_name,
+                "kind_{}".format(lang): unicode(ugettext_lazy(self.get_type_of_official_display() or ""))
+            })
+
+            last_workplace = self.translated_last_workplace
+            if last_workplace:
+                last_workplace = "{position} @ {company}".format(**last_workplace)
+            else:
+                last_workplace = ""
+
+            node["description_{}".format(lang)] = last_workplace
+
+        activate(curr_lang)
+        res["data"].update(node)
+
+        return res
+
+    # temporary hack to keep old viz afloat
+    def get_node_old(self):
+        res = super(Person, self).get_node()
+
+        node = {
             "name": self.short_name,
             "full_name": self.full_name,
             "is_pep": self.is_pep,
@@ -776,7 +813,7 @@ class Person(models.Model, AbstractNode):
         return res
 
     def get_node_info(self, with_connections=False):
-        this_node = self.get_node()
+        this_node = self.get_node_old()
         nodes = [this_node]
         edges = []
         all_connected = set()

@@ -287,6 +287,7 @@ class Person2Company(AbstractRelationship):
     class Meta:
         verbose_name = "Зв'язок з компанією/установою"
         verbose_name_plural = "Зв'язки з компаніями/установами"
+        index_together = ["is_employee", "date_finished", "date_established", "relationship_type_uk"]
 
 
 class Company2Company(AbstractRelationship):

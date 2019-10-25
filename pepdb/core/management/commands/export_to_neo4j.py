@@ -23,21 +23,27 @@ class Command(BaseCommand):
     def norm_str(self, s):
         return re.sub("\s+", " ", unicode(s).replace("\n", " ").strip())
 
-    def export_nodes(self, fname, qs, fields, labels=[]):
+    def export_nodes(self, fname, qs, labels=[]):
         self.nodes.append(os.path.basename(fname))
         with open(fname, "w") as fp:
             w = writer(fp, quoting=csv.QUOTE_ALL)
             id_fields = "%sId:ID(%s)" % (
                 qs.model.__name__.lower(), qs.model.__name__)
 
+            first = qs.first()
+            fields = list(first.get_node()["data"].keys())
+
             w.writerow([id_fields] + fields + [":LABEL"])
 
             for obj in tqdm(qs.iterator(), total=qs.count()):
-                w.writerow([
-                    getattr(obj, "get_%s_display" % x)()
-                    if hasattr(obj, "get_%s_display" % x) else
-                    self.norm_str(getattr(obj, x)) for x in ["pk"] + fields
-                ] + [";".join(labels)])
+                row = [obj.pk]
+                node_info = obj.get_node()["data"]
+
+                for f in fields:
+                    row.append(self.norm_str(node_info[f]))
+
+                row.append(";".join(labels))
+                w.writerow(row)
 
     def export_relations(self, fname, qs, src, dst, fields):
         self.relationships.append(os.path.basename(fname))
@@ -81,39 +87,18 @@ class Command(BaseCommand):
         self.export_nodes(
             os.path.join(output_dir, "persons.csv"),
             Person.objects.all().nocache(),
-            [
-                "full_name",
-                "date_of_birth",
-                "type_of_official",
-                "is_pep",
-                "url_uk"
-            ],
             ["Person"]
         )
 
         self.export_nodes(
             os.path.join(output_dir, "companies.csv"),
             Company.objects.all().nocache(),
-            [
-                "name_uk",
-                "founded_human",
-                "state_company",
-                "edrpou",
-                "url_uk"
-            ],
             ["Company"]
         )
 
         self.export_nodes(
             os.path.join(output_dir, "countries.csv"),
             Country.objects.exclude(iso2="").nocache(),
-            [
-                "name_uk",
-                "iso2",
-                "iso3",
-                "is_jurisdiction",
-                "url_uk"
-            ],
             ["Country"]
         )
 

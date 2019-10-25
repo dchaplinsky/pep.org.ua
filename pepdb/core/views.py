@@ -607,3 +607,19 @@ def articles(request, kind):
         "kind_readble": Article.ARTICLE_KINDS[kind],
         "articles": articles
     })
+
+def faq(request):
+    faq = Article.objects.filter(kind__in=["f"], publish=True)
+
+    return render(request, "faq.jinja", {
+        "faq": faq
+    })
+
+
+def feedback(request):
+    faq = Article.objects.filter(kind__in=["r"], publish=True)
+
+    return render(request, "feedback.jinja", {
+        "faq": faq
+    })
+
