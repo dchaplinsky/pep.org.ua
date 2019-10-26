@@ -1,53 +1,173 @@
 {% extends "base.jinja" %}
-{% from "macros/_articles.jinja" import render_article_snippet with context %}
 
 {% block content %}
-    <main>
-        <div class="page-grid">
-            {% for faq_item in faq %}
-                {{ render_article_snippet(faq_item) }}
-            {% endfor %}
-        </div>
-
-        {# <div class="pagination">
-            <ul>
-                <li><span class="page-numbers current">1</span></li>
-                <li><a href="#" class="page-numbers">2</a></li>
-                <li><a href="#" class="page-numbers">3</a></li>
-                <li><a href="#" class="page-numbers">4</a></li>
-                <li><span class="page-numbers dots">...</span></li>
-                <li><a href="#" class="page-numbers">30</a></li>
-            </ul>
-        </div> #}
-    </main>
-
-    <div class="container">
-        <div class="row">
-        
-            <div id="breadcrumbs">
-                <ol class="breadcrumb">
-                    <li><a href="{{ url("wagtail_serve", "") }}">{{ _("Головна") }}</a></li>
-                    <li class="active">{{ _("Напишіть нам листа") }}</li>
-                </ol> 
-            </div>
-            
-            <section id="search-by-country">
-                <h1>{{ _("Напишіть нам листа") }}</h1>
-                <div class="page-content">
-                    <div id="data-send-form">
-                        <div class="form-container">
-                            <div class="form-content">
-                                <div class="form">
-                                    {% include "_feedback_form.jinja" %}    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+<div class="contacts">
+    <div class="first-section">
+        <div id="particles-js"></div>
+        <h1 class="page-title">КОНТАКТИ</h1>
+        <div class="contacts-description">
+            <p>Ви хочете нам написати, бо...</p>
         </div>
     </div>
-{% endblock %}
+    <main>
+        <div class="page-grid">
+            <div class="contacts-item" id="found">
+                <h6 class="title">Знайшли себе в реєстрі <br> і не згодні з цим<span></span></h6>
+            </div>
+            <div class="contacts-item" id="tell-info">
+                <h6 class="title">Хочете повідомити <br> важливу інформацію<span></span></h6>
+            </div>
+            <div class="contacts-item" id="api">
+                <a href="api.html" class="card-link"></a>
+                <h6 class="title">Хочете отримати доступ <br> до АПІ реєстру<span></span></h6>
+            </div>
+            <div class="contacts-item" id="analytics">
+                <h6 class="title">Хочете замовити <br> аналітику<span></span></h6>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- modal start-->
+<div class="modal" id="found-modal">
+    <div class="modal-container">
+        <div class="modal-inner">
+            <button class="modal-close">
+                <svg>
+                    <use xlink:href="#close"></use>
+                </svg>
+            </button>
+            <div class="modal-content">
+                <h6 class="modal-title">Знайшли себе в реєстрі і не згодні з цим<span></span></h6>
+                <div class="faq-list">
+                    {% for faq_item in faq %}
+                    <div class="faq-item">
+                        <div class="faq-item__header">
+                            <h6 class="title">{{ faq_item.caption }}</h6>
+                            <div class="icon">
+                                <svg class="plus"><use xlink:href="#plus"></use></svg>
+                                <svg class="minus"><use xlink:href="#minus"></use></svg>
+                            </div>
+                        </div>
+                        <div class="faq-item__body">{{ faq_item.text|safe }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% with delete = True %}
+                {% include "_feedback_form.jinja" with context %}
+                {% endwith %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="tell-info-modal">
+    <div class="modal-container">
+        <div class="modal-inner">
+            <button class="modal-close">
+                <svg>
+                    <use xlink:href="#close"></use>
+                </svg>
+            </button>
+            <div class="modal-content">
+                <h6 class="modal-title">Хочете повідомити важливу інформацію<span></span></h6>
+                {% with delete = False %}
+                {% include "_feedback_form.jinja" %}
+                {% endwith %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="analytics-modal">
+    <div class="modal-container">
+        <div class="modal-inner">
+            <button class="modal-close">
+                <svg>
+                    <use xlink:href="#close"></use>
+                </svg>
+            </button>
+            <div class="modal-content">
+                <h6 class="modal-title">Хочете замовити аналітику<span></span></h6>
+                {% with delete = False %}
+                {% include "_feedback_form.jinja" %}
+                {% endwith %}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- modal end-->
+
 
 {% block inline_feedback_form %}
+{% endblock %}
+
+
+{% endblock %}
+
+{% block svg_code %}
+<!--SVG elements start-->
+<svg style="display: none;">
+    <symbol id="fb" viewBox="0 0 30 30">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M30 0H0V30H30V0ZM12.5973 12.7463V10.5664C12.5973 10.5583 12.5972 10.5493 12.5972 10.5394C12.5954 10.061 12.586 7.49982 15.9588 7.5H18.3892V10.2751H16.6017C16.2481 10.2751 15.8904 10.6415 15.8904 10.9139V12.7365H18.3857C18.2858 14.134 18.0796 15.4122 18.0796 15.4122H15.878V23.3333H12.5973V15.412H11.0002V12.7463H12.5973Z"
+        />
+    </symbol>
+    <symbol id="tw" viewBox="0 0 30 30">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M30 0H0V30H30V0ZM21.463 10.3691C22.1171 10.2859 22.7445 10.1147 23.3333 9.85646C22.892 10.5135 22.3507 11.0845 21.7065 11.5417C21.7134 11.6793 21.7183 11.8178 21.7183 11.9613C21.7183 16.2502 18.4527 21.1981 12.4796 21.1981C10.6419 21.1981 8.93786 20.6687 7.5 19.7414C7.75531 19.7741 8.01062 19.7859 8.27682 19.7859C9.79484 19.7859 11.1971 19.2654 12.3015 18.4015C10.8824 18.3708 9.68896 17.4258 9.26838 16.1403C9.46531 16.1839 9.6751 16.1957 9.88292 16.1957C10.1818 16.1957 10.4697 16.1611 10.734 16.0889C9.25849 15.787 8.13333 14.4768 8.13333 12.8994V12.8638C8.56677 13.1023 9.07839 13.2537 9.5999 13.2636C8.73698 12.6867 8.15807 11.6902 8.15807 10.566C8.15807 9.9673 8.32234 9.41115 8.6024 8.92527C10.2065 10.8955 12.5944 12.1889 15.293 12.3205C15.2395 12.085 15.2178 11.8376 15.2178 11.5803C15.2178 9.79214 16.6645 8.3335 18.4616 8.3335C19.3879 8.3335 20.2369 8.72636 20.8327 9.36068C21.5709 9.21324 22.2636 8.94902 22.891 8.57495C22.6495 9.33594 22.1359 9.9673 21.463 10.3691Z"
+        />
+    </symbol>
+    <symbol id="tg" viewBox="0 0 30 30">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M30 0H0V30H30V0ZM6.33988 13.9773L20.9732 8.05465C21.5301 7.82924 22.1057 8.33553 21.9834 8.94321L19.485 21.3491C19.3678 21.9313 18.7104 22.1928 18.2487 21.8408L14.4765 18.965L12.554 21.0038C12.2166 21.3617 11.6337 21.2168 11.4887 20.7391L10.101 16.1656L6.38252 15.0252C5.89462 14.8756 5.8659 14.1691 6.33988 13.9773ZM12.3415 17.0506L19.1385 10.8078C19.3013 10.6584 19.1123 10.3945 18.9277 10.5135L10.9011 15.6839C10.7597 15.7749 10.6954 15.9537 10.7448 16.1187L11.8214 19.722C11.8441 19.7977 11.9503 19.7873 11.9588 19.7085L12.2205 17.2923C12.2306 17.199 12.2737 17.1128 12.3415 17.0506Z"
+        />
+    </symbol>
+    <symbol id="back-link-arr" viewBox="0 0 20 8">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M2.00816 4.5167L4.92553 7.2676L4.23949 7.99516L0.385793 4.36136L0 3.99758L0.385793 3.6338L4.23949 0L4.92553 0.72756L1.96762 3.5167H19.9975V4.5167H2.00816Z"
+        />
+    </symbol>
+    <symbol id="arr-right" viewBox="0 0 7 11" fill="none">
+        <path d="M1.25 9.75L5.75 5.25L1.25 0.75"/>
+    </symbol>
+    <symbol id="arr-right-w2" viewBox="0 0 8 13" fill="none">
+        <path d="M1 1L7 7L1 13" stroke-width="2"/>
+    </symbol>
+    <symbol id="search" viewBox="0 0 21 21">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M16 9.5C16 13.0899 13.0899 16 9.5 16C5.91015 16 3 13.0899 3 9.5C3 5.91015 5.91015 3 9.5 3C13.0899 3 16 5.91015 16 9.5ZM14.4271 16.4271C13.0372 17.4175 11.3367 18 9.5 18C4.80558 18 1 14.1944 1 9.5C1 4.80558 4.80558 1 9.5 1C14.1944 1 18 4.80558 18 9.5C18 11.6364 17.2118 13.5887 15.9104 15.082L20.4142 19.5858L19 21L14.4271 16.4271Z"
+        />
+    </symbol>
+    <symbol id="close" viewBox="0 0 29 29" fill="none">
+        <path d="M28.4541 28.4541L1 1M28.4541 1L1 28.4541L28.4541 1Z"/>
+    </symbol>
+    <symbol id="dots" viewBox="0 0 9 9">
+        <path d="M3 7.5C3 8.32843 2.32843 9 1.5 9C0.671573 9 0 8.32843 0 7.5C0 6.67157 0.671573 6 1.5 6C2.32843 6 3 6.67157 3 7.5Z"
+              fill="#4EAD33"/>
+        <path d="M9 7.5C9 8.32843 8.32843 9 7.5 9C6.67157 9 6 8.32843 6 7.5C6 6.67157 6.67157 6 7.5 6C8.32843 6 9 6.67157 9 7.5Z"
+              fill="#4EAD33"/>
+        <path d="M9 1.5C9 2.32843 8.32843 3 7.5 3C6.67157 3 6 2.32843 6 1.5C6 0.671573 6.67157 0 7.5 0C8.32843 0 9 0.671573 9 1.5Z"
+              fill="#4EAD33"/>
+        <path d="M3 1.5C3 2.32843 2.32843 3 1.5 3C0.671573 3 0 2.32843 0 1.5C0 0.671573 0.671573 0 1.5 0C2.32843 0 3 0.671573 3 1.5Z"
+              fill="#4EAD33"/>
+    </symbol>
+    <symbol id="plus" viewBox="0 0 10 10" fill="none">
+        <path d="M5 0V10M10 5L0 5"/>
+    </symbol>
+    <symbol id="minus" viewBox="0 0 10 1" fill="none">
+        <line y1="0.5" x2="10" y2="0.5"/>
+    </symbol>
+    <symbol id="print" viewBox="0 0 23 21">
+        <path d="M18.4576 -0.741928H4.55664V3.89543H18.4576V-0.741928Z"/>
+        <path d="M23 9.1736C23 7.25221 21.4426 5.70642 19.5392 5.70642H3.46081C1.54295 5.70642 0 7.26665 0 9.1736V16.1369H4.58558V20.7742H18.4288V16.1369H23.0144V9.1736H23ZM16.0928 18.4483H6.90721V12.6697H16.0928V18.4483ZM19.6257 10.4016C18.9768 10.4016 18.4433 9.86704 18.4433 9.21694C18.4433 8.56684 18.9768 8.03232 19.6257 8.03232C20.2746 8.03232 20.8082 8.56684 20.8082 9.21694C20.8082 9.86704 20.2746 10.4016 19.6257 10.4016Z"
+        />
+    </symbol>
+    <symbol id="block" viewBox="0 0 45 45" fill="none">
+        <circle cx="22.5849" cy="22.4041" r="14" transform="rotate(-45 22.5849 22.4041)" stroke="white"
+                stroke-width="3"/>
+        <line x1="12.2172" y1="32.7718" x2="33.545" y2="11.4439" stroke="white" stroke-width="3"/>
+    </symbol>
+</svg>
+<!--SVG elements end-->
 {% endblock %}
