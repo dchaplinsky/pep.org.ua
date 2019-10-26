@@ -1,31 +1,37 @@
 {% extends "base.jinja" %}
 {% from "macros/_articles.jinja" import render_article_snippet with context %}
 
+{% block page_class %}about-us{% endblock %}
+
 {% block content %}
-<div class="blogs">
     <div class="first-section">
         <div id="particles-js"></div>
         <h1 class="page-title">{{ _("ПРО РЕЄСТР") }}</h1>
+        <div class="about-us-description">
+            <p>Корумповані високопосадовці легко відмивають брудні гроші через міжнародну банківську систему.
+                Тому у світі запровадили особливі правила контролю за фінансовими операціями публічних осіб: кожна
+                фінансова
+                установа має встановити, хто її клієнт і звідки в нього гроші.
+            </p>
+        </div>
     </div>
     <main>
-        <div class="page-grid">
-            {% for faq_item in faq %}
-				{{ render_article_snippet(faq_item) }}
-			{% endfor %}
+        <div class="content">
+            <div class="page-grid">
+                {% for faq_item in faq %}
+                    <article class="about-card">
+                        <a href="{{ faq_item.get_absolute_url() }}" class="card-link"></a>
+                        <h6 class="about-card__title">{{ faq_item.caption }}</h6>
+                        <span class="icon">
+                                <svg>
+                                    <use xlink:href="#arr-right"></use>
+                                </svg>
+                            </span>
+                    </article>
+    			{% endfor %}
+            </div>
         </div>
-
-        {# <div class="pagination">
-            <ul>
-                <li><span class="page-numbers current">1</span></li>
-                <li><a href="#" class="page-numbers">2</a></li>
-                <li><a href="#" class="page-numbers">3</a></li>
-                <li><a href="#" class="page-numbers">4</a></li>
-                <li><span class="page-numbers dots">...</span></li>
-                <li><a href="#" class="page-numbers">30</a></li>
-            </ul>
-        </div> #}
     </main>
-</div>
 
 {% block svg_code %}
 <!--SVG elements start-->
