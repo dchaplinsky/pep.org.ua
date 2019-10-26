@@ -11,22 +11,16 @@
 {% block page_title %}{{ page.translated_title }}{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div id="breadcrumbs">
-            <ol class="breadcrumb">
-                <li><a href="{{ url("wagtail_serve", "") }}">{{ _("Головна") }}</a></li>
-                <li class="active">{{ page.translated_title }}</li>
-            </ol>
-        </div>
-        <section id="profile" class="col-lg-8">
-            <div class="page-content">
-                <h1>{{ page.translated_title }}</h1>
-                <div class="content-body">
+<div class="single-page">
+    <main>
+        <div class="single-page__content">
+            <div class="single-page__body">
+                <h1 class="single-page-title">{{ page.translated_title }}</h1>
+                <div class="article-content">
                     {{ page.translated_body|richtext }}
                 </div>
             </div>
-        </section>
-    </div>
+        </div>
+    </main>
 </div>
 {% endblock %}
