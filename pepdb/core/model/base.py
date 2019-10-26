@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.core.urlresolvers import reverse
+from django.utils.translation import activate, get_language
+from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 
 from core.utils import render_date
@@ -22,20 +24,34 @@ class AbstractNode(object):
     def get_node(self):
         model_name = self.get_model_name()
 
-        return {
-            "data": {
-                "id": self.get_node_id(),
-                "pk": self.pk,
-                "url": self.get_absolute_url(),
-                "model": model_name,
-                "details": reverse(
-                    "connections", kwargs={"model": model_name, "obj_id": self.pk}
-                ),
-                "kind": "",
-                "description": "",
-                "connections": [],
-            }
+        node = {
+            "id": self.get_node_id(),
+            "pk": self.pk,
+            "url": self.get_absolute_url(),
+            "model": model_name,
+            "details": reverse(
+                "connections", kwargs={"model": model_name, "obj_id": self.pk}
+            ),
+            "kind": "",
+            "description": "",
+            "connections": [],
         }
+
+        curr_lang = get_language()
+        for lang in settings.LANGUAGE_CODES:
+            activate(lang)
+            node.update(
+                {
+                    "url_{}".format(lang): self.get_absolute_url(),
+                    "details_{}".format(lang): reverse(
+                        "connections", kwargs={"model": model_name, "obj_id": self.pk}
+                    ),
+                }
+            )
+
+        activate(curr_lang)
+
+        return {"data": node}
 
 
 class AbstractRelationship(models.Model):

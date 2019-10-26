@@ -45,26 +45,26 @@
                         <div class="statistics-item">
                             <img src="{{ static('images/stat-big-1.svg') }}" alt="background">
                             <span class="counter">{{ persons_total + persons_pep }}</span>
-                            <p class="text">Досьє публічних діячів та повязаних фізичних осіб</p>
+                            <p class="text">{{ _("Досьє публічних діячів та повязаних фізичних осіб") }}</p>
                         </div>
                         <div class="statistics-item">
                             <img src="{{ static('images/stat-big-2.svg') }}" alt="background">
                             <span class="counter">{{ persons_related }}</span>
-                            <p class="text">Досьє повязаних юридичних осіб</p>
+                            <p class="text">{{ _("Досьє повязаних юридичних осіб") }}</p>
                         </div>
                     </div>
                     <div class="small-items">
                         <div class="statistics-item">
                             <span class="counter">{{ docs_total }}</span>
-                            <p class="text">Документiв</p>
+                            <p class="text">{{ _("Документiв") }}</p>
                         </div>
                         <div class="statistics-item">
                             <span class="counter">{{ investigations_total }}</span>
-                            <p class="text">Розслідувань</p>
+                            <p class="text">{{ _("Розслідувань") }}</p>
                         </div>
                         <div class="statistics-item">
                             <span class="counter">{{ registries_total }}</span>
-                            <p class="text">Державних реєстрів</p>
+                            <p class="text">{{ _("Державних реєстрів") }}</p>
                         </div>
                     </div>
                 </div>
@@ -97,15 +97,13 @@
             </div>
             <div class="items">
                 {% for article in articles %}
-                {% if article.kind == 'i' or article.kind == 'b' %}
                     {{ render_article_snippet(article) }}
-                {% endif %}
                 {% endfor %}
             </div>
         </section>
 
         <section class="opportunities">
-            <h2 class="section-title">можливості реєстру<span></span></h2>
+            <h2 class="section-title">{{ _("можливості реєстру") }}<span></span></h2>
             <div class="items">
                 <div class="items-row">
                     <article class="item">
@@ -235,7 +233,7 @@
 
         <section class="partners">
             <div class="content">
-                <h2 class="section-title">Користуються системою<span></span></h2>
+                <h2 class="section-title">{{ _("Користуються системою") }}<span></span></h2>
                 <div class="items">
                     <div class="items-big">
                         <div class="partner-card">

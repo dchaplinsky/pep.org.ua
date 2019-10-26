@@ -478,15 +478,21 @@ class Company(models.Model, AbstractNode):
             "description": self.edrpou,
             "state_company": self.state_company,
             "is_closed": bool(self.closed_on_human),
+            "public_office": self.public_office,
+            "political_party": self.political_party,
+            "state_enterprise": self.state_enterprise,
+            "affiliated_with_pep": self.affiliated_with_pep,
+            "bank": self.bank,
+            "service_provider": self.service_provider,
         }
 
         curr_lang = get_language()
         for lang in settings.LANGUAGE_CODES:
             activate(lang)
             node.update({
-                "name": self.short_name or self.name,
-                "full_name": self.name,
-                "kind": unicode(
+                "name_{}".format(lang): self.short_name or self.name,
+                "full_name_{}".format(lang): self.name,
+                "kind_{}".format(lang): unicode(
                     ugettext_lazy("Державна компанія чи установа")
                     if self.state_company
                     else ugettext_lazy("Приватна компанія")
@@ -496,6 +502,12 @@ class Company(models.Model, AbstractNode):
         activate(curr_lang)
 
         res["data"].update(node)
+        del res["data"]["connections"]
+        del res["data"]["description"]
+        del res["data"]["kind"]
+        del res["data"]["url"]
+        del res["data"]["id"]
+        del res["data"]["details"]
 
         return res
 

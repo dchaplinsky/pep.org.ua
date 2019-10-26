@@ -53,6 +53,12 @@ class Country(models.Model, AbstractNode):
         )
         res["data"].update(d)
 
+        del res["data"]["connections"]
+        del res["data"]["description"]
+        del res["data"]["kind"]
+        del res["data"]["url"]
+        del res["data"]["details"]
+
         return res
 
     class Meta:

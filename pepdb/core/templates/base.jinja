@@ -88,19 +88,19 @@
                             <a href="{{ url('faq') }}" class="qa-item" title="{{ _("Про реєстр") }}">{{ _("Про реєстр") }}</a>
                         </li>
                         <li class="menu__list-item">
-                            <a href="{{ url('wagtail_serve', 'blogs/') }}">{{_("Блог")}}</a>
+                            <a href="{{ url('blogs') }}">{{ _("Блог") }}</a>
                         </li>
                         <li class="menu__list-item">
-                            <a href="{{ url('investigations') }}">{{_("Розслідування")}}</a>
+                            <a href="{{ url('investigations') }}">{{ _("Розслідування") }}</a>
                         </li>
                         <li class="menu__list-item">
-                            <a href="{{ url('feedback') }}">{{_("Контакти")}}</a>
+                            <a href="{{ url('feedback') }}">{{ _("Контакти") }}</a>
                         </li>
                         <li class="menu__list-item">
-                            <a href="{{ url('wagtail_serve', 'data/') }}">{{_("API")}}</a>
+                            <a href="{{ url('wagtail_serve', 'data/') }}">{{ _("API") }}</a>
                         </li>
                         <li class="menu__list-item">
-                            <a href="scoring.html">{{_("Scoring")}}</a>
+                            <a href="{{ url('wagtail_serve', 'scoring/') }}">{{ _("Scoring") }}</a>
                         </li>
                     </ul>
                 </nav>
@@ -138,19 +138,19 @@
                         <a href="{{ url('faq') }}" class="qa-item" title="{{ _("Про реєстр") }}">{{ _("Про реєстр") }}</a>
                     </li>
                     <li class="menu__list-item">
-                        <a href="{{ url('wagtail_serve', 'blogs/') }}">{{_("Блог")}}</a>
+                        <a href="{{ url('blogs') }}">{{ _("Блог") }}</a>
                     </li>
                     <li class="menu__list-item">
-                        <a href="{{ url('investigations') }}">{{_("Розслідування")}}</a>
+                        <a href="{{ url('investigations') }}">{{ _("Розслідування") }}</a>
                     </li>
                     <li class="menu__list-item">
-                        <a href="{{ url('feedback') }}">{{_("Контакти")}}</a>
+                        <a href="{{ url('feedback') }}">{{ _("Контакти") }}</a>
                     </li>
                     <li class="menu__list-item">
-                        <a href="{{ url('wagtail_serve', 'data/') }}">{{_("API")}}</a>
+                        <a href="{{ url('wagtail_serve', 'data/') }}">{{ _("API") }}</a>
                     </li>
                     <li class="menu__list-item">
-                        <a href="scoring.html">{{_("Scoring")}}</a>
+                        <a href="{{ url('wagtail_serve', 'scoring/') }}">{{ _("Scoring") }}</a>
                     </li>
                 </ul>
             </nav>
@@ -170,26 +170,26 @@
                                 <a href="{{ url('faq') }}" class="qa-item" title="{{ _("Про реєстр") }}">{{ _("Про реєстр") }}</a>
                             </li>
                             <li class="menu__list-item">
-                                <a href="{{ url('wagtail_serve', 'blogs/') }}">{{_("Блог")}}</a>
+                                <a href="{{ url('blogs') }}">{{ _("Блог") }}</a>
                             </li>
                             <li class="menu__list-item">
-                                <a href="{{ url('investigations') }}">{{_("Розслідування")}}</a>
+                                <a href="{{ url('investigations') }}">{{ _("Розслідування") }}</a>
                             </li>
                             <li class="menu__list-item">
-                                <a href="{{ url('feedback') }}">{{_("Контакти")}}</a>
+                                <a href="{{ url('feedback') }}">{{ _("Контакти") }}</a>
                             </li>
                             <li class="menu__list-item">
-                                <a href="{{ url('wagtail_serve', 'data/') }}">{{_("API")}}</a>
+                                <a href="{{ url('wagtail_serve', 'data/') }}">{{ _("API") }}</a>
                             </li>
                             <li class="menu__list-item">
-                                <a href="scoring.html">{{_("Scoring")}}</a>
+                                <a href="{{ url('wagtail_serve', 'scoring/') }}">{{ _("Scoring") }}</a>
                             </li>
                         </ul>
                     </nav>
                 </div>
                 <div class="footer__founders">
                     <h6 class="title">
-                        <span>Засновники</span>
+                        <span>{{ _("Засновники") }}</span>
                         <span class="icon">
                         <svg>
                             <use xlink:href="#arr-right"></use>
@@ -209,9 +209,9 @@
                     відповідно до частини 2 статті 5 вказаного Закону.</p>
 
                 <div class="copy-wrap">
-                    <p class="copy">© ЦЕНТР ПРОТИДІЇ КОРУПЦІЇ, 2015-2018</p>
-                    <p class="design">ДИЗАЙН – <a href="https://demch.co" target="_blank">DEMCH.CO</a></p>
-                    <p class="development">РОЗРОБКА – <a href="" target="_blank">КАНЦЕЛЯРСЬКА СОТНЯ</a></p>
+                    <p class="copy">{{ _("© ЦЕНТР ПРОТИДІЇ КОРУПЦІЇ, 2015-2019") }}</p>
+                    <p class="design">{{ _("ДИЗАЙН –") }} <a href="https://demch.co" target="_blank">DEMCH.CO</a></p>
+                    <p class="development">{{ _("РОЗРОБКА – ") }}<a href="" target="_blank">{{ _("КАНЦЕЛЯРСЬКА СОТНЯ") }}</a></p>
                 </div>
             </div>
         </div>

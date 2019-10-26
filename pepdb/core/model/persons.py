@@ -20,6 +20,7 @@ from django.template.loader import render_to_string
 from django.core.exceptions import ValidationError
 from django.contrib.contenttypes.fields import GenericRelation
 
+from cacheops import cached
 from translitua import translitua
 import select2.fields
 import select2.models
@@ -373,6 +374,7 @@ class Person(models.Model, AbstractNode):
     # Fuuugly hack
     @property
     def translated_last_workplace(self):
+        # Add caching
         qs = self._last_workplace()
         if qs:
             l = qs[0]
@@ -763,8 +765,8 @@ class Person(models.Model, AbstractNode):
 
         node = {
             "is_pep": self.is_pep,
-            "type_of_official": self.type_of_official,
-            "reason_of_termination": self.reason_of_termination,
+            "type_of_official": self.type_of_official or 0,
+            "reason_of_termination": self.reason_of_termination or 0,
             "is_dead": self.reason_of_termination in [1, 3],
         }
 
@@ -787,6 +789,12 @@ class Person(models.Model, AbstractNode):
 
         activate(curr_lang)
         res["data"].update(node)
+        del res["data"]["connections"]
+        del res["data"]["description"]
+        del res["data"]["kind"]
+        del res["data"]["url"]
+        del res["data"]["id"]
+        del res["data"]["details"]
 
         return res
 
