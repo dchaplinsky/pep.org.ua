@@ -110,8 +110,7 @@ $(document).ready(function () {
 
     // first section bg
     if ($('div').is('#particles-js')) {
-        particlesJS.load('particles-js', $(location).attr('origin') + '/static/js/particlesjs-config.json', function () {
-        });
+        particlesJS.load('particles-js', $(location).attr('origin') + '/static/js/particlesjs-config.json', function () {        });
     }
 
     //open/close search dropdown
@@ -122,14 +121,9 @@ $(document).ready(function () {
     })
 
     // main section blog scroll
-    // $('.blog-and-investigation .items').perfectScrollbar({
-    //     maxScrollbarLength: 60,
-    // });
-
     if ($("section").is(".blog-and-investigation")) {
         new SimpleBar($('.blog-and-investigation .items')[0]);
     }
-    // new SimpleBar($('.blog-and-investigation .items')[0]);
 
     // main partners-slider
     if ($(window).width() <= 767) {
@@ -432,5 +426,4 @@ $(document).ready(function () {
             }
         });
     }
-
 });

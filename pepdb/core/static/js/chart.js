@@ -7,35 +7,9 @@ google.charts.setOnLoadCallback(drawChart);
 // Callback that creates and populates a data table,
 // instantiates the pie chart, passes in the data and
 // draws it.
-function drawChart() {
-    // Create the data table.
-    var dataCashAssetsLineChart = google.visualization.arrayToDataTable([
-        ['Рік', 'Доходи декларанта', 'Доходи родини'],
-        ['2004', 1000, 400],
-        ['2005', 1170, 560],
-        ['2006', 660, 1120],
-        ['2007', 1030, 1640],
-        ['2008', 2030, 1238],
-        ['2009', 3219, 1022],
-        ['2010', 1319, 622],
-    ]);
 
-    // var data2 = new google.visualization.DataTable();
-    // data2.addColumn('string', 'Рік');
-    // data2.addColumn('number', 'Доходи декларанта');
-    // data2.addColumn('number', 'Доходи родини');
-    // data2.addColumn('number', 'Витрати декларанта');
-    //
-    // data2.addRows([
-    //     ['2011', 1000, 400, 1230],
-    //     ['2012', 1170, 560, 1000],
-    //     ['2014', 660, 1120, 1450,],
-    //     ['2016', 1030, 1640, 900,],
-    //     ['2016', 2030, 1238, 600,],
-    //     ['2017', 3219, 1022, 2000,],
-    //     ['2018', 1319, 622, 1700,],
-    //     ['2019', 1319, 622, 1700,],
-    // ]);
+
+function drawChart() {
 
     var dataDeclarationsLineChart = google.visualization.arrayToDataTable([
         ['Рік', 'Доходи декларанта', 'Доходи родини', 'Витрати декларанта'],
@@ -56,6 +30,42 @@ function drawChart() {
         ['Автобiзнес', 1170],
         ['Продаж нерухомостi', 660],
     ]);
+
+
+    var dataCashAssetsLineChart = google.visualization.arrayToDataTable([
+        ['Рік', 'Декларант', 'Родина'],
+        ['2004', 1000, 400],
+        ['2005', 1170, 560],
+        ['2006', 660, 1120],
+        ['2007', 1030, 1640],
+        ['2008', 2030, 1238],
+        ['2009', 3219, 1022],
+        ['2010', 1319, 622],
+    ]);
+
+    var dataCashAssetsPieChart = google.visualization.arrayToDataTable([
+        ['Тип', 'Кількість'],
+        ['Вклади', 2016],
+        ['Готівка', 1000],
+        ['Інше', 1170],
+    ]);
+
+    // var data2 = new google.visualization.DataTable();
+    // data2.addColumn('string', 'Рік');
+    // data2.addColumn('number', 'Доходи декларанта');
+    // data2.addColumn('number', 'Доходи родини');
+    // data2.addColumn('number', 'Витрати декларанта');
+    //
+    // data2.addRows([
+    //     ['2011', 1000, 400, 1230],
+    //     ['2012', 1170, 560, 1000],
+    //     ['2014', 660, 1120, 1450,],
+    //     ['2016', 1030, 1640, 900,],
+    //     ['2016', 2030, 1238, 600,],
+    //     ['2017', 3219, 1022, 2000,],
+    //     ['2018', 1319, 622, 1700,],
+    //     ['2019', 1319, 622, 1700,],
+    // ]);
 
     // Set chart options
     var options = {
@@ -161,6 +171,25 @@ function drawChart() {
         }
     };
 
+    // declarationLineChart start
+
+    var declarationLineChart = new google.visualization.LineChart(document.getElementById('declarations-line-chart'));
+    declarationLineChart.draw(dataDeclarationsLineChart, options2);
+    var declarationPieChart = new google.visualization.PieChart(document.getElementById('declarations-pie-chart'));
+    // check click on chart
+    google.visualization.events.addListener(declarationLineChart, 'select', function () {
+        var selection = declarationLineChart.getSelection();
+        if (selection.length) {
+            $('#declarations-pie-popup').addClass('show');
+            declarationPieChart.draw(dataDeclarationsPieChart, pieOptions);
+            var year = dataDeclarationsLineChart.getValue(selection[0].row, 0);
+            var title = dataDeclarationsLineChart.getColumnLabel(selection[0].column);
+            // alert(year+title);
+            $('#declarations-pie-chart').siblings().find('.year').html(year);
+            $('#declarations-pie-chart').siblings().find('.title').html(title);
+        }
+    });
+
     // cashAssetsLineChart start
 
     var cashAssetsLineChart = new google.visualization.LineChart(document.getElementById('cash-assets-line-chart'));
@@ -171,32 +200,12 @@ function drawChart() {
         var selection = cashAssetsLineChart.getSelection();
         if (selection.length) {
             $('#cashAssets-pie-popup').addClass('show');
-            cashAssetsPieChart.draw(dataDeclarationsPieChart, pieOptions);
-            var year = data.getValue(selection[0].row, 0);
-            // var count = data.getValue(selection[0].row, selection[0].column);
-            alert(year);
-            // alert(year + ': ' + count);
-            // console.log(year + ': ' + count);
-        }
-    });
-
-    // declarationLineChart start
-
-    var declarationLineChart = new google.visualization.LineChart(document.getElementById('declarations-line-chart'));
-    declarationLineChart.draw(dataDeclarationsLineChart, options2);
-    var declarationPieChart = new google.visualization.PieChart(document.getElementById('declarations-pie-chart'));
-    // check click on chart
-    google.visualization.events.addListener(declarationLineChart, 'select', function () {
-        var selection = declarationLineChart.getSelection();
-        if (selection.length) {
-
-            $('#declarations-pie-popup').addClass('show')
-            declarationPieChart.draw(dataDeclarationsPieChart, pieOptions);
-            var year = dataDeclarationsLineChart.getValue(selection[0].row, 0);
-            // var count = data.getValue(selection[0].row, selection[0].column);
-            alert(year);
-            // alert(count);
-            // console.log(year + ': ' + count);
+            cashAssetsPieChart.draw(dataCashAssetsPieChart, pieOptions);
+            var year = dataCashAssetsLineChart.getValue(selection[0].row, 0);
+            var title = dataCashAssetsLineChart.getColumnLabel(selection[0].column);
+            // alert(year+title);
+            $('#cashAssets-pie-chart').siblings().find('.year').html(year);
+            $('#cashAssets-pie-chart').siblings().find('.title').html(title);
         }
     });
 }
