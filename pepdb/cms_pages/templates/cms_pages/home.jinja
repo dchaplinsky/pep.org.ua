@@ -1,4 +1,5 @@
 {% extends "base.jinja" %}
+{% from "macros/_articles.jinja" import render_article_snippet with context %}
 
 {% block page_class %}main-page{% endblock %}
 
@@ -11,8 +12,6 @@
 {% endblock %}
 
 {% block content %}
-
-
     <!--    добавлять класс header--show-search если нужно отображать поиск :TODO-->
     <div class="first-section">
         <div id="particles-js"></div>
@@ -75,18 +74,18 @@
         <section class="blog-and-investigation">
             <div class="content">
                 <div class="section-title-wrap">
-                    <h2 class="section-title">Блоги та розслідування<span></span></h2>
+                    <h2 class="section-title">{{_("Блоги та розслідування")}}<span></span></h2>
                     <div class="links">
-                        <a href="investigations.html">
-                            Усi розслiдування
+                        <a href="{{ url('investigations') }}">
+                            {{_("Усi розслiдування")}}
                             <span class="icon">
                             <svg>
                                 <use xlink:href="#arr-right"></use>
                             </svg>
                         </span>
                         </a>
-                        <a href="blogs.html">
-                            Усi блоги
+                        <a href="{{ url('blogs') }}">
+                            {{_("Усi блоги")}}
                             <span class="icon">
                             <svg>
                                 <use xlink:href="#arr-right"></use>
@@ -97,105 +96,11 @@
                 </div>
             </div>
             <div class="items">
-                <article class="blog-card">
-                    <a href="" class="card-link"></a>
-                    <div class="blog-card__header">
-                        <span class="direction">Новини</span>
-                        <time class="date">20.08.2019</time>
-                    </div>
-                    <div class="blog-card__body">
-                        <h6 class="title">Високопосадовці легко відмивають брудні гроші через міжнародну банківську
-                            систему </h6>
-                        <span class="icon">
-                            <svg>
-                                <use xlink:href="#arr-right"></use>
-                            </svg>
-                        </span>
-                    </div>
-                </article>
-                <article class="blog-card blog-card--with-img">
-                    <a href="" class="card-link"></a>
-                    <img src="{{ static('images/card-bg.png') }}" alt="img">
-                    <div class="blog-card__header">
-                        <span class="direction">Розслiдування</span>
-                        <time class="date">20.08.2019</time>
-                    </div>
-                    <div class="blog-card__body">
-                        <h6 class="title">Високопосадовці легко відмивають брудні гроші через міжнародну банківську
-                            систему </h6>
-                        <span class="icon">
-                            <svg>
-                                <use xlink:href="#arr-right"></use>
-                            </svg>
-                        </span>
-                    </div>
-                </article>
-                <article class="blog-card">
-                    <a href="" class="card-link"></a>
-                    <div class="blog-card__header">
-                        <span class="direction">Новини</span>
-                        <time class="date">20.08.2019</time>
-                    </div>
-                    <div class="blog-card__body">
-                        <h6 class="title">Високопосадовці легко відмивають брудні гроші через міжнародну банківську
-                            систему </h6>
-                        <span class="icon">
-                            <svg>
-                                <use xlink:href="#arr-right"></use>
-                            </svg>
-                        </span>
-                    </div>
-                </article>
-                <article class="blog-card blog-card--with-img">
-                    <a href="" class="card-link"></a>
-                    <img src="{{ static('images/card-bg.png') }}" alt="img">
-                    <div class="blog-card__header">
-                        <span class="direction">Розслiдування</span>
-                        <time class="date">20.08.2019</time>
-                    </div>
-                    <div class="blog-card__body">
-                        <h6 class="title">Високопосадовці легко відмивають брудні гроші через міжнародну банківську
-                            систему </h6>
-                        <span class="icon">
-                            <svg>
-                                <use xlink:href="#arr-right"></use>
-                            </svg>
-                        </span>
-                    </div>
-                </article>
-                <article class="blog-card">
-                    <a href="" class="card-link"></a>
-                    <div class="blog-card__header">
-                        <span class="direction">Новини</span>
-                        <time class="date">20.08.2019</time>
-                    </div>
-                    <div class="blog-card__body">
-                        <h6 class="title">Високопосадовці легко відмивають брудні гроші через міжнародну банківську
-                            систему </h6>
-                        <span class="icon">
-                            <svg>
-                                <use xlink:href="#arr-right"></use>
-                            </svg>
-                        </span>
-                    </div>
-                </article>
-                <article class="blog-card blog-card--with-img">
-                    <a href="" class="card-link"></a>
-                    <img src="{{ static('images/card-bg.png') }}" alt="img">
-                    <div class="blog-card__header">
-                        <span class="direction">Розслiдування</span>
-                        <time class="date">20.08.2019</time>
-                    </div>
-                    <div class="blog-card__body">
-                        <h6 class="title">Високопосадовці легко відмивають брудні гроші через міжнародну банківську
-                            систему </h6>
-                        <span class="icon">
-                            <svg>
-                                <use xlink:href="#arr-right"></use>
-                            </svg>
-                        </span>
-                    </div>
-                </article>
+                {% for article in articles %}
+                {% if article.kind == 'i' or article.kind == 'b' %}
+                    {{ render_article_snippet(article) }}
+                {% endif %}
+                {% endfor %}
             </div>
         </section>
 
