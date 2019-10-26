@@ -18,15 +18,16 @@
                     </svg>
                 </button>
             </form>
-            <form action="" class="search-form">
+            <form action="{{ url("search") }}" method="GET" class="search-form">
                 <div class="select">
-                    <input type="text" placeholder="Оберіть країну">
-                    <ul class="search-dropdown">
-                        <li><a href=""><strong>Ук</strong>раїна</a></li>
-                        <li><a href="">Кіпр</a></li>
-                        <li><a href="">Росія</a></li>
-                        <li><a href="">Америка</a></li>
-                    </ul>
+                    <input list="country-list" name="country" placeholder="{{_("Оберіть країну")}}">
+                    <datalist id="country-list" class="search-dropdown">
+                        {% for cntry in used_countries %}
+                            <option
+                                {% if country and country.iso2 == cntry.iso2 %}selected{% endif %}
+                                data-url="{{ url("countries", country_id=cntry.iso2) }}" value={{ cntry.name }}>{{ cntry.iso2 }}</option>
+                        {% endfor %}
+                    </datalist>
                     <button>
                         <svg>
                             <use xlink:href="#arr-right-w2"></use>
@@ -34,19 +35,6 @@
                     </button>
                 </div>
             </form>
-            <div class="form-inline" id="country-selection-form" style="z-index: 2">
-                    <div class="form-group">
-                        <select class="combobox country-list input-large form-control">
-                            <option value="" {% if not country %}selected{% endif %}>{{ _("Оберіть країну") }}</option>
-                            <option value="all" data-url="{{ url("countries_home") }}">{{ _("Усі країни") }}</option>
-                            {% for cntry in used_countries %}
-                                <option
-                                    {% if country and country.iso2 == cntry.iso2 %}selected{% endif %}
-                                    data-url="{{ url("countries", country_id=cntry.iso2) }}" value={{ cntry.iso2 }}>{{ cntry.name }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
         </div>
     </div>
     <main>
