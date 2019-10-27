@@ -45,12 +45,12 @@
                         <div class="statistics-item">
                             <img src="{{ static('images/stat-big-1.svg') }}" alt="background">
                             <span class="counter">{{ persons_total + persons_pep }}</span>
-                            <p class="text">{{ _("Досьє публічних діячів та повязаних фізичних осіб") }}</p>
+                            <p class="text">{{ _("Досьє публічних діячів та пов'язаних фізичних осіб") }}</p>
                         </div>
                         <div class="statistics-item">
                             <img src="{{ static('images/stat-big-2.svg') }}" alt="background">
                             <span class="counter">{{ persons_related }}</span>
-                            <p class="text">{{ _("Досьє повязаних юридичних осіб") }}</p>
+                            <p class="text">{{ _("Досьє пов'язаних юридичних осіб") }}</p>
                         </div>
                     </div>
                     <div class="small-items">
@@ -77,7 +77,7 @@
                     <h2 class="section-title">{{_("Блоги та розслідування")}}<span></span></h2>
                     <div class="links">
                         <a href="{{ url('investigations') }}">
-                            {{_("Усi розслiдування")}}
+                            {{_("Всі розслідування")}}
                             <span class="icon">
                             <svg>
                                 <use xlink:href="#arr-right"></use>
@@ -85,7 +85,7 @@
                         </span>
                         </a>
                         <a href="{{ url('blogs') }}">
-                            {{_("Усi блоги")}}
+                            {{_("Всi блоги")}}
                             <span class="icon">
                             <svg>
                                 <use xlink:href="#arr-right"></use>
@@ -115,11 +115,9 @@
                         </div>
                         <div class="item__right">
                             <div class="info">
-                                <h6 class="title">Пошук + розширений пошук</h6>
-                                <p class="description">Історія гурту Red Hot Chilly Peppers з Лос-Анджелеса починається
-                                    на
-                                    початку 1980-х років, коли старшокласники Ентоні Кідіс, гітарист Гіллел Словак. </p>
-                                <a href="" class="btn btn--green"><span>Перейти до пошуку <span
+                                <h6 class="title">{{ _("Пошук") }}</h6>
+                                <p class="description">{{ _("Публічні діячі (ПЕПи) є клієнтами з підвищеним ризиком відповідно до міжнародних стандартів з протидії відмивання грошей. Онлайн пошук ПЕПів та пов’язаних з ними фізичних і юридичних осіб.")}} </p>
+                                <a href="{{ url('countries_home') }}" class="btn btn--green"><span>{{ _("Перейти до пошуку") }} <span
                                         class="bottom-icon"></span></span></a>
                             </div>
                         </div>
@@ -135,20 +133,20 @@
                         </div>
                         <div class="item__right">
                             <div class="info">
-                                <h6 class="title">Розслідування. Замовити аналітику</h6>
-                                <p class="description">Історія гурту Red Hot Chilly Peppers з Лос-Анджелеса починається
-                                    на
-                                    початку 1980-х років, коли старшокласники Ентоні Кідіс, гітарист Гіллел Словак. </p>
-                                <a href="" class="btn btn--green"><span>Замовити аналiтику <span
+                                <h6 class="title">{{ _("Глибокі досьє. Розслідування. Аналітика") }}</h6>
+                                <p class="description">{{ _("Фіксуємо публічні документально підтверджені факти про підозрілі статки та ризики публічних діячів і пов’язаних з ними осіб. Проводимо свої спецрозслідування про найвпливовіших ПЕПів України") }}</p>
+                                <a href="{{ url('blogs') }}" class="btn btn--green"><span>{{ _("Перейти до блогів") }} <span
                                         class="bottom-icon"></span></span></a>
-                                <div class="subscribe">
+                                <a href="{{ url('investigations') }}" class="btn btn--green"><span>{{ _("Перейти до розслідувань") }}<span
+                                        class="bottom-icon"></span></span></a>
+{#                                 <div class="subscribe">
                                     <h6 class="subscribe__title">Пiдписатися на новини</h6>
                                     <form action="">
                                         <input type="email" placeholder="Ваш e-mail">
                                         <button>Підписатися</button>
                                     </form>
                                 </div>
-                            </div>
+ #}                            </div>
                         </div>
                     </article>
                 </div>
@@ -162,12 +160,9 @@
                         </div>
                         <div class="item__right">
                             <div class="info">
-                                <h6 class="title">Scoring ризику
-                                    необгрунтованості активів</h6>
-                                <p class="description">Історія гурту Red Hot Chilly Peppers з Лос-Анджелеса починається
-                                    на
-                                    початку 1980-х років, коли старшокласники Ентоні Кідіс, гітарист Гіллел Словак. </p>
-                                <a href="" class="btn btn--green"><span>приклад скорiнгу <span
+                                <h6 class="title">{{ _("Scoring ризику необгрунтованості активів") }}</h6>
+                                <p class="description">{{ _("Більше 4000 публічних діячів подають електронні декларації про доходи та витрати. Наш інструмент аналізує цю інформацію та визначає можливий ризик необгрунтованості статків ПЕПа") }}</p>
+                                <a href="{{ url('wagtail_serve', 'scoring/') }}" class="btn btn--green"><span>{{ _("Деталі") }} <span
                                         class="bottom-icon"></span></span></a>
                             </div>
                         </div>
@@ -183,10 +178,8 @@
                         </div>
                         <div class="item__right">
                             <div class="info">
-                                <h6 class="title">Візуалізація основних даних з декларацій</h6>
-                                <p class="description">Історія гурту Red Hot Chilly Peppers з Лос-Анджелеса починається
-                                    на
-                                    початку 1980-х років, коли старшокласники Ентоні Кідіс, гітарист Гіллел Словак. </p>
+                                <h6 class="title">{{ _("Візуалізація даних з декларацій") }}</h6>
+                                <p class="description">{{ _("Інформація з електронних декларацій інтегрована в досьє публічних діячів. Основні дані ми візуалізували для вас") }}</p>
                             </div>
                         </div>
                     </article>
@@ -201,10 +194,8 @@
                         </div>
                         <div class="item__right">
                             <div class="info">
-                                <h6 class="title">Зв’язки</h6>
-                                <p class="description">Історія гурту Red Hot Chilly Peppers з Лос-Анджелеса починається
-                                    на
-                                    початку 1980-х років, коли старшокласники Ентоні Кідіс, гітарист Гіллел Словак. </p>
+                                <h6 class="title">{{ ("Зв'язки") }}</h6>
+                                <p class="description">{{ _("Члени сім’ї публічного діяча, його ділові партнери, юридичні особи, в яких ПЕП є власником, засновником чи бенефіціаром - вся ця інформація у табличному та візуалізованому форматах") }}</p>
                             </div>
                         </div>
                     </article>
@@ -219,11 +210,9 @@
                         </div>
                         <div class="item__right">
                             <div class="info">
-                                <h6 class="title">API</h6>
-                                <p class="description">Історія гурту Red Hot Chilly Peppers з Лос-Анджелеса починається
-                                    на
-                                    початку 1980-х років, коли старшокласники Ентоні Кідіс, гітарист Гіллел Словак. </p>
-                                <a href="" class="btn btn--green"><span>API <span class="bottom-icon"></span></span></a>
+                                <h6 class="title">{{ _("Open Data") }}</h6>
+                                <p class="description">{{ _("Можливість інтегрувати дані реєстру з вашим програмним забезпеченням та оперативно виявляти публічних діячів та пов’язаних з ними осіб серед тисяч клієнтів") }}</p>
+                                <a href="{{ url('wagtail_serve', 'data/') }}" class="btn btn--green"><span>{{ _("Деталі")}} <span class="bottom-icon"></span></span></a>
                             </div>
                         </div>
                     </article>
