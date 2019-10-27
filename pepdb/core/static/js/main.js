@@ -110,7 +110,8 @@ $(document).ready(function () {
 
     // first section bg
     if ($('div').is('#particles-js')) {
-        particlesJS.load('particles-js', $(location).attr('origin') + '/static/js/particlesjs-config.json', function () {        });
+            particlesJS.load('particles-js', 'js/particlesjs-config.json', function () {
+        });
     }
 
     //open/close search dropdown

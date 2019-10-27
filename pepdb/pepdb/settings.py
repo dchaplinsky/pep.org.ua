@@ -231,12 +231,10 @@ PIPELINE = {
     'STYLESHEETS': {
         'css_all': {
             'source_filenames': (
-                'bower_components/bootstrap/dist/css/bootstrap.min.css',
                 'css/flag-css.css',
                 'css/vis.css',
                 'less/main.less',
                 'css/graph.css',
-                'css/bootstrap-combobox.css',
                 "css/tippy.css",
                 "css/tippy-light.css",
                 'css/app.css',
