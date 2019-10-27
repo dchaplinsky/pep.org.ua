@@ -1,11 +1,15 @@
+#: core/model/flags.py:106 core/model/persons.py:779 core/model/persons.py:812
+#: core/utils.py:497
 msgid ""
 msgstr ""
+"Project-Id-Version: PEP\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-10-27 19:28+0200\n"
+"Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: POEditor.com\n"
-"Project-Id-Version: PEP\n"
-"Language: en\n"
 
 #: cms_pages/templates/cms_pages/home.jinja:18
 msgid "УКРАЇНИ"
@@ -21,11 +25,154 @@ msgstr "Advanced search"
 
 #: cms_pages/templates/cms_pages/home.jinja:41
 msgid "Пошук публічних діячів та пов'язаних фізичних і юридичних осіб."
-msgstr "Search for politically exposed persons, their close associates and affiliated entities."
+msgstr ""
+"Search for politically exposed persons, their close associates and "
+"affiliated entities."
 
 #: cms_pages/templates/cms_pages/home.jinja:42
 msgid "Оновлюється щоденно"
 msgstr "Updated daily"
+
+#: cms_pages/templates/cms_pages/home.jinja:48
+msgid "Досьє публічних діячів та пов'язаних фізичних осіб"
+msgstr "Dossiers of politically exposed persons and close associates"
+
+#: cms_pages/templates/cms_pages/home.jinja:53
+msgid "Досьє пов'язаних юридичних осіб"
+msgstr "Dossiers of affiliated legal entities"
+
+#: cms_pages/templates/cms_pages/home.jinja:59
+msgid "Документiв"
+msgstr "Documents"
+
+#: cms_pages/templates/cms_pages/home.jinja:63
+msgid "Розслідувань"
+msgstr "Investigations"
+
+#: cms_pages/templates/cms_pages/home.jinja:67
+msgid "Державних реєстрів"
+msgstr "State registries"
+
+#: cms_pages/templates/cms_pages/home.jinja:77
+msgid "Блоги та розслідування"
+msgstr "Blogs and investigations"
+
+#: cms_pages/templates/cms_pages/home.jinja:80
+msgid "Всі розслідування"
+msgstr "All investigations"
+
+#: cms_pages/templates/cms_pages/home.jinja:88
+msgid "Всi блоги"
+msgstr "All blogs"
+
+#: cms_pages/templates/cms_pages/home.jinja:106
+msgid "можливості реєстру"
+msgstr "Capacities of the registry"
+
+#: cms_pages/templates/cms_pages/home.jinja:118
+msgid "Пошук"
+msgstr "Search"
+
+#: cms_pages/templates/cms_pages/home.jinja:119
+msgid ""
+"Публічні діячі (ПЕПи) є клієнтами з підвищеним ризиком відповідно до "
+"міжнародних стандартів з протидії відмивання грошей. Онлайн пошук ПЕПів та "
+"пов’язаних з ними фізичних і юридичних осіб."
+msgstr ""
+"Politically exposed persons (PEPs) are high risk clients according to the "
+"international anti-money laundering standards. Search online for PEPs, their "
+"close associates and affiliated entities"
+
+#: cms_pages/templates/cms_pages/home.jinja:120
+msgid "Перейти до пошуку"
+msgstr "Go to search"
+
+#: cms_pages/templates/cms_pages/home.jinja:136
+msgid "Глибокі досьє. Розслідування. Аналітика"
+msgstr "Dossiers. Investigations. Analytics"
+
+#: cms_pages/templates/cms_pages/home.jinja:137
+msgid ""
+"Фіксуємо публічні документально підтверджені факти про підозрілі статки та "
+"ризики публічних діячів і пов’язаних з ними осіб. Проводимо свої "
+"спецрозслідування про найвпливовіших ПЕПів України"
+msgstr ""
+"We are collecting publicly available documented facts about suspicious "
+"assets and risks of politically exposed persons, their close associates and "
+"affiliated entities. Special investigations on the most influential "
+"Ukrainian PEPs"
+
+#: cms_pages/templates/cms_pages/home.jinja:138
+msgid "Перейти до блогів"
+msgstr "Go to blogs"
+
+#: cms_pages/templates/cms_pages/home.jinja:140
+msgid "Перейти до розслідувань"
+msgstr "Go to investigations"
+
+#: cms_pages/templates/cms_pages/home.jinja:163
+msgid "Scoring ризику необгрунтованості активів"
+msgstr "Scoring of unexplained wealth risk"
+
+#: cms_pages/templates/cms_pages/home.jinja:164
+msgid ""
+"Більше 4000 публічних діячів подають електронні декларації про доходи та "
+"витрати. Наш інструмент аналізує цю інформацію та визначає можливий ризик "
+"необгрунтованості статків ПЕПа"
+msgstr ""
+"More than 4000 politically exposed persons are submitting their electronic "
+"asset declarations. Our tool analyses this information and scores the risk "
+"of PEP’s unexplained wealth"
+
+#: cms_pages/templates/cms_pages/home.jinja:165
+#: cms_pages/templates/cms_pages/home.jinja:215
+msgid "Деталі"
+msgstr "More"
+
+#: cms_pages/templates/cms_pages/home.jinja:181
+msgid "Візуалізація даних з декларацій"
+msgstr "Visualization of asset declarations data"
+
+#: cms_pages/templates/cms_pages/home.jinja:182
+msgid ""
+"Інформація з електронних декларацій інтегрована в досьє публічних діячів. "
+"Основні дані ми візуалізували для вас"
+msgstr ""
+"Information from electronic asset declarations is integrated into dossiers "
+"of PEPs. We have visualized main data for you"
+
+#: cms_pages/templates/cms_pages/home.jinja:197
+msgid "Зв'язки"
+msgstr "Connections"
+
+#: cms_pages/templates/cms_pages/home.jinja:198
+msgid ""
+"Члени сім’ї публічного діяча, його ділові партнери, юридичні особи, в яких "
+"ПЕП є власником, засновником чи бенефіціаром - вся ця інформація у "
+"табличному та візуалізованому форматах"
+msgstr ""
+"Family members, close associates, affiliated legal entities, founded, owned "
+"or beneficially controlled by PEP - all these connections are available in "
+"tables and infographics"
+
+#: cms_pages/templates/cms_pages/home.jinja:213 core/templates/base.jinja:102
+#: core/templates/base.jinja:152 core/templates/base.jinja:184
+msgid "Open Data"
+msgstr "Open Data"
+
+#: cms_pages/templates/cms_pages/home.jinja:214
+msgid ""
+"Можливість інтегрувати дані реєстру з вашим програмним забезпеченням та "
+"оперативно виявляти публічних діячів та пов’язаних з ними осіб серед тисяч "
+"клієнтів"
+msgstr ""
+"Integrate open data from the registry into your software system and identify "
+"PEPs, their close associates and affiliated entities among thousands of "
+"clients"
+
+#: cms_pages/templates/cms_pages/home.jinja:225
+msgid "Користуються системою"
+msgstr "Users of the system"
 
 #: cms_pages/templates/cms_pages/home.jinja:285 core/templates/base.jinja:68
 #: core/templates/base.jinja:128
@@ -101,6 +248,14 @@ msgstr "blog"
 #: core/model/articles.py:16
 msgid "розслідування"
 msgstr "investigations"
+
+#: core/model/articles.py:17
+msgid "FAQ (загальний)"
+msgstr "FAQ (general)"
+
+#: core/model/articles.py:18
+msgid "FAQ (видалення)"
+msgstr "FAQ (removal)"
 
 #: core/model/companies.py:96
 msgid "інформація відсутня"
@@ -442,6 +597,16 @@ msgstr "Secretaty"
 msgid "Директор"
 msgstr "Director"
 
+#: core/model/connections.py:371 core/model/connections.py:404
+#: core/model/connections.py:405
+msgid "Компанія з управління активами"
+msgstr "Asset management company"
+
+#: core/model/connections.py:372 core/model/connections.py:404
+#: core/model/connections.py:405
+msgid "Інвестиційний фонд"
+msgstr "Investment fund"
+
 #: core/model/connections.py:376 core/model/connections.py:377
 #: core/model/connections.py:378 core/model/connections.py:379
 #: core/model/connections.py:381 core/model/connections.py:382
@@ -596,108 +761,188 @@ msgid "Інші активи"
 msgstr "Other assets"
 
 #: core/model/flags.py:11
-msgid "В декларації публічного діяча не вказані дружина та/або діти, однак інформація про них є в реєстрі pep.org.ua"
-msgstr "PEP's asset declaration does not indicate PEP’s wife and/or children, while pep.org.ua register has information on them"
+msgid ""
+"В декларації не вказані дружина та/або діти, однак інформація про них є в "
+"реєстрі pep.org.ua"
+msgstr ""
+"Asset declaration does not indicate PEP’s wife and/or children, while pep."
+"org.ua register has information on them"
 
 #: core/model/flags.py:13
-msgid "Сукупна вартість майна, активів більша доходів в поточній декларації в 10+ раз в порівнянні з декларацією публічного діяча за попередній рік"
-msgstr "Overall cost of the property and assets  exceeds income in 10 or more times for the current year"
+msgid ""
+"Сукупна вартість майна та активів більша доходів за поточний рік в 10 чи "
+"більше разів"
+msgstr ""
+"Overall value of the property and assets  exceeds income in 10 or more times "
+"for the current year"
 
 #: core/model/flags.py:16
-msgid "Декларант не зазначив вартості будинку/ів, що перебувають у його та членів родини власності починаючи з 2015 року"
-msgstr "There is no information on the value of real estate owned by PEP or his family members since 2015"
+msgid ""
+"Не зазначено вартості нерухомості, що перебувають у власності публічного "
+"діяча та членів його родини, починаючи з 2015 року"
+msgstr ""
+"There is no information on the value of real estate owned by PEP or his "
+"family members since 2015"
 
 #: core/model/flags.py:19
-msgid "Декларант не зазначив вартості земельної ділянки/нок, що перебувають у його та/або членів родини власності починаючи з 2015 року"
-msgstr "There is no information on the value of land plots owned by PEP or his family members since 2015"
+msgid ""
+"Не зазначено вартості земельних ділянок, що перебувають у власності "
+"публічного діяча та членів його родини, починаючи з 2015 року"
+msgstr ""
+"There is no information on the value of land plots owned by PEP or his "
+"family members since 2015"
 
 #: core/model/flags.py:22
-msgid "Декларант не зазначив вартості транспортних засобів, що перебувають його та/або членів родини власності декларанта, членів родини починаючи з 2015 року"
-msgstr "There is no information on the value of vehicles owned by PEP or his family members since 2015"
+msgid ""
+"Не зазначено вартості транспортних засобів, що перебувають у власності "
+"публічного діяча та членів його родини, починаючи з 2015 року"
+msgstr ""
+"There is no information on the value of vehicles owned by PEP or his family "
+"members since 2015"
 
 #: core/model/flags.py:25
-msgid "Відсутність нерухомості у власності/користуванні в населеному пункті проживання публічного діяч"
-msgstr "There is no information on real estate/apartment owned or rented in the town or city indicated as PEP’s place of residence"
+msgid ""
+"Відсутність нерухомості у власності/користуванні в населеному пункті, "
+"зазначеному як місце проживання публічного діяча"
+msgstr ""
+"There is no information on real estate/apartment owned or rented in the town "
+"or city indicated as PEP’s place of residence"
 
 #: core/model/flags.py:28
-msgid "Відсутність нерухомості у власності/користуванні в регіоні проживання публічного діяча"
-msgstr "There is no information on real estate/apartment owned or rented in the region indicated as PEP’s place of residenc"
+msgid ""
+"Відсутність нерухомості у власності/користуванні в регіоні, зазначеному як "
+"місце проживання публічного діяча"
+msgstr ""
+"There is no information on real estate/apartment owned or rented in the "
+"region indicated as PEP’s place of residence"
 
 #: core/model/flags.py:31
-msgid "Публічний діяч задекларував збільшення сукупної вартості рухомого майна, нерухомого майна та готівки в 5 разів відносно попередньої декларації"
-msgstr "PEP declared that overall value of the movable and immovable property and cash increased 5 times comparing to the declaration for the previous year"
+msgid ""
+"Публічний діяч задекларував збільшення в 5 разів сукупної вартості рухомого "
+"та нерухомого майна, а також готівки відносно декларації попереднього року"
+msgstr ""
+"PEP declared that overall value of the movable and immovable property and "
+"cash increased 5 times compared to the declaration for the previous year"
 
 #: core/model/flags.py:34
-msgid "Публічний діяч задекларував отримання та повернення позики, що перевищує доходи у 2+ разів протягом одного календарного року"
-msgstr "During one calendar year PEP received and paid back a loan which exceeds the income in 2 or more times"
+msgid ""
+"Протягом одного календарного року публічний діяч задекларував отримання та "
+"повернення позики, що перевищує доходи у 2 чи більше рази"
+msgstr ""
+"During one calendar year PEP received and paid back a loan which exceeds the "
+"income in 2 or more times"
 
 #: core/model/flags.py:37
-msgid "Дохід від продажу майна/нерухомості в 2+ більше вартості майна в актуальній декларації - вартість майна в попередній декларації"
-msgstr "Income from the sale of  assets or property times exceeds in 2 or more times the declared value of those sold assets in the declaration for previous year"
+msgid ""
+"Дохід від продажу майна чи нерухомості в 2 чи більше рази більше вартості "
+"цього ж майна, внесеного до декларації попереднього року"
+msgstr ""
+"Income from the sale of assets or property times exceeds in 2 or more times "
+"the declared value of those sold assets in the declaration for previous year"
 
 #: core/model/flags.py:40
-msgid "Доходи від викладацької, творчої діяльності та роботою за сумісництвом перевищують 30% сукупних доходів в декларації"
-msgstr "Income from the teaching and creative activities, as well as part-time work exceeds 30% of the total income indicated in the declaration"
+msgid ""
+"Доходи від викладацької, творчої діяльності та роботою за сумісництвом "
+"перевищують 30% сукупних доходів в декларації"
+msgstr ""
+"Income from the teaching and creative activities, as well as part-time work "
+"exceeds 30% of the total income indicated in the declaration"
 
 #: core/model/flags.py:42
-msgid "Роялті перевищують 20% сукупних доходів в деклараці"
+msgid "Роялті перевищують 20% сукупних доходів в декларації"
 msgstr "Royalty exceeds 20% of the total income indicated in the declaration"
 
 #: core/model/flags.py:44
-msgid "Сума задекларованих доходів та грошових активів дорівнюють або менше витратам в декларації"
-msgstr "Overall amount of income and monetary assets indicated in the declaration is smaller or equal to the expenditures indicated in the declaration"
+msgid ""
+"Cума задекларованих доходів та грошових активів менша або дорівнює витратам, "
+"зазначеним в декларації"
+msgstr ""
+"Overall amount of income and monetary assets indicated in the declaration is "
+"smaller or equal to the expenditures indicated in the declaration"
 
 #: core/model/flags.py:46
-msgid "Задекларовано отримання подарунків у розмірі 100+ тис. грн"
+msgid "Задекларовано отримання подарунків у розмірі більше 100 тис. грн"
 msgstr "Declared presents amounting to more than 100 000 UAH"
 
 #: core/model/flags.py:47
-msgid "Задекларовано виграші в лотерею, призи вартістю 10+ тис. грн"
+msgid "Задекларовано виграші в лотерею чи призи вартістю більше 10 тис. грн"
 msgstr "Declared lottery win or prize with price of more than 10 000 UAH"
 
 #: core/model/flags.py:49
-msgid "Задекларовано власність авто від 2013 року випуску вартістю менше 150 тис. грн"
-msgstr "Declared ownership of vehicle produced after 2013 with indicated value less than 150 000 UAH"
+msgid ""
+"Задекларовано власність авто від 2013 року випуску вартістю менше 150 тис. "
+"грн"
+msgstr ""
+"Declared ownership of vehicle produced after 2013 with indicated value less "
+"than 150 000 UAH"
 
 #: core/model/flags.py:52
-msgid "Задекларовано власність та/або право користування авто бізнес класу вартістю 800+ тис. грн. та/або брендового авто, яке відноситься до переліку люксових"
-msgstr "Declared ownership and/or right of use of a business class car, or car with price exceeding 800 000 uah or brand vehicle, which is considered to be a luxury car"
+msgid ""
+"Задекларовано власність та/або право користування автомобілем бізнес класу, "
+"чи авто вартістю більше 800 тис. грн. та/або авто, яке належить до переліку "
+"авто брендів класу люкс"
+msgstr ""
+"Declared ownership and/or right of use of a business class car, or car with "
+"price exceeding 800 000 uah or brand vehicle, which is considered to be a "
+"luxury car"
 
 #: core/model/flags.py:54
-msgid "Задекларовано власність та/або право користування 5+ авто на декларацію"
-msgstr "Declared ownership and/or right of use of more than 5 cars "
+msgid "Задекларовано власність та/або право користування більше 5 автомобілів"
+msgstr "Declared ownership and/or right of use of more than 5 cars"
 
 #: core/model/flags.py:56
-msgid "Сукупна готівка декларанта та членів родини в декларації більше 1,5 млн гривень"
-msgstr "Overall amount of declared cash owned by PEP and members of the family exceeds 1.5 million UAH"
+msgid ""
+"Cукупна готівка декларанта та членів родини в декларації більше 1,5 млн "
+"гривень"
+msgstr ""
+"Overall amount of declared cash owned by PEP and members of the family "
+"exceeds 1.5 million UAH"
 
 #: core/model/flags.py:59
-msgid "Задекларовані грошові активи поточного року більші суми доходів та грошових активів попереднього року"
-msgstr "Monetary assets declared this year exceed the sum of income and amount of monetary assets of the previous year"
+msgid ""
+"Задекларовані грошові активи поточного року більші суми доходів та грошових "
+"активів попереднього року"
+msgstr ""
+"Monetary assets declared this year exceed the sum of income and amount of "
+"monetary assets of the previous year"
 
 #: core/model/flags.py:62
-msgid "Готівка в найпершій електронній декларації наявній в системі в 5 разів перевищує доходи зазначені в декларації за відповідний рік"
-msgstr "Cash declared in the very first electronic asset declaration available in the system  exceeds in 5 or more times income declared for the corresponding year "
+msgid ""
+"Готівка в найпершій електронній декларації наявній в системі в 5 чи більше "
+"разів перевищує доходи зазначені в декларації за відповідний рік"
+msgstr ""
+"Cash declared in the very first electronic asset declaration available in "
+"the system  exceeds in 5 or more times income declared for the corresponding "
+"year"
 
 #: core/model/flags.py:64
 msgid "Задекларовані витрати більші 75% сукупного доходу за період"
 msgstr "Declared expenditures exceed 75% of the overall income for the period"
 
 #: core/model/flags.py:65
-msgid "Публічний діяч не задекларував бенефіціарну власність компанії/ій, водночас в реєстрі і в pep.org.ua є інформація про таку бенефіціарну власність"
-msgstr "There is no declared beneficiary ownership of company/ies, while pep.org.ua registry has information about such a beneficial ownership"
+msgid ""
+"Публічний діяч не задекларував бенефіціарну власність компанії/ій, водночас "
+"в реєстрі pep.org.ua є інформація про таку бенефіціарну власність"
+msgstr ""
+"There is no declared beneficiary ownership of company/ies, while pep.org.ua "
+"registry has information about such a beneficial ownership"
 
 #: core/model/flags.py:67
-msgid "Компанії, власником яких є декларант чи члени його родини отримали перерахування бюджетних коштів на суму 100+ тис. грн."
-msgstr "Companies owned or controlled by the declarant or his/hers family members received transfers of budget funds exceeding 100 000 UAH"
+msgid ""
+"Компанії, власником чи контролером яких є декларант чи члени його/її родини "
+"отримали перерахування бюджетних коштів на суму більше 100 тис. грн."
+msgstr ""
+"Companies owned or controlled by the declarant or his/hers family members "
+"received transfers of budget funds exceeding 100 000 UAH"
 
 #: core/model/flags.py:69
 msgid "Публічний діяч задекларував криптовалюту та/або доходи від криптовалюти"
 msgstr "PEP declared cryptocurrency and/or income based on cryptocurrency"
 
 #: core/model/flags.py:70
-msgid "Публічний діяч задекларував оренду жилої нерухомості площею більше 300 кв. м."
-msgstr "PEP declared rent of a property exceeding 300 sq. m."
+msgid ""
+"Публічний діяч задекларував оренду жилої нерухомості площею більше 300 м. кв."
+msgstr "PEP declared rent of real estate exceeding 300 sq. m"
 
 #: core/model/persons.py:55
 msgid "Помер"
@@ -721,7 +966,9 @@ msgstr "Change of the legislation, which sets up PEP status"
 
 #: core/model/persons.py:60
 msgid "Зміни форми власності юр. особи посада в котрій давала статус ПЕПа"
-msgstr "Change of ownership of the legal entity, which was giving PEP status to its officials"
+msgstr ""
+"Change of ownership of the legal entity, which was giving PEP status to its "
+"officials"
 
 #: core/model/persons.py:64
 msgid "Національний публічний діяч"
@@ -906,12 +1153,34 @@ msgid "Грошові активи:"
 msgstr "Monetary assets:"
 
 #: core/templates/_declaration.jinja:44
-msgid "Суб’єкт декларування повинен задекларувати: готівкові кошти, кошти, розміщені на банківських рахунках, внески до кредитних спілок та інших небанківських фінансових установ, у тому числі до інститутів спільного інвестування, кошти, позичені суб’єктом декларування або членом його сім’ї третім особам, активи у дорогоцінних (банківських) металах, інше."
-msgstr "Declaring entity should declare: cash, funds deposited on bank accounts, contributions to credit unions and other non-banking financial institutions, including collective investment institutions, funds lent by declaring entity or a member of his/her family to third parties, assets in precious metals, other."
+msgid ""
+"Суб’єкт декларування повинен задекларувати: готівкові кошти, кошти, "
+"розміщені на банківських рахунках, внески до кредитних спілок та інших "
+"небанківських фінансових установ, у тому числі до інститутів спільного "
+"інвестування, кошти, позичені суб’єктом декларування або членом його сім’ї "
+"третім особам, активи у дорогоцінних (банківських) металах, інше."
+msgstr ""
+"Declaring entity should declare: cash, funds deposited on bank accounts, "
+"contributions to credit unions and other non-banking financial institutions, "
+"including collective investment institutions, funds lent by declaring entity "
+"or a member of his/her family to third parties, assets in precious metals, "
+"other."
 
 #: core/templates/_declaration.jinja:47
-msgid "Не підлягають декларуванню наявні грошові активи (у тому числі готівкові кошти, кошти, розміщені на банківських рахунках, внески до кредитних спілок та інших небанківських фінансових установ, кошти, позичені третім особам) та активи у дорогоцінних (банківських) металах, сукупна вартість яких не перевищує 50 прожиткових мінімумів, встановленних для працездатних осіб на 1 січня звітного року."
-msgstr "Available cash assets (including cash, funds deposited on bank accounts, contributions to credit unions and other non-banking financial institutions, funds lent to third parties) and assets in precious metals the aggregate value of which does not exceed 50 minimum subsistence levels estimated for able-bodied persons for the 1 of January of the reporting year are not a subject of declaration."
+msgid ""
+"Не підлягають декларуванню наявні грошові активи (у тому числі готівкові "
+"кошти, кошти, розміщені на банківських рахунках, внески до кредитних спілок "
+"та інших небанківських фінансових установ, кошти, позичені третім особам) та "
+"активи у дорогоцінних (банківських) металах, сукупна вартість яких не "
+"перевищує 50 прожиткових мінімумів, встановленних для працездатних осіб на 1 "
+"січня звітного року."
+msgstr ""
+"Available cash assets (including cash, funds deposited on bank accounts, "
+"contributions to credit unions and other non-banking financial institutions, "
+"funds lent to third parties) and assets in precious metals the aggregate "
+"value of which does not exceed 50 minimum subsistence levels estimated for "
+"able-bodied persons for the 1 of January of the reporting year are not a "
+"subject of declaration."
 
 #: core/templates/_declaration.jinja:51 core/templates/_declaration.jinja:209
 #: core/templates/_declaration.jinja:259 core/templates/_declaration.jinja:321
@@ -966,8 +1235,27 @@ msgid "Дарунки, призи, виграші:"
 msgstr "Gifts, prizes, winnings:"
 
 #: core/templates/_declaration.jinja:205
-msgid "Подарунки у формі грошових коштів ​повинні зазначатися, якщо розмір таких подарунків, отриманих від однієї особи (групи осіб) протягом року,​ перевищує 5 прожиткових мінімумів, встановленних для працездатних осіб на 1 січня звітного року. Подарун​ок​ у формі, іншій ніж грошові кошти​ (рухоме майно, нерухомість тощо)​, зазначається​, якщо ​вартість так​ого​ подарунк​у перевищує 5 прожиткових мінімумів, встановленних для працездатних осіб на 1 січня звітного року. Зазначення інформації про подарунок не виключає обов'язок вказати відповідне майно в інших розділах декларації, наприклад, у розділах про цінне рухоме майно, нерухоме майно, цінні папери тощо."
-msgstr "Gifts in the form of cash should be indicated if the amount of such gifts received from one person (group of persons) during the year exceeds 5 minimum subsistence levels estimated for able-bodied persons for the 1 of January of the reporting year. Gift in a form other than cash (movables, real estate, etc.) is indicated if the value of such gift exceeds 5 minimum subsistence levels estimated for able-bodied persons for the 1 of January of the reporting year. Indication of information about the gift does not exclude the obligation to indicate the corresponding property in other sections of the declaration, for example, in sections on movable valuables, real estate, securities, etc."
+msgid ""
+"Подарунки у формі грошових коштів ​повинні зазначатися, якщо розмір таких "
+"подарунків, отриманих від однієї особи (групи осіб) протягом року,​ перевищує "
+"5 прожиткових мінімумів, встановленних для працездатних осіб на 1 січня "
+"звітного року. Подарун​ок​ у формі, іншій ніж грошові кошти​ (рухоме майно, "
+"нерухомість тощо)​, зазначається​, якщо ​вартість так​ого​ подарунк​у перевищує 5 "
+"прожиткових мінімумів, встановленних для працездатних осіб на 1 січня "
+"звітного року. Зазначення інформації про подарунок не виключає обов'язок "
+"вказати відповідне майно в інших розділах декларації, наприклад, у розділах "
+"про цінне рухоме майно, нерухоме майно, цінні папери тощо."
+msgstr ""
+"Gifts in the form of cash should be indicated if the amount of such gifts "
+"received from one person (group of persons) during the year exceeds 5 "
+"minimum subsistence levels estimated for able-bodied persons for the 1 of "
+"January of the reporting year. Gift in a form other than cash (movables, "
+"real estate, etc.) is indicated if the value of such gift exceeds 5 minimum "
+"subsistence levels estimated for able-bodied persons for the 1 of January of "
+"the reporting year. Indication of information about the gift does not "
+"exclude the obligation to indicate the corresponding property in other "
+"sections of the declaration, for example, in sections on movable valuables, "
+"real estate, securities, etc."
 
 #: core/templates/_declaration.jinja:220 core/templates/person.jinja:760
 msgid "Cума в декларанта"
@@ -983,12 +1271,42 @@ msgid "Фінансові зобов’язання:"
 msgstr "Financial liabilities:"
 
 #: core/templates/_declaration.jinja:252
-msgid "Суб’єкт декларування повинен задекларувати: отримані кредити, отримані позики, зобов’язання за договорами лізингу, розмір сплачених коштів в рахунок основної суми позики (кредиту) та процентів за позикою (кредитом), зобов’язання за договорами страхування та недержавного пенсійного забезпечення, кошти, позичені суб’єкту декларування або члену його сім’ї іншими особами, несплачені податкові зобов’язання, інше."
-msgstr "Declaring entity should declare: received credits, received loans, obligations under leasing agreements, the amount of funds paid as the principal amount of loan (credit) and interest on loan (credit), obligations under insurance contracts and non-state pension provision, funds lent to declaring entity or to his/her family member by other persons, unpaid tax liabilities, etc."
+msgid ""
+"Суб’єкт декларування повинен задекларувати: отримані кредити, отримані "
+"позики, зобов’язання за договорами лізингу, розмір сплачених коштів в "
+"рахунок основної суми позики (кредиту) та процентів за позикою (кредитом), "
+"зобов’язання за договорами страхування та недержавного пенсійного "
+"забезпечення, кошти, позичені суб’єкту декларування або члену його сім’ї "
+"іншими особами, несплачені податкові зобов’язання, інше."
+msgstr ""
+"Declaring entity should declare: received credits, received loans, "
+"obligations under leasing agreements, the amount of funds paid as the "
+"principal amount of loan (credit) and interest on loan (credit), obligations "
+"under insurance contracts and non-state pension provision, funds lent to "
+"declaring entity or to his/her family member by other persons, unpaid tax "
+"liabilities, etc."
 
 #: core/templates/_declaration.jinja:255
-msgid "Інформація зазначається, лише якщо розмір зобов’язання перевищує 50 прожиткових мінімумів, встановленних для працездатних осіб на 1 січня звітного року. Якщо розмір зобов’язання не перевищує 50 прожиткових мінімумів, встановленних для працездатних осіб на 1 січня звітного року, зазначається лише загальний розмір такого фінансового зобов’язання (наприклад, якщо розмір сплачених коштів в рахунок основної суми позики (кредиту) у звітному році не перевищує 50 прожиткових мінімумів, встановленних для працездатних осіб на 1 січня звітного року, то зазначається лише загальний розмір позики (кредиту))."
-msgstr "Information is indicated only if the amount of liability exceeds 50 minimum subsistence levels estimated for able-bodied persons for the 1 of January of the reporting year. if the amount of liability does not exceed 50 minimum subsistence levels estimated for able-bodied persons for the 1 of January of the reporting year only overall amount of such liability is indicated (for example, if the amount of funds paid as the principal amount of loan (credit) in the reporting year does not exceed 50 minimum subsistence levels estimated for able-bodied persons for the 1 of January of the reporting year than only overall amount of loan (credit) is indicated)."
+msgid ""
+"Інформація зазначається, лише якщо розмір зобов’язання перевищує 50 "
+"прожиткових мінімумів, встановленних для працездатних осіб на 1 січня "
+"звітного року. Якщо розмір зобов’язання не перевищує 50 прожиткових "
+"мінімумів, встановленних для працездатних осіб на 1 січня звітного року, "
+"зазначається лише загальний розмір такого фінансового зобов’язання "
+"(наприклад, якщо розмір сплачених коштів в рахунок основної суми позики "
+"(кредиту) у звітному році не перевищує 50 прожиткових мінімумів, "
+"встановленних для працездатних осіб на 1 січня звітного року, то "
+"зазначається лише загальний розмір позики (кредиту))."
+msgstr ""
+"Information is indicated only if the amount of liability exceeds 50 minimum "
+"subsistence levels estimated for able-bodied persons for the 1 of January of "
+"the reporting year. if the amount of liability does not exceed 50 minimum "
+"subsistence levels estimated for able-bodied persons for the 1 of January of "
+"the reporting year only overall amount of such liability is indicated (for "
+"example, if the amount of funds paid as the principal amount of loan "
+"(credit) in the reporting year does not exceed 50 minimum subsistence levels "
+"estimated for able-bodied persons for the 1 of January of the reporting year "
+"than only overall amount of loan (credit) is indicated)."
 
 #: core/templates/_declaration.jinja:270
 msgid "Сума в декларанта"
@@ -999,12 +1317,26 @@ msgid "Нерухомість декларанта і родини:"
 msgstr "Real estate of declarant and household (family):"
 
 #: core/templates/_declaration.jinja:314
-msgid "Вказуються об’єкти нерухомості, що належать суб’єкту декларування та членам його сім’ї на праві приватної власності, включаючи спільну власність, або знаходяться у них в оренді чи на іншому праві користування, незалежно від форми укладення правочину, внаслідок якого набуте таке право."
-msgstr "It indicates the information on real estate belonging to the declarant and/or his family members on the title of ownership, including joint ownership, rent or another right to use property, regardless of the form of the transaction, which resulted in obtaining such a right."
+msgid ""
+"Вказуються об’єкти нерухомості, що належать суб’єкту декларування та членам "
+"його сім’ї на праві приватної власності, включаючи спільну власність, або "
+"знаходяться у них в оренді чи на іншому праві користування, незалежно від "
+"форми укладення правочину, внаслідок якого набуте таке право."
+msgstr ""
+"It indicates the information on real estate belonging to the declarant and/"
+"or his family members on the title of ownership, including joint ownership, "
+"rent or another right to use property, regardless of the form of the "
+"transaction, which resulted in obtaining such a right."
 
 #: core/templates/_declaration.jinja:317
-msgid "В розділі вказується сукупна площа задекларованого за звітний рік майна. Для того, щоб отримати більш детальну інформацію, перейдіть на повну версію декларації."
-msgstr "The section specifies the total area of the real estate declared in the reporting year. For more information, go to the full version of the declaration."
+msgid ""
+"В розділі вказується сукупна площа задекларованого за звітний рік майна. Для "
+"того, щоб отримати більш детальну інформацію, перейдіть на повну версію "
+"декларації."
+msgstr ""
+"The section specifies the total area of the real estate declared in the "
+"reporting year. For more information, go to the full version of the "
+"declaration."
 
 #: core/templates/_declaration.jinja:332 core/templates/person.jinja:822
 msgid "Земля"
@@ -1035,12 +1367,29 @@ msgid "Транспортні засоби:"
 msgstr "Vehicles:"
 
 #: core/templates/_declaration.jinja:456
-msgid "Вказуються дані про транспортні засоби та інші самохідні машини і механізми що належать суб’єкту декларування або членам його сім’ї на праві приватної власності, у тому числі спільної власності, або перебувають в їх володінні або користуванні незалежно від форми правочину, внаслідок якого набуте таке право. Відомості про транспортні засоби та інші самохідні машини і механізми зазначаються незалежно від їх вартості."
-msgstr "It indicates the data on vehicles or self-propelled mechanisms belonging to the declarant or his family members on the the title of ownership, including joint ownership, rent or another right to use property, regardless of the form of the transaction, which resulted in obtaining such a right.  The information on vehicles or self-propelled mechanisms is indicated regardless of their cost."
+msgid ""
+"Вказуються дані про транспортні засоби та інші самохідні машини і механізми "
+"що належать суб’єкту декларування або членам його сім’ї на праві приватної "
+"власності, у тому числі спільної власності, або перебувають в їх володінні "
+"або користуванні незалежно від форми правочину, внаслідок якого набуте таке "
+"право. Відомості про транспортні засоби та інші самохідні машини і механізми "
+"зазначаються незалежно від їх вартості."
+msgstr ""
+"It indicates the data on vehicles or self-propelled mechanisms belonging to "
+"the declarant or his family members on the the title of ownership, including "
+"joint ownership, rent or another right to use property, regardless of the "
+"form of the transaction, which resulted in obtaining such a right.  The "
+"information on vehicles or self-propelled mechanisms is indicated regardless "
+"of their cost."
 
 #: core/templates/_declaration.jinja:459
-msgid "В розділі вказується марка, модель та рік випуску задекларованого транспортного засобу. Для того, щоб отримати більш детальну інформацію, перейдіть на повну версію декларації."
-msgstr "The section specifies brand, model and year of production of the declared vehicle. For more information, go to the full version of the declaration."
+msgid ""
+"В розділі вказується марка, модель та рік випуску задекларованого "
+"транспортного засобу. Для того, щоб отримати більш детальну інформацію, "
+"перейдіть на повну версію декларації."
+msgstr ""
+"The section specifies brand, model and year of production of the declared "
+"vehicle. For more information, go to the full version of the declaration."
 
 #: core/templates/_feedback_form.jinja:47
 msgid "Я прочитав"
@@ -1066,8 +1415,12 @@ msgstr "As of"
 
 #: core/templates/_manhunt_records_en.jinja:4
 #: core/templates/_manhunt_records_uk.jinja:4
-msgid "перебуває у всеукраїнському розшуку за підозрою у вчиненні злочину, передбаченого"
-msgstr "is in an all-Ukrainian wanted list on suspicion of committing offense established by"
+msgid ""
+"перебуває у всеукраїнському розшуку за підозрою у вчиненні злочину, "
+"передбаченого"
+msgstr ""
+"is in an all-Ukrainian wanted list on suspicion of committing offense "
+"established by"
 
 #: core/templates/_manhunt_records_en.jinja:5
 #: core/templates/_manhunt_records_uk.jinja:5
@@ -1098,14 +1451,30 @@ msgstr "Investigations"
 msgid "Контакти"
 msgstr "Contacts"
 
-#: core/templates/base.jinja:150 core/templates/base.jinja:182
-msgid "API"
-msgstr "API"
-
 #: core/templates/base.jinja:105 core/templates/base.jinja:155
 #: core/templates/base.jinja:187
 msgid "Scoring"
 msgstr "Scoring"
+
+#: core/templates/base.jinja:194
+msgid "Засновники"
+msgstr "Founders"
+
+#: core/templates/base.jinja:210
+msgid "© ЦЕНТР ПРОТИДІЇ КОРУПЦІЇ, 2015-2019"
+msgstr "© Anti-corruption Action Centre, 2015-2019 "
+
+#: core/templates/base.jinja:211
+msgid "ДИЗАЙН –"
+msgstr "Design -"
+
+#: core/templates/base.jinja:212
+msgid "РОЗРОБКА – "
+msgstr "Development - "
+
+#: core/templates/base.jinja:212
+msgid "КАНЦЕЛЯРСЬКА СОТНЯ"
+msgstr "WHITE COLLAR HUNDRED"
 
 #: core/templates/company.jinja:33 core/templates/person.jinja:48
 msgid "зміст"
@@ -1198,6 +1567,10 @@ msgstr "Connected PEPs"
 msgid "Тип зв’язку"
 msgstr "Type of connection"
 
+#: core/templates/company.jinja:289
+msgid "СТРУКТУРА"
+msgstr "Structure"
+
 #: core/templates/company.jinja:349 core/templates/person.jinja:273
 #: core/templates/person.jinja:1361
 msgid "ЗВ’ЯЗКИ з юридичними особами"
@@ -1214,6 +1587,22 @@ msgstr "Code"
 #: core/templates/company.jinja:413 core/templates/person.jinja:1419
 msgid "БАНКІВСЬКІ РАХУНКИ"
 msgstr "Bank accounts"
+
+#: core/templates/company.jinja:461
+msgid "КЛІЄНТИ БАНКУ"
+msgstr "Bank customers"
+
+#: core/templates/company.jinja:473
+msgid "Ім’я"
+msgstr "Name"
+
+#: core/templates/company.jinja:478
+msgid "Дата"
+msgstr "Date"
+
+#: core/templates/company.jinja:483
+msgid "Останнє місце роботи"
+msgstr "Last place of work"
 
 #: core/templates/company.jinja:549
 msgid "Кримінальні провадження та санкції"
@@ -1272,9 +1661,9 @@ msgstr "information on a person"
 msgid "в Реєстрі відсутня"
 msgstr "is not available in the Register"
 
-#: core/templates/feedback.jinja:10 core/templates/feedback.jinja:15
-msgid "Напишіть нам листа"
-msgstr "Contact us"
+#: core/templates/faq.jinja:9
+msgid "ПРО РЕЄСТР"
+msgstr "About the Register"
 
 #: core/templates/macros/_connections.jinja:25
 #: core/templates/macros/_connections.jinja:195
@@ -1289,8 +1678,12 @@ msgid "Підтверджено: "
 msgstr "Confirmed:"
 
 #: core/templates/person.jinja:15
-msgid "Детальна інформація про членів сім'ї та інших пов'язаних осіб, задекларовані статки, зобов'язання та банківські рахунки, власність в юридичних особах"
-msgstr "Detailed information on family members and close associates, declared assets, liabilities and bank accounts, corporate ownership."
+msgid ""
+"Детальна інформація про членів сім'ї та інших пов'язаних осіб, задекларовані "
+"статки, зобов'язання та банківські рахунки, власність в юридичних особах"
+msgstr ""
+"Detailed information on family members and close associates, declared "
+"assets, liabilities and bank accounts, corporate ownership."
 
 #: core/templates/person.jinja:22
 msgid "Профіль:"
@@ -1339,10 +1732,6 @@ msgstr "Connections to individuals"
 #: core/templates/person.jinja:337
 msgid "доходи та витрати"
 msgstr "Income and expenditures"
-
-#: core/templates/person.jinja:414 core/templates/person.jinja:640
-msgid "2018"
-msgstr "2018"
 
 #: core/templates/person.jinja:673 core/templates/person.jinja:1371
 msgid "ФІНАНСОВІ ЗОБОВ’ЯЗАННЯ"
@@ -1432,6 +1821,10 @@ msgstr "Criminal proceedings and sanctions"
 msgid "РОЗСЛІДУВАННЯ"
 msgstr "Investigations"
 
+#: core/templates/person.jinja:1401
+msgid "КАР’ЄРА"
+msgstr "Career"
+
 #: core/templates/person.jinja:1554
 msgid "члени сім’ї"
 msgstr "family members"
@@ -1480,188 +1873,167 @@ msgstr "Ukrainian"
 msgid "English"
 msgstr "English"
 
-#: cms_pages/templates/cms_pages/home.jinja:77
-msgid "Блоги та розслідування"
-msgstr "Blogs and investigations"
+#~ msgid ""
+#~ "В декларації публічного діяча не вказані дружина та/або діти, однак "
+#~ "інформація про них є в реєстрі pep.org.ua"
+#~ msgstr ""
+#~ "PEP's asset declaration does not indicate PEP’s wife and/or children, "
+#~ "while pep.org.ua register has information on them"
 
-#: cms_pages/templates/cms_pages/home.jinja:80
-msgid "Усi розслiдування"
-msgstr "All investigations"
+#~ msgid ""
+#~ "Сукупна вартість майна, активів більша доходів в поточній декларації в "
+#~ "10+ раз в порівнянні з декларацією публічного діяча за попередній рік"
+#~ msgstr ""
+#~ "Overall cost of the property and assets  exceeds income in 10 or more "
+#~ "times for the current year"
 
-#: cms_pages/templates/cms_pages/home.jinja:88
-msgid "Усi блоги"
-msgstr "All blogs"
+#~ msgid ""
+#~ "Декларант не зазначив вартості будинку/ів, що перебувають у його та "
+#~ "членів родини власності починаючи з 2015 року"
+#~ msgstr ""
+#~ "There is no information on the value of real estate owned by PEP or his "
+#~ "family members since 2015"
 
-#: core/model/articles.py:17
-msgid "FAQ (загальний)"
-msgstr "FAQ (general)"
+#~ msgid ""
+#~ "Декларант не зазначив вартості земельної ділянки/нок, що перебувають у "
+#~ "його та/або членів родини власності починаючи з 2015 року"
+#~ msgstr ""
+#~ "There is no information on the value of land plots owned by PEP or his "
+#~ "family members since 2015"
 
-#: core/model/articles.py:18
-msgid "FAQ (видалення)"
-msgstr "FAQ (removal)"
+#~ msgid ""
+#~ "Декларант не зазначив вартості транспортних засобів, що перебувають його "
+#~ "та/або членів родини власності декларанта, членів родини починаючи з 2015 "
+#~ "року"
+#~ msgstr ""
+#~ "There is no information on the value of vehicles owned by PEP or his "
+#~ "family members since 2015"
 
-#: core/templates/faq.jinja:9
-msgid "ПРО РЕЄСТР"
-msgstr "About the Register"
+#~ msgid ""
+#~ "Відсутність нерухомості у власності/користуванні в населеному пункті "
+#~ "проживання публічного діяч"
+#~ msgstr ""
+#~ "There is no information on real estate/apartment owned or rented in the "
+#~ "town or city indicated as PEP’s place of residence"
 
-#: cms_pages/templates/cms_pages/home.jinja:48
-msgid "Досьє публічних діячів та повязаних фізичних осіб"
-msgstr "Dossiers of politically exposed persons and close associates"
+#~ msgid ""
+#~ "Відсутність нерухомості у власності/користуванні в регіоні проживання "
+#~ "публічного діяча"
+#~ msgstr ""
+#~ "There is no information on real estate/apartment owned or rented in the "
+#~ "region indicated as PEP’s place of residenc"
 
-#: cms_pages/templates/cms_pages/home.jinja:53
-msgid "Досьє повязаних юридичних осіб"
-msgstr "Dossiers of affiliated legal entities"
+#~ msgid ""
+#~ "Публічний діяч задекларував збільшення сукупної вартості рухомого майна, "
+#~ "нерухомого майна та готівки в 5 разів відносно попередньої декларації"
+#~ msgstr ""
+#~ "PEP declared that overall value of the movable and immovable property and "
+#~ "cash increased 5 times comparing to the declaration for the previous year"
 
-#: cms_pages/templates/cms_pages/home.jinja:59
-msgid "Документiв"
-msgstr "Documents"
+#~ msgid ""
+#~ "Публічний діяч задекларував отримання та повернення позики, що перевищує "
+#~ "доходи у 2+ разів протягом одного календарного року"
+#~ msgstr ""
+#~ "During one calendar year PEP received and paid back a loan which exceeds "
+#~ "the income in 2 or more times"
 
-#: cms_pages/templates/cms_pages/home.jinja:63
-msgid "Розслідувань"
-msgstr "Investigations"
+#~ msgid ""
+#~ "Дохід від продажу майна/нерухомості в 2+ більше вартості майна в "
+#~ "актуальній декларації - вартість майна в попередній декларації"
+#~ msgstr ""
+#~ "Income from the sale of  assets or property times exceeds in 2 or more "
+#~ "times the declared value of those sold assets in the declaration for "
+#~ "previous year"
 
-#: cms_pages/templates/cms_pages/home.jinja:67
-msgid "Державних реєстрів"
-msgstr "State registries"
+#~ msgid "Роялті перевищують 20% сукупних доходів в деклараці"
+#~ msgstr ""
+#~ "Royalty exceeds 20% of the total income indicated in the declaration"
 
-#: cms_pages/templates/cms_pages/home.jinja:106
-msgid "можливості реєстру"
-msgstr "Capacities of the registry"
+#~ msgid ""
+#~ "Сума задекларованих доходів та грошових активів дорівнюють або менше "
+#~ "витратам в декларації"
+#~ msgstr ""
+#~ "Overall amount of income and monetary assets indicated in the declaration "
+#~ "is smaller or equal to the expenditures indicated in the declaration"
 
-#: cms_pages/templates/cms_pages/home.jinja:225
-msgid "Користуються системою"
-msgstr "Users of the system"
+#~ msgid "Задекларовано отримання подарунків у розмірі 100+ тис. грн"
+#~ msgstr "Declared presents amounting to more than 100 000 UAH"
 
-#: core/templates/base.jinja:194
-msgid "Засновники"
-msgstr "Founders"
+#~ msgid "Задекларовано виграші в лотерею, призи вартістю 10+ тис. грн"
+#~ msgstr "Declared lottery win or prize with price of more than 10 000 UAH"
 
-#: core/templates/base.jinja:210
-msgid "© ЦЕНТР ПРОТИДІЇ КОРУПЦІЇ, 2015-2019"
-msgstr "© Anti-corruption Action Centre, 2015-2019 "
+#~ msgid ""
+#~ "Задекларовано власність та/або право користування авто бізнес класу "
+#~ "вартістю 800+ тис. грн. та/або брендового авто, яке відноситься до "
+#~ "переліку люксових"
+#~ msgstr ""
+#~ "Declared ownership and/or right of use of a business class car, or car "
+#~ "with price exceeding 800 000 uah or brand vehicle, which is considered to "
+#~ "be a luxury car"
 
-#: core/templates/base.jinja:211
-msgid "ДИЗАЙН –"
-msgstr "Design -"
+#~ msgid ""
+#~ "Задекларовано власність та/або право користування 5+ авто на декларацію"
+#~ msgstr "Declared ownership and/or right of use of more than 5 cars "
 
-#: core/templates/base.jinja:212
-msgid "РОЗРОБКА – "
-msgstr "Development - "
+#~ msgid ""
+#~ "Сукупна готівка декларанта та членів родини в декларації більше 1,5 млн "
+#~ "гривень"
+#~ msgstr ""
+#~ "Overall amount of declared cash owned by PEP and members of the family "
+#~ "exceeds 1.5 million UAH"
 
-#: core/templates/base.jinja:212
-msgid "КАНЦЕЛЯРСЬКА СОТНЯ"
-msgstr "WHITE COLLAR HUNDRED"
+#~ msgid ""
+#~ "Готівка в найпершій електронній декларації наявній в системі в 5 разів "
+#~ "перевищує доходи зазначені в декларації за відповідний рік"
+#~ msgstr ""
+#~ "Cash declared in the very first electronic asset declaration available in "
+#~ "the system  exceeds in 5 or more times income declared for the "
+#~ "corresponding year "
 
-#: cms_pages/templates/cms_pages/home.jinja:48
-msgid "Досьє публічних діячів та пов'язаних фізичних осіб"
-msgstr "Dossiers of politically exposed persons and close associates"
+#~ msgid ""
+#~ "Публічний діяч не задекларував бенефіціарну власність компанії/ій, "
+#~ "водночас в реєстрі і в pep.org.ua є інформація про таку бенефіціарну "
+#~ "власність"
+#~ msgstr ""
+#~ "There is no declared beneficiary ownership of company/ies, while pep.org."
+#~ "ua registry has information about such a beneficial ownership"
 
-#: cms_pages/templates/cms_pages/home.jinja:53
-msgid "Досьє пов'язаних юридичних осіб"
-msgstr "Dossiers of affiliated legal entities"
+#~ msgid ""
+#~ "Компанії, власником яких є декларант чи члени його родини отримали "
+#~ "перерахування бюджетних коштів на суму 100+ тис. грн."
+#~ msgstr ""
+#~ "Companies owned or controlled by the declarant or his/hers family members "
+#~ "received transfers of budget funds exceeding 100 000 UAH"
 
-#: cms_pages/templates/cms_pages/home.jinja:80
-msgid "Всі розслідування"
-msgstr "All investigations"
+#~ msgid ""
+#~ "Публічний діяч задекларував оренду жилої нерухомості площею більше 300 "
+#~ "кв. м."
+#~ msgstr "PEP declared rent of a property exceeding 300 sq. m."
 
-#: cms_pages/templates/cms_pages/home.jinja:88
-msgid "Всi блоги"
-msgstr "All blogs"
+#~ msgid "API"
+#~ msgstr "API"
 
-#: cms_pages/templates/cms_pages/home.jinja:118
-msgid "Пошук"
-msgstr "Search"
+#~ msgid "Напишіть нам листа"
+#~ msgstr "Contact us"
 
-#: cms_pages/templates/cms_pages/home.jinja:119
-msgid "Публічні діячі (ПЕПи) є клієнтами з підвищеним ризиком відповідно до міжнародних стандартів з протидії відмивання грошей. Онлайн пошук ПЕПів та пов’язаних з ними фізичних і юридичних осіб."
-msgstr "Politically exposed persons (PEPs) are high risk clients according to the international anti-money laundering standards. Search online for PEPs, their close associates and affiliated entities"
+#~ msgid "2018"
+#~ msgstr "2018"
 
-#: cms_pages/templates/cms_pages/home.jinja:120
-msgid "Перейти до пошуку"
-msgstr "Go to search"
+#~ msgid "Усi розслiдування"
+#~ msgstr "All investigations"
 
-#: cms_pages/templates/cms_pages/home.jinja:136
-msgid "Глибокі досьє. Розслідування. Аналітика"
-msgstr "Dossiers. Investigations. Analytics"
+#~ msgid "Усi блоги"
+#~ msgstr "All blogs"
 
-#: cms_pages/templates/cms_pages/home.jinja:137
-msgid "Фіксуємо публічні документально підтверджені факти про підозрілі статки та ризики публічних діячів і пов’язаних з ними осіб. Проводимо свої спецрозслідування про найвпливовіших ПЕПів України"
-msgstr "We are collecting publicly available documented facts about suspicious assets and risks of politically exposed persons, their close associates and affiliated entities. Special investigations on the most influential Ukrainian PEPs"
+#~ msgid "Досьє публічних діячів та повязаних фізичних осіб"
+#~ msgstr "Dossiers of politically exposed persons and close associates"
 
-#: cms_pages/templates/cms_pages/home.jinja:138
-msgid "Перейти до блогів"
-msgstr "Go to blogs"
+#~ msgid "Досьє повязаних юридичних осіб"
+#~ msgstr "Dossiers of affiliated legal entities"
 
-#: cms_pages/templates/cms_pages/home.jinja:140
-msgid "Перейти до розслідувань"
-msgstr "Go to investigations"
-
-#: cms_pages/templates/cms_pages/home.jinja:163
-msgid "Scoring ризику необгрунтованості активів"
-msgstr "Scoring of unexplained wealth risk"
-
-#: cms_pages/templates/cms_pages/home.jinja:164
-msgid "Більше 4000 публічних діячів подають електронні декларації про доходи та витрати. Наш інструмент аналізує цю інформацію та визначає можливий ризик необгрунтованості статків ПЕПа"
-msgstr "More than 4000 politically exposed persons are submitting their electronic asset declarations. Our tool analyses this information and scores the risk of PEP’s unexplained wealth"
-
-#: cms_pages/templates/cms_pages/home.jinja:165
-#: cms_pages/templates/cms_pages/home.jinja:215
-msgid "Деталі"
-msgstr "More"
-
-#: cms_pages/templates/cms_pages/home.jinja:181
-msgid "Візуалізація даних з декларацій"
-msgstr "Visualization of asset declarations data"
-
-#: cms_pages/templates/cms_pages/home.jinja:182
-msgid "Інформація з електронних декларацій інтегрована в досьє публічних діячів. Основні дані ми візуалізували для вас"
-msgstr "Information from electronic asset declarations is integrated into dossiers of PEPs. We have visualized main data for you"
-
-#: cms_pages/templates/cms_pages/home.jinja:198
-msgid "Члени сім’ї публічного діяча, його ділові партнери, юридичні особи, в яких ПЕП є власником, засновником чи бенефіціаром - вся ця інформація у табличному та візуалізованому форматах"
-msgstr "Family members, close associates, affiliated legal entities, founded, owned or beneficially controlled by PEP - all these connections are available in tables and infographics"
-
-#: cms_pages/templates/cms_pages/home.jinja:213 core/templates/base.jinja:102
-#: core/templates/base.jinja:152 core/templates/base.jinja:184
-msgid "Open Data"
-msgstr "Open Data"
-
-#: cms_pages/templates/cms_pages/home.jinja:214
-msgid "Можливість інтегрувати дані реєстру з вашим програмним забезпеченням та оперативно виявляти публічних діячів та пов’язаних з ними осіб серед тисяч клієнтів"
-msgstr "Integrate open data from the registry into your software system and identify PEPs, their close associates and affiliated entities among thousands of clients"
-
-#: core/model/connections.py:371 core/model/connections.py:404
-#: core/model/connections.py:405
-msgid "Компанія з управління активами"
-msgstr "Asset management company"
-
-#: core/model/connections.py:372 core/model/connections.py:404
-#: core/model/connections.py:405
-msgid "Інвестиційний фонд"
-msgstr "Investment fund"
-
-#: cms_pages/templates/cms_pages/home.jinja:197
-msgid "Зв'язки"
-msgstr "Connections"
-
-#: core/templates/company.jinja:289
-msgid "СТРУКТУРА"
-msgstr "Structure"
-
-#: core/templates/company.jinja:461
-msgid "КЛІЄНТИ БАНКУ"
-msgstr "Bank customers"
-
-#: core/templates/company.jinja:473
-msgid "Ім’я"
-msgstr "Name"
-
-#: core/templates/company.jinja:478
-msgid "Дата"
-msgstr "Date"
-
-#: core/templates/company.jinja:483
-#, fuzzy
-msgid "Останнє місце роботи"
-msgstr "Last profile update:"
-
+#~ msgid ""
+#~ "Доходи від викладацької, творчої діяльності та роботою за сумісництвом "
+#~ "перевищують 30% сукупних доходів в деклараці"
+#~ msgstr ""
+#~ "Income from the teaching and creative activities, as well as part-time "
+#~ "work exceeds 30% of the total income indicated in the declaration"

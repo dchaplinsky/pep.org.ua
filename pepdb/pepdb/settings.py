@@ -308,7 +308,7 @@ ELASTICSEARCH_CONNECTIONS = {
 THUMBNAIL_ALIASES = {
     '': {
         'small_avatar': {'size': (100, 100), 'crop': True},
-        'avatar': {'size': (128, 128), 'crop': True},
+        'avatar': {'size': (300, 300), 'crop': True},
         'article': {'size': (800, 800), 'crop': False},
     },
 }
