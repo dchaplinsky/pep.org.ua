@@ -9,6 +9,7 @@ from neomodel import (
     RelationshipFrom,
 )
 
+
 class BaseRel(StructuredRel):
     relationship_type_uk = StringProperty()
     reverse_relationship_type_uk = StringProperty()
@@ -28,9 +29,11 @@ class Company2Company(BaseRel):
 class Person2Person(BaseRel):
     pass
 
+
 class Person2Company(BaseRel):
     share = FloatProperty()
     is_employee = BooleanProperty()
+
 
 class Person2Country(BaseRel):
     pass
@@ -93,6 +96,31 @@ class Company(StructuredNode):
     companies = RelationshipTo("Company", "Company2Company", model=Company2Company)
     persons = RelationshipFrom("Person", "Person2Company", model=Person2Company)
     countries = RelationshipTo("Country", "Company2Country", model=Company2Country)
+
+    def org_structure(self, q=None):
+        # TODO: look into APOC path expanders
+        # https://neo4j.com/docs/labs/apoc/3.4/graph-querying/path-expander/
+
+        if q is None:
+            q = """
+                MATCH path = (c)-[r:Company2Company*0..5 {relationship_category: "corporate_structure"}]-()<-[r2:Person2Company*1 {relationship_category: "owner"}]-(p:Person)
+                WHERE id(c)={self}
+                UNWIND NODES(path) AS n
+                    WITH path, SIZE(COLLECT(DISTINCT n)) AS path_nodes, COLLECT(DISTINCT n) as p_nodes
+                        WHERE path_nodes = LENGTH(path) + 1
+                        RETURN p_nodes, relationships(path)
+            """
+            # q = """
+            #     MATCH path = (c)-[r:Company2Company*0..5 {relationship_category: "corporate_structure"}]-()<-[r2:Person2Company*1 {relationship_category: "owner"}]-(p:Person)
+            #     WHERE c.pk=3376
+            #     UNWIND NODES(path) AS n
+            #         WITH path, SIZE(COLLECT(DISTINCT n)) AS path_nodes, COLLECT(DISTINCT n) as p_nodes
+            #             WHERE path_nodes = LENGTH(path) + 1
+            #             RETURN p_nodes
+            # """
+        results, columns = self.cypher(q)
+        return results, columns
+        # return [self.inflate(row[0]) for row in results]
 
 
 class Country(StructuredNode):
