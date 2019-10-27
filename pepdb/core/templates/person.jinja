@@ -219,20 +219,20 @@
                                 </a>
                             </div>
                             <div class="profile-section__body">
-                                <table class="table">
+                                <table class="table sort-table" data-slice-count="1">
                                     <thead>
                                     <tr>
-                                        <th class="no-wrap">{{_('Iм’я')}}
+                                        <th class="no-wrap sort-head" data-colnum="col1">{{_('Iм’я')}}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th class="no-wrap">{{_('Тип зв’язку')}}
+                                        <th class="no-wrap sort-head" data-colnum="col2">{{_('Тип зв’язку')}}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th>{{_('Перiод')}}
+                                        <th class="sort-head" data-colnum="col3">{{_('Перiод')}}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
@@ -283,20 +283,20 @@
                                 </a>
                             </div>
                             <div class="profile-section__body">
-                                <table class="table">
+                                <table class="table sort-table" data-slice-count="1">
                                     <thead>
                                     <tr>
-                                        <th class="no-wrap">{{_("Iм’я")}}
+                                        <th class="no-wrap sort-head" data-colnum="col1">{{_("Iм’я")}}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th class="no-wrap">{{_("Тип зв’язку")}}
+                                        <th class="no-wrap sort-head" data-colnum="col2">{{_("Тип зв’язку")}}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th>Код
+                                        <th class="sort-head" data-colnum="col3">Код
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
@@ -359,33 +359,33 @@
                                 </a>
                             </div>
                             <div class="profile-section__body">
-                                <table class="table">
+                                <table class="table sort-table" data-slice-count="1">
                                     <thead>
                                     <tr>
-                                        <th class="no-wrap">Рiк
+                                        <th class="no-wrap sort-head" data-colnum="col1">Рiк
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th class="position">{{_("Посада")}}
+                                        <th class="position sort-head" data-colnum="col2">{{_("Посада")}}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th>{{_("Доходи декларанта")}}, {{ _("UAH") }}
+                                        <th class="sort-head" data-colnum="col3">{{_("Доходи декларанта")}}, {{ _("UAH") }}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th>{{ _("Доходи родини") }}, {{ _("UAH") }}
+                                        <th class="sort-head" data-colnum="col4">{{ _("Доходи родини") }}, {{ _("UAH") }}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th>{{ _("Витрати та інші правочини декларанта") }}, {{ _("UAH") }}
+                                        <th class="sort-head" data-colnum="col5">{{ _("Витрати та інші правочини декларанта") }}, {{ _("UAH") }}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
-                                            </svg>{{_("Показати менше")}}
+                                            </svg>
                                         </th>
                                     </tr>
                                     </thead>
@@ -393,15 +393,15 @@
                                     {% for declaration in all_declarations %}
                                         {% set income = declaration.get_income() %}
                                         <tr>
-                                            <td class="no-wrap">
+                                            <td class="no-wrap sort-col col1">
                                                 <strong>{{ income.year }}</strong>
                                             </td>
-                                            <td class="position" itemscope="" itemtype="http://schema.org/Organization" itemprop="worksFor">
+                                            <td class="position sort-col col2" itemscope="" itemtype="http://schema.org/Organization" itemprop="worksFor">
                                                 <p><span itemprop="name">{{ income.office }}</span>, {{ income.position }}{% if declaration.doc_type == "Кандидата на посаду" %} ({{ _("кандидат") }}){% endif %}</p>
                                             </td>
-                                            <td class="no-wrap"><span>{{ income.income_of_declarant|curformat() }}</span></td>
-                                            <td class="no-wrap"><span>{{ income.income_of_family|curformat() }}</span></td>
-                                            <td class="no-wrap"><span>{{ income.expenses_of_declarant|curformat() }}</span></td>
+                                            <td class="no-wrap sort-col col3"><span>{{ income.income_of_declarant|curformat() }}</span></td>
+                                            <td class="no-wrap sort-col col4"><span>{{ income.income_of_family|curformat() }}</span></td>
+                                            <td class="no-wrap sort-col col5"><span>{{ income.expenses_of_declarant|curformat() }}</span></td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>
@@ -463,7 +463,7 @@
                                 </a>
                             </div>
                             <div class="profile-section__body">
-                                <table class="table">
+                                <table class="table sort-table" data-slice-count="2">
                                     <thead>
                                     <tr>
                                         <th></th>
@@ -472,51 +472,51 @@
                                         <th class="no-wrap" colspan="4">{{ _("Родина") }}</th>
                                     </tr>
                                     <tr>
-                                        <th class="no-wrap">{{ _("Рік") }}
+                                        <th class="no-wrap sort-head" data-colnum="col1">{{ _("Рік") }}
                                         <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th class="no-wrap">{{ _("Вид активу") }}
+                                        <th class="no-wrap sort-head" data-colnum="col2">{{ _("Вид активу") }}
                                         <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th class="no-wrap">{{ _("UAH") }}
+                                        <th class="no-wrap sort-head" data-colnum="col3">{{ _("UAH") }}
                                         <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th class="no-wrap">{{ _("USD") }}
+                                        <th class="no-wrap sort-head" data-colnum="col4">{{ _("USD") }}
                                         <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th class="no-wrap">{{ _("EUR") }}
+                                        <th class="no-wrap sort-head" data-colnum="col5">{{ _("EUR") }}
                                         <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th class="no-wrap">{{ _("Інше") }}
+                                        <th class="no-wrap sort-head" data-colnum="col6">{{ _("Інше") }}
                                         <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th class="no-wrap">{{ _("UAH") }}
+                                        <th class="no-wrap sort-head" data-colnum="col7">{{ _("UAH") }}
                                         <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th class="no-wrap">{{ _("USD") }}
+                                        <th class="no-wrap sort-head" data-colnum="col8">{{ _("USD") }}
                                         <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg></th>
-                                        <th class="no-wrap">{{ _("EUR") }}
+                                        <th class="no-wrap sort-head" data-colnum="col9">{{ _("EUR") }}
                                         <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th class="no-wrap">{{ _("Інше") }}
+                                        <th class="no-wrap sort-head" data-colnum="col10">{{ _("Інше") }}
                                         <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
@@ -527,36 +527,36 @@
                                         {% for declaration in  all_declarations %}
                                         {% set assets = declaration.get_assets() %}
                                         <tr>
-                                            <td class="no-wrap" {% if declaration.nacp_declaration %}rowspan="3"{% endif %}><a href="{{ assets.url }}" target="_blank"  data-toggle="tooltip" data-placement="bottom" title="{% if declaration.nacp_declaration %}{{ _('Електронна декларація') }}{% else %}{{ _('Паперова декларація') }}{% endif %}">
+                                            <td class="no-wrap sort-col col1"><a href="{{ assets.url }}" target="_blank"  data-toggle="tooltip" data-placement="bottom" title="{% if declaration.nacp_declaration %}{{ _('Електронна декларація') }}{% else %}{{ _('Паперова декларація') }}{% endif %}">
                                                 {{ assets.year }}
                                             </td>
-                                            <td class="no-wrap">
+                                            <td class="no-wrap sort-col col2">
                                                 {{ _("Вклади") }}
                                             </td>
-                                            <td class="no-wrap">
+                                            <td class="no-wrap sort-col col3">
                                                 {{ assets.accounts.declarant.UAH|curformat() }}
                                             </td>
-                                            <td class="no-wrap">
+                                            <td class="no-wrap sort-col col4">
                                                 {{ assets.accounts.declarant.USD|curformat() }}
                                             </td>
-                                            <td class="no-wrap">
+                                            <td class="no-wrap sort-col col5">
                                                 {{ assets.accounts.declarant.EUR|curformat() }}
                                             </td>
-                                            <td class="no-wrap">
+                                            <td class="no-wrap sort-col col6">
                                                 {% for asset in assets.accounts.declarant.OTH %}
                                                     {{ _(asset.currency) }} {{ asset.amount|curformat() }}<br/>
                                                 {% endfor %}
                                             </td>
-                                            <td class="no-wrap">
+                                            <td class="no-wrap sort-col col7">
                                                 {{ assets.accounts.family.UAH|curformat() }}
                                             </td>
-                                            <td class="no-wrap">
+                                            <td class="no-wrap sort-col col8">
                                                 {{ assets.accounts.family.USD|curformat() }}
                                             </td>
-                                            <td class="no-wrap">
+                                            <td class="no-wrap sort-col col9">
                                                 {{ assets.accounts.family.EUR|curformat() }}
                                             </td>
-                                            <td class="no-wrap">
+                                            <td class="no-wrap sort-col col10">
                                                 {% for asset in assets.accounts.family.OTH %}
                                                     {{ _(asset.currency) }} {{ asset.amount|curformat() }}<br/>
                                                 {% endfor %}
@@ -564,66 +564,72 @@
                                         </tr>
                                         {% if declaration.nacp_declaration %}
                                         <tr>
-                                            <td class="no-wrap">
+                                            <td class="no-wrap sort-col col1"><a href="{{ assets.url }}" target="_blank"  data-toggle="tooltip" data-placement="bottom" title="{% if declaration.nacp_declaration %}{{ _('Електронна декларація') }}{% else %}{{ _('Паперова декларація') }}{% endif %}">
+                                                {{ assets.year }}
+                                            </td>
+                                            <td class="no-wrap sort-col col2">
                                                 {{ _("Готівка") }}
                                             </td>
-                                            <td class="no-wrap">
+                                            <td class="no-wrap sort-col col3">
                                                 {{ assets.cash.declarant.UAH|curformat() }}
                                             </td>
-                                            <td class="no-wrap">
+                                            <td class="no-wrap sort-col col4">
                                                 {{ assets.cash.declarant.USD|curformat() }}
                                             </td>
-                                            <td class="no-wrap">
+                                            <td class="no-wrap sort-col col5">
                                                 {{ assets.cash.declarant.EUR|curformat() }}
                                             </td>
-                                            <td class="no-wrap">
+                                            <td class="no-wrap sort-col col6">
                                                 {% for asset in assets.cash.declarant.OTH %}
                                                     {{ _(asset.currency) }} {{ asset.amount|curformat() }}<br/>
                                                 {% endfor %}
                                             </td>
-                                            <td class="no-wrap">
+                                            <td class="no-wrap sort-col col7">
                                                 {{ assets.cash.family.UAH|curformat() }}
                                             </td>
-                                            <td class="no-wrap">
+                                            <td class="no-wrap sort-col col8">
                                                 {{ assets.cash.family.USD|curformat() }}
                                             </td>
-                                            <td class="no-wrap">
+                                            <td class="no-wrap sort-col col9">
                                                 {{ assets.cash.family.EUR|curformat() }}
                                             </td>
-                                            <td class="no-wrap">
+                                            <td class="no-wrap sort-col col10">
                                                 {% for asset in assets.cash.family.OTH %}
                                                     {{ _(asset.currency) }} {{ asset.amount|curformat() }}<br/>
                                                 {% endfor %}
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="no-wrap">
+                                            <td class="no-wrap sort-col col1"><a href="{{ assets.url }}" target="_blank"  data-toggle="tooltip" data-placement="bottom" title="{% if declaration.nacp_declaration %}{{ _('Електронна декларація') }}{% else %}{{ _('Паперова декларація') }}{% endif %}">
+                                                {{ assets.year }}
+                                            </td>
+                                            <td class="no-wrap sort-col col2">
                                                 {{ _("Інше") }}
                                             </td>
-                                            <td class="no-wrap">
+                                            <td class="no-wrap sort-col col3">
                                                 {{ assets.misc.declarant.UAH|curformat() }}
                                             </td>
-                                            <td class="no-wrap">
+                                            <td class="no-wrap sort-col col4">
                                                 {{ assets.misc.declarant.USD|curformat() }}
                                             </td>
-                                            <td class="no-wrap">
+                                            <td class="no-wrap sort-col col5">
                                                 {{ assets.misc.declarant.EUR|curformat() }}
                                             </td>
-                                            <td class="no-wrap">
+                                            <td class="no-wrap sort-col col6">
                                                 {% for asset in assets.misc.declarant.OTH %}
                                                     {{ _(asset.currency) }} {{ asset.amount|curformat() }}<br/>
                                                 {% endfor %}
                                             </td>
-                                            <td class="no-wrap">
+                                            <td class="no-wrap sort-col col7">
                                                 {{ assets.misc.family.UAH|curformat() }}
                                             </td>
-                                            <td class="no-wrap">
+                                            <td class="no-wrap sort-col col8">
                                                 {{ assets.misc.family.USD|curformat() }}
                                             </td>
-                                            <td class="no-wrap">
+                                            <td class="no-wrap sort-col col9">
                                                 {{ assets.misc.family.EUR|curformat() }}
                                             </td>
-                                            <td class="no-wrap">
+                                            <td class="no-wrap sort-col col10">
                                                 {% for asset in assets.misc.family.OTH %}
                                                     {{ _(asset.currency) }} {{ asset.amount|curformat() }}<br/>
                                                 {% endfor %}
@@ -677,20 +683,20 @@
                                 </a>
                             </div>
                             <div class="profile-section__body">
-                                <table class="table">
+                                <table class="table sort-table" data-slice-count="1">
                                     <thead>
                                     <tr>
-                                        <th class="no-wrap">{{_("Рiк")}}
+                                        <th class="no-wrap sort-head" data-colnum="col1">{{_("Рiк")}}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th>{{_("Cума в декларанта, UAH")}}
+                                        <th class="sort-head" data-colnum="col2">{{_("Cума в декларанта, UAH")}}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th>{{_("Сума в сім'ї, UAH")}}
+                                        <th class="sort-head" data-colnum="col3">{{_("Сума в сім'ї, UAH")}}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
@@ -701,15 +707,15 @@
                                         {% for declaration in all_declarations %}
                                             {% set liability = declaration.get_liabilities()%}
                                             <tr>
-                                                <td class="no-wrap">
+                                                <td class="no-wrap sort-col col1">
                                                     <strong><a href="{{ liability.url }}" target="_blank"  data-toggle="tooltip" data-placement="bottom" title="{% if declaration.nacp_declaration %}{{ _("Електронна декларація") }}{% else %}{{ _("Паперова декларація") }}{% endif %}">{{ liability.year }}</a></strong>
                                                 </td>
-                                                <td class="no-wrap"><span>{% for currency, amount in liability.liabilities_of_declarant.items() %}
+                                                <td class="no-wrap sort-col col2"><span>{% for currency, amount in liability.liabilities_of_declarant.items() %}
                                                     {{ _(currency) }} {{ amount|curformat() }}<br/>
                                                 {% else %}
                                                     {{ _("UAH") }} {{ 0|curformat() }}
                                                 {% endfor %}</span></td>
-                                                <td class="no-wrap"><span>{% for currency, amount in liability.liabilities_of_family.items() %}
+                                                <td class="no-wrap sort-col col3"><span>{% for currency, amount in liability.liabilities_of_family.items() %}
                                                     {{ _(currency) }} {{ amount|curformat() }}<br/>
                                                 {% else %}
                                                     {{ _("UAH") }} {{ 0|curformat() }}
@@ -747,20 +753,20 @@
                                 </a>
                             </div>
                             <div class="profile-section__body">
-                                <table class="table">
+                                <table class="table sort-table" data-slice-count="1">
                                     <thead>
                                     <tr>
-                                        <th class="no-wrap">{{ _("Рік") }}
+                                        <th class="no-wrap sort-head" data-colnum="col1">{{ _("Рік") }}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th class="no-wrap">{{ _("Cума в декларанта") }}, {{ _("UAH") }}
+                                        <th class="no-wrap sort-head" data-colnum="col2">{{ _("Cума в декларанта") }}, {{ _("UAH") }}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th class="no-wrap">{{ _("Сума в сім'ї") }}, {{ _("UAH") }}
+                                        <th class="no-wrap sort-head" data-colnum="col3">{{ _("Сума в сім'ї") }}, {{ _("UAH") }}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
@@ -771,11 +777,11 @@
                                         {% for declaration in all_declarations%}
                                         {% set gifts = declaration.get_gifts() %}
                                             <tr>
-                                                <td class="no-wrap">
+                                                <td class="no-wrap sort-col col1">
                                                     <strong><a href="{{ gifts.url }}" target="_blank"  data-toggle="tooltip" data-placement="bottom" title="{% if declaration.nacp_declaration %}{{ _("Електронна декларація") }}{% else %}{{ _("Паперова декларація") }}{% endif %}">{{ gifts.year }}</strong>
                                                 </td>
-                                                <td class="no-wrap"><span>{{ gifts.gifts_of_declarant|curformat() }}</span></td>
-                                                <td class="no-wrap"><span>{{ gifts.gifts_of_family|curformat() }}</span></td>
+                                                <td class="no-wrap sort-col col2"><span>{{ gifts.gifts_of_declarant|curformat() }}</span></td>
+                                                <td class="no-wrap sort-col col3"><span>{{ gifts.gifts_of_family|curformat() }}</span></td>
                                             </tr>
                                         {% endfor %}
                                     </tbody>
@@ -809,30 +815,30 @@
                                 </a>
                             </div>
                             <div class="profile-section__body">
-                                <table class="table">
+                                <table class="table sort-table" data-slice-count="1">
                                     <thead>
                                     <tr>
-                                        <th class="no-wrap">{{ _("Рік") }}
+                                        <th class="no-wrap sort-head" data-colnum="col1">{{ _("Рік") }}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th class="no-wrap">{{ _("Земля") }}
+                                        <th class="no-wrap sort-head" data-colnum="col2">{{ _("Земля") }}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th class="no-wrap">{{ _("Будинки") }}
+                                        <th class="no-wrap sort-head" data-colnum="col3">{{ _("Будинки") }}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th class="no-wrap">{{ _("Квартири") }}
+                                        <th class="no-wrap sort-head" data-colnum="col4">{{ _("Квартири") }}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th class="no-wrap">{{ _("Інша нерухомість") }}
+                                        <th class="no-wrap sort-head" data-colnum="col5">{{ _("Інша нерухомість") }}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
@@ -843,10 +849,10 @@
                                         {% for declaration in all_declarations %}
                                             {% set asset = declaration.get_real_estate() %}
                                             <tr>
-                                                <td class="no-wrap">
+                                                <td class="no-wrap sort-col col1">
                                                     <strong><a href="{{ asset.url }}" target="_blank"  data-toggle="tooltip" data-placement="bottom" title="{% if declaration.nacp_declaration %}{{ _("Електронна декларація") }}{% else %}{{ _("Паперова декларація") }}{% endif %}">{{ asset.year }}</a></strong>
                                                 </td>
-                                                <td class="no-wrap">
+                                                <td class="no-wrap sort-col col2">
                                                     <span>
                                                         {% set cnt = asset.assets_of_declarant.land|count + asset.assets_of_family.land|count %}
                                                         {% if cnt %}
@@ -857,7 +863,7 @@
                                                         {% endif %}
                                                     </span>
                                                 </td>
-                                                <td class="no-wrap">
+                                                <td class="no-wrap sort-col col3">
                                                     <span>
                                                         {% set cnt = asset.assets_of_declarant.houses|count + asset.assets_of_family.houses|count %}
                                                         {% if cnt %}
@@ -868,7 +874,7 @@
                                                         {% endif %}
                                                     </span>
                                                 </td>
-                                                <td class="no-wrap">
+                                                <td class="no-wrap sort-col col4">
                                                     <span>
                                                         {% set cnt = asset.assets_of_declarant.apartments|count + asset.assets_of_family.apartments|count %}
                                                         {% if cnt %}
@@ -879,7 +885,7 @@
                                                         {% endif %}
                                                     </span>
                                                 </td>
-                                                <td class="no-wrap">
+                                                <td class="no-wrap sort-col col5">
                                                     <span>
                                                         {% set cnt = asset.assets_of_declarant.other|count + asset.assets_of_family.other|count %}
                                                         {% if cnt %}
@@ -923,10 +929,10 @@
                                 </a>
                             </div>
                             <div class="profile-section__body">
-                                <table class="table">
+                                <table class="table sort-table" data-slice-count="1">
                                     <thead>
                                     <tr>
-                                        <th class="no-wrap">{{ _("Рік") }}
+                                        <th class="no-wrap sort-head" data-colnum="col1">{{ _("Рік") }}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
@@ -947,7 +953,7 @@
                                         {% for declaration in all_declarations %}
                                             {% set asset = declaration.get_vehicles() %}
                                             <tr>
-                                                <td class="no-wrap">
+                                                <td class="no-wrap sort-col col1">
                                                     <strong><a href="{{ asset.url }}" target="_blank"  data-toggle="tooltip" data-placement="bottom" title="{% if declaration.nacp_declaration %}{{ _("Електронна декларація") }}{% else %}{{ _("Паперова декларація") }}{% endif %}">{{ asset.year }}</a></strong>
                                                 </td>
                                                 <td class="no-wrap">
@@ -1112,15 +1118,15 @@
                                 </div>
                             </div>
                             <div class="profile-section__body">
-                                <table class="table">
+                                <table class="table sort-table" data-slice-count="1">
                                     <thead>
                                     <tr>
-                                        <th class="no-wrap">{{_("Період")}}
+                                        <th class="no-wrap sort-head" data-colnum="col1">{{_("Період")}}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th class="no-wrap">{{_("Посада")}}
+                                        <th class="no-wrap sort-head" data-colnum="col2">{{_("Посада")}}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
@@ -1132,25 +1138,22 @@
                                     <tbody>
                                         {% for connection in person.workplaces %}
                                             <tr>
-                                                <td class="no-wrap">
+                                                <td class="no-wrap sort-col col1">
                                                     <strong>{% if connection.date_established %}
                                                     {{ connection.date_established_human }}{% endif %} — {% if connection.date_finished %}
                                                     {{ _("до") }}
                                                     {{ connection.date_finished_human }}{% endif %}</strong>
                                                 </td>
-                                                <td class="no-wrap"><a href="{{ connection.to_company.get_absolute_url() }}" itemscope itemtype="http://schema.org/Organization" itemprop="worksFor"><span itemprop="name">{{ connection.to_company }}</span></a>, {{ connection.relationship_type }}</td>
+                                                <td class="no-wrap sort-col col2"><a href="{{ connection.to_company.get_absolute_url() }}" itemscope itemtype="http://schema.org/Organization" itemprop="worksFor"><span itemprop="name">{{ connection.to_company }}</span></a>, {{ connection.relationship_type }}</td>
                                                 <td class="no-wrap">
                                                     <button class="toggle-row-btn">
                                                         <svg>
                                                             <use xlink:href="#arr-right-w2"></use>
                                                         </svg>
                                                     </button>
-                                                </td>
-                                            </tr>
-                                            {% if connection.has_additional_info %}
-                                                {% set proofs = connection.proofs.all() %}
-                                                <tr class="toggle-row">
-                                                    <td colspan="3">
+
+                                                    {% if connection.has_additional_info %}
+                                                        {% set proofs = connection.proofs.all() %}
                                                         <div class="toggle-content">
                                                             <span class="confirmed-date">{{ _("Підтверджено: ") }}{{ connection.date_confirmed_human }}</span>
                                                             {% if connection.proofs %}
@@ -1160,9 +1163,9 @@
                                                                 {% endfor %}
                                                             {% endif %}
                                                         </div>
-                                                    </td>
-                                                </tr>
-                                            {% endif %}
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
                                         {% endfor %}
 
                                     </tbody>
@@ -1239,20 +1242,20 @@
                                 </a>
                             </div>
                             <div class="profile-section__body">
-                                <table class="table">
+                                <table class="table sort-table" data-slice-count="1">
                                     <thead>
                                     <tr>
-                                        <th class="no-wrap">{{_("Банк")}}
+                                        <th class="no-wrap sort-head" data-colnum="col1">{{_("Банк")}}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th class="no-wrap">{{_("ЄДРПОУ")}}
+                                        <th class="no-wrap sort-head" data-colnum="col2">{{_("ЄДРПОУ")}}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th class="no-wrap">{{_("Статус")}}
+                                        <th class="no-wrap sort-head" data-colnum="col3">{{_("Статус")}}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
