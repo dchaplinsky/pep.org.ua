@@ -54,7 +54,7 @@ class AbstractNode(object):
         return {"data": node}
 
 
-class AbstractRelationship(models.Model):
+class AbstractRelationship(models.Model, AbstractNode):
     date_established = models.DateField("Зв'язок почався", blank=True, null=True)
 
     date_established_details = models.IntegerField(
@@ -90,6 +90,21 @@ class AbstractRelationship(models.Model):
     @property
     def date_confirmed_human(self):
         return render_date(self.date_confirmed, self.date_confirmed_details)
+
+    def get_node(self):
+        model_name = self.get_model_name()
+
+        node = {
+            "id": self.get_node_id(),
+            "pk": self.pk,
+            "model": model_name,
+            "date_established_human": self.date_established_human,
+            "date_finished_human": self.date_finished_human,
+            "date_confirmed_human": self.date_confirmed_human,
+            "relationship_category": "",
+        }
+
+        return {"data": node}
 
     proofs = GenericRelation("RelationshipProof")
 

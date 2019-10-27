@@ -1,15 +1,4 @@
 $(function() {
-    var last_timer = new Date();
-    $(document).ajaxStart(function() {
-        last_timer = new Date();
-        $(".loader").addClass("progress-bar progress-bar-striped active");
-    });
-
-    $(document).ajaxComplete(function() {
-        $(".loader").removeClass("progress-bar progress-bar-striped active");
-        $(".request_took").html("Last request took " + ((new Date() - last_timer) / 1000) + "sec");
-    });
-
     function get_edge_description(obj) {
         var share = obj.data("share");
         if (share > 0) {
@@ -385,7 +374,9 @@ $(function() {
     $(".load-pep-modal-tree").on("click", function() {
         var anchor = $(this).data("target");
         $(anchor).modal().on('shown.bs.modal', function(e) {
-            init_full(elements);
+            $.getJSON($("#profile, .profile-page__content").data("url"), function(elements) {
+                init_full(elements);
+            });
         });
         $("#pep-graph-tree").css("visibility", "visible").css("z-index", "2000");
     }).find("i").removeClass("hidden");

@@ -4,16 +4,17 @@ from collections import OrderedDict
 
 
 from django.db import models
-from django.utils.translation import ugettext_noop as _
+from django.utils.translation import ugettext_noop as _, activate, get_language
 from django.contrib.postgres.fields import ArrayField
+from django.conf import settings
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
+from django.core.exceptions import ValidationError
 
 from core.fields import RedactorField
 from core.utils import lookup_term, translate_into
 from core.model.base import AbstractRelationship
 from core.model.translations import Ua2EnDictionary
-from django.contrib.contenttypes.fields import GenericForeignKey
-from django.contrib.contenttypes.models import ContentType
-from django.core.exceptions import ValidationError
 
 
 class Person2Person(AbstractRelationship):
@@ -284,6 +285,53 @@ class Person2Company(AbstractRelationship):
 
         super(Person2Company, self).save(*args, **kwargs)
 
+    @property
+    def relationship_category(self):
+        if self.relationship_type_uk in [
+            "Бенефіціарний власник",
+            "Власність",
+            "Засновник/учасник",
+            "Номінальний власник",
+            "Номінальний директор",
+        ]:
+            return "owner"
+
+        if self.relationship_type_uk in [
+            "Колишній засновник/учасник",
+        ]:
+            return "ex_owner"
+
+        if self.relationship_type_uk in [
+            "Клієнт банку"
+        ]:
+            return "bank_customer"
+
+        return "other"
+    
+
+    def get_node(self):
+        res = super(Person2Company, self).get_node()
+
+        d = {
+            "relationship_category": self.relationship_category,
+            "share": self.share or -1,
+            "is_employee": self.is_employee
+        }
+
+        curr_lang = get_language()
+        for lang in settings.LANGUAGE_CODES:
+            activate(lang)
+            d.update({
+                "relationship_type_{}".format(lang): self.relationship_type,
+                "reverse_relationship_type_{}".format(lang): "",
+            })
+
+        activate(curr_lang)
+
+        res["data"].update(d)
+
+        return res
+
     class Meta:
         verbose_name = "Зв'язок з компанією/установою"
         verbose_name_plural = "Зв'язки з компаніями/установами"
@@ -320,6 +368,8 @@ class Company2Company(AbstractRelationship):
         _("Головне підприємство"),
         _("Секретар"),
         _("Директор"),
+        _("Компанія з управління активами"),
+        _("Інвестиційний фонд"),
     ]
 
     _relationships_mapping = {
@@ -351,6 +401,8 @@ class Company2Company(AbstractRelationship):
         _("Головне підприємство"): _("Самостійний структурний підрозділ"),
         _("Секретар"): _("Клієнт"),
         _("Директор"): _("Клієнт"),
+        _("Компанія з управління активами"): _("Інвестиційний фонд"),
+        _("Інвестиційний фонд"): _("Компанія з управління активами"),
     }
 
     from_company = models.ForeignKey("Company", related_name="to_companies")
@@ -389,6 +441,79 @@ class Company2Company(AbstractRelationship):
             "state_company": self.from_company.state_company,
             "company": self.from_company.name
         }
+
+    @property
+    def relationship_category(self):
+        if self.relationship_type in [
+            "Співзасновник",
+            "Підконтрольна",
+            "Засновник",
+            "Самостійний структурний підрозділ",
+            "Головне підприємство",
+            "Дочірня компанія",
+            "Материнська компанія",
+            # "Співзасновник",
+            # "Засновник",
+            # "Головне підприємство",
+            # "Материнська компанія",
+            # "Колишній власник/засновник",
+            # "Колишній співвласник/співзасновник",
+
+        ]:
+            return "corporate_structure"
+
+        if self.relationship_type in [
+            "Колишній власник/засновник",
+            "Колишній співвласник/співзасновник",
+        ]:
+            return "ex_corporate_structure"
+
+        if self.relationship_type in [
+            "Контрагент",
+            "Клієнт",
+            "Надавач товарів/послуг",
+            "Кредитор (фінансовий партнер)",
+            "Боржник, фінансовий партнер",
+            "Замовник",
+            "Виконавець",
+            "Постачальник",
+            "Отримувач/покупець",
+        ]:
+            return "ties"
+
+        if self.relationship_type in [
+            "Секретар",
+            "Клієнт",
+            "Директор",
+            "Компанія з управління активами",
+            "Інвестиційний фонд",
+        ]:
+            return "psp"
+
+        return "other"
+
+    def get_node(self):
+        res = super(Company2Company, self).get_node()
+
+        d = {
+            "equity_part": self.equity_part or -1,
+            "relationship_category": self.relationship_category,
+        }
+
+        curr_lang = get_language()
+        for lang in settings.LANGUAGE_CODES:
+            activate(lang)
+            d.update({
+                "relationship_type_{}".format(lang): self.relationship_type,
+                "reverse_relationship_type_{}".format(lang): self.reverse_relationship_type,
+            })
+
+        activate(curr_lang)
+
+        res["data"].update(d)
+
+        return res
+
 
     class Meta:
         verbose_name = "Зв'язок з компанією"

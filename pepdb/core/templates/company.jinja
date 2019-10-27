@@ -27,7 +27,7 @@
 {% set any_documents = documents.values()|map("length")|sum %}
 
     <main>
-        <div class="profile-page__content" itemscope itemtype="http://schema.org/Organization">
+        <div class="profile-page__content" itemscope itemtype="http://schema.org/Organization"  data-url="{{ url('connections', 'company', company.pk) }}">
             
             <div class="side-menu-btn">
                 <a href=""><span class="icon"></span>{{_("зміст")}}</a>

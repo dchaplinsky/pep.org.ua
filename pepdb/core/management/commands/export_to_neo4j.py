@@ -7,7 +7,7 @@ import os.path
 import csv
 from unicodecsv import writer
 from tqdm import tqdm
-from neomodel import StringProperty, BooleanProperty, IntegerProperty
+from neomodel import StringProperty, BooleanProperty, IntegerProperty, FloatProperty
 
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
@@ -24,10 +24,23 @@ from core.models import (
 )
 
 
-from core.neo_models import Person as NeoPerson, Company as NeoCompany, Country as NeoCountry
+from core.neo_models import (
+    Person as NeoPerson,
+    Company as NeoCompany,
+    Country as NeoCountry,
+    Company2Company as NeoCompany2Company,
+    Person2Company as NeoPerson2Company,
+)
 
 
 class Command(BaseCommand):
+    neomodel_to_types_mapping = {
+        IntegerProperty: "INT",
+        StringProperty: "STRING",
+        BooleanProperty: "BOOLEAN",
+        FloatProperty: "FLOAT",
+    }
+
     def add_arguments(self, parser):
         parser.add_argument("output_dir", help="Directory to export CSVs")
 
@@ -37,17 +50,19 @@ class Command(BaseCommand):
 
         return re.sub("\s+", " ", unicode(s).replace("\n", " ").strip())
 
-    def export_nodes(self, fname, qs, neo_model=None, labels=[]):
+    def get_field_types(self, neo_model):
         field_types = {}
-        neomodel_to_types_mapping = {
-            IntegerProperty: "INT",
-            StringProperty: "STRING",
-            BooleanProperty: "BOOLEAN",
-        }
 
         if neo_model is not None:
-            for prop, cls in neo_model.__all_properties__:
-                field_types[prop] = neomodel_to_types_mapping.get(type(cls), "string")
+            for prop, cls in neo_model.defined_properties().items():
+                field_types[prop] = self.neomodel_to_types_mapping.get(
+                    type(cls), "string"
+                )
+
+        return field_types
+
+    def export_nodes(self, fname, qs, neo_model=None, labels=[]):
+        field_types = self.get_field_types(neo_model)
 
         self.nodes.append(os.path.basename(fname))
         with open(fname, "w") as fp:
@@ -67,38 +82,41 @@ class Command(BaseCommand):
                 row = [obj.pk]
                 node_info = obj.get_node()["data"]
 
-                for f in fields:
-                    row.append(self.norm_str(node_info[f]))
+                row += [self.norm_str(node_info[f]) for f in fields]
 
                 row.append(";".join(labels))
                 w.writerow(row)
 
-    def export_relations(self, fname, qs, src, dst, fields):
+    def export_relations(self, fname, qs, src, dst, neo_model=None):
+        field_types = self.get_field_types(neo_model)
+
         self.relationships.append(os.path.basename(fname))
+
         with open(fname, "w") as fp:
             w = writer(fp, quoting=csv.QUOTE_ALL)
             if_fld_from = getattr(qs.model, src).field.related_model.__name__
             if_fld_to = getattr(qs.model, dst).field.related_model.__name__
 
+            first = qs.first()
+            fields = list(first.get_node()["data"].keys())
+
             w.writerow(
                 [":START_ID(%s)" % if_fld_from, ":END_ID(%s)" % if_fld_to, ":TYPE"]
-                + fields
+                + list("{}:{}".format(k, field_types.get(k, "STRING")) for k in fields)
             )
 
             for obj in tqdm(qs.iterator(), total=qs.count()):
-                w.writerow(
-                    [
-                        getattr(obj, src + "_id"),
-                        getattr(obj, dst + "_id"),
-                        qs.model.__name__,
-                    ]
-                    + [
-                        getattr(obj, "get_%s_display" % x)()
-                        if hasattr(obj, "get_%s_display" % x)
-                        else self.norm_str(getattr(obj, x))
-                        for x in fields
-                    ]
-                )
+                row = [
+                    getattr(obj, src + "_id"),
+                    getattr(obj, dst + "_id"),
+                    qs.model.__name__,
+                ]
+
+                node_info = obj.get_node()["data"]
+
+                row += [self.norm_str(node_info[f]) for f in fields]
+
+                w.writerow(row)
 
     def handle(self, *args, **options):
         output_dir = options["output_dir"]
@@ -111,12 +129,12 @@ class Command(BaseCommand):
         except OSError:
             raise CommandError("Cannot create output dir")
 
-        self.export_nodes(
-            os.path.join(output_dir, "persons.csv"),
-            Person.objects.all().nocache(),
-            neo_model=NeoPerson,
-            labels=["Person"],
-        )
+        # self.export_nodes(
+        #     os.path.join(output_dir, "persons.csv"),
+        #     Person.objects.all().nocache(),
+        #     neo_model=NeoPerson,
+        #     labels=["Person"],
+        # )
 
         self.export_nodes(
             os.path.join(output_dir, "companies.csv"),
@@ -125,43 +143,35 @@ class Command(BaseCommand):
             labels=["Company"],
         )
 
-        self.export_nodes(
-            os.path.join(output_dir, "countries.csv"),
-            Country.objects.exclude(iso2="").nocache(),
-            neo_model=NeoCountry,
-            labels=["Country"],
-        )
+        # self.export_nodes(
+        #     os.path.join(output_dir, "countries.csv"),
+        #     Country.objects.exclude(iso2="").nocache(),
+        #     neo_model=NeoCountry,
+        #     labels=["Country"],
+        # )
 
-        self.export_relations(
-            os.path.join(output_dir, "person2person.csv"),
-            Person2Person.objects.all().nocache(),
-            "from_person",
-            "to_person",
-            [
-                "from_relationship_type",
-                "to_relationship_type",
-                "date_established_human",
-                "date_finished_human",
-                "date_confirmed_human",
-                "proof_title",
-                "proof",
-            ],
-        )
+        # self.export_relations(
+        #     os.path.join(output_dir, "person2person.csv"),
+        #     Person2Person.objects.all().nocache(),
+        #     "from_person",
+        #     "to_person",
+        #     [
+        #         "from_relationship_type",
+        #         "to_relationship_type",
+        #         "date_established_human",
+        #         "date_finished_human",
+        #         "date_confirmed_human",
+        #         "proof_title",
+        #         "proof",
+        #     ],
+        # )
 
         self.export_relations(
             os.path.join(output_dir, "person2company.csv"),
             Person2Company.objects.all().nocache(),
             "from_person",
             "to_company",
-            [
-                "relationship_type",
-                "is_employee",
-                "date_established_human",
-                "date_finished_human",
-                "date_confirmed_human",
-                "proof_title",
-                "proof",
-            ],
+            neo_model=NeoPerson2Company,
         )
 
         self.export_relations(
@@ -169,59 +179,50 @@ class Command(BaseCommand):
             Company2Company.objects.all().nocache(),
             "from_company",
             "to_company",
-            [
-                "relationship_type",
-                "reverse_relationship_type",
-                "equity_part",
-                "date_established_human",
-                "date_finished_human",
-                "date_confirmed_human",
-                "proof_title",
-                "proof",
-            ],
+            neo_model=NeoCompany2Company,
         )
 
-        self.export_relations(
-            os.path.join(output_dir, "person2country.csv"),
-            Person2Country.objects.all().nocache(),
-            "from_person",
-            "to_country",
-            [
-                "relationship_type",
-                "date_established_human",
-                "date_finished_human",
-                "date_confirmed_human",
-                "proof_title",
-                "proof",
-            ],
-        )
+        # self.export_relations(
+        #     os.path.join(output_dir, "person2country.csv"),
+        #     Person2Country.objects.all().nocache(),
+        #     "from_person",
+        #     "to_country",
+        #     [
+        #         "relationship_type",
+        #         "date_established_human",
+        #         "date_finished_human",
+        #         "date_confirmed_human",
+        #         "proof_title",
+        #         "proof",
+        #     ],
+        # )
 
-        self.export_relations(
-            os.path.join(output_dir, "company2country.csv"),
-            Company2Country.objects.all().nocache(),
-            "from_company",
-            "to_country",
-            [
-                "relationship_type",
-                "date_established_human",
-                "date_finished_human",
-                "date_confirmed_human",
-                "proof_title",
-                "proof",
-            ],
-        )
+        # self.export_relations(
+        #     os.path.join(output_dir, "company2country.csv"),
+        #     Company2Country.objects.all().nocache(),
+        #     "from_company",
+        #     "to_country",
+        #     [
+        #         "relationship_type",
+        #         "date_established_human",
+        #         "date_finished_human",
+        #         "date_confirmed_human",
+        #         "proof_title",
+        #         "proof",
+        #     ],
+        # )
 
-        with open(os.path.join(output_dir, "neo4j_import.sh"), "w") as fp:
-            cmd = "{} import --id-type=INTEGER --database={} \\\n"
-            fp.write(
-                cmd.format(settings.NEO4J_ADMIN_PATH, settings.NEO4J_DATABASE_NAME)
-            )
-            fp.write("\t--multiline-fields=true \\\n")
+        # with open(os.path.join(output_dir, "neo4j_import.sh"), "w") as fp:
+        #     cmd = "{} import --id-type=INTEGER --database={} \\\n"
+        #     fp.write(
+        #         cmd.format(settings.NEO4J_ADMIN_PATH, settings.NEO4J_DATABASE_NAME)
+        #     )
+        #     fp.write("\t--multiline-fields=true \\\n")
 
-            for node in self.nodes:
-                cmd = "\t--nodes={} \\\n"
-                fp.write(cmd.format(node))
+        #     for node in self.nodes:
+        #         cmd = "\t--nodes={} \\\n"
+        #         fp.write(cmd.format(node))
 
-            for relationship in self.relationships:
-                cmd = "\t--relationships={} \\\n"
-                fp.write(cmd.format(relationship))
+        #     for relationship in self.relationships:
+        #         cmd = "\t--relationships={} \\\n"
+        #         fp.write(cmd.format(relationship))
