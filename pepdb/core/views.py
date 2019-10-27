@@ -30,7 +30,7 @@ from core.paginator import paginated_search
 from core.forms import FeedbackForm
 from core.auth import logged_in_or_basicauth
 
-
+from core.neo_models import Company as NeoCompany, neo4j_to_cytoscape
 from core.elastic_models import Person as ElasticPerson, Company as ElasticCompany
 
 
@@ -623,3 +623,17 @@ def feedback(request):
         "faq": faq
     })
 
+
+def structure(request, obj_id):
+    try:
+        obj = NeoCompany.nodes.get(pk=obj_id)
+    except NeoCompany.DoesNotExist:
+        return HttpResponseNotFound()
+
+    # node_info = obj.get_node_info(True)
+
+    # node_info["nodes"][0]["data"]["is_main"] = True
+    nodes, edges = obj.org_structure()
+
+    node_info = neo4j_to_cytoscape(nodes, edges, obj)
+    return JsonResponse(node_info)

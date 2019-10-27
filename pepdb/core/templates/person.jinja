@@ -43,7 +43,7 @@
 {% set documents = person.all_documents %}
 {% set any_documents = documents.values()|map("length")|sum %}
     <main>
-        <div class="profile-page__content" itemscope itemtype="http://schema.org/Person" data-url="{{ url('connections', 'person', person.pk) }}">
+        <div class="profile-page__content" itemscope itemtype="http://schema.org/Person">
             <div class="side-menu-btn">
                 <a href=""><span class="icon"></span>{{ _("зміст") }}</a>
             </div>
@@ -253,13 +253,13 @@
                                     <span class="less">{{_("Показати менше")}}</span>
                                 </button>
 
-                                <button class="visualization-btn" data-target="#visualization-modal">
+                                <button class="visualization-btn" data-target="#visualization-modal" data-url="{{ url('connections', 'person', person.pk) }}">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#visualization"></use>
                                         </svg>
                                     </span>
-                                    {{_("Візуалізація звязків")}}
+                                    {{_("Візуалізація зв’язків")}}
                                 </button>
                             </div>
                         </section>
@@ -317,13 +317,13 @@
                                     <span class="less">{{_("Показати менше")}}</span>
                                 </button>
 
-                                <button class="visualization-btn" data-target="#visualization-modal">
+                                <button class="visualization-btn" data-target="#visualization-modal" data-url="{{ url('connections', 'person', person.pk) }}">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#visualization"></use>
                                         </svg>
                                     </span>
-                                    {{_("Візуалізація звязків")}}
+                                    {{_("Візуалізація зв’язків")}}
                                 </button>
                             </div>
                         </section>
@@ -1604,19 +1604,6 @@
         </div>
     </div>
 
-{#     <div class="modal" id="visualization-modal">
-        <div class="modal-container">
-            <div class="modal-inner">
-                <div class="modal-content">
-                    <div class="visualization-modal">
-                        <div class="visualization-modal__body">
-                            <div id="graphme" data-url="{{ url('connections', 'person', person.pk) }}"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> #}
 
 {% block svg_code %}
 <!--SVG elements start-->

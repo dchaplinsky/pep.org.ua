@@ -173,39 +173,43 @@ function drawChart() {
 
     // declarationLineChart start
 
-    var declarationLineChart = new google.visualization.LineChart(document.getElementById('declarations-line-chart'));
-    declarationLineChart.draw(dataDeclarationsLineChart, options2);
-    var declarationPieChart = new google.visualization.PieChart(document.getElementById('declarations-pie-chart'));
-    // check click on chart
-    google.visualization.events.addListener(declarationLineChart, 'select', function () {
-        var selection = declarationLineChart.getSelection();
-        if (selection.length) {
-            $('#declarations-pie-popup').addClass('show');
-            declarationPieChart.draw(dataDeclarationsPieChart, pieOptions);
-            var year = dataDeclarationsLineChart.getValue(selection[0].row, 0);
-            var title = dataDeclarationsLineChart.getColumnLabel(selection[0].column);
-            // alert(year+title);
-            $('#declarations-pie-chart').siblings().find('.year').html(year);
-            $('#declarations-pie-chart').siblings().find('.title').html(title);
-        }
-    });
+    try {
+        var declarationLineChart = new google.visualization.LineChart(document.getElementById('declarations-line-chart'));
+        declarationLineChart.draw(dataDeclarationsLineChart, options2);
+        var declarationPieChart = new google.visualization.PieChart(document.getElementById('declarations-pie-chart'));
+        // check click on chart
+        google.visualization.events.addListener(declarationLineChart, 'select', function () {
+            var selection = declarationLineChart.getSelection();
+            if (selection.length) {
+                $('#declarations-pie-popup').addClass('show');
+                declarationPieChart.draw(dataDeclarationsPieChart, pieOptions);
+                var year = dataDeclarationsLineChart.getValue(selection[0].row, 0);
+                var title = dataDeclarationsLineChart.getColumnLabel(selection[0].column);
+                // alert(year+title);
+                $('#declarations-pie-chart').siblings().find('.year').html(year);
+                $('#declarations-pie-chart').siblings().find('.title').html(title);
+            }
+        });
 
-    // cashAssetsLineChart start
+        // cashAssetsLineChart start
 
-    var cashAssetsLineChart = new google.visualization.LineChart(document.getElementById('cash-assets-line-chart'));
-    cashAssetsLineChart.draw(dataCashAssetsLineChart, options);
-    var cashAssetsPieChart = new google.visualization.PieChart(document.getElementById('cashAssets-pie-chart'));
-    // check click on chart
-    google.visualization.events.addListener(cashAssetsLineChart, 'select', function () {
-        var selection = cashAssetsLineChart.getSelection();
-        if (selection.length) {
-            $('#cashAssets-pie-popup').addClass('show');
-            cashAssetsPieChart.draw(dataCashAssetsPieChart, pieOptions);
-            var year = dataCashAssetsLineChart.getValue(selection[0].row, 0);
-            var title = dataCashAssetsLineChart.getColumnLabel(selection[0].column);
-            // alert(year+title);
-            $('#cashAssets-pie-chart').siblings().find('.year').html(year);
-            $('#cashAssets-pie-chart').siblings().find('.title').html(title);
-        }
-    });
+        var cashAssetsLineChart = new google.visualization.LineChart(document.getElementById('cash-assets-line-chart'));
+        cashAssetsLineChart.draw(dataCashAssetsLineChart, options);
+        var cashAssetsPieChart = new google.visualization.PieChart(document.getElementById('cashAssets-pie-chart'));
+        // check click on chart
+        google.visualization.events.addListener(cashAssetsLineChart, 'select', function () {
+            var selection = cashAssetsLineChart.getSelection();
+            if (selection.length) {
+                $('#cashAssets-pie-popup').addClass('show');
+                cashAssetsPieChart.draw(dataCashAssetsPieChart, pieOptions);
+                var year = dataCashAssetsLineChart.getValue(selection[0].row, 0);
+                var title = dataCashAssetsLineChart.getColumnLabel(selection[0].column);
+                // alert(year+title);
+                $('#cashAssets-pie-chart').siblings().find('.year').html(year);
+                $('#cashAssets-pie-chart').siblings().find('.title').html(title);
+            }
+        });
+    } catch(error) {
+
+    }
 }

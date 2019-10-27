@@ -371,11 +371,14 @@ $(function() {
         });
     }
     
-    $(".visualization-btn").on("click", function() {
+    $(".visualization-btn").on("click", function(e) {
+        e.preventDefault();
+        console.log("Hey");
+
         var anchor = $(this).data("target");
-        $.getJSON($("#profile, .profile-page__content").data("url"), function(elements) {
+        $("#visualization-modal").addClass("modal--open");
+        $.getJSON($(this).closest("button").data("url"), function(elements) {
             init_full(elements);
         });
-        $("#visualization-modal").addClass("modal--open");
-    }).find("i").removeClass("hidden");
+    });
 });

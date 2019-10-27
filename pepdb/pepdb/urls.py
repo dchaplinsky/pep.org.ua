@@ -75,6 +75,11 @@ urlpatterns = i18n_patterns(
         core.views.connections,
         name="connections",
     ),
+    url(
+        r"structure/(?P<obj_id>[0-9]+)",
+        core.views.structure,
+        name="structure",
+    ),
     # Aux pages
     url(
         r"^feedback",

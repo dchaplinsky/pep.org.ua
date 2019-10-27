@@ -205,13 +205,13 @@
                                     <span class="less">{{_("Показати менше")}}</span>
                                 </button>
 
-                                <button class="visualization-btn">
+                                <button class="visualization-btn" data-target="#visualization-modal" data-url="{{ url('connections', 'company', company.pk) }}">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#visualization"></use>
                                         </svg>
                                     </span>
-                                    {{_("Візуалізація звязків")}}
+                                    {{ _("Візуалізація зв’язків") }}
                                 </button>
                             </div>
                         </section>
@@ -269,13 +269,13 @@
                                     <span class="less">{{_("Показати менше")}}</span>
                                 </button>
 
-                                <button class="visualization-btn">
+                                <button class="visualization-btn" data-target="#visualization-modal" data-url="{{ url('connections', 'company', company.pk) }}">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#visualization"></use>
                                         </svg>
                                     </span>
-                                    {{_("Візуалізація звязків")}}
+                                    {{ _("Візуалізація зв’язків") }}
                                 </button>
                             </div>
                         </section>
@@ -393,13 +393,13 @@
                                     <span class="less">{{_("Показати менше")}}</span>
                                 </button>
 
-                                <button class="visualization-btn">
+                                <button class="visualization-btn" data-target="#visualization-modal" data-url="{{ url('structure', company.pk) }}">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#visualization"></use>
                                         </svg>
                                     </span>
-                                    {{_("Візуалізація звязків")}}
+                                    {{_("Візуалізація структури")}}
                                 </button>
                             </div>
                         </section>
@@ -720,56 +720,56 @@
             <ul class="links-wrap">
                 {% if related_persons.managers %}
                 <li>
-                    <a href="#leadership">керівництво</a>
+                    <a href="#leadership">{{ _("керівництво") }}</a>
                 </li>
                 {% endif %}
 
                 {% if related_persons.all %}
                 <li>
-                    <a href="#relation_with_public-actions">ПОВ’ЯЗАНІ ПУБЛІЧНІ ДІЯЧІ</a>
+                    <a href="#relation_with_public-actions">{{ _("ПОВ’ЯЗАНІ ПУБЛІЧНІ ДІЯЧІ") }}</a>
                 </li>
                 {% endif %}
 
                 {% if related_persons.rest %}
                 <li>
-                    <a href="#structure">СТРУКТУРА</a>
+                    <a href="#structure">{{ _("СТРУКТУРА") }}</a>
                 </li>
                 {% endif %}
 
                 {% if related_companies.all %}
                 <li>
-                    <a href="#relation_with_entities">ЗВ’ЯЗКИ з юридичними особами</a>
+                    <a href="#relation_with_entities">{{ _("ЗВ’ЯЗКИ з юридичними особами") }}</a>
                 </li>
                 {% endif %}
 
                 {% if related_companies.banks %}
                 <li>
-                    <a href="#bank-accounts">БАНКІВСЬКІ РАХУНКИ</a>
+                    <a href="#bank-accounts">{{ _("БАНКІВСЬКІ РАХУНКИ") }}</a>
                 </li>
                 {% endif %}
 
                 {% if related_persons.bank_customers %}
                 <li>
-                    <a href="#bank-clients">КЛІЄНТИ БАНКУ</a>
+                    <a href="#bank-clients">{{ _("КЛІЄНТИ БАНКУ") }}</a>
                 </li>
                 {% endif %}
 
                 {% if ((company.sanctions_en or company.sanctions_uk) and LANGUAGE_CODE == "en") or (company.sanctions_uk and LANGUAGE_CODE == "uk") %}
                 <li>
-                    <a href="#criminal">КРИМІНАЛЬНІ ПРОВАДЖЕННЯ ТА САНКЦІЇ</a>
+                    <a href="#criminal">{{ _("КРИМІНАЛЬНІ ПРОВАДЖЕННЯ ТА САНКЦІЇ") }}</a>
                 </li>
                 {% endif %}
                 <li>
-                    <a href="#investigations">РОЗСЛІДУВАННЯ</a>
+                    <a href="#investigations">{{ _("РОЗСЛІДУВАННЯ") }}</a>
                 </li>
                 {% if ((company.wiki_en or company.wiki_uk) and LANGUAGE_CODE == "en") or (company.wiki_uk and LANGUAGE_CODE == "uk") or related_persons.sanctions %}
                 <li>
-                    <a href="#dossier">ДОСЬЄ</a>
+                    <a href="#dossier">{{ _("ДОСЬЄ") }}</a>
                 </li>
                 {% endif %}
                 {% if any_documents %}
                 <li>
-                    <a href="#documents">ДОКУМЕНТИ</a>
+                    <a href="#documents">{{ _("ДОКУМЕНТИ") }}</a>
                 </li>
                 {% endif %}
             </ul>
@@ -919,10 +919,10 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="visualization-modal__body">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                            Atque dicta ipsum iure minima molestias numquam quo rem totam. Assumenda atque cum cumque
-                            error exercitationem magni maxime quae veritatis! Adipisci aperiam aut consectetur et eum
-                            ipsam modi neque odit sunt unde.
+                        <div class="visualization-modal__body">
+                            <div class="cy-wrapper">
+                                <div class="cy-full"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -930,6 +930,12 @@
         </div>
     </div>
 </div>
+
+{% block javascript %}
+    {{ super() }}
+    {% javascript 'graph_viz' %}
+{% endblock %}
+
 
 {% block svg_code %}
 <!--SVG elements start-->

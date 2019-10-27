@@ -298,7 +298,7 @@ class HomePage(AbstractJinjaPage, Page):
         ctx = super(HomePage, self).get_context(request, *args, **kwargs)
 
         ctx["persons_total"] = Person.objects.count()
-        ctx["articles"] = Article.objects.filter(publish=True, kind__in=["b", "i"])[:10]
+        ctx["articles"] = Article.objects.filter(publish=True, kind__in=["b", "i"]).order_by("-date")[:10]
         ctx["blogs_total"] = Article.objects.filter(kind="b", publish=True).count()
         ctx["investigations_total"] = Article.objects.filter(kind="i", publish=True).count()
         ctx["registries_total"] = 9  # Say 9
