@@ -223,10 +223,6 @@ $(function() {
         });
     });
 
-    $(".richtext img, .rich-text img").featherlight({
-        targetAttr: "src"
-    });
-
     $(".combobox").combobox();
 
     $(".country-list").change(function(e) {

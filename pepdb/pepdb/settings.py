@@ -232,10 +232,6 @@ PIPELINE = {
         'css_all': {
             'source_filenames': (
                 'bower_components/bootstrap/dist/css/bootstrap.min.css',
-                'css/ripples.min.css',
-                'css/animate.css',
-                'css/font-awesome.min.css',
-                'bower_components/featherlight/src/featherlight.css',
                 'css/flag-css.css',
                 'css/vis.css',
                 'less/main.less',
@@ -273,9 +269,7 @@ PIPELINE = {
                 "bower_components/bootstrap/dist/js/bootstrap.js",
                 "bower_components/bootstrap/js/tab.js",
                 "bower_components/bootstrap3-typeahead/bootstrap3-typeahead.js",
-                "bower_components/featherlight/src/featherlight.js",
                 "bower_components/jquery.nicescroll/jquery.nicescroll.min.js",
-                "js/ripples.min.js",
                 "js/bootstrap-combobox.js",
                 "js/pep.js",
                 "js/chart.js",
