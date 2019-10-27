@@ -45,12 +45,13 @@
             </div>
             <div class="single-page__body">
                 <div class="about-ut-title-wrap">
-                    <h1 class="single-page-title">{{ article.header }}</h1>
+                    <h1 class="single-page-title">{{ article.caption }}</h1>
                 </div>
                 {% if article.photo %}
 					<img src="{{ article.photo.url }}" alt="{{ article.caption }}"  class="single-page-top-img"/>
 				{% endif %}
                 <div class="article-content">
+                    {% if article.header %}<h2>{{ article.header }}</h2>{% endif %}
                 	{{ article.text|safe }}
                 </div>
             </div>

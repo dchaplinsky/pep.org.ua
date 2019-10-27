@@ -371,13 +371,11 @@ $(function() {
         });
     }
     
-    $(".load-pep-modal-tree").on("click", function() {
+    $(".visualization-btn").on("click", function() {
         var anchor = $(this).data("target");
-        $(anchor).modal().on('shown.bs.modal', function(e) {
-            $.getJSON($("#profile, .profile-page__content").data("url"), function(elements) {
-                init_full(elements);
-            });
+        $.getJSON($("#profile, .profile-page__content").data("url"), function(elements) {
+            init_full(elements);
         });
-        $("#pep-graph-tree").css("visibility", "visible").css("z-index", "2000");
+        $("#visualization-modal").addClass("modal--open");
     }).find("i").removeClass("hidden");
 });

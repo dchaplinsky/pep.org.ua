@@ -253,7 +253,7 @@
                                     <span class="less">{{_("Показати менше")}}</span>
                                 </button>
 
-                                <button class="visualization-btn load-pep-modal-tree" data-target="#pep-graph-tree">
+                                <button class="visualization-btn" data-target="#visualization-modal">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#visualization"></use>
@@ -317,7 +317,7 @@
                                     <span class="less">{{_("Показати менше")}}</span>
                                 </button>
 
-                                <button class="visualization-btn load-pep-modal-tree" data-target="#pep-graph-tree">
+                                <button class="visualization-btn" data-target="#visualization-modal">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#visualization"></use>
@@ -1536,63 +1536,69 @@
         </div>
     </div>
 
-    <div class="modal fade" id="pep-graph-tree" tabindex="-1" role="dialog" aria-labelledby="pep-graph-tree-label">
-        <div class="modal-dialog" role="document">
-            <button class="modal-close">
-                <svg>
-                    <use xlink:href="#close"></use>
-                </svg>
-            </button>
-            <div class="modal-content">
-                <div class="modal-header pep-graph-tree__header">
-                    <h2 class="name">{{ person.last_name }} {{ person.first_name }} {{ person.patronymic }}</h2>
-                    <ul class="legend">
-                        <li class="legend__item green">
-                            <svg>
-                                <use xlink:href="#legend-dashed-line"></use>
-                            </svg>
-                            <span>{{_("члени сім’ї")}}</span>
-                        </li>
-                        <li class="legend__item black">
-                            <svg>
-                                <use xlink:href="#legend-dashed-line"></use>
-                            </svg>
-                            <span>{{_("особисті зв’язки")}}</span>
-                        </li>
-                        <li class="legend__item orange">
-                            <svg>
-                                <use xlink:href="#legend-dashed-line"></use>
-                            </svg>
-                            <span>{{_("ділові зв’язки")}}</span>
-                        </li>
-                        <li class="legend__item green">
-                            <svg>
-                                <use xlink:href="#legend-line"></use>
-                            </svg>
-                            <span>{{_("власник")}}</span>
-                        </li>
-                        <li class="legend__item black">
-                            <svg>
-                                <use xlink:href="#legend-line"></use>
-                            </svg>
-                            <span>{{_("бенефіціарний власник")}}</span>
-                        </li>
-                        <li class="legend__item orange">
-                            <svg>
-                                <use xlink:href="#legend-line"></use>
-                            </svg>
-                            <span>{{_("співробітник")}}</span>
-                        </li>
-                        <li class="legend__item yellow">
-                            <svg>
-                                <use xlink:href="#legend-line"></use>
-                            </svg>
-                            <span>{{_("клієнт")}}</span>
-                        </li>
-                    </ul>
-                </div>
-                <div class="modal-body pep-graph-tree__body cy-wrapper">
-                    <div class="cy-full"></div>
+    <div class="modal" id="visualization-modal">
+        <div class="modal-container">
+            <div class="modal-inner">
+                <button class="modal-close">
+                    <svg>
+                        <use xlink:href="#close"></use>
+                    </svg>
+                </button>
+                <div class="modal-content">
+                    <div class="visualization-modal">
+                        <div class="visualization-modal__header">
+                            <h2 class="name">{{ person.last_name }} {{ person.first_name }} {{ person.patronymic }}</h2>
+                            <ul class="legend">
+                                <li class="legend__item green">
+                                    <svg>
+                                        <use xlink:href="#legend-dashed-line"></use>
+                                    </svg>
+                                    <span>{{_("члени сім’ї")}}</span>
+                                </li>
+                                <li class="legend__item black">
+                                    <svg>
+                                        <use xlink:href="#legend-dashed-line"></use>
+                                    </svg>
+                                    <span>{{_("особисті зв’язки")}}</span>
+                                </li>
+                                <li class="legend__item orange">
+                                    <svg>
+                                        <use xlink:href="#legend-dashed-line"></use>
+                                    </svg>
+                                    <span>{{_("ділові зв’язки")}}</span>
+                                </li>
+                                <li class="legend__item green">
+                                    <svg>
+                                        <use xlink:href="#legend-line"></use>
+                                    </svg>
+                                    <span>{{_("власник")}}</span>
+                                </li>
+                                <li class="legend__item black">
+                                    <svg>
+                                        <use xlink:href="#legend-line"></use>
+                                    </svg>
+                                    <span>{{_("бенефіціарний власник")}}</span>
+                                </li>
+                                <li class="legend__item orange">
+                                    <svg>
+                                        <use xlink:href="#legend-line"></use>
+                                    </svg>
+                                    <span>{{_("співробітник")}}</span>
+                                </li>
+                                <li class="legend__item yellow">
+                                    <svg>
+                                        <use xlink:href="#legend-line"></use>
+                                    </svg>
+                                    <span>{{_("клієнт")}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="visualization-modal__body">
+                            <div class="cy-wrapper">
+                                <div class="cy-full"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
