@@ -265,8 +265,8 @@
                                             <use xlink:href="#arr-right-w2"></use>
                                         </svg>
                                     </span>
-                                    <span class="more">Показати більше</span>
-                                    <span class="less">Показати менше</span>
+                                    <span class="more">{{_("Показати більше")}}</span>
+                                    <span class="less">{{_("Показати менше")}}</span>
                                 </button>
 
                                 <button class="visualization-btn">
@@ -275,7 +275,7 @@
                                             <use xlink:href="#visualization"></use>
                                         </svg>
                                     </span>
-                                    Візуалізація звязків
+                                    {{_("Візуалізація звязків")}}
                                 </button>
                             </div>
                         </section>
@@ -286,7 +286,7 @@
                             <div class="profile-section__header">
                                 <div class="title-wrap">
                                     <img src="{{ static('images/icon-structure.svg') }}" alt="icon" class="icon">
-                                    <h6 class="title">СТРУКТУРА</h6>
+                                    <h6 class="title">{{_("СТРУКТУРА")}}</h6>
                                 </div>
                                 <a href="" class="download">
                                     <svg>
@@ -334,8 +334,8 @@
                                             <use xlink:href="#arr-right-w2"></use>
                                         </svg>
                                     </span>
-                                    <span class="more">Показати більше</span>
-                                    <span class="less">Показати менше</span>
+                                    <span class="more">{{_("Показати більше")}}</span>
+                                    <span class="less">{{_("Показати менше")}}</span>
                                 </button>
                             </div>
                         </section>
@@ -389,8 +389,8 @@
                                             <use xlink:href="#arr-right-w2"></use>
                                         </svg>
                                     </span>
-                                    <span class="more">Показати більше</span>
-                                    <span class="less">Показати менше</span>
+                                    <span class="more">{{_("Показати більше")}}</span>
+                                    <span class="less">{{_("Показати менше")}}</span>
                                 </button>
 
                                 <button class="visualization-btn">
@@ -399,7 +399,7 @@
                                             <use xlink:href="#visualization"></use>
                                         </svg>
                                     </span>
-                                    Візуалізація звязків
+                                    {{_("Візуалізація звязків")}}
                                 </button>
                             </div>
                         </section>
@@ -446,8 +446,8 @@
                                             <use xlink:href="#arr-right-w2"></use>
                                         </svg>
                                     </span>
-                                    <span class="more">Показати більше</span>
-                                    <span class="less">Показати менше</span>
+                                    <span class="more">{{_("Показати більше")}}</span>
+                                    <span class="less">{{_("Показати менше")}}</span>
                                 </button>
                             </div>
                         </section>
@@ -458,7 +458,7 @@
                             <div class="profile-section__header">
                                 <div class="title-wrap">
                                     <img src="{{ static('images/icon-clients-banks.svg') }}" alt="icon" class="icon">
-                                    <h6 class="title">КЛІЄНТИ БАНКУ</h6>
+                                    <h6 class="title">{{_("КЛІЄНТИ БАНКУ")}}</h6>
                                 </div>
                                 <a href="" class="download">
                                     <svg>
@@ -470,22 +470,22 @@
                                 <table class="table sort-table" data-slice-count="1">
                                     <thead>
                                     <tr>
-                                        <th class="no-wrap sort-head" data-colnum="col1">Ім’я
+                                        <th class="no-wrap sort-head" data-colnum="col1">{{_("Ім’я")}}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th class="no-wrap sort-head" data-colnum="col2">Дата
+                                        <th class="no-wrap sort-head" data-colnum="col2">{{_("Дата")}}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th class="no-wrap sort-head" data-colnum="col3">Останнє місце роботи
+                                        <th class="no-wrap sort-head" data-colnum="col3">{{_("Останнє місце роботи")}}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th class="no-wrap sort-head" data-colnum="col4">Посада
+                                        <th class="no-wrap sort-head" data-colnum="col4">{{_("Посада")}}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
@@ -494,22 +494,24 @@
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    {% for person in related_persons.bank_customers %}
+                                    {% set countries = person.foreign_citizenship_or_registration %}
+                                    {% set connection = person.connection %}
+                                    {% set last_workplace = person.translated_last_workplace %}
                                     <tr>
                                         <td class="no-wrap">
                                             <div class="name-wrap">
                                                 <div class="flags">
-                                                    <img src="{{ static('images/flag-1.svg') }}" alt="flag">
-                                                    <img src="{{ static('images/flag-3.svg') }}" alt="flag">
-                                                    <img src="{{ static('images/flag-2.svg') }}" alt="flag">
+                                                    {% for country in countries %}
+                                                        <img src="{{ static('images/flags/') }}{{ country.to_country.iso3|lower }}.svg" alt="{{ country.to_country.name }}">
+                                                    {% endfor %}
                                                 </div>
-                                                <p class="name sort-col col1">Підкоморна Юлія Анатоліївна</p>
+                                                <p class="name sort-col col1"><a href="{{ person.get_absolute_url() }}">{{ person.full_name }}</a></p>
                                             </div>
                                         </td>
-                                        <td class="no-wrap sort-col col2"><span>20.07.2001</span></td>
-                                        <td class="no-wrap sort-col col3">Антимонопольний комітет України</td>
-                                        <td class="sort-col col4">
-                                            Голова
-                                        </td>
+                                        <td class="no-wrap sort-col col2"><span>{% if connection.date_established %}{{ connection.date_established_human }}{% endif %}—{% if connection.date_finished %}{{ connection.date_finished_human }}{% endif %}</span></td>
+                                        <td class="no-wrap sort-col col3">{{ last_workplace.company }}</td>
+                                        <td class="sort-col col4">{{ last_workplace.position }}</td>
                                         <td class="no-wrap">
                                             <a href="" class="table-link">
                                                 <svg>
@@ -518,6 +520,7 @@
                                             </a>
                                         </td>
                                     </tr>
+                                    {% endfor %}
                                     </tbody>
                                 </table>
                             </div>
