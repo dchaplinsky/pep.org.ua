@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-27 18:43+0200\n"
+"POT-Creation-Date: 2019-10-27 18:52+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -135,6 +135,10 @@ msgstr ""
 msgid ""
 "Інформація з електронних декларацій інтегрована в досьє публічних діячів. "
 "Основні дані ми візуалізували для вас"
+msgstr ""
+
+#: cms_pages/templates/cms_pages/home.jinja:197
+msgid "Зв'язки"
 msgstr ""
 
 #: cms_pages/templates/cms_pages/home.jinja:198
