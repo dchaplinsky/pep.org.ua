@@ -8,7 +8,7 @@
                 <div class="breadcrumbs-wrap">
                     <ul class="breadcrumbs">
                         <li>
-                            <a href="blogs.html">{{ article.get_kind_display() }}</a>
+                            <a href="{% if article.kind == 'i' %}{{ url('investigations') }}{% elif article.kind == 'b' %}{{ url('blogs') }}{% elif article.kind == 'f' %}{{ url('faq') }}{% endif %}">{% if article.kind == 'f' %}{{_("Про реєстр")}}{% else %}{{ article.get_kind_display()|capitalize }}{% endif %}</a>
                         </li>
                     </ul>
                     <time class="date">{{ article.date|date}}</time>
@@ -44,7 +44,9 @@
             </div>
             </div>
             <div class="single-page__body">
-                <h1 class="single-page-title">{{ article.header }}</h1>
+                <div class="about-ut-title-wrap">
+                    <h1 class="single-page-title">{{ article.header }}</h1>
+                </div>
                 {% if article.photo %}
 					<img src="{{ article.photo.url }}" alt="{{ article.caption }}"  class="single-page-top-img"/>
 				{% endif %}

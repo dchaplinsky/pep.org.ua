@@ -18,23 +18,19 @@
                     </svg>
                 </button>
             </form>
-            <form action="{{ url("search") }}" method="GET" class="search-form">
-                <div class="select">
-                    <input list="country-list" name="country" placeholder="{{_("Оберіть країну")}}">
-                    <datalist id="country-list" class="search-dropdown">
+            <div class="form-inline" id="country-selection-form">
+                <div class="form-group">
+                    <select class="combobox country-list input-large form-control">
+                        <option value="" {% if not country %}selected{% endif %}>{{ _("Оберіть країну") }}</option>
+                        <option value="all" data-url="{{ url("countries_home") }}">{{ _("Усі країни") }}</option>
                         {% for cntry in used_countries %}
                             <option
                                 {% if country and country.iso2 == cntry.iso2 %}selected{% endif %}
-                                data-url="{{ url("countries", country_id=cntry.iso2) }}" value={{ cntry.name }}>{{ cntry.iso2 }}</option>
+                                data-url="{{ url("countries", country_id=cntry.iso2) }}" value={{ cntry.iso2 }}>{{ cntry.name }}</option>
                         {% endfor %}
-                    </datalist>
-                    <button>
-                        <svg>
-                            <use xlink:href="#arr-right-w2"></use>
-                        </svg>
-                    </button>
+                    </select>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
     <main>

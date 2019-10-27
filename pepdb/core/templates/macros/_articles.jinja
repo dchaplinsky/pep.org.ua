@@ -1,11 +1,11 @@
 {% macro render_article_snippet(article) %}
-<article class="blog-card">
+<article class="blog-card {% if article.photo %}blog-card--with-img{% endif %}">
     <a href="{{ article.get_absolute_url() }}" class="card-link"></a>
     {% if article.photo %}
 	<img src="{{ article.photo | thumbnail_url("article") }}" alt="{{ article.header }}">
 	{% endif %}
     <div class="blog-card__header">
-        <span class="direction">{{_(article.get_kind_display() )}}</span>
+        <span class="direction">{{_(article.get_kind_display()|capitalize )}}</span>
         <time class="date">{{ article.date|date}}</time>
     </div>
     <div class="blog-card__body">
