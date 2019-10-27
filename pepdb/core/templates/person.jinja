@@ -4,10 +4,6 @@
 
 {% set last_workplace = person.translated_last_workplace %}
 
-{% block head %}
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-{% endblock %}
-
 {% block og_tags %}
     {% if person.photo %}
         <meta property="og:image" content="{{ SITE_URL }}{{ person.photo.url }}" />
