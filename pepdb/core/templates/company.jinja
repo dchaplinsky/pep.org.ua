@@ -71,7 +71,7 @@
                 <div class="profile-page__top">
                     <div class="profile-image">
                         {% if company.photo %}
-                            <img src="{{ company.photo | thumbnail_url("avatar") }}" alt="{{company.name}}">
+                            <img src="{{ company.photo | thumbnail_url("avatar") }}" alt="{{ company.name }}">
                            {% else %}
                             <img src="{{ static('images/profile-empty-entities.svg') }}" alt="photo">
                         {% endif %}
@@ -759,7 +759,7 @@
                         <div class="dossier-modal__header">
                             <div class="title-wrap">
                                 <img src="{{ static('images/icon-individual.svg') }}" alt="icon" class="icon">
-                                <h2 class="name">{{ company.name }}</h2>
+                                <h2 class="name">{{ company.short_name or company.name }}</h2>
                             </div>
                             <a href="" class="print" title="print">
                                 <svg>
@@ -793,7 +793,7 @@
                         <div class="dossier-modal__header">
                             <div class="title-wrap">
                                 <img src="{{ static('images/icon-individual.svg') }}" alt="icon" class="icon">
-                                <h2 class="name">{{ company.name }}</h2>
+                                <h2 class="name">{{ company.short_name or company.name }}</h2>
                             </div>
                             <a href="" class="print" title="print">
                                 <svg>
