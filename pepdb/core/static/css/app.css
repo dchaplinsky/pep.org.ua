@@ -909,7 +909,7 @@ body {
 
 .search-form {
   position: relative;
-  z-index: 2;
+  z-index: 4;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1040,7 +1040,7 @@ body {
   margin: 0; }
   #country-selection-form .input-group {
     position: relative;
-    z-index: 2;
+    z-index: 4;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -1644,7 +1644,7 @@ body {
     max-width: 1034px;
     width: 100%;
     margin: auto;
-    background-color: #f8f8f8;
+    background-color: #fff;
     -webkit-transform: rotate(32deg);
         -ms-transform: rotate(32deg);
             transform: rotate(32deg);
@@ -1909,36 +1909,68 @@ body {
     #dossier-modal .dossier-modal__body img:last-child, #criminal-modal .dossier-modal__body img:last-child {
       margin-bottom: 0; }
 
+#visualization-modal .modal-container:before {
+  content: '';
+  display: block;
+  -ms-flex-preferred-size: 10px;
+      flex-basis: 10px;
+  -ms-flex-negative: 0;
+      flex-shrink: 0; }
+
+#visualization-modal .modal-container:after {
+  content: '';
+  display: block;
+  -ms-flex-preferred-size: 10px;
+      flex-basis: 10px;
+  -ms-flex-negative: 0;
+      flex-shrink: 0; }
+
+#visualization-modal .modal-inner {
+  max-width: none;
+  width: calc(100% - 30px);
+  min-height: calc(100% - 20px); }
+
 #visualization-modal .modal-content {
   width: 100%;
+  height: 100%;
   padding: 0; }
 
 #visualization-modal .visualization-modal {
-  width: 100%; }
+  width: 100%;
+  height: 100%; }
   #visualization-modal .visualization-modal__header {
     padding-top: 46px;
     padding-bottom: 24px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.07); }
+    position: relative; }
     #visualization-modal .visualization-modal__header .name {
       font-weight: 800;
       font-size: 30px;
       line-height: 1.7;
       text-align: center;
-      color: #1d1d1b;
-      margin-bottom: 25px; }
-    #visualization-modal .visualization-modal__header .legend {
+      color: #1d1d1b; }
+    #visualization-modal .visualization-modal__header .legend-wrap {
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex;
-      -webkit-box-align: center;
-          -ms-flex-align: center;
-              align-items: center;
-      -ms-flex-wrap: wrap;
-          flex-wrap: wrap;
-      -webkit-box-pack: justify;
-          -ms-flex-pack: justify;
-              justify-content: space-between;
-      padding: 0 40px; }
+      border: 1px solid transparent;
+      position: absolute;
+      right: 0;
+      top: 100%;
+      z-index: 2;
+      background-color: #fff; }
+      #visualization-modal .visualization-modal__header .legend-wrap--open {
+        border-color: #e5e5e5; }
+        #visualization-modal .visualization-modal__header .legend-wrap--open .legend {
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex; }
+    #visualization-modal .visualization-modal__header .legend {
+      display: none;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+              flex-direction: column;
+      padding: 16px 26px; }
       #visualization-modal .visualization-modal__header .legend__item {
         display: -webkit-box;
         display: -ms-flexbox;
@@ -1946,7 +1978,7 @@ body {
         -webkit-box-align: center;
             -ms-flex-align: center;
                 align-items: center;
-        margin: 4px 8px; }
+        margin: 6px 0; }
         #visualization-modal .visualization-modal__header .legend__item.green svg {
           stroke: #4ead33; }
         #visualization-modal .visualization-modal__header .legend__item.orange svg {
@@ -1972,14 +2004,56 @@ body {
           font-weight: 500;
           font-size: 11px;
           line-height: 1.6; }
-  #visualization-modal .visualization-modal__body .cy-wrapper {
-    position: relative;
-    top: auto;
-    left: auto;
-    right: auto;
-    bottom: auto;
-    min-height: 400px;
-    height: 100vh; }
+    #visualization-modal .visualization-modal__header .legend-btn {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: start;
+          -ms-flex-align: start;
+              align-items: flex-start;
+      background-color: #f8f8f8;
+      width: 40px;
+      min-height: 56px;
+      border: none;
+      position: relative;
+      outline: none; }
+      #visualization-modal .visualization-modal__header .legend-btn:hover {
+        cursor: pointer; }
+      #visualization-modal .visualization-modal__header .legend-btn .icon {
+        position: absolute;
+        top: 20px;
+        right: 15px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+            -ms-flex-align: center;
+                align-items: center;
+        -webkit-box-pack: center;
+            -ms-flex-pack: center;
+                justify-content: center;
+        width: 9px;
+        height: 16px;
+        border-left: 1px solid;
+        border-right: 1px solid;
+        border-color: #4ead33; }
+        #visualization-modal .visualization-modal__header .legend-btn .icon:after {
+          content: '';
+          display: block;
+          width: 1px;
+          height: 100%;
+          background-color: #4ead33;
+          position: absolute; }
+  #visualization-modal .visualization-modal__body {
+    min-height: 400px; }
+    #visualization-modal .visualization-modal__body .cy-wrapper {
+      position: relative;
+      top: auto;
+      left: auto;
+      right: auto;
+      bottom: auto;
+      width: 100%;
+      height: 100%; }
 
 .main-page .first-section .main-title {
   position: relative;
@@ -2967,7 +3041,7 @@ body {
         flex-shrink: 0;
     -ms-flex-item-align: start;
         align-self: flex-start;
-    margin-top: 22px; }
+    margin: 22px 0; }
   .single-page__header .date {
     position: relative;
     display: -webkit-inline-box;
@@ -4460,7 +4534,13 @@ body {
       .header__inner {
         padding: 0 45px; }
         .header__left .form-wrap {
-          margin-left: 68px; }
+          margin-left: 50px; }
+          .header__left .search-form input {
+            width: 290px; }
+          .header__right .menu__list-item {
+            margin-right: 26px; }
+        .header__right .lang {
+          margin-left: 30px; }
     .first-section {
       min-height: 650px; }
     .main-page .first-section .search-page-link {
@@ -4529,7 +4609,6 @@ body {
       .header__inner {
         padding: 0 34px; }
         .header__left .form-wrap {
-          margin-left: 55px;
           overflow: hidden; }
         .header__left .form-wrap--open {
           overflow: inherit; }
@@ -4540,6 +4619,8 @@ body {
           -webkit-transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
           -o-transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
           transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+          .header__left .search-form input {
+            width: 300px; }
         .header__left .search-btn {
           display: -webkit-box;
           display: -ms-flexbox;
@@ -4888,11 +4969,14 @@ body {
           margin-left: 10px; }
       #dossier-modal .dossier-modal__body img, #criminal-modal .dossier-modal__body img {
         max-height: 340px; }
+    #visualization-modal .modal-container:before {
+      -ms-flex-preferred-size: 10px;
+          flex-basis: 10px; }
       #visualization-modal .visualization-modal__header {
         padding-left: 40px;
         padding-right: 40px; }
         #visualization-modal .visualization-modal__header .legend {
-          padding: 0; }
+          padding: 16px; }
     .main-page .first-section .main-title {
       max-width: 768px;
       padding: 0 62px;
@@ -5076,7 +5160,7 @@ body {
           -ms-flex-align: start;
               align-items: flex-start; }
       .single-page__header .breadcrumbs-wrap {
-        margin-top: 0; }
+        margin: 0; }
         .single-page__header .date:before {
           width: 10px;
           left: -16px; }
@@ -5453,6 +5537,14 @@ body {
         font-size: 14px; }
       #dossier-modal .dossier-modal__body img, #criminal-modal .dossier-modal__body img {
         margin: 30px 0; }
+    #visualization-modal .modal-container:before {
+      -ms-flex-preferred-size: 0;
+          flex-basis: 0; }
+    #visualization-modal .modal-container:after {
+      -ms-flex-preferred-size: 0;
+          flex-basis: 0; }
+    #visualization-modal .modal-inner {
+      width: 100%; }
     #visualization-modal .modal-content {
       padding: 0 20px; }
       #visualization-modal .visualization-modal__header {
@@ -5462,6 +5554,10 @@ body {
         padding-right: 0; }
         #visualization-modal .visualization-modal__header .name {
           font-size: 18px; }
+        #visualization-modal .visualization-modal__header .legend-wrap {
+          right: -20px; }
+          #visualization-modal .visualization-modal__header .legend-btn .icon {
+            width: 10px; }
     .main-page .first-section .main-title {
       font-size: 20px;
       padding: 0 20px;

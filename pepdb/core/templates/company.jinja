@@ -90,11 +90,12 @@
                             <tr>
                                 <td>{{_("Категорія")}}</td>
                                 <td>
-                                    {% if company.state_company %}
-                                        {{_("Державна компанія чи установа")}}
-                                    {% else %}
-                                        {{_("Приватна компанія")}}
-                                    {% endif %}
+                                    {% if company.public_office %} {{_("Державний орган")}}
+                                    {% elif company.political_party %} {{_("Партія")}}
+                                    {% elif company.state_enterprised %} {{_("Державна власність")}}
+                                    {% elif company.affiliated_with_pep %} {{_("Пов'язана з ПЕП")}}
+                                    {% elif company.bank %} {{_("Банк")}}
+                                    {% elif company.service_provider %} {{_("Надавач послуг")}} {% endif %}
                                 </td>
                             </tr>
                             {% if related_countries.registered_in and related_countries.registered_in[0].iso2 != "UA" %}
@@ -550,13 +551,13 @@
                                 </div>
                             </div>
                             <div class="profile-section__body">
-                                <p class="criminal-status">
+                                <div class="criminal-status">
                                     {% if company.sanctions_en and LANGUAGE_CODE == "en" %}
                                         {{ company.sanctions_en|richtext }}
                                     {% elif company.sanctions_uk and LANGUAGE_CODE == "uk" %}
                                         {{ company.sanctions_uk|richtext }}
                                     {% endif %}
-                                </p>
+                                </div>
                             </div>
                             <div class="profile-section__footer">
                                 <button id="show-criminal-story" class="more-link">
@@ -615,13 +616,13 @@
                             </div>
                             <div class="profile-section__body">
                                 <div class="dossier-content">
-                                    <p>
+                                    <div class="criminal-status">
                                         {% if company.wiki_en and LANGUAGE_CODE == "en" %}
                                             {{ company.wiki_en|richtext }}
                                         {% elif company.wiki_uk and LANGUAGE_CODE == "uk" %}
                                             {{ company.wiki_uk|richtext }}
                                         {% endif %}
-                                    </p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="profile-section__footer">

@@ -320,7 +320,22 @@ $(document).ready(function () {
     $('.visualization-btn').on('click', function () {
         $('#visualization-modal').addClass('modal--open');
         $('body').addClass('modal-open');
+        $(function modalBodyHeight () {
+            var modal = $('#visualization-modal'),
+                modalHeight = modal.find('.visualization-modal').height(),
+                headerHeight = modal.find('.visualization-modal__header').outerHeight(),
+                bodyHeight = modalHeight - headerHeight;
+            modal.find('.visualization-modal__body').css("height", bodyHeight + "px");
+        })
     });
+
+    //show/hide legend
+    $('.legend-btn').on('click', function () {
+        $('.legend-wrap').toggleClass('legend-wrap--open');
+    });
+
+    //visualization modal body height
+
 
     // сортировка таблицы
     $(".sort-table tr th").click(function (event) {

@@ -63,8 +63,8 @@
 
                     {% set last_modified = person.last_modified %}
                     {% if last_modified %}
-                    <div class="date">{{ _("Остання зміна профілю:") }}
-                        <time> {{ last_modified | date }} </time>
+                    <div class="date">{{ _("Остання зміна профілю:") }}&nbsp;
+                        <time>{{ last_modified | date }}</time>
                     </div>
                     {% endif %}
                 </div>
@@ -1208,7 +1208,7 @@
                             </div>
                             <div class="profile-section__body">
                                 <div class="dossier-content"itemprop="description">
-                                    <p>
+                                    <div class="criminal-status">
                                     {% if LANGUAGE_CODE == "en" %}
                                         {{ person.wiki_en|richtext }}
 
@@ -1219,7 +1219,7 @@
                                         <meta itemprop="description">
                                         {{ person.wiki_uk|richtext }}
                                     {% endif %}
-                                    </p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="profile-section__footer">
@@ -1560,50 +1560,55 @@
                     <div class="visualization-modal">
                         <div class="visualization-modal__header">
                             <h2 class="name">{{ person.last_name }} {{ person.first_name }} {{ person.patronymic }}</h2>
-                            <ul class="legend">
-                                <li class="legend__item green">
-                                    <svg>
-                                        <use xlink:href="#legend-dashed-line"></use>
-                                    </svg>
-                                    <span>{{_("члени сім’ї")}}</span>
-                                </li>
-                                <li class="legend__item black">
-                                    <svg>
-                                        <use xlink:href="#legend-dashed-line"></use>
-                                    </svg>
-                                    <span>{{_("особисті зв’язки")}}</span>
-                                </li>
-                                <li class="legend__item orange">
-                                    <svg>
-                                        <use xlink:href="#legend-dashed-line"></use>
-                                    </svg>
-                                    <span>{{_("ділові зв’язки")}}</span>
-                                </li>
-                                <li class="legend__item green">
-                                    <svg>
-                                        <use xlink:href="#legend-line"></use>
-                                    </svg>
-                                    <span>{{_("власник")}}</span>
-                                </li>
-                                <li class="legend__item black">
-                                    <svg>
-                                        <use xlink:href="#legend-line"></use>
-                                    </svg>
-                                    <span>{{_("бенефіціарний власник")}}</span>
-                                </li>
-                                <li class="legend__item orange">
-                                    <svg>
-                                        <use xlink:href="#legend-line"></use>
-                                    </svg>
-                                    <span>{{_("співробітник")}}</span>
-                                </li>
-                                <li class="legend__item yellow">
-                                    <svg>
-                                        <use xlink:href="#legend-line"></use>
-                                    </svg>
-                                    <span>{{_("клієнт")}}</span>
-                                </li>
-                            </ul>
+                            <div class="legend-wrap">
+                                <ul class="legend">
+                                    <li class="legend__item green">
+                                        <svg>
+                                            <use xlink:href="#legend-dashed-line"></use>
+                                        </svg>
+                                        <span>члени сім’ї</span>
+                                    </li>
+                                    <li class="legend__item purple">
+                                        <svg>
+                                            <use xlink:href="#legend-dashed-line"></use>
+                                        </svg>
+                                        <span>особисті зв’язки</span>
+                                    </li>
+                                    <li class="legend__item sky-blue">
+                                        <svg>
+                                            <use xlink:href="#legend-dashed-line"></use>
+                                        </svg>
+                                        <span>ділові зв’язки</span>
+                                    </li>
+                                    <li class="legend__item green">
+                                        <svg>
+                                            <use xlink:href="#legend-line"></use>
+                                        </svg>
+                                        <span>власник</span>
+                                    </li>
+                                    <li class="legend__item blue">
+                                        <svg>
+                                            <use xlink:href="#legend-line"></use>
+                                        </svg>
+                                        <span>бенефіціарний власник</span>
+                                    </li>
+                                    <li class="legend__item pink">
+                                        <svg>
+                                            <use xlink:href="#legend-line"></use>
+                                        </svg>
+                                        <span>співробітник</span>
+                                    </li>
+                                    <li class="legend__item orange">
+                                        <svg>
+                                            <use xlink:href="#legend-line"></use>
+                                        </svg>
+                                        <span>клієнт</span>
+                                    </li>
+                                </ul>
+                                <button class="legend-btn">
+                                    <span class="icon"></span>
+                                </button>
+                            </div>
                         </div>
                         <div class="visualization-modal__body">
                             <div class="cy-wrapper">
