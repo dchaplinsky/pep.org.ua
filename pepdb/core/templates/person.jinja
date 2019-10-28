@@ -1058,7 +1058,7 @@
                                         </div>
                                     </div>
                                     <div class="profile-section__body">
-                                        <p class="criminal-status">
+                                        <div class="criminal-status">
                                             {% if person.reputation_sanctions_uk %}
                                                 {{ person.reputation_sanctions_uk|richtext }}
                                             {% endif %}
@@ -1072,7 +1072,7 @@
                                             {% if person.reputation_convictions_uk %}
                                                 {{ person.reputation_convictions_uk|richtext }}
                                             {% endif %}
-                                        </p>
+                                        </div>
                                     </div>
                                     <div class="profile-section__footer">
                                         <button id="show-criminal-story" class="more-link">
