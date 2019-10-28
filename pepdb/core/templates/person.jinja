@@ -175,7 +175,7 @@
                             <!-- добавлять класс index--N, где N - номер индекса от 1 до 10 -->
                             <!-- а что делать для тех, у которых скор — 0 -->
                             <div class="progressbar">
-                                <span class="index index--{{ scoring_score|round|int }}">{{ scoring_score|round|int }}</span>
+                                <span class="index index--{{ scoring_score|round|int }}">{{ '%0.2f'| format(scoring_score|float) }}</span>
                             </div>
 
                             <button class="scoring__btn">

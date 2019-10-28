@@ -129,12 +129,12 @@ class Command(BaseCommand):
         except OSError:
             raise CommandError("Cannot create output dir")
 
-        # self.export_nodes(
-        #     os.path.join(output_dir, "persons.csv"),
-        #     Person.objects.all().nocache(),
-        #     neo_model=NeoPerson,
-        #     labels=["Person"],
-        # )
+        self.export_nodes(
+            os.path.join(output_dir, "persons.csv"),
+            Person.objects.all().nocache(),
+            neo_model=NeoPerson,
+            labels=["Person"],
+        )
 
         self.export_nodes(
             os.path.join(output_dir, "companies.csv"),
@@ -143,28 +143,28 @@ class Command(BaseCommand):
             labels=["Company"],
         )
 
-        # self.export_nodes(
-        #     os.path.join(output_dir, "countries.csv"),
-        #     Country.objects.exclude(iso2="").nocache(),
-        #     neo_model=NeoCountry,
-        #     labels=["Country"],
-        # )
+        self.export_nodes(
+            os.path.join(output_dir, "countries.csv"),
+            Country.objects.exclude(iso2="").nocache(),
+            neo_model=NeoCountry,
+            labels=["Country"],
+        )
 
-        # self.export_relations(
-        #     os.path.join(output_dir, "person2person.csv"),
-        #     Person2Person.objects.all().nocache(),
-        #     "from_person",
-        #     "to_person",
-        #     [
-        #         "from_relationship_type",
-        #         "to_relationship_type",
-        #         "date_established_human",
-        #         "date_finished_human",
-        #         "date_confirmed_human",
-        #         "proof_title",
-        #         "proof",
-        #     ],
-        # )
+        self.export_relations(
+            os.path.join(output_dir, "person2person.csv"),
+            Person2Person.objects.all().nocache(),
+            "from_person",
+            "to_person",
+            [
+                "from_relationship_type",
+                "to_relationship_type",
+                "date_established_human",
+                "date_finished_human",
+                "date_confirmed_human",
+                "proof_title",
+                "proof",
+            ],
+        )
 
         self.export_relations(
             os.path.join(output_dir, "person2company.csv"),
