@@ -1978,7 +1978,8 @@ body {
     left: auto;
     right: auto;
     bottom: auto;
-    height: 400px; }
+    min-height: 400px;
+    height: 100vh; }
 
 .main-page .first-section .main-title {
   position: relative;
@@ -3166,7 +3167,7 @@ body {
 
 .article-content img {
   display: block;
-  width: 100%;
+  width: 100% !important;
   max-width: 1720px;
   max-height: 966px;
   margin: 120px auto 0; }
@@ -3374,6 +3375,14 @@ body {
       .profile-page__top .profile-image .icon svg {
         width: 44px;
         height: 44px; }
+      .profile-page__top .profile-image .icon--died {
+        top: auto;
+        bottom: 10px;
+        background-color: #000;
+        -webkit-box-shadow: none;
+                box-shadow: none; }
+        .profile-page__top .profile-image .icon--died svg {
+          display: none; }
   .profile-page__top .profile-main-info {
     border-left: 1px solid rgba(0, 0, 0, 0.05);
     padding: 48px 0 64px 130px; }
@@ -3382,7 +3391,10 @@ body {
       font-size: 30px;
       line-height: 1.7;
       color: #1d1d1b;
-      margin-bottom: 26px; }
+      margin-bottom: 26px;
+      margin-right: 40px; }
+      .profile-page__top .profile-main-info .profile-name--no-active {
+        color: #ccc; }
     .profile-page__top .profile-main-info table {
       width: 100%;
       max-width: 650px; }
@@ -3400,6 +3412,8 @@ body {
           color: #f39200; }
           .profile-page__top .profile-main-info table tr td a:hover, .profile-page__top .profile-main-info table tr td a:active {
             color: #4ead33; }
+        .profile-page__top .profile-main-info table tr td strong {
+          font-weight: 600; }
 
 .profile-page .scoring {
   background-color: #fff; }
@@ -4025,6 +4039,12 @@ body {
     .profile-page .profile-section__body .criminal-status, .profile-page .profile-section__content .criminal-status {
       font-size: 14px;
       line-height: 1.6; }
+      .profile-page .profile-section__body .criminal-status p, .profile-page .profile-section__content .criminal-status p {
+        font-weight: 300; }
+      .profile-page .profile-section__body .criminal-status a, .profile-page .profile-section__content .criminal-status a {
+        color: #f39200; }
+        .profile-page .profile-section__body .criminal-status a:hover, .profile-page .profile-section__body .criminal-status a:active, .profile-page .profile-section__content .criminal-status a:hover, .profile-page .profile-section__content .criminal-status a:active {
+          color: #4ead33; }
     .profile-page .profile-section__body .investigation-grid, .profile-page .profile-section__content .investigation-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -4743,6 +4763,12 @@ body {
           .profile-page__top .profile-image .icon svg {
             width: 36px;
             height: 36px; }
+          .profile-page__top .profile-image .icon--died {
+            width: 50px;
+            height: 50px;
+            top: auto;
+            bottom: 0;
+            right: 0; }
       .profile-page__top .profile-main-info {
         padding: 48px 95px 64px 55px; }
       .profile-page .scoring .progressbar {
@@ -5119,6 +5145,9 @@ body {
           .profile-page__top .profile-image .icon svg {
             width: 30px;
             height: 30px; }
+          .profile-page__top .profile-image .icon--died {
+            width: 40px;
+            height: 40px; }
       .profile-page__top .profile-main-info {
         padding: 0 0 24px; }
         .profile-page__top .profile-main-info .profile-name {
@@ -5823,6 +5852,9 @@ body {
           .profile-page__top .profile-image .icon svg {
             width: 24px;
             height: 24px; }
+          .profile-page__top .profile-image .icon--died {
+            width: 30px;
+            height: 30px; }
       .profile-page__top .profile-main-info {
         padding: 0 14px 24px; }
         .profile-page__top .profile-main-info .profile-name {

@@ -186,13 +186,13 @@ $(document).ready(function () {
         $('.modal').removeClass('modal--open');
         $('body').removeClass('modal-open');
     });
-    $(document).mouseup(function (e) {
-        var container = $(".modal-inner");
-        if (!container.is(e.target) && container.has(e.target).length === 0) {
-            container.parents('.modal').removeClass('modal--open');
-            $('body').removeClass('modal-open');
-        }
-    });
+    // $(document).mouseup(function (e) {
+    //     var container = $(".modal-inner");
+    //     if (!container.is(e.target) && container.has(e.target).length === 0) {
+    //         container.parents('.modal').removeClass('modal--open');
+    //         $('body').removeClass('modal-open');
+    //     }
+    // });
 
     // found-modal open
     $('#found').on('click', function (e) {

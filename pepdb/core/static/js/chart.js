@@ -1,10 +1,20 @@
+// Load the Visualization API and the corechart package.
+$(function () {
+    google.charts.load('current', {'packages': ['corechart']});
+});
+
+// Set a callback to run when the Google Visualization API is loaded.
+$(function () {
+    google.charts.setOnLoadCallback(drawChart);
+});
+
 // Callback that creates and populates a data table,
 // instantiates the pie chart, passes in the data and
 // draws it.
 
 
 function drawChart() {
-    if ($('div.profile-page').length) {
+    if ($('div').hasClass('profile-page')) {
         var dataDeclarationsLineChart = google.visualization.arrayToDataTable([
             ['Рік', 'Доходи декларанта', 'Доходи родини', 'Витрати декларанта'],
             ['2011', 1000, 400, 1230],
@@ -166,10 +176,11 @@ function drawChart() {
         };
 
         // declarationLineChart start
-
-        if ($("#declarations-line-chart").length && $("#declarations-pie-chart").length) {
+        if ($('div').hasClass('chart')) {
             var declarationLineChart = new google.visualization.LineChart(document.getElementById('declarations-line-chart'));
             declarationLineChart.draw(dataDeclarationsLineChart, options2);
+        }
+        if ($('div').hasClass('chart-popup')) {
             var declarationPieChart = new google.visualization.PieChart(document.getElementById('declarations-pie-chart'));
             // check click on chart
             google.visualization.events.addListener(declarationLineChart, 'select', function () {
@@ -184,11 +195,15 @@ function drawChart() {
                     $('#declarations-pie-chart').siblings().find('.title').html(title);
                 }
             });
+        }
 
-            // cashAssetsLineChart start
+        // cashAssetsLineChart start
 
+        if ($('div').hasClass('chart')) {
             var cashAssetsLineChart = new google.visualization.LineChart(document.getElementById('cash-assets-line-chart'));
             cashAssetsLineChart.draw(dataCashAssetsLineChart, options);
+        }
+        if ($('div').hasClass('chart-popup')) {
             var cashAssetsPieChart = new google.visualization.PieChart(document.getElementById('cashAssets-pie-chart'));
             // check click on chart
             google.visualization.events.addListener(cashAssetsLineChart, 'select', function () {
@@ -204,13 +219,6 @@ function drawChart() {
                 }
             });
         }
+
     }
 }
-
-$(function() {
-    // Load the Visualization API and the corechart package.
-    google.charts.load('current', {'packages': ['corechart']});
-
-    // Set a callback to run when the Google Visualization API is loaded.
-    google.charts.setOnLoadCallback(drawChart);
-});
