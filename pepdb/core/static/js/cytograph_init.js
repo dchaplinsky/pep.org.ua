@@ -352,9 +352,6 @@ $(function() {
                     e.target.data("tippy_popover", null);
                 }
             } else {
-                var tippyPopover = makeTippy(e.target,
-                    '<a href="' + e.target.data("url") + '" target="_blank">' + e.target.data("full_name") + '</a><br />' + e.target.data("kind") + "<br/>" + e.target.data("description"), "light", "right");
-                tippyPopover.show();
 
                 cy_full.$(".has_popover").forEach(function(node){
                     var tippyPopoverToRemove = node.data("tippy_popover");
@@ -364,8 +361,14 @@ $(function() {
                     }
                 });
 
-                e.target.addClass("has_popover");
-                e.target.data("tippy_popover", tippyPopover);
+                if (e.target.isNode()) {
+                    var tippyPopover = makeTippy(e.target,
+                        '<a href="' + e.target.data("url") + '" target="_blank">' + e.target.data("full_name") + '</a><br />' + e.target.data("kind") + "<br/>" + e.target.data("description"), "light", "right");
+
+                    tippyPopover.show();
+                    e.target.addClass("has_popover");
+                    e.target.data("tippy_popover", tippyPopover);
+                }
             }
             previousTapStamp = currentTapStamp;
         });
