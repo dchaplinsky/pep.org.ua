@@ -91,7 +91,8 @@
                         <img src="{{ static('images/profile-empty-individual.svg') }}" alt="photo" class="profile-card__img">
                         {% endif %}
                         {% if person.reputation_sanctions_en or person.reputation_crimes_en or person.reputation_manhunt_en or person.reputation_convictions_en or person.reputation_sanctions_uk or person.reputation_crimes_uk or person.reputation_manhunt_uk or person.reputation_convictions_uk or manhunt_records %}
-                        <div class="icon {% if person.died %}icon--died{% endif %}">
+                        {% elif person.died %}
+                        <div class="icon icon--died">
                             <svg>
                                 <use xlink:href="#block"></use>
                             </svg>
