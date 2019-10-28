@@ -45,8 +45,10 @@ class Command(BaseCommand):
                 rule = Rule.objects.get(pk=d.get("Rule"))
             except Person.DoesNotExist:
                 self.stderr.write("PEP with id '{}' doesn't exists".format(d.get("id_PEP")))
+                continue
             except Rule.DoesNotExist:
                 self.stderr.write("Rule with id '{}' doesn't exists".format(d.get("Rule")))
+                continue
 
             scores[pep.pk] += rule.weight
             flags.append(Flag(
