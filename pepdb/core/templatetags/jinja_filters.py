@@ -14,6 +14,15 @@ def markdown(*args, **kwargs):
     return mark_safe('<div class="richtext">%s</div>' % _markdown(*args, **kwargs))
 
 
+@library.filter
+def rule_val(value):
+    return mark_safe('<strong>%s</strong>' % value)
+
+@library.filter
+def rule_money(value):
+    return mark_safe('<strong>%s</strong>' % curformat(value))
+
+
 @library.global_function
 def updated_querystring(request, params):
     """Updates current querystring with a given dict of params, removing

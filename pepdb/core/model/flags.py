@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.template import engines
 from django.utils.translation import ugettext_lazy, ugettext_noop as _
 from django.contrib.postgres.fields import JSONField as DjangoJSONField
 
@@ -96,9 +97,12 @@ class Flag(models.Model):
 
     @property
     def comment(self):
-        # if self.rule.template:
-        #     return self.rule.template.format(**self.data)
-        # else:
+        if self.rule.template:
+            try:
+                return engines["backend"].from_string(self.rule.template).render(self.data)
+            except:
+                pass
+
         return self.rule_name
 
     @property
