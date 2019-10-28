@@ -96,10 +96,10 @@ class Flag(models.Model):
 
     @property
     def comment(self):
-        if self.rule.template:
-            return self.rule.template.format(**self.data)
-        else:
-            return self.rule_name
+        # if self.rule.template:
+        #     return self.rule.template.format(**self.data)
+        # else:
+        return self.rule_name
 
     @property
     def rule_name(self):

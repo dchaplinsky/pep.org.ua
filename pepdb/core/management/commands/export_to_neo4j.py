@@ -205,17 +205,17 @@ class Command(BaseCommand):
         #     ],
         # )
 
-        # with open(os.path.join(output_dir, "neo4j_import.sh"), "w") as fp:
-        #     cmd = "{} import --id-type=INTEGER --database={} \\\n"
-        #     fp.write(
-        #         cmd.format(settings.NEO4J_ADMIN_PATH, settings.NEO4J_DATABASE_NAME)
-        #     )
-        #     fp.write("\t--multiline-fields=true \\\n")
+        with open(os.path.join(output_dir, "neo4j_import.sh"), "w") as fp:
+            cmd = "{} import --id-type=INTEGER --database={} \\\n"
+            fp.write(
+                cmd.format(settings.NEO4J_ADMIN_PATH, settings.NEO4J_DATABASE_NAME)
+            )
+            fp.write("\t--multiline-fields=true \\\n")
 
-        #     for node in self.nodes:
-        #         cmd = "\t--nodes={} \\\n"
-        #         fp.write(cmd.format(node))
+            for node in self.nodes:
+                cmd = "\t--nodes={} \\\n"
+                fp.write(cmd.format(node))
 
-        #     for relationship in self.relationships:
-        #         cmd = "\t--relationships={} \\\n"
-        #         fp.write(cmd.format(relationship))
+            for relationship in self.relationships:
+                cmd = "\t--relationships={} \\\n"
+                fp.write(cmd.format(relationship))
