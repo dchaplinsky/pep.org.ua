@@ -455,6 +455,11 @@
                         {% endif %}
 
                         {% if related_persons.bank_customers %}
+                        {% if request.GET.showall %}
+                            {% set limit=None %}
+                        {% else %}
+                            {% set limit=1000 %}
+                        {% endif %}
                         <section id="bank-clients" class="profile-section">
                             <div class="profile-section__header">
                                 <div class="title-wrap">
@@ -495,7 +500,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {% for person in related_persons.bank_customers %}
+                                    {% for person in related_persons.bank_customers[:limit] %}
                                     {% set countries = person.foreign_citizenship_or_registration %}
                                     {% set connection = person.connection %}
                                     {% set last_workplace = person.translated_last_workplace %}
