@@ -287,7 +287,7 @@ PIPELINE = {
                 "js/tippy.js",
                 "js/cytograph_init.js",
             ),
-            "output_filename": "js/graph.js",
+            "output_filename": "js/cytograph.js",
         }
     }
 }
