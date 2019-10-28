@@ -40,14 +40,14 @@ $(function() {
     }, {
         selector: 'node[model="person"]',
         style: {
-            "background-image": "/static/images/cytoscape/person.png",
+            "background-image": "/static/images/cytoscape/person.png?1",
             "background-fit": "cover",
             "background-color": "white"
         }
     }, {
         selector: 'node[model="company"]',
         style: {
-            "background-image": "/static/images/cytoscape/company.png",
+            "background-image": "/static/images/cytoscape/company.png?1",
             "background-fit": "cover",
             "background-color": "white",
             "shape": "octagon"
@@ -68,19 +68,19 @@ $(function() {
             "width": 50,
             "height": 50,
             "background-color": "white",
-            "background-image": "/static/images/cytoscape/pep_person.png"
+            "background-image": "/static/images/cytoscape/pep_person.png?1"
         }
     }, {
         // (4, _("Пов'язана особа")),
         selector: 'node[type_of_official=4]',
         style: {
-            "background-image": "/static/images/cytoscape/affiliated_person.png"
+            "background-image": "/static/images/cytoscape/affiliated_person.png?1"
         }
     }, {
         // (5, _("Член сім'ї")),
         selector: 'node[type_of_official=5]',
         style: {
-            "background-image": "/static/images/cytoscape/relative_person.png"
+            "background-image": "/static/images/cytoscape/relative_person.png?1"
         }
     }, {
         selector: 'node[?state_company]',
@@ -88,39 +88,39 @@ $(function() {
             "width": 50,
             "height": 50,
             "background-color": "white",
-            "background-image": "/static/images/cytoscape/state_company.svg"
+            "background-image": "/static/images/cytoscape/state_company.png?1"
         }
     }, {
         selector: 'node[model="person"][?is_dead]',
         style: {
-            "background-image": "/static/images/cytoscape/dead/person.svg",
+            "background-image": "/static/images/cytoscape/dead/person.png?1",
         }
     }, {
         selector: 'node[model="company"][?is_closed]',
         style: {
-            "background-image": "/static/images/cytoscape/dead/company.svg",
+            "background-image": "/static/images/cytoscape/dead/company.png?1",
         }
     }, {
         selector: 'node[?is_pep][?is_dead]',
         style: {
-            "background-image": "/static/images/cytoscape/dead/pep_person.svg"
+            "background-image": "/static/images/cytoscape/dead/pep_person.png?1"
         }
     }, {
         // (4, _("Пов'язана особа")),
         selector: 'node[type_of_official=4][?is_dead]',
         style: {
-            "background-image": "/static/images/cytoscape/dead/affiliated_person.svg"
+            "background-image": "/static/images/cytoscape/dead/affiliated_person.png?1"
         }
     }, {
         // (5, _("Член сім'ї")),
         selector: 'node[type_of_official=5][?is_dead]',
         style: {
-            "background-image": "/static/images/cytoscape/dead/relative_person.svg"
+            "background-image": "/static/images/cytoscape/dead/relative_person.png?1"
         }
     }, {
         selector: 'node[?state_company][?is_closed]',
         style: {
-            "background-image": "/static/images/cytoscape/dead/state_company.svg"
+            "background-image": "/static/images/cytoscape/dead/state_company.png?1"
         }
     }, {
         selector: 'node[?is_main]',
@@ -314,7 +314,7 @@ $(function() {
         }).on('mouseover', 'node', function(event) {
             var outbound = cy_full.$('edge[source="' + event.target.id() + '"]'),
                 inbound = cy_full.$('edge[target="' + event.target.id() + '"]'),
-                connections = event.target.data("all_connected"),
+                connections = event.target.data("all_connected") || [],
                 neighbours = [],
                 connections_to_open = 0;
             inbound.addClass("active");
@@ -356,10 +356,6 @@ $(function() {
                     e.target.data("tippy_popover", null);
                 }
             } else {
-                var tippyPopover = makeTippy(e.target,
-                    '<a href="' + e.target.data("url") + '" target="_blank">' + e.target.data("full_name") + '</a><br />' + e.target.data("kind") + "<br/>" + e.target.data("description"), "light", "right");
-                tippyPopover.show();
-
                 cy_full.$(".has_popover").forEach(function(node){
                     var tippyPopoverToRemove = node.data("tippy_popover");
                     if (tippyPopoverToRemove) {
@@ -368,8 +364,14 @@ $(function() {
                     }
                 });
 
-                e.target.addClass("has_popover");
-                e.target.data("tippy_popover", tippyPopover);
+                if (e.target.isNode()) {
+                    var tippyPopover = makeTippy(e.target,
+                        '<a href="' + e.target.data("url") + '" target="_blank">' + e.target.data("full_name") + '</a><br />' + e.target.data("kind") + "<br/>" + e.target.data("description"), "light", "right");
+
+                    tippyPopover.show();
+                    e.target.addClass("has_popover");
+                    e.target.data("tippy_popover", tippyPopover);
+                }
             }
             previousTapStamp = currentTapStamp;
         });
