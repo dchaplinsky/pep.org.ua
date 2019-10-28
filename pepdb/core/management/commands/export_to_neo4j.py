@@ -30,6 +30,7 @@ from core.neo_models import (
     Country as NeoCountry,
     Company2Company as NeoCompany2Company,
     Person2Company as NeoPerson2Company,
+    Person2Person as NeoPerson2Person,
 )
 
 
@@ -155,15 +156,7 @@ class Command(BaseCommand):
             Person2Person.objects.all().nocache(),
             "from_person",
             "to_person",
-            [
-                "from_relationship_type",
-                "to_relationship_type",
-                "date_established_human",
-                "date_finished_human",
-                "date_confirmed_human",
-                "proof_title",
-                "proof",
-            ],
+            neo_model=NeoPerson2Person,
         )
 
         self.export_relations(
