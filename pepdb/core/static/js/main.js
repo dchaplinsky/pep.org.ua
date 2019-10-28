@@ -186,6 +186,15 @@ $(document).ready(function () {
         $('.modal').removeClass('modal--open');
         $('body').removeClass('modal-open');
     });
+
+    function hideModal(e) {
+        if (e.keyCode === 27) {
+            $('.modal').removeClass('modal--open');
+            $('body').removeClass('modal-open');
+        }
+    }
+
+    $(document).keyup(hideModal);
     // $(document).mouseup(function (e) {
     //     var container = $(".modal-inner");
     //     if (!container.is(e.target) && container.has(e.target).length === 0) {
