@@ -233,7 +233,6 @@ PIPELINE = {
             'source_filenames': (
                 'css/flag-css.css',
                 'css/vis.css',
-                'less/main.less',
                 'css/graph.css',
                 "css/tippy.css",
                 "css/tippy-light.css",

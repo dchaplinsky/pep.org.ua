@@ -1,4 +1,4 @@
-#graphme {
-    height: 600px;
-    min-height: 600px;
+.cy-full {
+	width: 100%;
+	height: 100%;
 }

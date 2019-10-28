@@ -373,7 +373,6 @@ $(function() {
  
     $(".visualization-btn").on("click", function(e) {
         e.preventDefault();
-        console.log("Hey");
 
         var anchor = $(this).data("target");
         $("#visualization-modal").addClass("modal--open");
