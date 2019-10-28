@@ -759,7 +759,7 @@
                         <div class="dossier-modal__header">
                             <div class="title-wrap">
                                 <img src="{{ static('images/icon-individual.svg') }}" alt="icon" class="icon">
-                                <h2 class="name">{{company.name}}</h2>
+                                <h2 class="name">{{ company.name }}</h2>
                             </div>
                             <a href="" class="print" title="print">
                                 <svg>
@@ -825,7 +825,7 @@
                 <div class="modal-content">
                     <div class="visualization-modal">
                         <div class="visualization-modal__header">
-                            <h2 class="name">{{ company.name }}</h2>
+                            <h2 class="name">{{ company.short_name or company.name }}</h2>
                             <ul class="legend">
                                 <li class="legend__item green">
                                     <svg>
