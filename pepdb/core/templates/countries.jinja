@@ -67,6 +67,11 @@
                                 <span itemprop="worksFor" itemscope itemtype="http://schema.org/Organization"><span itemprop="name">{{ p.translated_last_workplace }}</span></span>,
                                 <span itemprop="jobTitle">{{ p.translated_last_job_title }}</span>
                             </p>
+                            {% if p.terminated %}
+                            <p class="profile-card__description">
+                                <span>{{ p.termination_date_human }}</span> {{ _(p.reason_of_termination) }}
+                            </p>
+                            {% endif %}
                         </article>
                     {% endfor %}
                 </div>
@@ -86,7 +91,7 @@
 
 
             {% if persons %}
-            <div class="pagination persons {% if persons %}active{% endif %}">
+            <div class="pagination individuals {% if persons %}active{% endif %}">
                 {% if persons.paginator.num_pages > 1 %}
                     {{ render_pagination(persons, url("search_person")) }}
                 {% endif %}
@@ -94,7 +99,7 @@
             {% endif %}
 
             {% if companies %}
-            <div class="pagination companies {% if not persons %}active{% endif %}">
+            <div class="pagination entities {% if not persons %}active{% endif %}">
                 {% if companies.paginator.num_pages > 1 %}
                     {{ render_pagination(companies, url("search_company")) }}
                 {% endif %}
