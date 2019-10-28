@@ -380,7 +380,7 @@ def person_details(request, person_id):
         "query": "",
         "all_declarations": person.get_declarations(),
         "scoring_score": sum(x[0] * x[1] for x in flags_qs.values_list("rule__weight", "rule__scale")),
-        "scoring_flags": flags_qs.order_by("-rule__weight"),
+        "scoring_flags": flags_qs.order_by("-rule__weight").nocache(),
         "articles": person.articles.filter(kind="i", publish=True).order_by("-date"),
     }
 
