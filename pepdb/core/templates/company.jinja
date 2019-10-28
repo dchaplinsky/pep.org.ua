@@ -155,11 +155,11 @@
                                     <img src="{{ static('images/icon-leadership.svg') }}" alt="icon" class="icon">
                                     <h6 class="title">{{_("керівництво")}}</h6>
                                 </div>
-                                <a href="" class="download">
+                                {# <a href="" class="download">
                                     <svg>
                                         <use xlink:href="#arr-down"></use>
                                     </svg>
-                                </a>
+                                </a> #}
                             </div>
                             <div class="profile-section__body">
                                 <table class="table sort-table" data-slice-count="1">
@@ -224,11 +224,11 @@
                                     <img src="{{ static('images/icon-individual.svg') }}" alt="icon" class="icon">
                                     <h6 class="title">{{_("ПОВ’ЯЗАНІ ПУБЛІЧНІ ДІЯЧІ")}}</h6>
                                 </div>
-                                <a href="" class="download">
+                                {# <a href="" class="download">
                                     <svg>
                                         <use xlink:href="#arr-down"></use>
                                     </svg>
-                                </a>
+                                </a> #}
                             </div>
                             <div class="profile-section__body">
                                 <table class="table sort-table" data-slice-count="1">
@@ -288,11 +288,11 @@
                                     <img src="{{ static('images/icon-structure.svg') }}" alt="icon" class="icon">
                                     <h6 class="title">{{_("СТРУКТУРА")}}</h6>
                                 </div>
-                                <a href="" class="download">
+                                {# <a href="" class="download">
                                     <svg>
                                         <use xlink:href="#arr-down"></use>
                                     </svg>
-                                </a>
+                                </a> #}
                             </div>
                             <div class="profile-section__body">
                                 <table class="table sort-table" data-slice-count="1">
@@ -348,11 +348,11 @@
                                     <img src="{{ static('images/icon-entities.svg') }}" alt="icon" class="icon">
                                     <h6 class="title">{{_("ЗВ’ЯЗКИ з юридичними особами")}}</h6>
                                 </div>
-                                <a href="" class="download">
+                                {# <a href="" class="download">
                                     <svg>
                                         <use xlink:href="#arr-down"></use>
                                     </svg>
-                                </a>
+                                </a> #}
                             </div>
                             <div class="profile-section__body">
                                 <table class="table sort-table" data-slice-count="1">
@@ -412,11 +412,11 @@
                                     <img src="{{ static('images/icon-banks.svg') }}" alt="icon" class="icon">
                                     <h6 class="title">{{_("БАНКІВСЬКІ РАХУНКИ")}}</h6>
                                 </div>
-                                <a href="" class="download">
+                                {# <a href="" class="download">
                                     <svg>
                                         <use xlink:href="#arr-down"></use>
                                     </svg>
-                                </a>
+                                </a> #}
                             </div>
                             <div class="profile-section__body">
                                 <table class="table sort-table" data-slice-count="1">
@@ -460,11 +460,11 @@
                                     <img src="{{ static('images/icon-clients-banks.svg') }}" alt="icon" class="icon">
                                     <h6 class="title">{{_("КЛІЄНТИ БАНКУ")}}</h6>
                                 </div>
-                                <a href="" class="download">
+                                {# <a href="" class="download">
                                     <svg>
                                         <use xlink:href="#arr-down"></use>
                                     </svg>
-                                </a>
+                                </a> #}
                             </div>
                             <div class="profile-section__body">
                                 <table class="table sort-table" data-slice-count="1">
@@ -571,51 +571,20 @@
                         </section>
                         {% endif %}
 
+                        {% if articles %}
                         <section id="investigations" class="profile-section">
                             <div class="profile-section__header">
                                 <div class="title-wrap">
                                     <img src="{{ static('images/icon-investigation.svg') }}" alt="icon" class="icon">
-                                    <h6 class="title">розслiдування</h6>
+                                    <h6 class="title">{{_("розслiдування")}}</h6>
                                 </div>
                             </div>
                             <!--  тут не body а content -->
                             <div class="profile-section__content">
                                 <div class="investigation-grid">
-                                    <article class="blog-card">
-                                        <a href="investigation-single.html" class="card-link"></a>
-                                        <div class="blog-card__header">
-                                            <span class="direction">Розслідування</span>
-                                            <time class="date">20.08.2019</time>
-                                        </div>
-                                        <div class="blog-card__body">
-                                            <h6 class="title">Високопосадовці легко відмивають брудні гроші через
-                                                міжнародну банківську
-                                                систему </h6>
-                                            <span class="icon">
-                                                <svg>
-                                                    <use xlink:href="#arr-right"></use>
-                                                </svg>
-                                            </span>
-                                        </div>
-                                    </article>
-                                    <article class="blog-card blog-card--with-img">
-                                        <a href="investigation-single.html" class="card-link"></a>
-                                        <img src="content/card-bg.png" alt="img">
-                                        <div class="blog-card__header">
-                                            <span class="direction">Розслідування</span>
-                                            <time class="date">20.08.2019</time>
-                                        </div>
-                                        <div class="blog-card__body">
-                                            <h6 class="title">Високопосадовці легко відмивають брудні гроші через
-                                                міжнародну банківську
-                                                систему </h6>
-                                            <span class="icon">
-                                                <svg>
-                                                    <use xlink:href="#arr-right"></use>
-                                                </svg>
-                                            </span>
-                                        </div>
-                                    </article>
+                                    {% for article in articles %}
+                                        {{ render_article_snippet(article) }}
+                                    {% endfor %}
                                 </div>
                             </div>
                             <div class="profile-section__footer">
@@ -629,6 +598,7 @@
                                 </a>
                             </div>
                         </section>
+                        {% endif %}
 
                         {% if ((company.wiki_en or company.wiki_uk) and LANGUAGE_CODE == "en") or (company.wiki_uk and LANGUAGE_CODE == "uk") or related_persons.sanctions %}
                         <section id="dossier" class="profile-section">
@@ -823,7 +793,7 @@
                         <div class="dossier-modal__header">
                             <div class="title-wrap">
                                 <img src="{{ static('images/icon-individual.svg') }}" alt="icon" class="icon">
-                                <h2 class="name">Iгор Коломойський</h2>
+                                <h2 class="name">{{ company.name }}</h2>
                             </div>
                             <a href="" class="print" title="print">
                                 <svg>
@@ -832,29 +802,11 @@
                             </a>
                         </div>
                         <div class="dossier-modal__body">
-                            <p>Ігор Коломойський - український олігарх, екс-губернатор Дніпропетровської області.
-                                Власник медіа, сталеварних, феросплавних, нафтових і газових активів; елітної
-                                нерухомості, морських терміналів, курортів та літаків. Усі ці активи входять в умовну
-                                групу “Приват” й нині частково арештовані.</p>
-                            <p><strong>Приватбанк</strong></p>
-                            <p>18 грудня 2016 року Національний банк України відніс найбільший Ігор Коломойський -
-                                український олігарх, екс-губернатор Дніпропетровської області. Власник медіа,
-                                сталеварних, феросплавних, нафтових і газових активів; елітної нерухомості, морських
-                                терміналів, курортів та літаків. Усі ці активи входять в умовну групу “Приват” й нині
-                                частково арештовані.</p>
-                            <img src="content/dossier-img.png" alt="img">
-                            <p>
-                                Ігор Коломойський - український олігарх, екс-губернатор Дніпропетровської області.
-                                Власник медіа, сталеварних, феросплавних, нафтових і газових активів; елітної
-                                нерухомості, морських терміналів, курортів та літаків. Усі ці активи входять в умовну
-                                групу “Приват” й нині частково арештовані.
-                            </p>
-                            <p><strong>Приватбанк</strong></p>
-                            <p>18 грудня 2016 року Національний банк України відніс найбільший Ігор Коломойський -
-                                український олігарх, екс-губернатор Дніпропетровської області. Власник медіа,
-                                сталеварних, феросплавних, нафтових і газових активів; елітної нерухомості, морських
-                                терміналів, курортів та літаків. Усі ці активи входять в умовну групу “Приват” й нині
-                                частково арештовані.</p>
+                            {% if company.sanctions_en and LANGUAGE_CODE == "en" %}
+                                {{ company.sanctions_en|richtext }}
+                            {% elif company.sanctions_uk and LANGUAGE_CODE == "uk" %}
+                                {{ company.sanctions_uk|richtext }}
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -873,49 +825,49 @@
                 <div class="modal-content">
                     <div class="visualization-modal">
                         <div class="visualization-modal__header">
-                            <h2 class="name">Зеленський Володимир Олександрович</h2>
+                            <h2 class="name">{{ company.name }}</h2>
                             <ul class="legend">
                                 <li class="legend__item green">
                                     <svg>
                                         <use xlink:href="#legend-dashed-line"></use>
                                     </svg>
-                                    <span>члени сім’ї</span>
+                                    <span>{{_("члени сім’ї")}}</span>
                                 </li>
                                 <li class="legend__item black">
                                     <svg>
                                         <use xlink:href="#legend-dashed-line"></use>
                                     </svg>
-                                    <span>особисті зв’язки</span>
+                                    <span>{{_("особисті зв’язки")}}</span>
                                 </li>
                                 <li class="legend__item orange">
                                     <svg>
                                         <use xlink:href="#legend-dashed-line"></use>
                                     </svg>
-                                    <span>ділові зв’язки</span>
+                                    <span>{{_("ділові зв’язки")}}</span>
                                 </li>
                                 <li class="legend__item green">
                                     <svg>
                                         <use xlink:href="#legend-line"></use>
                                     </svg>
-                                    <span>власник</span>
+                                    <span>{{_("власник")}}</span>
                                 </li>
                                 <li class="legend__item black">
                                     <svg>
                                         <use xlink:href="#legend-line"></use>
                                     </svg>
-                                    <span>бенефіціарний власник</span>
+                                    <span>{{_("бенефіціарний власник")}}</span>
                                 </li>
                                 <li class="legend__item orange">
                                     <svg>
                                         <use xlink:href="#legend-line"></use>
                                     </svg>
-                                    <span>співробітник</span>
+                                    <span>{{_("співробітник")}}</span>
                                 </li>
                                 <li class="legend__item yellow">
                                     <svg>
                                         <use xlink:href="#legend-line"></use>
                                     </svg>
-                                    <span>клієнт</span>
+                                    <span>{{_("клієнт")}}</span>
                                 </li>
                             </ul>
                         </div>

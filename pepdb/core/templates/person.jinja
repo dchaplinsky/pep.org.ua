@@ -151,14 +151,27 @@
                                     </strong>
                                 </td>
                             </tr>
-                            {% endif %}{% set day_of_dismissal = person.day_of_dismissal %}
-                            {% if day_of_dismissal %}
-                            <tr>
-                                <td>{{ _("Дата звільнення") }}</td>
-                                <td>
-                                    <time>{{ day_of_dismissal }}</time>
-                                </td>
-                            </tr>
+                            {% endif %}
+                            {% if person.terminated %}
+                                <tr>
+                                    {% if person.termination_date %}
+                                    <td>{{ person.termination_date_human }}</td>
+                                    {% else %}
+                                    <td></td>
+                                    {% endif %}
+                                    <td class="terminated">{{ _(person.get_reason_of_termination_display()) }}
+                                    </td>
+                                </tr>
+                            {% else %}
+                                {% set day_of_dismissal = person.day_of_dismissal %}
+                                {% if day_of_dismissal %}
+                                <tr>
+                                    <td>{{ _("Дата звільнення") }}</td>
+                                    <td>
+                                        <time>{{ day_of_dismissal }}</time>
+                                    </td>
+                                </tr>
+                                {% endif %}
                             {% endif %}
 
 
@@ -208,11 +221,11 @@
                                     <img src="{{ static('images/icon-individual.svg') }}" alt="icon" class="icon">
                                     <h6 class="title">{{ _('ЗВ’ЯЗКИ з фізичними особами') }}</h6>
                                 </div>
-                                <a href="" class="download">
+                                {# <a href="" class="download">
                                     <svg>
                                         <use xlink:href="#arr-down"></use>
                                     </svg>
-                                </a>
+                                </a> #}
                             </div>
                             <div class="profile-section__body">
                                 <table class="table sort-table" data-slice-count="1">
@@ -272,11 +285,11 @@
                                     <img src="{{ static('images/icon-entities.svg') }}" alt="icon" class="icon">
                                     <h6 class="title">{{_("ЗВ’ЯЗКИ з юридичними особами")}}</h6>
                                 </div>
-                                <a href="" class="download">
+                                {# <a href="" class="download">
                                     <svg>
                                         <use xlink:href="#arr-down"></use>
                                     </svg>
-                                </a>
+                                </a> #}
                             </div>
                             <div class="profile-section__body">
                                 <table class="table sort-table" data-slice-count="1">
@@ -348,11 +361,11 @@
                                         </svg>
                                     </button>
                                 </div>
-                                <a href="" class="download">
+                                {# <a href="" class="download">
                                     <svg>
                                         <use xlink:href="#arr-down"></use>
                                     </svg>
-                                </a>
+                                </a> #}
                             </div>
                             <div class="profile-section__body">
                                 <table class="table sort-table" data-slice-count="1">
@@ -452,11 +465,11 @@
                                         </svg>
                                     </button>
                                 </div>
-                                <a href="" class="download">
+                                {# <a href="" class="download">
                                     <svg>
                                         <use xlink:href="#arr-down"></use>
                                     </svg>
-                                </a>
+                                </a> #}
                             </div>
                             <div class="profile-section__body">
                                 <table class="table sort-table" data-slice-count="2">
@@ -672,11 +685,11 @@
                                     <img src="{{ static('images/icon-liabilities.svg') }}" alt="icon" class="icon">
                                     <h6 class="title">{{_("ФІНАНСОВІ ЗОБОВ’ЯЗАННЯ")}}</h6>
                                 </div>
-                                <a href="" class="download">
+                                {# <a href="" class="download">
                                     <svg>
                                         <use xlink:href="#arr-down"></use>
                                     </svg>
-                                </a>
+                                </a> #}
                             </div>
                             <div class="profile-section__body">
                                 <table class="table sort-table" data-slice-count="1">
@@ -742,11 +755,11 @@
                                     <img src="{{ static('images/icon-gifts.png') }}" alt="icon" class="icon">
                                     <h6 class="title">{{ _("Дарунки, призи, виграші:") }}</h6>
                                 </div>
-                                <a href="" class="download">
+                                {# <a href="" class="download">
                                     <svg>
                                         <use xlink:href="#arr-down"></use>
                                     </svg>
-                                </a>
+                                </a> #}
                             </div>
                             <div class="profile-section__body">
                                 <table class="table sort-table" data-slice-count="1">
@@ -804,11 +817,11 @@
                                     <img src="{{ static('images/icon-real-estate.svg') }}" alt="icon" class="icon">
                                     <h6 class="title">{{ _("НЕРУХОМІСТЬ ДЕКЛАРАНТА І РОДИНИ:") }}</h6>
                                 </div>
-                                <a href="" class="download">
+                                {# <a href="" class="download">
                                     <svg>
                                         <use xlink:href="#arr-down"></use>
                                     </svg>
-                                </a>
+                                </a> #}
                             </div>
                             <div class="profile-section__body">
                                 <table class="table sort-table" data-slice-count="1">
@@ -918,11 +931,11 @@
                                     <img src="{{ static('images/icon-transport.svg') }}" alt="icon" class="icon">
                                     <h6 class="title">{{ _("Транспортні засоби:") }}</h6>
                                 </div>
-                                <a href="" class="download">
+                                {# <a href="" class="download">
                                     <svg>
                                         <use xlink:href="#arr-down"></use>
                                     </svg>
-                                </a>
+                                </a> #}
                             </div>
                             <div class="profile-section__body">
                                 <table class="table sort-table" data-slice-count="1">
@@ -1231,11 +1244,11 @@
                                     <img src="{{ static('images/icon-banks.svg') }}" alt="icon" class="icon">
                                     <h6 class="title">{{ _("Банківські рахунки:") }}</h6>
                                 </div>
-                                <a href="" class="download">
+                                {# <a href="" class="download">
                                     <svg>
                                         <use xlink:href="#arr-down"></use>
                                     </svg>
-                                </a>
+                                </a> #}
                             </div>
                             <div class="profile-section__body">
                                 <table class="table sort-table" data-slice-count="1">

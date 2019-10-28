@@ -162,11 +162,15 @@ $(document).ready(function () {
             $('#entities-filter').removeClass('active');
             $('#entities-items').removeClass('active');
             $('#individuals-items').addClass('active');
+            $(".individuals.pagination").addClass('active');
+            $(".entities.pagination").removeClass('active');
         } else if ($(this).attr('id') == 'entities-filter') {
             $(this).addClass('active');
             $('#individuals-filter').removeClass('active');
             $('#individuals-items').removeClass('active');
             $('#entities-items').addClass('active');
+            $(".individuals.pagination").removeClass('active');
+            $(".entities.pagination").addClass('active');
         }
     });
 

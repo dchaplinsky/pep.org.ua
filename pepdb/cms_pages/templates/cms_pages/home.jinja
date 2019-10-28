@@ -15,7 +15,7 @@
     <!--    добавлять класс header--show-search если нужно отображать поиск :TODO-->
     <div class="first-section">
         <div id="particles-js"></div>
-        <h1 class="main-title">{{ page.translated_title }}<span>{{_("УКРАЇНИ")}}</span></h1>
+        <h1 class="main-title">{{ page.translated_title }}<span> {{_("УКРАЇНИ")}}</span></h1>
         <div class="main-form-wrap">
             <form action="{{ url("search") }}" method="GET" class="search-form main-search-form">
                 <input type="text" placeholder="{{_("Введіть ім’я, назву компанії чи країну ...")}}" name="q" data-provide="typeahead" id="search-form-body" autocomplete="off" data-endpoint="{{ url("suggest") }}">
