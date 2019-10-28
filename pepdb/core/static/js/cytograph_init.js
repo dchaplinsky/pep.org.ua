@@ -310,7 +310,7 @@ $(function() {
         }).on('mouseover', 'node', function(event) {
             var outbound = cy_full.$('edge[source="' + event.target.id() + '"]'),
                 inbound = cy_full.$('edge[target="' + event.target.id() + '"]'),
-                connections = event.target.data("all_connected"),
+                connections = event.target.data("all_connected") || [],
                 neighbours = [],
                 connections_to_open = 0;
             inbound.addClass("active");
