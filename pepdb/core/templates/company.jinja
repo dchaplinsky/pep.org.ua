@@ -48,7 +48,7 @@
                     {% set last_modified = company.last_modified %}
                     {% if last_modified %}
                         <div class="last_modified">
-                            <div class="date">Остання зміна профілю:
+                            <div class="date">{{ _("Остання зміна профілю") }}:
                                 <time>{{ last_modified|date }}</time>
                             </div>
                         </div>
@@ -594,7 +594,7 @@
                                             <use xlink:href="#arr-right-w2"></use>
                                         </svg>
                                     </span>
-                                    Дивитись усi
+                                    {{ _("Дивитись усi") }}
                                 </a>
                             </div>
                         </section>

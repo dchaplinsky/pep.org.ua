@@ -4,25 +4,25 @@
 <div class="contacts">
     <div class="first-section">
         <div id="particles-js"></div>
-        <h1 class="page-title">КОНТАКТИ</h1>
+        <h1 class="page-title">{{ _("КОНТАКТИ") }}</h1>
         <div class="contacts-description">
-            <p>Ви хочете нам написати, бо...</p>
+            <p>{{ _("Ви хочете нам написати, бо...") }}</p>
         </div>
     </div>
     <main>
         <div class="page-grid">
             <div class="contacts-item" id="found">
-                <h6 class="title">Знайшли себе в реєстрі <br> і не згодні з цим<span></span></h6>
+                <h6 class="title">{{ ("Знайшли себе в реєстрі і не згодні з цим") }}<span></span></h6>
             </div>
             <div class="contacts-item" id="tell-info">
-                <h6 class="title">Хочете повідомити <br> важливу інформацію<span></span></h6>
+                <h6 class="title">{{ _("Хочете повідомити важливу інформацію") }}<span></span></h6>
             </div>
             <div class="contacts-item" id="api">
-                <a href="api.html" class="card-link"></a>
-                <h6 class="title">Хочете отримати доступ <br> до АПІ реєстру<span></span></h6>
+                <a href="{{ url('wagtail_serve', 'data/') }}" class="card-link"></a>
+                <h6 class="title">{{ _("Хочете отримати доступ до АПІ реєстру") }}<span></span></h6>
             </div>
             <div class="contacts-item" id="analytics">
-                <h6 class="title">Хочете замовити <br> аналітику<span></span></h6>
+                <h6 class="title">{{ _("Хочете замовити аналітику") }}<span></span></h6>
             </div>
         </div>
     </main>
@@ -38,7 +38,7 @@
                 </svg>
             </button>
             <div class="modal-content">
-                <h6 class="modal-title">Знайшли себе в реєстрі і не згодні з цим<span></span></h6>
+                <h6 class="modal-title">{{ _("Знайшли себе в реєстрі і не згодні з цим") }}<span></span></h6>
                 <div class="faq-list">
                     {% for faq_item in faq %}
                     <div class="faq-item">
@@ -70,7 +70,7 @@
                 </svg>
             </button>
             <div class="modal-content">
-                <h6 class="modal-title">Хочете повідомити важливу інформацію<span></span></h6>
+                <h6 class="modal-title">{{ _("Хочете повідомити важливу інформацію") }}<span></span></h6>
                 {% with delete = False %}
                 {% include "_feedback_form.jinja" %}
                 {% endwith %}
@@ -88,7 +88,7 @@
                 </svg>
             </button>
             <div class="modal-content">
-                <h6 class="modal-title">Хочете замовити аналітику<span></span></h6>
+                <h6 class="modal-title">{{ _("Хочете замовити аналітику") }}<span></span></h6>
                 {% with delete = False %}
                 {% include "_feedback_form.jinja" %}
                 {% endwith %}

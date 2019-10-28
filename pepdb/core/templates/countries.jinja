@@ -111,7 +111,7 @@
                 <h6 class="title track-ga-event" data-ga-event-category="search" data-ga-event-action="search-gave-no-results" data-ga-event-label="{{ query }}">{{ _("Станом на") }} {{ today|date }} {{ _("інформація про фізичну особу") }} «{{ query }}» {{ _("в Реєстрі відсутня") }}</h6>
 
                 {% if suggested_person %}
-                    <p class="subtitle">Можливо, ви мали на увазі <a href="{{ url("person_details", person_id=suggested_person.id) }}" data-ga-event-category="search" data-ga-event-action="suggested_person" data-ga-event-label="{{ suggested_person.translated_last_name }} {{ suggested_person.translated_first_name }} {{ suggested_person.translated_patronymic }}" class="link track-ga-event track-ga-event-click">“{{ suggested_person.translated_last_name }} {{ suggested_person.translated_first_name }} {{ suggested_person.translated_patronymic }}”</a> ?</p>
+                    <p class="subtitle">{{ _("Можливо, ви мали на увазі") }}<a href="{{ url("person_details", person_id=suggested_person.id) }}" data-ga-event-category="search" data-ga-event-action="suggested_person" data-ga-event-label="{{ suggested_person.translated_last_name }} {{ suggested_person.translated_first_name }} {{ suggested_person.translated_patronymic }}" class="link track-ga-event track-ga-event-click">“{{ suggested_person.translated_last_name }} {{ suggested_person.translated_first_name }} {{ suggested_person.translated_patronymic }}”</a> ?</p>
                 {% endif %}
             </div>
         {% endif %}
