@@ -6,7 +6,7 @@ $(function() {
         } else {
             return obj.data("relation")
         }
-        
+
     }
     var preview_style = [{
         selector: "edge",
@@ -32,21 +32,25 @@ $(function() {
             "text-halign": "center",
             "width": 60,
             "height": 60,
-            color: "#FAFAFA"
+            color: "#FAFAFA",
+            "border-width": 1,
+            "border-style": "solid",
+            "border-color": "#B3B3B3"
         }
     }, {
         selector: 'node[model="person"]',
         style: {
-            "background-image": "/static/images/cytoscape/person.svg",
-            "background-fit": "contain",
+            "background-image": "/static/images/cytoscape/person.png",
+            "background-fit": "cover",
             "background-color": "white"
         }
     }, {
         selector: 'node[model="company"]',
         style: {
-            "background-image": "/static/images/cytoscape/company.svg",
-            "background-fit": "contain",
-            "background-color": "white"
+            "background-image": "/static/images/cytoscape/company.png",
+            "background-fit": "cover",
+            "background-color": "white",
+            "shape": "octagon"
         }
     }, {
         selector: 'node.hover',
@@ -61,28 +65,28 @@ $(function() {
     }, {
         selector: 'node[?is_pep]',
         style: {
-            "width": 70,
-            "height": 70,
+            "width": 50,
+            "height": 50,
             "background-color": "white",
-            "background-image": "/static/images/cytoscape/pep_person.svg"
+            "background-image": "/static/images/cytoscape/pep_person.png"
         }
     }, {
         // (4, _("Пов'язана особа")),
         selector: 'node[type_of_official=4]',
         style: {
-            "background-image": "/static/images/cytoscape/affiliated_person.svg"
+            "background-image": "/static/images/cytoscape/affiliated_person.png"
         }
     }, {
         // (5, _("Член сім'ї")),
         selector: 'node[type_of_official=5]',
         style: {
-            "background-image": "/static/images/cytoscape/relative_person.svg"
+            "background-image": "/static/images/cytoscape/relative_person.png"
         }
     }, {
         selector: 'node[?state_company]',
         style: {
-            "width": 70,
-            "height": 70,
+            "width": 50,
+            "height": 50,
             "background-color": "white",
             "background-image": "/static/images/cytoscape/state_company.svg"
         }
@@ -119,7 +123,7 @@ $(function() {
             "background-image": "/static/images/cytoscape/dead/state_company.svg"
         }
     }, {
-            selector: 'node[?is_main]',
+        selector: 'node[?is_main]',
         style: {
             "width": 80,
             "height": 80,
@@ -310,7 +314,7 @@ $(function() {
         }).on('mouseover', 'node', function(event) {
             var outbound = cy_full.$('edge[source="' + event.target.id() + '"]'),
                 inbound = cy_full.$('edge[target="' + event.target.id() + '"]'),
-                connections = event.target.data("all_connected") || [],
+                connections = event.target.data("all_connected"),
                 neighbours = [],
                 connections_to_open = 0;
             inbound.addClass("active");
@@ -352,6 +356,9 @@ $(function() {
                     e.target.data("tippy_popover", null);
                 }
             } else {
+                var tippyPopover = makeTippy(e.target,
+                    '<a href="' + e.target.data("url") + '" target="_blank">' + e.target.data("full_name") + '</a><br />' + e.target.data("kind") + "<br/>" + e.target.data("description"), "light", "right");
+                tippyPopover.show();
 
                 cy_full.$(".has_popover").forEach(function(node){
                     var tippyPopoverToRemove = node.data("tippy_popover");
@@ -361,19 +368,13 @@ $(function() {
                     }
                 });
 
-                if (e.target.isNode()) {
-                    var tippyPopover = makeTippy(e.target,
-                        '<a href="' + e.target.data("url") + '" target="_blank">' + e.target.data("full_name") + '</a><br />' + e.target.data("kind") + "<br/>" + e.target.data("description"), "light", "right");
-
-                    tippyPopover.show();
-                    e.target.addClass("has_popover");
-                    e.target.data("tippy_popover", tippyPopover);
-                }
+                e.target.addClass("has_popover");
+                e.target.data("tippy_popover", tippyPopover);
             }
             previousTapStamp = currentTapStamp;
         });
     }
- 
+
     $(".visualization-btn").on("click", function(e) {
         e.preventDefault();
 

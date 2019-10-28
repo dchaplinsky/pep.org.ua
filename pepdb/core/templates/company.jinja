@@ -91,11 +91,11 @@
                                 <td>{{_("Категорія")}}</td>
                                 <td>
                                     {% if company.public_office %}{{_("Державний орган")}} {% endif %}
-                                    {% if company.political_party %}{% if company.public_office %},{% endif %} {{_("Партія")}} {% endif %}
-                                    {% if company.state_enterprised %}{% if company.public_office or company.political_party %},{% endif %} {{_("Державна власність")}} {% endif %}
-                                    {% if company.affiliated_with_pep %}{% if company.public_office or company.political_party or company.state_enterprised %},{% endif %} {{_("Пов'язана з ПЕП")}} {% endif %}
-                                    {% if company.bank %}{% if company.public_office or company.political_party or company.state_enterprised or company.affiliated_with_pep %},{% endif %} {{_("Банк")}} {% endif %}
-                                    {% if company.service_provider %}{% if company.public_office or company.political_party or company.state_enterprised or company.affiliated_with_pep or company.bank %},{% endif %} {{_("Надавач послуг")}} {% endif %}
+                                    {% if company.political_party %}{% if company.public_office %},{% endif %} {{_("Партія")}}{% endif %}
+                                    {% if company.state_enterprised %}{% if company.public_office or company.political_party %}, {% endif %}{{_("Державна власність")}}{% endif %}
+                                    {% if company.affiliated_with_pep %}{% if company.public_office or company.political_party or company.state_enterprised %}, {% endif %}{{_("Пов'язана з ПЕП")}}{% endif %}
+                                    {% if company.bank %}{% if company.public_office or company.political_party or company.state_enterprised or company.affiliated_with_pep %}, {% endif %}{{_("Банк")}}{% endif %}
+                                    {% if company.service_provider %}{% if company.public_office or company.political_party or company.state_enterprised or company.affiliated_with_pep or company.bank %}, {% endif %}{{_("Надавач послуг")}} {% endif %}
                                 </td>
                             </tr>
                             {% if related_countries.registered_in and related_countries.registered_in[0].iso2 != "UA" %}
