@@ -26,7 +26,7 @@ $(document).ready(function () {
         }
 
         // for main partners-slider
-        if ($("div").is(".partners")) {
+        if ($("section").is(".partners")) {
             if ($(window).width() <= 767) {
                 $('.partners .items').slick({
                         slidesToShow: 1,
@@ -37,12 +37,12 @@ $(document).ready(function () {
                     }
                 );
             } else {
-                $('.partners .items').slick('unslick');
+                $('.partners .items').filter('.slick-initialized').slick('unslick');
             }
         }
 
         // for main opportunities-slider
-        if ($("div").is(".opportunities")) {
+        if ($("section").is(".opportunities")) {
             if ($(window).width() <= 767) {
                 $('.opportunities .items').slick({
                         slidesToShow: 1,
@@ -54,7 +54,7 @@ $(document).ready(function () {
                     }
                 );
             } else {
-                $('.opportunities .items').slick('unslick');
+                $('.opportunities .items').filter('.slick-initialized').slick('unslick');
             }
         }
 
@@ -98,7 +98,9 @@ $(document).ready(function () {
 
     //resize chart after window resize end
     $(window).on('resizeEnd', function () {
-        drawChart();
+        if ($('div').hasClass('profile-page')) {
+            drawChart();
+        }
     });
 
     // open/close header search
@@ -110,8 +112,7 @@ $(document).ready(function () {
 
     // first section bg
     if ($('div').is('#particles-js')) {
-            particlesJS.load('particles-js', $(location).attr('origin') + '/static/js/particlesjs-config.json', function () {
-                
+        particlesJS.load('particles-js', $(location).attr('origin') + '/static/js/particlesjs-config.json', function () {
         });
     }
 
@@ -129,7 +130,7 @@ $(document).ready(function () {
 
     // main partners-slider
     if ($(window).width() <= 767) {
-        if ($("div").is(".partners")) {
+        if ($("section").is(".partners")) {
             $('.partners .items').slick({
                 slidesToShow: 1,
                 slidesToScroll: 1,
@@ -142,7 +143,7 @@ $(document).ready(function () {
 
     // main opportunities-slider section
     if ($(window).width() <= 767) {
-        if ($("div").is(".opportunities")) {
+        if ($("section").is(".opportunities")) {
             $('.opportunities .items').slick({
                 slidesToShow: 1,
                 slidesToScroll: 1,
@@ -162,15 +163,11 @@ $(document).ready(function () {
             $('#entities-filter').removeClass('active');
             $('#entities-items').removeClass('active');
             $('#individuals-items').addClass('active');
-            $(".individuals.pagination").addClass('active');
-            $(".entities.pagination").removeClass('active');
         } else if ($(this).attr('id') == 'entities-filter') {
             $(this).addClass('active');
             $('#individuals-filter').removeClass('active');
             $('#individuals-items').removeClass('active');
             $('#entities-items').addClass('active');
-            $(".individuals.pagination").removeClass('active');
-            $(".entities.pagination").addClass('active');
         }
     });
 

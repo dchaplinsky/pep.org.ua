@@ -1397,7 +1397,6 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  opacity: 0;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center; }
@@ -1411,7 +1410,6 @@ body {
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center; }
-    .pagination.active { opacity: 100; }
     .pagination ul li {
       margin: 0 2px; }
     .pagination ul a {
@@ -1954,7 +1952,7 @@ body {
         #visualization-modal .visualization-modal__header .legend__item.orange svg {
           stroke: #f39200; }
         #visualization-modal .visualization-modal__header .legend__item.black svg {
-          stroke: #f39200; }
+          stroke: #000; }
         #visualization-modal .visualization-modal__header .legend__item.purple svg {
           stroke: #7b30f4; }
         #visualization-modal .visualization-modal__header .legend__item.sky-blue svg {
@@ -1962,9 +1960,9 @@ body {
         #visualization-modal .visualization-modal__header .legend__item.blue svg {
           stroke: #0824b5; }
         #visualization-modal .visualization-modal__header .legend__item.yellow svg {
-          stroke: #f19710; }
+          stroke: #f0e945; }
         #visualization-modal .visualization-modal__header .legend__item.pink svg {
-          stroke: #f19710; }
+          stroke: #f607fa; }
         #visualization-modal .visualization-modal__header .legend__item svg {
           width: 20px;
           height: 20px;
@@ -2526,7 +2524,7 @@ body {
     .main-page .partners .items .items-big {
       grid-column-start: 1;
       grid-column-end: 3;
-      display: grid;
+      display: grid !important;
       grid-template-columns: repeat(3, 1fr);
       grid-column-gap: 30px; }
       .main-page .partners .items .items-big .partner-card {
@@ -2546,7 +2544,7 @@ body {
         .main-page .partners .items .items-big .partner-card img {
           width: 100%; }
     .main-page .partners .items .items-small {
-      display: grid;
+      display: grid !important;
       grid-template-columns: repeat(2, 1fr);
       grid-column-gap: 30px;
       grid-row-gap: 30px; }
@@ -2960,10 +2958,15 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  min-height: 80px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  padding: 0 85px;
+  padding: 7px 85px;
   background-color: #fff; }
+  .single-page__header .breadcrumbs-wrap {
+    -ms-flex-negative: 0;
+        flex-shrink: 0;
+    -ms-flex-item-align: start;
+        align-self: flex-start;
+    margin-top: 22px; }
   .single-page__header .date {
     position: relative;
     display: -webkit-inline-box;
@@ -2985,17 +2988,18 @@ body {
       bottom: 8px; }
   .single-page__header .investigation-persons {
     width: 100%;
-    max-width: 950px;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;
-    margin-left: 180px;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center; }
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+    margin-left: 180px; }
   .single-page__header .investigation-person {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -3003,7 +3007,8 @@ body {
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;
-    margin-right: 40px; }
+    margin-right: 40px;
+    padding: 7px 0; }
     .single-page__header .investigation-person:last-child {
       margin-right: 0;
       margin-bottom: 0; }
@@ -3049,7 +3054,9 @@ body {
   width: 100%;
   max-width: 1720px;
   max-height: 966px;
-  margin: 120px auto; }
+  margin: 120px auto;
+  -o-object-fit: contain;
+     object-fit: contain; }
 
 .article-content h1, .article-content h2, .article-content h3, .article-content h4, .article-content h5, .article-content h6, .article-content p, .article-content ul, .article-content ol {
   max-width: 607px;
@@ -3340,7 +3347,7 @@ body {
   background-color: #fff; }
   .profile-page__top .profile-image {
     position: relative;
-    margin: 54px 160px 0 180px; }
+    margin: 54px 160px 54px 180px; }
     .profile-page__top .profile-image img {
       width: 300px;
       height: 300px;
@@ -3676,7 +3683,6 @@ body {
       -webkit-box-align: center;
           -ms-flex-align: center;
               align-items: center;
-      margin-right: 30px;
       margin-left: auto; }
       .profile-page .profile-section__header .showing .show-table, .profile-page .profile-section__header .showing .show-graph {
         width: 37px;
@@ -3730,7 +3736,8 @@ body {
           -ms-flex-pack: center;
               justify-content: center;
       border-radius: 50%;
-      background-color: #f5f5f5; }
+      background-color: #f5f5f5;
+      margin-left: 30px; }
       .profile-page .profile-section__header .download:hover {
         background-color: #f39200; }
         .profile-page .profile-section__header .download:hover svg {
@@ -4451,7 +4458,7 @@ body {
       .page-404 .first-section .page-title {
         margin-top: 120px; }
     .single-page__header {
-      padding: 0 45px; }
+      padding: 7px 45px; }
       .single-page__header .investigation-persons {
         margin-left: 60px; }
     .single-page .single-page-title {
@@ -4467,7 +4474,7 @@ body {
     .profile-page__header {
       padding: 25px 45px; }
       .profile-page__top .profile-image {
-        margin: 54px 80px 0 60px; }
+        margin: 54px 80px 54px 60px; }
       .profile-page__top .profile-main-info {
         padding: 48px 0 64px 60px; }
       .profile-page .scoring__header {
@@ -4705,7 +4712,7 @@ body {
       .page-404 .first-section .page-title {
         margin-top: 120px; }
     .single-page__header {
-      padding: 0 34px; }
+      padding: 7px 34px; }
       .single-page__header .investigation-persons {
         margin-left: 50px; }
       .single-page__header .investigation-person {
@@ -4724,7 +4731,7 @@ body {
     .profile-page__header {
       padding: 25px 34px; }
       .profile-page__top .profile-image {
-        margin: 54px 45px 0 35px; }
+        margin: 54px 45px 54px 35px; }
         .profile-page__top .profile-image img {
           width: 216px;
           height: 216px; }
@@ -5042,6 +5049,8 @@ body {
       -webkit-box-align: start;
           -ms-flex-align: start;
               align-items: flex-start; }
+      .single-page__header .breadcrumbs-wrap {
+        margin-top: 0; }
         .single-page__header .date:before {
           width: 10px;
           left: -16px; }
@@ -5049,14 +5058,7 @@ body {
         font-size: 11px;
         margin-left: 22px; }
       .single-page__header .investigation-persons {
-        margin: 7px 0;
-        -ms-flex-wrap: wrap;
-            flex-wrap: wrap;
-        -webkit-box-pack: start;
-            -ms-flex-pack: start;
-                justify-content: flex-start; }
-      .single-page__header .investigation-person {
-        padding: 7px 0; }
+        margin: 7px 0; }
     .single-page .about-us-title-wrap {
       margin-bottom: 110px; }
     .single-page .single-page-title {
@@ -5912,7 +5914,8 @@ body {
           height: 30px;
           position: absolute;
           right: 14px;
-          top: -5px; }
+          top: -5px;
+          margin-left: 0; }
           .profile-page .profile-section__header .download svg {
             width: 9px;
             height: 13px; }

@@ -170,7 +170,7 @@
 
 {% macro render_person_companies(companies) %}
 	{% for company in companies %}
-		{% set countries = company.to_company.foreign_registration %}
+	{% set countries = company.to_company.foreign_registration %}
 	    <tr>
 	        <td class="no-wrap">
 	            <div class="name-wrap">
