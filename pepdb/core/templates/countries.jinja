@@ -82,7 +82,7 @@
                     {% for c in companies %}
                     <article class="profile-card" itemscope itemtype="http://schema.org/Organization">
                         <a itemprop="url" href="{{ url("company_details", company_id=c.id) }}" class="card-link"></a>
-                        <img src="{{ static('images/profile-empty-individual.svg') }}" itemprop="image" alt="photo" class="profile-card__img">
+                        <img src="{{ static('images/profile-empty-entities.svg') }}" itemprop="image" alt="photo" class="profile-card__img">
                         <h6 class="profile-card__title" itemprop="name">{{ c.translated_name }}</h6>
                     </article>
                     {% endfor %}
