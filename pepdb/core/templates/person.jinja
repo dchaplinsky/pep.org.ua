@@ -342,7 +342,7 @@
                         {% endif %}
 
                         {% if all_declarations %}
-                        <section id="declarations" class="profile-section">
+                        <section id="declarations" class="profile-section" data-chart-data="{{ charts_data.incomes|tojson|forceescape }}">
                             <div class="profile-section__header">
                                 <div class="title-wrap">
                                     <img src="{{ static('images/icon-income-expenses.svg') }}" alt="icon" class="icon">

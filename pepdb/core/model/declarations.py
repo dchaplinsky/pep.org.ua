@@ -11,6 +11,7 @@ from django.utils.translation import ugettext_noop as _
 from django.utils.translation import ugettext_lazy, get_language
 
 from jsonfield import JSONField
+from cacheops import cached
 
 from core.fields import RedactorField
 from core.utils import (
@@ -138,6 +139,7 @@ class Declaration(models.Model):
     def __unicode__(self):
         return "%s %s" % (self.person, self.declaration_id)
 
+    @cached(timeout=60 * 60)
     def get_income(self):
         resp = {
             "year": self.year,
@@ -183,6 +185,7 @@ class Declaration(models.Model):
                     "family", ugettext_lazy("Не зазначено"))
 
         return resp
+
 
     def get_assets(self):
         resp = {

@@ -15,17 +15,9 @@ $(function () {
 
 function drawChart() {
     if ($('div').hasClass('profile-page')) {
-        var dataDeclarationsLineChart = google.visualization.arrayToDataTable([
-            ['Рік', 'Доходи декларанта', 'Доходи родини', 'Витрати декларанта'],
-            ['2011', 1000, 400, 1230],
-            ['2012', 1170, 560, 1000],
-            ['2014', 660, 1120, 1450,],
-            ['2016', 1030, 1640, 900,],
-            ['2016', 2030, 1238, 600,],
-            ['2017', 3219, 1022, 2000,],
-            ['2018', 1319, 622, 1700,],
-            ['2019', 1319, 622, 1700,],
-        ]);
+        var dataDeclarationsLineChart = google.visualization.arrayToDataTable(
+            $("#declarations").data("chart-data")
+        );
 
         var dataDeclarationsPieChart = google.visualization.arrayToDataTable([
             ['Тип', 'Кількість'],

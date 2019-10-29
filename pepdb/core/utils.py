@@ -18,6 +18,8 @@ from dateutil import parser, relativedelta
 from rfc6266 import parse_requests_response
 from oauth2client.client import SignedJwtAssertionCredentials
 
+from core.dicts.rates import UAH_rates
+
 import logging
 logger = logging.getLogger(__name__)
 
@@ -498,3 +500,12 @@ def translate_into(chunk, lang="en"):
     activate(curr_lang)
 
     return res
+
+
+# Cheesy implementation for now
+def get_exchange_rate(curr, year):
+    year = int(year)
+    if year not in UAH_rates:
+        year = 2018
+
+    return UAH_rates[int(year)][curr.upper()]

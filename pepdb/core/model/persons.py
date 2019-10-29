@@ -734,6 +734,7 @@ class Person(models.Model, AbstractNode):
 
         super(Person, self).save(*args, **kwargs)
 
+    @cached(timeout=60 * 2)
     def get_declarations(self):
         decls = Declaration.objects.filter(person=self, confirmed="a").order_by(
             "-year", "-nacp_declaration"
@@ -759,6 +760,36 @@ class Person(models.Model, AbstractNode):
 
         return res
 
+    def get_charts_data(self):
+        def cleanse(val):
+            try:
+                return float(unicode(val))
+            except ValueError:
+                return 0.0
+
+        decls = self.get_declarations()
+
+        incomes = [
+            [
+                unicode(ugettext_lazy('Рік')),
+                unicode(ugettext_lazy('Доходи декларанта')),
+                unicode(ugettext_lazy('Доходи родини')),
+                unicode(ugettext_lazy('Витрати декларанта'))
+            ],
+        ]
+
+        for d in decls:
+            income = d.get_income()
+            incomes.append([
+                int(income["year"]),
+                cleanse(income["income_of_declarant"]),
+                cleanse(income["income_of_family"]),
+                cleanse(income["expenses_of_declarant"]),
+            ])
+
+        return {
+            "incomes": incomes
+        }
 
     def get_node(self):
         res = super(Person, self).get_node()
