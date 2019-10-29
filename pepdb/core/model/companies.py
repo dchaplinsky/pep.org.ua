@@ -350,7 +350,7 @@ class Company(models.Model, AbstractNode):
             "sanctions": [],
             "bank_customers": [],
             "rest": [],
-            "all": [],
+            "all": []
         }
 
         for rtp, p, rel in related_persons:
@@ -540,7 +540,7 @@ class Company(models.Model, AbstractNode):
 
         # Because of a complicated logic here we are piggybacking on
         # existing method that handles both directions of relations
-        for p in self.all_related_persons["rest"]:
+        for p in self.all_related_persons["all"]:
             if p.rtype.lower() in [_("клієнт банку")]:
                 continue                    
 

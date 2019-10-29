@@ -1,5 +1,5 @@
 {% extends "base.jinja" %}
-{% from "macros/_connections.jinja" import render_person_banks, render_related_persons, render_person_companies, render_company_persons, render_company_companies with context %}
+{% from "macros/_connections.jinja" import render_company_banks, render_related_persons, render_person_companies, render_company_persons, render_company_companies with context %}
 {% from "macros/_articles.jinja" import render_article_snippet with context %}
 {% block page_class %}profile-page{% endblock %}
 
@@ -437,7 +437,7 @@
                                         <th></th>
                                     </tr>
                                     </thead>
-                                        {{ render_person_banks(related_companies.banks) }}
+                                        {{ render_company_banks(related_companies.banks) }}
                                     </tbody>
                                 </table>
                             </div>

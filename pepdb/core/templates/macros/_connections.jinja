@@ -30,6 +30,39 @@
 	{% endfor %}
 {% endmacro %}
 
+{% macro render_company_banks(companies) %}
+	{% for company in companies %}
+		{% set company = company.connection %}
+		{% set countries = company.to_company.foreign_registration %}
+	    <tr itemscope itemtype="http://schema.org/Organization" itemprop="affiliation">
+	        <td class="no-wrap">
+	            <div class="name-wrap">
+	                <div class="flags">
+	                	{% for country in countries %}
+	                    	<img src="{{ static('images/flags/') }}{{ country.to_country.iso3|lower }}.svg" alt="{{ country.to_country.name }}">
+	                    {% endfor %}
+	                </div>
+	                <p class="name name-entities sort-col col1" itemprop="name"><a href="{{ company.to_company.get_absolute_url() }}">{{ company.to_company }}</a></p>
+	            </div>
+	        </td>
+	        <td class="no-wrap sort-col col2" itemprop="taxID">{% if company.to_company.edrpou %}{{ company.to_company.edrpou }}{% endif %}</td>
+	        <td class="no-wrap sort-col col3">{{ company.relationship_type }}</td>
+	        <td class="no-wrap">
+	            <button class="toggle-row-btn">
+	                <svg>
+	                    <use xlink:href="#arr-right-w2"></use>
+	                </svg>
+	            </button>
+	            <div class="toggle-content">
+	                {% if company.share %}
+	                	{{ _("Частка") }} {{ "{:2.3f}".format(company.share) }}%
+	                {% endif %}
+	            </div>
+	        </td>
+	    </tr>
+	{% endfor %}
+{% endmacro %}
+
 {% macro render_related_persons(persons, for_company=False) %}
 	{% for person in persons | sort(attribute="last_name") %}
 		{% set countries = person.foreign_citizenship_or_registration %}
