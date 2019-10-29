@@ -1500,14 +1500,12 @@ msgid "Категорія"
 msgstr "Сategory"
 
 #: core/templates/company.jinja:94
-#, fuzzy
-#| msgid "Державних реєстрів"
 msgid "Державний орган"
-msgstr "State registries"
+msgstr "State agency"
 
 #: core/templates/company.jinja:95
 msgid "Партія"
-msgstr ""
+msgstr "Political party"
 
 #: core/templates/company.jinja:96
 msgid "Державна власність"
