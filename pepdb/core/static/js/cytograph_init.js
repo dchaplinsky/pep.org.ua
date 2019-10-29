@@ -1,12 +1,22 @@
 $(function() {
+    function get_json_from_url(url) {
+        if (!url) url = location.search;
+        var query = url.substr(1);
+        var result = {};
+        query.split("&").forEach(function(part) {
+            var item = part.split("=");
+            result[item[0]] = decodeURIComponent(item[1]);
+        });
+        return result;
+    }
+
     function get_edge_description(obj) {
         var share = obj.data("share");
         if (share > 0) {
-            return obj.data("relation") + "\n " + share  + "%";
+            return obj.data("relation") + "\n " + share + "%";
         } else {
             return obj.data("relation")
         }
-
     }
     var preview_style = [{
         selector: "edge",
@@ -233,7 +243,7 @@ $(function() {
         });
     };
 
-    function init_full(elements) {
+    function init_full(elements, layout) {
         var cy_full = cytoscape({
                 container: $('.cy-full'),
                 elements: elements,
@@ -241,7 +251,7 @@ $(function() {
             }),
             edge_length = Math.max(50, 3 * elements["nodes"].length),
             partial_layout_options = {
-                name: document.location.search.indexOf("euler") != -1 ? 'euler' : "cose",
+                name: layout,
                 animate: "end",
                 fit: true,
                 padding: 10,
@@ -259,7 +269,7 @@ $(function() {
                 }
             },
             layout_options = {
-                name: document.location.search.indexOf("euler") != -1 ? 'euler' : "cose",
+                name: layout,
                 animationDuration: 1500,
                 animate: "end",
                 springLength: edge_length * 3,
@@ -278,11 +288,8 @@ $(function() {
             },
             layout = cy_full.layout(layout_options),
             previousTapStamp;
-
         cy_full.fit();
         layout.run();
-
-
         cy_full.on('doubleTap', 'node', function(tap_event, event) {
             var tippyA = event.target.data("tippy");
             if (tippyA) {
@@ -349,25 +356,21 @@ $(function() {
             var msFromLastTap = currentTapStamp - previousTapStamp;
             if (msFromLastTap < 250) {
                 e.target.trigger('doubleTap', e);
-
                 var tippyPopoverToRemove = e.target.data("tippy_popover");
                 if (tippyPopoverToRemove) {
                     tippyPopoverToRemove.hide();
                     e.target.data("tippy_popover", null);
                 }
             } else {
-                cy_full.$(".has_popover").forEach(function(node){
+                cy_full.$(".has_popover").forEach(function(node) {
                     var tippyPopoverToRemove = node.data("tippy_popover");
                     if (tippyPopoverToRemove) {
                         tippyPopoverToRemove.hide();
                         node.data("tippy_popover", null);
                     }
                 });
-
                 if (e.target.isNode()) {
-                    var tippyPopover = makeTippy(e.target,
-                        '<a href="' + e.target.data("url") + '" target="_blank">' + e.target.data("full_name") + '</a><br />' + e.target.data("kind") + "<br/>" + e.target.data("description"), "light", "right");
-
+                    var tippyPopover = makeTippy(e.target, '<a href="' + e.target.data("url") + '" target="_blank">' + e.target.data("full_name") + '</a><br />' + e.target.data("kind") + "<br/>" + e.target.data("description"), "light", "right");
                     tippyPopover.show();
                     e.target.addClass("has_popover");
                     e.target.data("tippy_popover", tippyPopover);
@@ -376,14 +379,17 @@ $(function() {
             previousTapStamp = currentTapStamp;
         });
     }
-
     $(".visualization-btn").on("click", function(e) {
         e.preventDefault();
-
         var anchor = $(this).data("target");
         $("#visualization-modal").addClass("modal--open");
         $.getJSON($(this).closest("button").data("url"), function(elements) {
-            init_full(elements);
+            // document.location.search.indexOf("euler") != -1 ? 'cise' : "dagre"
+            var parsed_url = get_json_from_url(), layout = "cose";
+            if ("layout" in parsed_url) {
+                layout = parsed_url["layout"];
+            }
+            init_full(elements, layout);
         });
     });
 });

@@ -51,7 +51,7 @@ class FeedbackForm(ModelForm):
             ),
             "read_and_agreed": CheckboxInput(
                 attrs={
-                    "class": "input-md",
+                    "class": "input-md check__input",
                     "required": "",
                     "placeholder": _(
                         "Я прочитав запитання, які часто задаються та не знайшов відповіді"

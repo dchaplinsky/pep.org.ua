@@ -2,15 +2,21 @@
 	{% set feedback_form=feedback_form_override %}
 {% endif %}
 
-{% if delete %}
-    <label class="check">
-        <input type="checkbox" class="check__input">
-        <div class="check__box"></div>
-        Я все прочитав і все одно хочу видалитися
-    </label>
-{% endif %}
+<form class="modal-form ajax-form" method="POST" action={{ url("send_feedback") }}>
+    {% if delete %}
+        <label class="check">
+            {{ feedback_form.read_and_agreed }}<div class="check__box"></div>
+            {{ _("Я прочитав ці питання та не знайшов відповіді") }}</label>
 
-<form class="modal-form" method="POST" action={{ url("send_feedback") }}>
+            {{ feedback_form.read_and_agreed.errors }}
+    {#         <input type="checkbox" class="check__input">
+            <div class="check__box"></div>
+            Я все прочитав і все одно хочу видалитися #}
+        </label>
+    {% else %}
+        <input type="hidden" name="read_and_agreed" value="1">
+    {% endif %}
+
 	{% csrf_token %}
     <fieldset>
         {# <div class="form-group row">
@@ -50,6 +56,9 @@
             </div>
         </div> #}
         <div class="form-send">
+            {{ feedback_form.captcha }}
+            {{ feedback_form.captcha.errors }}
+
             <button id="singlebutton" name="singlebutton" class="btn btn--green"><span>{{ _("Надіслати") }}<span class="bottom-icon"></span></span></button>
         </div>
     </fieldset>

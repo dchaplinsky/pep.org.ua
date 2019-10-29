@@ -219,7 +219,7 @@ $(function() {
         form.find("button").attr("disabled", "disabled");
 
         $.post(form.attr("action"), form.serialize(), function(data) {
-            form.parent().html(data);
+            form.html(data);
         });
     });
 
