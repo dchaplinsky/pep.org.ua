@@ -446,7 +446,7 @@
                         {% endif %}
 
                         {% if all_declarations %}
-                        <section id="cash-assets" class="profile-section">
+                        <section id="cash-assets" class="profile-section" data-chart-data="{{ charts_data.assets|tojson|forceescape }}">
                             <div class="profile-section__header">
                                 <div class="title-wrap">
                                     <img src="{{ static('images/icon-cash-assets.svg') }}" alt="icon" class="icon">

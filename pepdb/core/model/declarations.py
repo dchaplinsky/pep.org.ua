@@ -15,7 +15,8 @@ from cacheops import cached
 
 from core.fields import RedactorField
 from core.utils import (
-    parse_fullname, parse_family_member, RELATIONS_MAPPING, render_date)
+    parse_fullname, parse_family_member, RELATIONS_MAPPING, render_date,
+    get_exchange_rate)
 
 from core.model.connections import Person2Person
 from core.model.exc import CannotResolveRelativeException
@@ -187,11 +188,16 @@ class Declaration(models.Model):
         return resp
 
 
+    # @cached(timeout=60 * 60)
     def get_assets(self):
         resp = {
             "year": self.year,
             "url": self.get_url(),
             "nacp_declaration": self.nacp_declaration,
+            "total_uah": {
+                "declarant": 0.,
+                "family": 0.,
+            },
             "cash": {
                 "declarant": {
                     "USD": 0.,
@@ -267,20 +273,25 @@ class Declaration(models.Model):
                             resp[k][owner]["OTH"].append(
                                 {"amount": amount, "currency": currency}
                             )
+
+                        resp["total_uah"][owner] += amount * get_exchange_rate(currency, self.year)
+
         else:
-            for d_key, k in (("45", "declarant"), ("51", "family")):
+            for d_key, owner in (("45", "declarant"), ("51", "family")):
                 for a in self.source.get("banks", {}).get(d_key, []):
                     try:
                         currency = a.get("sum_units", "UAH") or "UAH"
-                        amount = a.get("sum", 0.)
+                        amount = float(a.get("sum", 0.))
                         if currency == "грн":
                             currency = "UAH"
 
+                        resp["total_uah"][owner] += amount * get_exchange_rate(currency, self.year)
+
                         if currency in ("UAH", "USD", "EUR"):
-                            resp["accounts"][k][currency] += float(amount)
+                            resp["accounts"][owner][currency] += amount
                         else:
-                            resp["accounts"][k]["OTH"].append(
-                                {"amount": float(amount), "currency": currency}
+                            resp["accounts"][owner]["OTH"].append(
+                                {"amount": amount, "currency": currency}
                             )
                     except ValueError:
                         continue

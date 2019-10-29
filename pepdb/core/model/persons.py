@@ -778,6 +778,14 @@ class Person(models.Model, AbstractNode):
             ],
         ]
 
+        assets = [
+            [
+                unicode(ugettext_lazy('Рік')),
+                unicode(ugettext_lazy('Декларант')),
+                unicode(ugettext_lazy('Родина'))
+            ]
+        ]
+
         for d in decls[::-1]:
             income = d.get_income()
             incomes.append([
@@ -787,8 +795,16 @@ class Person(models.Model, AbstractNode):
                 cleanse(income["expenses_of_declarant"]),
             ])
 
+            asset = d.get_assets()
+            assets.append([
+                unicode(asset["year"]),
+                cleanse(asset["total_uah"]["declarant"]),
+                cleanse(asset["total_uah"]["family"])
+            ])
+
         return {
-            "incomes": incomes
+            "incomes": incomes,
+            "assets": assets,
         }
 
     def get_node(self):

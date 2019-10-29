@@ -28,16 +28,9 @@ function drawChart() {
         ]);
 
 
-        var dataCashAssetsLineChart = google.visualization.arrayToDataTable([
-            ['Рік', 'Декларант', 'Родина'],
-            ['2004', 1000, 400],
-            ['2005', 1170, 560],
-            ['2006', 660, 1120],
-            ['2007', 1030, 1640],
-            ['2008', 2030, 1238],
-            ['2009', 3219, 1022],
-            ['2010', 1319, 622],
-        ]);
+        var dataCashAssetsLineChart = google.visualization.arrayToDataTable(
+            $("#cash-assets").data("chart-data")
+        );
 
         var dataCashAssetsPieChart = google.visualization.arrayToDataTable([
             ['Тип', 'Кількість'],
