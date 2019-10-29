@@ -1510,22 +1510,17 @@ msgid "Партія"
 msgstr ""
 
 #: core/templates/company.jinja:96
-#, fuzzy
-#| msgid "Державних реєстрів"
 msgid "Державна власність"
-msgstr "State registries"
+msgstr "State ownership"
 
 #: core/templates/company.jinja:97
-#, fuzzy
-#| msgid "Пов'язана особа"
 msgid "Пов'язана з ПЕП"
-msgstr "Close associate"
+msgstr "Connected to PEP"
 
 #: core/templates/company.jinja:99
-#, fuzzy
-#| msgid "Надавач товарів/послуг"
+
 msgid "Надавач послуг"
-msgstr "Provider of goods / services"
+msgstr "Service provider"
 
 #: core/templates/company.jinja:104
 msgid "Реєстраційний №"
