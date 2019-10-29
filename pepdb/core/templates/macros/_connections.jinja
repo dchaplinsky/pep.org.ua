@@ -1,5 +1,5 @@
 {% macro render_person_banks(connections) %}
-	{% for company in companies %}
+	{% for company in connections %}
 		{% set countries = company.to_company.foreign_registration %}
 	    <tr itemscope itemtype="http://schema.org/Organization" itemprop="affiliation">
 	        <td class="no-wrap">
