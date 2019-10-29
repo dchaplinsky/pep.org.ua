@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PEP\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-29 15:17+0200\n"
+"POT-Creation-Date: 2019-10-29 18:59+0200\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1398,19 +1398,25 @@ msgstr ""
 "The section specifies brand, model and year of production of the declared "
 "vehicle. For more information, go to the full version of the declaration."
 
-#: core/templates/_feedback_form.jinja:47
+#: core/templates/_feedback_form.jinja:9
+#, fuzzy
+#| msgid "Я прочитав запитання, які часто задаються та не знайшов відповіді"
+msgid "Я прочитав ці питання та не знайшов відповіді"
+msgstr "I've read Q&A section and got no answer"
+
+#: core/templates/_feedback_form.jinja:53
 msgid "Я прочитав"
 msgstr "I've read"
 
-#: core/templates/_feedback_form.jinja:47
+#: core/templates/_feedback_form.jinja:53
 msgid "запитання, які часто задаються"
 msgstr "frequently asked questions"
 
-#: core/templates/_feedback_form.jinja:47
+#: core/templates/_feedback_form.jinja:53
 msgid "та не знайшов відповіді"
 msgstr "and didn't find an answer"
 
-#: core/templates/_feedback_form.jinja:53
+#: core/templates/_feedback_form.jinja:62
 msgid "Надіслати"
 msgstr "Send"
 
@@ -1516,7 +1522,6 @@ msgid "Пов'язана з ПЕП"
 msgstr "Connected to PEP"
 
 #: core/templates/company.jinja:99
-
 msgid "Надавач послуг"
 msgstr "Service provider"
 
@@ -1762,6 +1767,10 @@ msgstr "CONTACTS"
 msgid "Ви хочете нам написати, бо..."
 msgstr "You want to write us, because..."
 
+#: core/templates/feedback.jinja:15 core/templates/feedback.jinja:41
+msgid "Знайшли себе в реєстрі і не згодні з цим"
+msgstr "You've found yourself in the Register and do not agree with this"
+
 #: core/templates/feedback.jinja:18 core/templates/feedback.jinja:73
 msgid "Хочете повідомити важливу інформацію"
 msgstr "You want to inform us something important"
@@ -1774,18 +1783,15 @@ msgstr "You want to get access to the API of the Register"
 msgid "Хочете замовити аналітику"
 msgstr "You want to request analytics"
 
-#: core/templates/feedback.jinja:41
-msgid "Знайшли себе в реєстрі і не згодні з цим"
-msgstr "You've found yourself in the Register and do not agree with this"
-
 #: core/templates/macros/_connections.jinja:25
-#: core/templates/macros/_connections.jinja:195
+#: core/templates/macros/_connections.jinja:58
+#: core/templates/macros/_connections.jinja:228
 msgid "Частка"
 msgstr "Share"
 
-#: core/templates/macros/_connections.jinja:66
-#: core/templates/macros/_connections.jinja:122
-#: core/templates/macros/_connections.jinja:158
+#: core/templates/macros/_connections.jinja:99
+#: core/templates/macros/_connections.jinja:155
+#: core/templates/macros/_connections.jinja:191
 #: core/templates/person.jinja:1166
 msgid "Підтверджено: "
 msgstr "Confirmed:"

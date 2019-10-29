@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-29 15:17+0200\n"
+"POT-Creation-Date: 2019-10-29 18:59+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1295,19 +1295,23 @@ msgid ""
 "перейдіть на повну версію декларації."
 msgstr ""
 
-#: core/templates/_feedback_form.jinja:47
-msgid "Я прочитав"
-msgstr ""
-
-#: core/templates/_feedback_form.jinja:47
-msgid "запитання, які часто задаються"
-msgstr ""
-
-#: core/templates/_feedback_form.jinja:47
-msgid "та не знайшов відповіді"
+#: core/templates/_feedback_form.jinja:9
+msgid "Я прочитав ці питання та не знайшов відповіді"
 msgstr ""
 
 #: core/templates/_feedback_form.jinja:53
+msgid "Я прочитав"
+msgstr ""
+
+#: core/templates/_feedback_form.jinja:53
+msgid "запитання, які часто задаються"
+msgstr ""
+
+#: core/templates/_feedback_form.jinja:53
+msgid "та не знайшов відповіді"
+msgstr ""
+
+#: core/templates/_feedback_form.jinja:62
 msgid "Надіслати"
 msgstr ""
 
@@ -1656,6 +1660,10 @@ msgstr ""
 msgid "Ви хочете нам написати, бо..."
 msgstr ""
 
+#: core/templates/feedback.jinja:15 core/templates/feedback.jinja:41
+msgid "Знайшли себе в реєстрі і не згодні з цим"
+msgstr ""
+
 #: core/templates/feedback.jinja:18 core/templates/feedback.jinja:73
 msgid "Хочете повідомити важливу інформацію"
 msgstr ""
@@ -1668,18 +1676,15 @@ msgstr ""
 msgid "Хочете замовити аналітику"
 msgstr ""
 
-#: core/templates/feedback.jinja:41
-msgid "Знайшли себе в реєстрі і не згодні з цим"
-msgstr ""
-
 #: core/templates/macros/_connections.jinja:25
-#: core/templates/macros/_connections.jinja:195
+#: core/templates/macros/_connections.jinja:58
+#: core/templates/macros/_connections.jinja:228
 msgid "Частка"
 msgstr ""
 
-#: core/templates/macros/_connections.jinja:66
-#: core/templates/macros/_connections.jinja:122
-#: core/templates/macros/_connections.jinja:158
+#: core/templates/macros/_connections.jinja:99
+#: core/templates/macros/_connections.jinja:155
+#: core/templates/macros/_connections.jinja:191
 #: core/templates/person.jinja:1166
 msgid "Підтверджено: "
 msgstr ""
