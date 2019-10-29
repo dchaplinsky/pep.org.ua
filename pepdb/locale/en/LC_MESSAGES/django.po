@@ -1399,8 +1399,6 @@ msgstr ""
 "vehicle. For more information, go to the full version of the declaration."
 
 #: core/templates/_feedback_form.jinja:9
-#, fuzzy
-#| msgid "Я прочитав запитання, які часто задаються та не знайшов відповіді"
 msgid "Я прочитав ці питання та не знайшов відповіді"
 msgstr "I've read Q&A section and got no answer"
 
