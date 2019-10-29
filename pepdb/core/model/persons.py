@@ -765,7 +765,7 @@ class Person(models.Model, AbstractNode):
             try:
                 return float(unicode(val))
             except ValueError:
-                return 0.0
+                return None
 
         decls = self.get_declarations()
 
@@ -778,10 +778,10 @@ class Person(models.Model, AbstractNode):
             ],
         ]
 
-        for d in decls:
+        for d in decls[::-1]:
             income = d.get_income()
             incomes.append([
-                int(income["year"]),
+                unicode(income["year"]),
                 cleanse(income["income_of_declarant"]),
                 cleanse(income["income_of_family"]),
                 cleanse(income["expenses_of_declarant"]),
