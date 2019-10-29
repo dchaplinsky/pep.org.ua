@@ -188,7 +188,7 @@ class Declaration(models.Model):
         return resp
 
 
-    # @cached(timeout=60 * 60)
+    @cached(timeout=60 * 60)
     def get_assets(self):
         resp = {
             "year": self.year,

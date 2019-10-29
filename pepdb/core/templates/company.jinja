@@ -91,12 +91,12 @@
                                 <td>{{_("Категорія")}}</td>
                                 <td>
                                     {% set pipe = joiner(", ")%}
-                                    {% if company.public_office == True %}{{ pipe() }}{{_("Державний орган")}} {% endif %}
-                                    {% if company.political_party == True %}{{ pipe() }}{{_("Партія")}}{% endif %}
-                                    {% if company.state_enterprised == True %}{{ pipe() }}{{_("Державна власність")}}{% endif %}
-                                    {% if company.affiliated_with_pep == True %}{{ pipe() }}{{_("Пов'язана з ПЕП")}}{% endif %}
-                                    {% if company.bank == True %}{{ pipe() }}{{_("Банк")}}{% endif %}
-                                    {% if company.service_provider == True %}{{ pipe() }}{{_("Надавач послуг")}} {% endif %}
+                                    {% if company.public_office %}{{ pipe() }}{{ _("Державний орган") }} {% endif %}
+                                    {% if company.political_party %}{{ pipe() }}{{ _("Партія") }}{% endif %}
+                                    {% if company.state_enterprise %}{{ pipe() }}{{ _("Державна власність") }}{% endif %}
+                                    {% if company.affiliated_with_pep %}{{ pipe() }}{{ _("Пов'язана з ПЕП") }}{% endif %}
+                                    {% if company.bank %}{{ pipe() }}{{ _("Банк") }}{% endif %}
+                                    {% if company.service_provider %}{{ pipe() }}{{ _("Надавач послуг") }} {% endif %}
                                 </td>
                             </tr>
                             {% if related_countries.registered_in and related_countries.registered_in[0].iso2 != "UA" %}

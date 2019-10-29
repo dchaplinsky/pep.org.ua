@@ -22,6 +22,8 @@ from django.views.decorators.cache import never_cache
 from elasticsearch_dsl.query import Q
 from translitua import translit
 from cryptography.fernet import InvalidToken
+from cacheops import cached_view
+
 
 from core.models import Person, Declaration, Country, Company, ActionLog, Article
 from core.pdf import pdf_response
@@ -574,6 +576,7 @@ def encrypted_redirect(request, enc, model):
     return redirect(obj.get_absolute_url())
 
 
+@cached_view(timeout=60 * 60 * 6)
 def connections(request, model, obj_id):
     if model.lower() not in ("person", "company"):
         return HttpResponseBadRequest()
