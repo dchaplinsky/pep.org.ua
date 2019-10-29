@@ -255,7 +255,7 @@ class Declaration(models.Model):
                         owner = "declarant" if cash_rec.get("person", "1") == "1" else "family"
                         amount = float(cash_rec.get("sizeAssets", "0") or "0")
 
-                        currency = cash_rec.get("assetsCurrency", "UAH").upper()
+                        currency = cash_rec.get("assetsCurrency", "UAH").upper() or "UAH"
 
                         if rec_type == "кошти, розміщені на банківських рахунках":
                             bank_name = cash_rec.get("organization_ua_company_name") or \
