@@ -508,4 +508,8 @@ def get_exchange_rate(curr, year):
     if year not in UAH_rates:
         year = 2018
 
-    return UAH_rates[int(year)][curr.upper()]
+    try:
+        return UAH_rates[int(year)][curr.upper()]
+    except KeyError:
+        return 0.0
+
