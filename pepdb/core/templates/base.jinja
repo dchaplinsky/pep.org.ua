@@ -20,6 +20,8 @@
     <meta property="og:site_name" content="PEP.org.ua" />
     <meta property="og:title" content="PEP: {% block og_page_title %}{{ root_page.translated_title }}{% endblock %}" />
     {% block og_tags %}
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="{{ _("Публічні діячі (ПЕПи) є клієнтами з підвищеним ризиком відповідно до міжнародних стандартів з протидії відмивання грошей. Онлайн пошук ПЕПів та пов’язаних з ними фізичних і юридичних осіб.")}} ">
         <meta property="og:image" content="{{ SITE_URL }}{{ static("images/pep_fb.png") }}" />
         <meta property="og:image:alt" content="Politically exposed persons" />
     {% endblock %}

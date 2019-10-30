@@ -9,6 +9,14 @@
 {% endblock %}
 
 {% block page_title %}{{ page.translated_title }}{% endblock %}
+{% block og_page_title %}{{ page.translated_title }}{% endblock %}
+
+{% block og_tags %}
+    <meta property="og:image" content="{{ SITE_URL }}{{ static("images/pep_fb.png") }}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description" content="Стаття" />
+{% endblock %}
+
 
 {% block content %}
 <div class="single-page">

@@ -14,7 +14,9 @@
 {% endblock %}
 
 {% block og_tags %}
-    {{ super() }}
+    <meta property="og:image" content="{{ SITE_URL }}{{ static("images/pep_fb.png") }}" />
+    <meta property="og:type" content="profile" />
+    <meta property="og:description" content="{{ _("Детальна інформація про компанію, контрагентів та пов'язаних осіб") }}" />
     <link rel="canonical" href="{{ SITE_URL }}{{ company.get_absolute_url() }}" />
 {% endblock %}
 

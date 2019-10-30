@@ -1,5 +1,14 @@
 {% extends "base.jinja" %}
 
+{% block og_tags %}
+    <meta property="og:image" content="{{ SITE_URL }}{{ static("images/pep_fb.png") }}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:description" content="{{ article.header }}" />
+{% endblock %}
+
+{% block og_page_title %}{{ article.caption }}{% endblock %}
+
+
 {% block content %}
 <div class="single-page">
     <main>
