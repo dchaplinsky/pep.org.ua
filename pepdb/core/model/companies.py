@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from django.db.models import Q, Max
 from django.core.urlresolvers import reverse
 from django.conf import settings
+from translitua import translit, ALL_UKRAINIAN
 from django.utils.translation import ugettext_noop as _
 from django.utils.translation import ugettext_lazy, activate, get_language
 from django.forms.models import model_to_dict
@@ -245,13 +246,19 @@ class Company(models.Model, AbstractNode):
         d["last_modified"] = self.last_modified
 
         suggestions = []
-
-        for field in (
+        names = set([
             d["name_uk"],
             d["short_name_uk"],
-            d["name_en"],
-            d["short_name_en"],
-        ):
+        ])
+
+        for name in list(names):
+            for ua_table in ALL_UKRAINIAN:
+                names.add(translit(name, ua_table))
+
+        names.add(d["name_en"])
+        names.add(d["short_name_en"])
+
+        for field in names:
             if not field:
                 continue
 

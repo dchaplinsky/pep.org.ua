@@ -5,8 +5,8 @@
 
 {% block extra_menu %}
     {% if request.user.is_superuser %}
-        <li class="edit-page">
-            <a href="{{ url('wagtailadmin_pages:edit', page.id) }}" target="_blank"><i class="fa fa-pencil-square-o"></i></a>
+        <li class="menu__list-item edit-page">
+            <a href="{{ url('wagtailadmin_pages:edit', page.id) }}" target="_blank">✎</a>
         </li>
     {% endif %}
 {% endblock %}

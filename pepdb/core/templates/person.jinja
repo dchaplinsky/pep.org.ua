@@ -20,12 +20,16 @@
 
 {% block page_title %}
 {{_("Профіль:")}} {{ person.last_name }} {{ person.first_name }} {{ person.patronymic }}{% if last_workplace %}, {{ last_workplace.company }}, {{ last_workplace.position }}{% endif %}
-{% endblock page_title %}
+{% endblock %}
+
+{% block og_page_title %}
+{{_("Профіль:")}} {{ person.last_name }} {{ person.first_name }} {{ person.patronymic }}{% if last_workplace %}, {{ last_workplace.company }}, {{ last_workplace.position }}{% endif %}
+{% endblock %}
 
 {% block extra_menu %}
     {% if request.user.is_superuser %}
-        <li class="edit-page">
-            <a href="{{ url('admin:core_person_change', person.id) }}" target="_blank"><i class="fa fa-pencil-square-o"></i></a>
+        <li class="menu__list-item edit-page">
+            <a href="{{ url('admin:core_person_change', person.id) }}" target="_blank">✎</a>
         </li>
     {% endif %}
 {% endblock %}

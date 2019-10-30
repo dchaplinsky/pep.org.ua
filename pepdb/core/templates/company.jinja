@@ -7,8 +7,8 @@
 
 {% block extra_menu %}
     {% if request.user.is_superuser %}
-        <li class="edit-page">
-            <a href="{{ url('admin:core_company_change', company.id) }}" target="_blank"><i class="fa fa-pencil-square-o"></i></a>
+        <li class="menu__list-item edit-page">
+            <a href="{{ url('admin:core_company_change', company.id) }}" target="_blank">✎</a>
         </li>
     {% endif %}
 {% endblock %}
@@ -17,6 +17,10 @@
     {{ super() }}
     <link rel="canonical" href="{{ SITE_URL }}{{ company.get_absolute_url() }}" />
 {% endblock %}
+
+{% block page_title %}{{ company.name }}{% if company.edrpou %} ({{ company.edrpou }}){% endif %}{% endblock %}
+
+{% block og_page_title %}{{ company.name }}{% if company.edrpou %} ({{ company.edrpou }}){% endif %}{% endblock %}
 
 
 {% block content %}

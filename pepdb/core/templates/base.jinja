@@ -18,6 +18,7 @@
     <title>PEP: {% block page_title %}{{ root_page.translated_title }}{% endblock %}</title>
 
     <meta property="og:site_name" content="PEP.org.ua" />
+    <meta property="og:title" content="PEP: {% block og_page_title %}{{ root_page.translated_title }}{% endblock %}" />
     {% block og_tags %}
         <meta property="og:image" content="{{ SITE_URL }}{{ static("images/pep_fb.png") }}" />
         <meta property="og:image:alt" content="Politically exposed persons" />
@@ -104,6 +105,8 @@
                         <li class="menu__list-item">
                             <a href="{{ url('wagtail_serve', 'scoring/') }}">{{ _("Scoring") }}</a>
                         </li>
+                        {% block extra_menu %}
+                        {% endblock %}
                     </ul>
                 </nav>
                 {% for lang in LANGUAGES if request.path.startswith("/" + LANGUAGE_CODE + "/") and lang.0 != LANGUAGE_CODE %}
@@ -211,7 +214,7 @@
                 <div class="copy-wrap">
                     <p class="copy">{{ _("© ЦЕНТР ПРОТИДІЇ КОРУПЦІЇ, 2015-2019") }}</p>
                     <p class="design">{{ _("ДИЗАЙН –") }} <a href="https://demch.co" target="_blank">DEMCH.CO</a></p>
-                    <p class="development">{{ _("РОЗРОБКА – ") }}<a href="" target="_blank">{{ _("КАНЦЕЛЯРСЬКА СОТНЯ") }}</a></p>
+                    <p class="development">{{ _("РОЗРОБКА – ") }}<a href="https://bihus.info/projects/go-kancelyarska-sotnya" target="_blank">{{ _("КАНЦЕЛЯРСЬКА СОТНЯ") }}</a></p>
                 </div>
             </div>
         </div>
