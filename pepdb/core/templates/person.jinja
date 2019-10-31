@@ -733,7 +733,7 @@
                                                     {{ _("UAH") }} {{ 0|curformat() }}
                                                 {% endfor %}</span></td>
                                             </tr>
-                                        {% endfor %}    
+                                        {% endfor %}
                                     </tbody>
                                 </table>
                             </div>
@@ -1156,7 +1156,7 @@
                                                     {{ _("до") }}
                                                     {{ connection.date_finished_human }}{% endif %}</strong>
                                                 </td>
-                                                <td class="no-wrap sort-col col2"><a href="{{ connection.to_company.get_absolute_url() }}" itemscope itemtype="http://schema.org/Organization" itemprop="worksFor"><span itemprop="name">{{ connection.to_company }}</span></a>, {{ connection.relationship_type }}</td>
+                                                <td class="sort-col col2"><a href="{{ connection.to_company.get_absolute_url() }}" itemscope itemtype="http://schema.org/Organization" itemprop="worksFor"><span itemprop="name">{{ connection.to_company }}</span></a>, {{ connection.relationship_type }}</td>
                                                 <td class="no-wrap">
                                                     <button class="toggle-row-btn">
                                                         <svg>
@@ -1403,7 +1403,7 @@
                     {% endif %}
                 {% else %}
                     {% if person.reputation_sanctions_uk or person.reputation_crimes_uk or person.reputation_manhunt_uk or person.reputation_convictions_uk or manhunt_records %}
-                    
+
                         <li>
                             <a href="#clriminal">{{_("КРИМІНАЛЬНІ ПРОВАДЖЕННЯ ТА САНКЦІЇ")}}</a>
                         </li>
