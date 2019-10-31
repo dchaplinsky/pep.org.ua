@@ -126,20 +126,6 @@ a {
 
 @font-face {
   font-family: 'Montserrat';
-  src: url("../fonts/Montserrat-Thin.eot");
-  src: local("Montserrat Thin"), local("Montserrat-Thin"), url("../fonts/Montserrat-Thin.eot?#iefix") format("embedded-opentype"), url("../fonts/Montserrat-Thin.woff2") format("woff2"), url("../fonts/Montserrat-Thin.woff") format("woff"), url("../fonts/Montserrat-Thin.ttf") format("truetype");
-  font-weight: 100;
-  font-style: normal; }
-
-@font-face {
-  font-family: 'Montserrat';
-  src: url("../fonts/Montserrat-ExtraLight.eot");
-  src: local("Montserrat ExtraLight"), local("Montserrat-ExtraLight"), url("../fonts/Montserrat-ExtraLight.eot?#iefix") format("embedded-opentype"), url("../fonts/Montserrat-ExtraLight.woff2") format("woff2"), url("../fonts/Montserrat-ExtraLight.woff") format("woff"), url("../fonts/Montserrat-ExtraLight.ttf") format("truetype");
-  font-weight: 200;
-  font-style: normal; }
-
-@font-face {
-  font-family: 'Montserrat';
   src: url("../fonts/Montserrat-Light.eot");
   src: local("Montserrat Light"), local("Montserrat-Light"), url("../fonts/Montserrat-Light.eot?#iefix") format("embedded-opentype"), url("../fonts/Montserrat-Light.woff2") format("woff2"), url("../fonts/Montserrat-Light.woff") format("woff"), url("../fonts/Montserrat-Light.ttf") format("truetype");
   font-weight: 300;
@@ -373,9 +359,9 @@ body.modal-open {
 .header__right .menu__list-item a {
   color: #000;
   font-weight: 800;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.2;
-  letter-spacing: 0.13em;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   white-space: nowrap; }
 .header__right .menu__list-item a:hover, .header__right .menu__list-item a:active {
@@ -393,9 +379,9 @@ body.modal-open {
 .header__right .lang {
   color: #4ead33;
   font-weight: 800;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.2;
-  letter-spacing: 0.13em;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   margin-left: 36px;
   background-color: transparent;
@@ -1225,6 +1211,8 @@ body.modal-open {
   display: none;
   position: absolute;
   width: calc(100% - 50px);
+  max-height: 350px;
+  overflow-y: auto;
   z-index: 5;
   left: 0;
   top: calc(100% + 10px);
@@ -2158,8 +2146,6 @@ body.modal-open {
   height: 100%;
   background-color: #4ead33;
   position: absolute; }
-#visualization-modal .visualization-modal__body {
-  min-height: 400px; }
 #visualization-modal .visualization-modal__body .cy-wrapper {
   position: relative;
   top: auto;
@@ -3674,6 +3660,11 @@ body.modal-open {
   font-size: 20px;
   line-height: 1.6;
   color: #000; }
+.profile-page .scoring .progressbar .index--0 {
+  left: 0%;
+  background: -webkit-gradient(linear, left top, right top, from(#4ead34), to(#9bc83c));
+  background: -o-linear-gradient(left, #4ead34 0%, #9bc83c 100%);
+  background: linear-gradient(to right, #4ead34 0%, #9bc83c 100%); }
 .profile-page .scoring .progressbar .index--1 {
   left: 0%;
   background: -webkit-gradient(linear, left top, right top, from(#4ead34), to(#9bc83c));
@@ -4667,7 +4658,7 @@ body.modal-open {
   .header__left .search-form input {
     width: 290px; }
   .header__right .menu__list-item {
-    margin-right: 26px; }
+    margin-right: 24px; }
   .header__right .lang {
     margin-left: 30px; }
   .first-section {

@@ -79,7 +79,7 @@
 	                <p class="name sort-col col1"><a href="{{ person.get_absolute_url() }}">{{ person.last_name }} {{ person.first_name }} {{ person.patronymic }}</a></p>
 	            </div>
 	        </td>
-	        <td class="no-wrap sort-col col2"><span>
+	        <td class="sort-col col2"><span>
 	        	{% if for_company %}
 	        		{{ person.connection.relationship_type }}
 	        	{% else %}
@@ -128,7 +128,7 @@
 	                <p class="name sort-col col1"><a href="{{ person.get_absolute_url() }}" itemprop="name">{{ person }}</a></p>
 	            </div>
 	        </td>
-	        <td class="no-wrap sort-col col2>
+	        <td class="sort-col col2>
 	        	<span itemprop="jobTitle">
 				{% if for_company %}
 	        		{{ person.connection.relationship_type }}
@@ -178,7 +178,7 @@
 	                <p class="name name-entities"><a href="{{ company.get_absolute_url() }}">{{ company }}</a></p>
 	            </div>
 	        </td>
-	        <td class="no-wrap sort-col col2">{{ company.connection.relationship_type }}</td>
+	        <td class="sort-col col2">{{ company.connection.relationship_type }}</td>
 	        <td class="no-wrap sort-col col3">{% if company.edrpou %}{{ company.edrpou }}{% endif %}</td>
 	        <td class="no-wrap">
 	            <button class="toggle-row-btn">
@@ -215,7 +215,7 @@
 	                <p class="name name-entities sort-col col1"><a href="{{ company.to_company.get_absolute_url() }}">{{ company.to_company }}</a></p>
 	            </div>
 	        </td>
-	        <td class="no-wrap sort-col col2">{{ company.relationship_type }}</td>
+	        <td class="sort-col col2">{{ company.relationship_type }}</td>
 	        <td class="no-wrap sort-col col3">{% if company.to_company.edrpou %}{{ company.to_company.edrpou }}{% endif %}</td>
 			{% if company.share %}
 	        <td class="no-wrap">

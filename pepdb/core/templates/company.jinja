@@ -34,7 +34,7 @@
 
     <main>
         <div class="profile-page__content" itemscope itemtype="http://schema.org/Organization"  data-url="{{ url('connections', 'company', company.pk) }}">
-            
+
             <div class="side-menu-btn">
                 <a href=""><span class="icon"></span>{{_("зміст")}}</a>
             </div>
@@ -133,13 +133,13 @@
                                 <td>{{ _("Адреса") }}</td>
                                 <td>
                                     {% if company.zip_code -%}
-                                        {{ company.zip_code }}, 
+                                        {{ company.zip_code }},
                                     {%- endif %}
                                     {% if company.city -%}
-                                        {{ company.city }}, 
+                                        {{ company.city }},
                                     {%- endif %}
                                     {% if company.street -%}
-                                        {{ company.street }}, 
+                                        {{ company.street }},
                                     {%- endif %}
                                     {% if company.appt -%}
                                         {{ company.appt }}
@@ -523,7 +523,7 @@
                                             </div>
                                         </td>
                                         <td class="no-wrap sort-col col2"><span>{% if connection.date_established %}{{ connection.date_established_human }}{% endif %}—{% if connection.date_finished %}{{ connection.date_finished_human }}{% endif %}</span></td>
-                                        <td class="no-wrap sort-col col3">{{ last_workplace.company }}</td>
+                                        <td class="sort-col col3">{{ last_workplace.company }}</td>
                                         <td class="sort-col col4">{{ last_workplace.position }}</td>
                                         <td class="no-wrap">
                                             <a href="" class="table-link">
