@@ -2214,17 +2214,29 @@ body.modal-open {
   height: 9px;
   margin-right: 12px; }
 
+.main-page main {
+  position: relative; }
+.main-page main .zero-corruption-link {
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  top: 80px; }
+.main-page main .zero-corruption-link--fixed {
+  position: fixed;
+  top: 80px; }
+.main-page main .zero-corruption-link--fixed-bottom {
+  position: absolute;
+  bottom: 0;
+  top: auto !important; }
+.main-page main .zero-corruption {
+  height: 165px;
+  width: 45px; }
+
 .main-page .statistics {
   position: relative;
   z-index: 2;
   padding: 130px 60px 0;
   background-color: #fff; }
-.main-page .statistics .zero-corruption {
-  position: absolute;
-  left: 0;
-  top: 80px;
-  height: 165px;
-  width: 45px; }
 .main-page .statistics .content {
   position: relative;
   bottom: -114px;
@@ -4802,12 +4814,15 @@ body.modal-open {
     max-width: 924px; }
   #dossier-modal .dossier-modal__body img, #criminal-modal .dossier-modal__body img {
     max-height: 430px; }
-  .main-page .statistics {
-    padding: 120px 50px 0; }
-  .main-page .statistics .zero-corruption {
-    top: 70px;
+  .main-page main .zero-corruption-link {
+    top: 70px; }
+  .main-page main .zero-corruption-link--fixed {
+    top: 70px; }
+  .main-page main .zero-corruption {
     height: 145px;
     width: 40px; }
+  .main-page .statistics {
+    padding: 120px 50px 0; }
   .main-page .statistics .content {
     bottom: -84px;
     margin-top: -84px; }
@@ -5117,12 +5132,15 @@ body.modal-open {
     margin-top: 335px; }
   .main-page .first-section .search-page-link {
     margin-bottom: 330px; }
-  .main-page .statistics {
-    padding: 100px 40px 0; }
-  .main-page .statistics .zero-corruption {
-    top: 60px;
+  .main-page main .zero-corruption-link {
+    top: 60px; }
+  .main-page main .zero-corruption-link--fixed {
+    top: 60px; }
+  .main-page main .zero-corruption {
     height: 110px;
     width: 30px; }
+  .main-page .statistics {
+    padding: 100px 40px 0; }
   .main-page .statistics .title {
     margin-bottom: 70px;
     max-width: 408px; }
@@ -5726,10 +5744,10 @@ body.modal-open {
     width: calc(100% - 50px); }
   .main-page .first-section .search-page-link {
     margin-bottom: 75px; }
+  .main-page main .zero-corruption-link {
+    display: none; }
   .main-page .statistics {
     padding: 60px 20px 0; }
-  .main-page .statistics .zero-corruption {
-    display: none; }
   .main-page .statistics .content {
     bottom: -60px;
     margin-top: -60px; }

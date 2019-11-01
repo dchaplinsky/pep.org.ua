@@ -12,7 +12,6 @@
 {% endblock %}
 
 {% block content %}
-    <!--    добавлять класс header--show-search если нужно отображать поиск :TODO-->
     <div class="first-section">
         <div id="particles-js"></div>
         <h1 class="main-title">{{ page.translated_title }}<span> {{_("УКРАЇНИ")}}</span></h1>
@@ -35,8 +34,10 @@
     </div>
 
     <main>
-        <section class="statistics">
+        <a href="" class="zero-corruption-link">
             <img src="{{ static('images/zero-corruption.svg') }}" alt="zero-corruption" class="zero-corruption">
+        </a>
+        <section class="statistics">
             <div class="content">
                 <h2 class="title"><strong>{{_("Пошук публічних діячів та пов'язаних фізичних і юридичних осіб.")}}</strong>
                     {{_("Оновлюється щоденно")}}</h2>
@@ -276,7 +277,7 @@
                             <span class="input-group-btn"><button class="btn btn-danger" type="submit">{{ _("Перевірити") }}</button></span>
                         </div>
                     </form>
-                    <!-- /input-group --> 
+                    <!-- /input-group -->
                 </div>
                 <div class="clearfix"></div>
                 <div class="description text-center">
@@ -285,7 +286,7 @@
             </div>
         </div>
     </section>
-    
+
 
     <section id="oursponsors">
         <div class="container">
@@ -296,7 +297,7 @@
             </div>
         </div>
     </section>
-    
+
     <section id="oursponsors-logo">
         <div class="container">
             <div class="row">

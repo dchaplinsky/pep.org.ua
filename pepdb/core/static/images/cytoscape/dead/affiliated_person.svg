@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 23.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="Слой_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 34 26" style="enable-background:new 0 0 34 26;" xml:space="preserve">
-<style type="text/css">
-	.st0{fill:none;}
-	.st1{fill:#E5E5E5;}
-</style>
-<rect class="st0" width="34" height="26"/>
-<path class="st1" d="M8,8.9c2.5,0,4.5-2,4.5-4.4S10.5,0,8,0C5.6,0,3.6,2,3.6,4.4S5.6,8.9,8,8.9z"/>
-<path class="st1" d="M16.1,11.1H0v6.2h16.1V11.1z"/>
-<path class="st1" d="M26,17.5c2.5,0,4.5-2,4.5-4.4c0-2.4-2-4.4-4.5-4.4s-4.5,2-4.5,4.4C21.5,15.5,23.5,17.5,26,17.5z"/>
-<path class="st1" d="M34,19.8H17.9V26H34V19.8z"/>
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE svg>
+<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0)">
+<path d="M16.0281 19.8623C18.4916 19.8623 20.4887 17.8784 20.4887 15.4312C20.4887 12.9839 18.4916 11 16.0281 11C13.5646 11 11.5676 12.9839 11.5676 15.4312C11.5676 17.8784 13.5646 19.8623 16.0281 19.8623Z" fill="#E5E5E5"/>
+<path d="M24.0562 22.1316H8V28.3348H24.0562V22.1316Z" fill="#E5E5E5"/>
+<path d="M33.9741 28.5273C36.4376 28.5273 38.4347 26.5435 38.4347 24.0962C38.4347 21.6489 36.4376 19.665 33.9741 19.665C31.5106 19.665 29.5135 21.6489 29.5135 24.0962C29.5135 26.5435 31.5106 28.5273 33.9741 28.5273Z" fill="#E5E5E5"/>
+<path d="M42.0022 30.7969H25.946V37H42.0022V30.7969Z" fill="#E5E5E5"/>
+</g>
+<defs>
+<clipPath id="clip0">
+<rect width="34" height="26" fill="white" transform="translate(8 11)"/>
+</clipPath>
+</defs>
 </svg>
