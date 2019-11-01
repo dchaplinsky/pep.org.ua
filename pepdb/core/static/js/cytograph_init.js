@@ -378,6 +378,20 @@ $(function() {
             }
             previousTapStamp = currentTapStamp;
         });
+        // visualization zoom
+
+        $('.zoom-in').on('click', function () {
+            cy_full.zoom({
+                level: 1.0, // the zoom level
+                position: { x: 0, y: 0 }
+            });
+        });
+        $('.zoom-out').on('click', function () {
+            cy_full.zoom({
+                level: 1.0, // the zoom level
+                position: { x: 0, y: 0 }
+            });
+        });
     }
     $(".visualization-btn").on("click", function(e) {
         e.preventDefault();

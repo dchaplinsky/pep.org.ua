@@ -322,21 +322,6 @@ $(document).ready(function () {
         })
     });
 
-    // visualization zoom
-
-    $('.zoom-in').on('click', function () {
-        cy.zoom({
-            level: 1.0, // the zoom level
-            position: { x: 0, y: 0 }
-        });
-    });
-    $('.zoom-out').on('click', function () {
-        cy.zoom({
-            level: 1.0, // the zoom level
-            position: { x: 0, y: 0 }
-        });
-    });
-
     //show/hide legend
     $('.legend-btn').on('click', function () {
         $('.legend-wrap').toggleClass('legend-wrap--open');
