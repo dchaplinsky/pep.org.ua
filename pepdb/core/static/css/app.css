@@ -2146,6 +2146,8 @@ body.modal-open {
   height: 100%;
   background-color: #4ead33;
   position: absolute; }
+#visualization-modal .visualization-modal__body {
+  position: relative; }
 #visualization-modal .visualization-modal__body .cy-wrapper {
   position: relative;
   top: auto;
@@ -2154,6 +2156,45 @@ body.modal-open {
   bottom: auto;
   width: 100%;
   height: 100%; }
+#visualization-modal .visualization-modal__zoom-buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  position: absolute;
+  z-index: 10;
+  bottom: 24px;
+  right: 24px; }
+#visualization-modal .visualization-modal__zoom-buttons .zoom-in {
+  margin-bottom: 8px; }
+#visualization-modal .visualization-modal__zoom-buttons .zoom-in, #visualization-modal .visualization-modal__zoom-buttons .zoom-out {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  width: 21px;
+  height: 21px; }
+#visualization-modal .visualization-modal__zoom-buttons .zoom-in:hover, #visualization-modal .visualization-modal__zoom-buttons .zoom-out:hover {
+  cursor: pointer; }
+#visualization-modal .visualization-modal__zoom-buttons .zoom-in:hover svg, #visualization-modal .visualization-modal__zoom-buttons .zoom-out:hover svg {
+  fill: #f39200;
+  stroke: #f39200; }
+#visualization-modal .visualization-modal__zoom-buttons .zoom-in svg, #visualization-modal .visualization-modal__zoom-buttons .zoom-out svg {
+  width: 100%;
+  height: 100%;
+  fill: #000;
+  stroke: #000;
+  -webkit-transition: .2s;
+  -o-transition: .2s;
+  transition: .2s; }
 
 .main-page .first-section .main-title {
   position: relative;
