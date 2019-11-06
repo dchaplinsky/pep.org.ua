@@ -705,17 +705,17 @@ class Person(models.Model, AbstractNode):
 
     def save(self, *args, **kwargs):
         if self.first_name_uk:
-            self.first_name_en = translitua(self.first_name_uk)
+            self.first_name_en = self.first_name_en or translitua(self.first_name_uk)
         else:
             self.first_name_en = ""
 
         if self.last_name_uk:
-            self.last_name_en = translitua(self.last_name_uk)
+            self.last_name_en = self.last_name_en or translitua(self.last_name_uk)
         else:
             self.last_name_en = ""
 
         if self.patronymic_uk:
-            self.patronymic_en = translitua(self.patronymic_uk)
+            self.patronymic_en = self.patronymic_en or translitua(self.patronymic_uk)
         else:
             self.patronymic_en = ""
 
