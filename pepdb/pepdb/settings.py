@@ -360,6 +360,9 @@ SUPERADMINS = []
 NEO4J_ADMIN_PATH = ""
 NEO4J_DATABASE_NAME = ""
 NEOMODEL_NEO4J_BOLT_URL = 'bolt://neo4j:test@localhost:7687'
+ES_NUMBER_OF_SHARDS = 3
+ES_NUMBER_OF_REPLICAS = 0
+ES_MAX_RESULT_WINDOW = 100000
 
 try:
     from local_settings import *

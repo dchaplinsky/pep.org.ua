@@ -12,7 +12,8 @@ from tqdm import tqdm
 from core.models import Company, Person
 from core.elastic_models import (
     Person as ElasticPerson,
-    Company as ElasticCompany
+    Company as ElasticCompany,
+    person_idx, company_idx
 )
 
 
@@ -28,7 +29,7 @@ class Command(BaseCommand):
 
     def bulk_write(self, conn, docs_to_index):
         for response in streaming_bulk(
-                conn, (d.to_dict(True) for d in docs_to_index)):
+                conn, (d.to_dict(True) for d in docs_to_index), max_retries=2, chunk_size=200):
             pass
 
     def handle(self, *args, **options):
@@ -42,13 +43,15 @@ class Command(BaseCommand):
         ]
 
         if options["drop_indices"]:
-            Index(ElasticPerson._doc_type.index).delete(ignore=404)
+            person_idx.delete(ignore=404)
+            person_idx.create()
+
             ElasticPerson.init()
 
             conn.indices.put_settings(
                 index=ElasticPerson._doc_type.index,
                 body={
-                    'index.max_result_window': 100000
+                    'index.max_result_window': settings.ES_MAX_RESULT_WINDOW,
                 }
             )
 
@@ -69,12 +72,14 @@ class Command(BaseCommand):
             for p in tqdm(company_qs.nocache().iterator(), total=company_qs.count())]
 
         if options["drop_indices"]:
-            Index(ElasticCompany._doc_type.index).delete(ignore=404)
+            company_idx.delete(ignore=404)
+            company_idx.create()
+
             ElasticCompany.init()
             conn.indices.put_settings(
                 index=ElasticCompany._doc_type.index,
                 body={
-                    'index.max_result_window': 100000
+                    'index.max_result_window': settings.ES_MAX_RESULT_WINDOW,
                 }
             )
 
