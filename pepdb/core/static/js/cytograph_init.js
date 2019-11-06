@@ -50,14 +50,14 @@ $(function() {
     }, {
         selector: 'node[model="person"]',
         style: {
-            "background-image": "/static/images/cytoscape/person.png?1",
+            "background-image": "/static/images/cytoscape/person.svg?1",
             "background-fit": "cover",
             "background-color": "white"
         }
     }, {
         selector: 'node[model="company"]',
         style: {
-            "background-image": "/static/images/cytoscape/company.png?1",
+            "background-image": "/static/images/cytoscape/company.svg?1",
             "background-fit": "cover",
             "background-color": "white",
             "shape": "octagon"
@@ -78,19 +78,19 @@ $(function() {
             "width": 50,
             "height": 50,
             "background-color": "white",
-            "background-image": "/static/images/cytoscape/pep_person.png?1"
+            "background-image": "/static/images/cytoscape/pep_person.svg?1"
         }
     }, {
         // (4, _("Пов'язана особа")),
         selector: 'node[type_of_official=4]',
         style: {
-            "background-image": "/static/images/cytoscape/affiliated_person.png?1"
+            "background-image": "/static/images/cytoscape/affiliated_person.svg?1"
         }
     }, {
         // (5, _("Член сім'ї")),
         selector: 'node[type_of_official=5]',
         style: {
-            "background-image": "/static/images/cytoscape/relative_person.png?1"
+            "background-image": "/static/images/cytoscape/relative_person.svg?1"
         }
     }, {
         selector: 'node[?state_company]',
@@ -98,39 +98,39 @@ $(function() {
             "width": 50,
             "height": 50,
             "background-color": "white",
-            "background-image": "/static/images/cytoscape/state_company.png?1"
+            "background-image": "/static/images/cytoscape/state_company.svg?1"
         }
     }, {
         selector: 'node[model="person"][?is_dead]',
         style: {
-            "background-image": "/static/images/cytoscape/dead/person.png?1",
+            "background-image": "/static/images/cytoscape/dead/person.svg?1",
         }
     }, {
         selector: 'node[model="company"][?is_closed]',
         style: {
-            "background-image": "/static/images/cytoscape/dead/company.png?1",
+            "background-image": "/static/images/cytoscape/dead/company.svg?1",
         }
     }, {
         selector: 'node[?is_pep][?is_dead]',
         style: {
-            "background-image": "/static/images/cytoscape/dead/pep_person.png?1"
+            "background-image": "/static/images/cytoscape/dead/pep_person.svg?1"
         }
     }, {
         // (4, _("Пов'язана особа")),
         selector: 'node[type_of_official=4][?is_dead]',
         style: {
-            "background-image": "/static/images/cytoscape/dead/affiliated_person.png?1"
+            "background-image": "/static/images/cytoscape/dead/affiliated_person.svg?1"
         }
     }, {
         // (5, _("Член сім'ї")),
         selector: 'node[type_of_official=5][?is_dead]',
         style: {
-            "background-image": "/static/images/cytoscape/dead/relative_person.png?1"
+            "background-image": "/static/images/cytoscape/dead/relative_person.svg?1"
         }
     }, {
         selector: 'node[?state_company][?is_closed]',
         style: {
-            "background-image": "/static/images/cytoscape/dead/state_company.png?1"
+            "background-image": "/static/images/cytoscape/dead/state_company.svg?1"
         }
     }, {
         selector: 'node[?is_main]',
@@ -377,6 +377,20 @@ $(function() {
                 }
             }
             previousTapStamp = currentTapStamp;
+        });
+        // visualization zoom
+
+        $('.zoom-in').on('click', function () {
+            cy_full.zoom({
+                level: 1.0, // the zoom level
+                position: { x: 0, y: 0 }
+            });
+        });
+        $('.zoom-out').on('click', function () {
+            cy_full.zoom({
+                level: 1.0, // the zoom level
+                position: { x: 0, y: 0 }
+            });
         });
     }
     $(".visualization-btn").on("click", function(e) {

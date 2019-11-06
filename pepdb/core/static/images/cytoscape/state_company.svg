@@ -1,1 +1,15 @@
-<svg id="Слой_1" data-name="Слой 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><title>заглушки</title><rect y="177" width="200" height="23"/><rect x="35" y="81" width="21" height="87"/><rect x="91" y="81" width="21" height="87"/><rect x="147" y="81" width="21" height="87"/><path d="M100-.31A100.35,100.35,0,0,0,3.81,71.49H196.19A100.35,100.35,0,0,0,100-.31Z"/></svg>
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE svg>
+<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0)">
+<path d="M39 35.78H11V39H39V35.78Z" fill="#1D1D1B"/>
+<path d="M18.84 22.3398H15.9V34.5198H18.84V22.3398Z" fill="#1D1D1B"/>
+<path d="M26.68 22.3398H23.74V34.5198H26.68V22.3398Z" fill="#1D1D1B"/>
+<path d="M34.52 22.3398H31.58V34.5198H34.52V22.3398Z" fill="#1D1D1B"/>
+<path d="M25 10.9565C21.9718 10.9569 19.0248 11.9358 16.5981 13.7471C14.1714 15.5585 12.3949 18.1055 11.5334 21.0085H38.4666C37.6051 18.1055 35.8286 15.5585 33.4019 13.7471C30.9752 11.9358 28.0282 10.9569 25 10.9565Z" fill="#1D1D1B"/>
+</g>
+<defs>
+<clipPath id="clip0">
+<rect width="28" height="28" fill="white" transform="translate(11 11)"/>
+</clipPath>
+</defs>
+</svg>
