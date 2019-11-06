@@ -1796,7 +1796,7 @@ msgstr "Share"
 #: core/templates/macros/_connections.jinja:191
 #: core/templates/person.jinja:1170
 msgid "Підтверджено: "
-msgstr "Confirmed:"
+msgstr "Confirmed: "
 
 #: core/templates/macros/_connections.jinja:240
 msgid "Посилання"
