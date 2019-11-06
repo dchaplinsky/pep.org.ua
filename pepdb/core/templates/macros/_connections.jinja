@@ -110,9 +110,6 @@
     {% endfor %}
 {% endmacro %}
 
-{% macro render_related_grouped_persons(persons) %}
-{% endmacro %}
-
 {% macro render_company_persons(persons, isManagement=False) %}
 	{% for person in persons %}
 		{% set countries = person.foreign_citizenship_or_registration %}
@@ -130,11 +127,7 @@
 	        </td>
 	        <td class="sort-col col2>
 	        	<span itemprop="jobTitle">
-				{% if for_company %}
 	        		{{ person.connection.relationship_type }}
-	        	{% else %}
-	        		{% if person.rtype %}{{ _(person.rtype) }}{% endif %}
-	        	{% endif %}
 				</span>
 	        </td>
 	        <td class="no-wrap sort-col col3">{% if person.share %}{{ person.share }}{% endif %}</td>
@@ -178,7 +171,7 @@
 	                <p class="name name-entities"><a href="{{ company.get_absolute_url() }}">{{ company }}</a></p>
 	            </div>
 	        </td>
-	        <td class="sort-col col2">{{ company.connection.relationship_type }}</td>
+	        <td class="sort-col col2">{{ _(company.connection.relationship_type) }}</td>
 	        <td class="no-wrap sort-col col3">{% if company.edrpou %}{{ company.edrpou }}{% endif %}</td>
 	        <td class="no-wrap">
 	            <button class="toggle-row-btn">
@@ -232,3 +225,10 @@
 	    </tr>
 	{% endfor %}
 {% endmacro %}
+
+
+
+{#
+    # Urging django i18n to pick texts below for translation
+    {{ _("Посилання") }}
+#}
