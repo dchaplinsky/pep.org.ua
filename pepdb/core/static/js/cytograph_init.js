@@ -249,6 +249,7 @@ $(function() {
                 elements: elements,
                 style: full_style
             }),
+            min_zoom = 0.01,
             edge_length = Math.max(50, 3 * elements["nodes"].length),
             partial_layout_options = {
                 name: layout,
@@ -266,6 +267,7 @@ $(function() {
                 theta: 1,
                 stop: function() {
                     cy_full.resize();
+                    min_zoom = Math.max(0.01, cy_full.zoom() * 0.5);
                 }
             },
             layout_options = {
@@ -284,7 +286,10 @@ $(function() {
                 initialTemp: 2500,
                 numIter: 2500,
                 idealEdgeLength: edge_length,
-                nodeDimensionsIncludeLabels: true
+                nodeDimensionsIncludeLabels: true,
+                stop: function() {
+                    min_zoom = Math.max(0.01, cy_full.zoom() * 0.5);
+                }
             },
             layout = cy_full.layout(layout_options),
             previousTapStamp;
@@ -380,16 +385,21 @@ $(function() {
         });
         // visualization zoom
 
-        $('.zoom-in').on('click', function () {
+        $('.zoom-in, .zoom-out').on('click', function () {
+            var root_position = cy_full.$("node[?is_main]").renderedPosition(),
+                current_zoom = cy_full.zoom(),
+                el = $(this);
+
+            if (el.hasClass("zoom-out")) {
+                current_zoom = Math.max(min_zoom, current_zoom - 0.3)
+            } else {
+                current_zoom = Math.min(10, current_zoom + 0.3)
+            }
+
+
             cy_full.zoom({
-                level: 1.0, // the zoom level
-                position: { x: 0, y: 0 }
-            });
-        });
-        $('.zoom-out').on('click', function () {
-            cy_full.zoom({
-                level: 1.0, // the zoom level
-                position: { x: 0, y: 0 }
+                level: current_zoom,
+                renderedPosition: root_position,
             });
         });
     }
