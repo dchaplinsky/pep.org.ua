@@ -385,6 +385,7 @@ NEOMODEL_NEO4J_BOLT_URL = get_env_str("NEOMODEL_NEO4J_BOLT_URL", 'bolt://neo4j:t
 ES_NUMBER_OF_SHARDS = get_env_int("ES_NUMBER_OF_SHARDS", 3)
 ES_NUMBER_OF_REPLICAS = get_env_int("ES_NUMBER_OF_REPLICAS", 0)
 ES_MAX_RESULT_WINDOW = 100000
+DATA_UPLOAD_MAX_NUMBER_FIELDS = None
 
 try:
     from local_settings import *
