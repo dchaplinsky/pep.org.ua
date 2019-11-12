@@ -12,19 +12,34 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
+def get_env_str(k, default):
+    return os.environ.get(k, default)
+
+def get_env_str_list(k, default=""):
+    if os.environ.get(k) is not None:
+        return os.environ.get(k).strip().split(" ")
+    return default
+
+def get_env_int(k, default):
+    return int(get_env_str(k, default))
+
+def get_env_bool(k, default):
+    return str(get_env_str(k, default)).lower() in ["1", "y", "yes", "true"]
+
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # For stupid sitemaps
 SITE_URL = "https://pep.org.ua"
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '*37e&4-qi$f+paw#=me8opo$uk7y%d$c@crd++q89$4y!g$p!e'
-FERNET_SECRET_KEY = ''
+SECRET_KEY = get_env_str('SECRET_KEY', '*37e&4-qi$f+paw#=me8opo$uk7y%d$c@crd++q89$4y!g$p!e')
+FERNET_SECRET_KEY = get_env_str('FERNET_SECRET_KEY', '')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = get_env_str_list('ALLOWED_HOSTS', [])
 
 
 # Application definition
@@ -165,10 +180,16 @@ ROOT_URLCONF = 'pepdb.urls'
 
 WSGI_APPLICATION = 'pepdb.wsgi.application'
 
+
 DATABASES = {
-    'default': {
+    "default": {
         # Strictly PostgreSQL
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        "ENGINE": 'django.db.backends.postgresql_psycopg2',
+        "NAME": get_env_str('DB_NAME', "pep"),
+        "USER": get_env_str('DB_USER', "pep"),
+        "PASSWORD": get_env_str('DB_PASS', ""),
+        "HOST": get_env_str('DB_HOST', "127.0.0.1"),
+        "PORT": "5432",
     }
 }
 
@@ -207,8 +228,8 @@ DEFAULT_JINJA2_TEMPLATE_EXTENSION = '.jinja'
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+MEDIA_ROOT = get_env_str('MEDIA_ROOT', os.path.join(BASE_DIR, "media"))
+STATIC_ROOT = get_env_str('STATIC_ROOT', os.path.join(BASE_DIR, "static"))
 MEDIA_URL = '/media/'
 
 REDACTOR_OPTIONS = {'lang': 'ua', 'air': True}
@@ -300,7 +321,7 @@ WAGTAIL_SITE_NAME = 'PEP'
 # Setup Elasticsearch default connection
 ELASTICSEARCH_CONNECTIONS = {
     'default': {
-        'hosts': 'localhost',
+        "hosts": get_env_str('ELASTICSEARCH_DSN', "localhost:9200"),
         'timeout': 120
     }
 }
@@ -315,15 +336,16 @@ THUMBNAIL_ALIASES = {
 
 CATALOG_PER_PAGE = 12
 
-RECAPTCHA_PUBLIC_KEY = ""
-RECAPTCHA_PRIVATE_KEY = ""
+RECAPTCHA_PUBLIC_KEY = get_env_str("RECAPTCHA_PUBLIC_KEY", "")
+RECAPTCHA_PRIVATE_KEY = get_env_str("RECAPTCHA_PRIVATE_KEY", "")
 NOCAPTCHA = True
 RECAPTCHA_USE_SSL = True
 
 DECLARATIONS_SEARCH_ENDPOINT = "https://declarations.com.ua/fuzzy_search"
 DECLARATION_DETAILS_ENDPOINT = "https://declarations.com.ua/declaration/{}"
 DECLARATION_DETAILS_EN_ENDPOINT = "https://declarations.com.ua/en/declaration/{}"
-CACHEOPS_REDIS = "redis://localhost:6379/1"
+CACHEOPS_REDIS = get_env_str("CACHEOPS_REDIS", "redis://localhost:6379/1")
+SCORING_FILE = get_env_str("SCORING_FILE", "")
 
 CACHEOPS = {
     'core.*': {
@@ -353,15 +375,15 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 OTP_TOTP_ISSUER = 'PEP.org.ua'
-SITEHEART_ID = None
-GA_ID = None
+SITEHEART_ID = get_env_str("SITEHEART_ID", None)
+GA_ID = get_env_str("GA_ID", None)
 SUPERADMINS = []
 
-NEO4J_ADMIN_PATH = ""
-NEO4J_DATABASE_NAME = ""
-NEOMODEL_NEO4J_BOLT_URL = 'bolt://neo4j:test@localhost:7687'
-ES_NUMBER_OF_SHARDS = 3
-ES_NUMBER_OF_REPLICAS = 0
+NEO4J_ADMIN_PATH = get_env_str("NEO4J_ADMIN_PATH", "")
+NEO4J_DATABASE_NAME = get_env_str("NEO4J_DATABASE_NAME", "")
+NEOMODEL_NEO4J_BOLT_URL = get_env_str("NEOMODEL_NEO4J_BOLT_URL", 'bolt://neo4j:test@localhost:7687')
+ES_NUMBER_OF_SHARDS = get_env_int("ES_NUMBER_OF_SHARDS", 3)
+ES_NUMBER_OF_REPLICAS = get_env_int("ES_NUMBER_OF_REPLICAS", 0)
 ES_MAX_RESULT_WINDOW = 100000
 
 try:
