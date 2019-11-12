@@ -594,7 +594,7 @@ class Company(models.Model, AbstractNode):
                 edges.append(
                     {
                         "data": {
-                            "relation": unicode(c.connection.relationship_type),
+                            "relation": unicode(ugettext_lazy(c.connection.relationship_type)),
                             "model": c.connection._meta.model_name,
                             "pk": c.connection.pk,
                             "id": "{}-{}".format(
