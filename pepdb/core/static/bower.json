@@ -22,5 +22,8 @@
     "cytoscape-euler": "1.2.1",
     "cytoscape-cise": "1.0.0",
     "cytoscape-dagre": "2.2.2"
+  },
+  "resolutions": {
+    "cytoscape": "3.11.0"
   }
 }
