@@ -445,30 +445,29 @@ $(document).ready(function () {
         var parentHeight = $('.zero-corruption-link').parents('main').height();
 
         $(window).on("scroll", function (e) {
-
-            if ($(window).width() >= 768) {
-                if ($(window).scrollTop() >= offsetSideLink.top - 60
-                    && $(window).scrollTop() <= parentHeight + $('.first-section').height() - ($('.zero-corruption-link').height() + 60)) {
+            if ($(window).width() >= 1366) {
+                if ($(window).scrollTop() >= (offsetSideLink.top - 80)
+                    && $(window).scrollTop() <= parentHeight + $('.first-section').innerHeight() - ($('.zero-corruption-link').height() + 80)) {
                     $('.zero-corruption-link').addClass("zero-corruption-link--fixed").removeClass('zero-corruption-link--fixed-bottom')
-                } else if ($(window).scrollTop() >= parentHeight - ($('.zero-corruption-link').height() + 60)) {
+                } else if ($(window).scrollTop() >= parentHeight + $('.first-section').innerHeight() - ($('.zero-corruption-link').height() + 80)) {
                     $('.zero-corruption-link').addClass("zero-corruption-link--fixed-bottom")
                 } else {
                     $('.zero-corruption-link').removeClass('zero-corruption-link--fixed zero-corruption-link--fixed-bottom')
                 }
             } else if ($(window).width() >= 1024) {
-                if ($(window).scrollTop() >= offsetSideLink.top - 70
-                    && $(window).scrollTop() <= parentHeight + $('.first-section').height() - ($('.zero-corruption-link').height() + 70)) {
+                if ($(window).scrollTop() >= (offsetSideLink.top - 70)
+                    && $(window).scrollTop() <= parentHeight + $('.first-section').innerHeight() - ($('.zero-corruption-link').height() + 70)) {
                     $('.zero-corruption-link').addClass("zero-corruption-link--fixed").removeClass('zero-corruption-link--fixed-bottom')
-                } else if ($(window).scrollTop() >= parentHeight - ($('.zero-corruption-link').height() + 70)) {
+                } else if ($(window).scrollTop() >= parentHeight + $('.first-section').innerHeight() - ($('.zero-corruption-link').height() + 70)) {
                     $('.zero-corruption-link').addClass("zero-corruption-link--fixed-bottom")
                 } else {
                     $('.zero-corruption-link').removeClass('zero-corruption-link--fixed zero-corruption-link--fixed-bottom')
                 }
-            } else if ($(window).width() >= 1366) {
-                if ($(window).scrollTop() >= offsetSideLink.top - 80
-                    && $(window).scrollTop() <= parentHeight + $('.first-section').height() - ($('.zero-corruption-link').height() + 80)) {
+            } else if ($(window).width() >= 768) {
+                if ($(window).scrollTop() >= (offsetSideLink.top - 60)
+                    && $(window).scrollTop() <= parentHeight + $('.first-section').innerHeight() - ($('.zero-corruption-link').height() + 60)) {
                     $('.zero-corruption-link').addClass("zero-corruption-link--fixed").removeClass('zero-corruption-link--fixed-bottom')
-                } else if ($(window).scrollTop() >= parentHeight - ($('.zero-corruption-link').height() + 80)) {
+                } else if ($(window).scrollTop() >= parentHeight + $('.first-section').innerHeight() - ($('.zero-corruption-link').height() + 60)) {
                     $('.zero-corruption-link').addClass("zero-corruption-link--fixed-bottom")
                 } else {
                     $('.zero-corruption-link').removeClass('zero-corruption-link--fixed zero-corruption-link--fixed-bottom')
