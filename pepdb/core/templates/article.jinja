@@ -22,34 +22,6 @@
                     </ul>
                     <time class="date">{{ article.date|date}}</time>
                 </div>
-                <div class="investigation-persons">
-                	{% set persons = article.related_persons.all() %}
-					{% set companies = article.related_companies.all() %}
-					{% if persons %}
-						{% for p in persons %}
-							<a class="investigation-person" href="{{ p.get_absolute_url() }}">
-							{% if p.photo %}
-                        	<img src="{{ p.photo | thumbnail_url("avatar") }}" alt="p.full_name">
-                        	{% else %}
-                        	<img src="{{ static('images/profile-empty-individual.svg') }}" alt="photo">
-                        	{% endif %}
-								<span>{{ p.full_name }}</span>
-							</a>
-						{% endfor %}
-					{% endif %}
-					{% if companies %}
-						{% for c in companies %}
-							<a class="investigation-person" href="{{ c.get_absolute_url() }}">
-							{% if c.photo %}
-                        	<img src="{{ c.photo }}" alt="photo">
-                        	{% else %}
-                        	<img src="{{ static('images/profile-empty-entities.svg') }}" alt="photo">
-                        	{% endif %}
-								<span>{{ c.name }}</span>
-							</a>
-						{% endfor %}
-					{% endif %}
-                </div>
             </div>
             </div>
             <div class="single-page__body">
@@ -63,6 +35,34 @@
                     {% if article.header %}<h2>{{ article.header }}</h2>{% endif %}
                 	{{ article.text|safe }}
                 </div>
+            </div>
+            <div class="investigation-persons">
+                {% set persons = article.related_persons.all() %}
+            	{% set companies = article.related_companies.all() %}
+            	{% if persons %}
+            		{% for p in persons %}
+            			<a class="investigation-person" href="{{ p.get_absolute_url() }}">
+            			    {% if p.photo %}
+                            <img src="{{ p.photo | thumbnail_url("avatar") }}" alt="p.full_name">
+                            {% else %}
+                            <img src="{{ static('images/profile-empty-individual.svg') }}" alt="photo">
+                            {% endif %}
+            			    <span>{{ p.full_name }}</span>
+            			</a>
+            		{% endfor %}
+            	{% endif %}
+            	{% if companies %}
+            		{% for c in companies %}
+            			<a class="investigation-person" href="{{ c.get_absolute_url() }}">
+            				{% if c.photo %}
+                            <img src="{{ c.photo }}" alt="photo">
+                            {% else %}
+                            <img src="{{ static('images/profile-empty-entities.svg') }}" alt="photo">
+                            {% endif %}
+            			    <span>{{ c.name }}</span>
+            			</a>
+            		{% endfor %}
+            	{% endif %}
             </div>
             <div class="sharing">
                 <div class="sharing__cont">
