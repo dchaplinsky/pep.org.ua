@@ -93,33 +93,38 @@
                         <h1 class="profile-name" itemprop="name">{{ company.name }}</h1>
                         <table>
                             <tbody>
-                            <tr>
-                                <td>{{_("Категорія")}}</td>
-                                <td>
-                                    {% set pipe = joiner(", ")%}
-                                    {% if company.public_office %}{{ pipe() }}{{ _("Державний орган") }} {% endif %}
-                                    {% if company.political_party %}{{ pipe() }}{{ _("Партія") }}{% endif %}
-                                    {% if company.state_enterprise %}{{ pipe() }}{{ _("Державна власність") }}{% endif %}
-                                    {% if company.affiliated_with_pep %}{{ pipe() }}{{ _("Пов'язана з ПЕП") }}{% endif %}
-                                    {% if company.bank %}{{ pipe() }}{{ _("Банк") }}{% endif %}
-                                    {% if company.service_provider %}{{ pipe() }}{{ _("Надавач послуг") }} {% endif %}
-                                </td>
-                            </tr>
-                            {% if related_countries.registered_in and related_countries.registered_in[0].iso2 != "UA" %}
+                            {% if company.public_office or company.political_party or company.state_enterprise or company.affiliated_with_pep or company.bank or company.service_provider %}
                                 <tr>
-                                    <td>{{ _("Реєстраційний №") }}</td>
+                                    <td>{{_("Категорія")}}</td>
                                     <td>
-                                        {{ company.edrpou }}
-                                    </td>
-                                </tr>
-                            {% else %}
-                                <tr>
-                                    <td>{{ _("ЄДРПОУ") }}</td>
-                                    <td>
-                                        {{ company.edrpou }}
+                                        {% set pipe = joiner(", ")%}
+                                        {% if company.public_office %}{{ pipe() }}{{ _("Державний орган") }} {% endif %}
+                                        {% if company.political_party %}{{ pipe() }}{{ _("Партія") }}{% endif %}
+                                        {% if company.state_enterprise %}{{ pipe() }}{{ _("Державна власність") }}{% endif %}
+                                        {% if company.affiliated_with_pep %}{{ pipe() }}{{ _("Пов'язана з ПЕП") }}{% endif %}
+                                        {% if company.bank %}{{ pipe() }}{{ _("Банк") }}{% endif %}
+                                        {% if company.service_provider %}{{ pipe() }}{{ _("Надавач послуг") }} {% endif %}
                                     </td>
                                 </tr>
                             {% endif %}
+                            {% if company.edrpou %}
+                                {% if related_countries.registered_in and related_countries.registered_in[0].iso2 != "UA" %}
+                                    <tr>
+                                        <td>{{ _("Реєстраційний №") }}</td>
+                                        <td>
+                                            {{ company.edrpou }}
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td>{{ _("ЄДРПОУ") }}</td>
+                                        <td>
+                                            {{ company.edrpou }}
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endif %}
+                            {% if company.status %}
                             <tr>
                                 <td>{{ _("Поточний стан") }}</td>
                                 <td>
@@ -129,26 +134,56 @@
                                     {% endif %}
                                 </td>
                             </tr>
+                            {% endif %}
+
+                            {% if company.also_known_as %}
                             <tr>
-                                <td>{{ _("Адреса") }}</td>
-                                <td>
-                                    {% if company.zip_code -%}
-                                        {{ company.zip_code }},
-                                    {%- endif %}
-                                    {% if company.city -%}
-                                        {{ company.city }},
-                                    {%- endif %}
-                                    {% if company.street -%}
-                                        {{ company.street }},
-                                    {%- endif %}
-                                    {% if company.appt -%}
-                                        {{ company.appt }}
-                                    {%- endif %}
-                                    {% if company.raw_address -%}
-                                        {{ company.raw_address }}
-                                    {%- endif %}
-                                </td>
+                                <td>{{ _("Також відома як") }}</td>
+                                <td itemprop="name">{{ company.also_known_as|replace("\n", "<br/>")|safe }}</td>
                             </tr>
+                            {% endif %}
+
+                            {% if company.founded %}
+                            <tr>
+                                <td>{{ _("Дата створення") }} </td>
+                                <td>{{ company.founded_human }}</td>
+                            </tr>
+                            {% endif %}
+
+                            {% if not company.legal_entity %}
+                                <tr>
+                                    <td colspan="2">{{ _("Не є окремою юридичною особою") }} </td>
+                                </tr>
+                            {% endif %}
+
+                            {% if related_countries.registered_in %}
+                                <tr>
+                                    <td>{{ _("Країна") }} </td>
+                                    <td>{{ related_countries.registered_in|first }}</td>
+                                </tr>
+                            {% endif %}
+                            {% if company.zip_code or company.city or company.street or company.appt or company.raw_address %}
+                                <tr>
+                                    <td>{{ _("Адреса") }}</td>
+                                    <td>
+                                        {% if company.zip_code -%}
+                                            {{ company.zip_code }},
+                                        {%- endif %}
+                                        {% if company.city -%}
+                                            {{ company.city }},
+                                        {%- endif %}
+                                        {% if company.street -%}
+                                            {{ company.street }},
+                                        {%- endif %}
+                                        {% if company.appt -%}
+                                            {{ company.appt }}
+                                        {%- endif %}
+                                        {% if company.raw_address -%}
+                                            {{ company.raw_address }}
+                                        {%- endif %}
+                                    </td>
+                                </tr>
+                            {% endif %}
                             </tbody>
                         </table>
                     </div>
@@ -613,7 +648,7 @@
                         </section>
                         {% endif %}
 
-                        {% if ((company.wiki_en or company.wiki_uk) and LANGUAGE_CODE == "en") or (company.wiki_uk and LANGUAGE_CODE == "uk") or related_persons.sanctions %}
+                        {% if ((company.wiki_en or company.wiki_uk) and LANGUAGE_CODE == "en") or (company.wiki_uk and LANGUAGE_CODE == "uk") %}
                         <section id="dossier" class="profile-section">
                             <div class="profile-section__header">
                                 <div class="title-wrap">
@@ -635,6 +670,17 @@
                                             {{ company.wiki_uk|richtext }}
                                         {% endif %}
                                     </div>
+                                    {% if (company.sanctions_en and LANGUAGE_CODE == "en") or (company.sanctions_uk and LANGUAGE_CODE == "uk") %}
+                                        <div class="criminal-status">
+                                            <h4>{{ _("Санкції") }}</h4>
+
+                                            {% if company.sanctions_en and LANGUAGE_CODE == "en" %}
+                                                {{ company.sanctions_en|richtext }}
+                                            {% elif company.sanctions_uk and LANGUAGE_CODE == "uk" %}
+                                                {{ company.sanctions_uk|richtext }}
+                                            {% endif %}
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="profile-section__footer">
