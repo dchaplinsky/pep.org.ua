@@ -27,7 +27,7 @@
             </form>
             <div class="form-inline" id="country-selection-form">
                 <div class="form-group">
-                    <select class="combobox country-list input-large form-control">
+                    <select class="combobox country-list input-large form-control" name="country">
                         <option value="" {% if not country %}selected{% endif %}>{{ _("Оберіть країну") }}</option>
                         <option value="all" data-url="{{ url("countries_home") }}">{{ _("Усі країни") }}</option>
                         {% for cntry in used_countries %}

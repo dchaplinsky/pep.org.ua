@@ -132,16 +132,14 @@ def search(request, sources=("persons", "companies")):
                 "names",
                 "full_name_en",
                 "also_known_as_uk",
-                "also_known_as_en",
+                "also_known_as_en"
             ],
         )
 
         if country:
             persons = persons.query(
                 "match",
-                related_countries__to_country_uk={
-                    "query": country, "operator": "and"
-                }
+                related_countries__to_country_uk={"query": country, "operator": "and"},
             )
 
         # Special case when we were looking for one exact person and found it.
@@ -154,15 +152,18 @@ def search(request, sources=("persons", "companies")):
             "multi_match",
             query=query,
             operator="and",
-            fields=["short_name_en", "short_name_uk", "name_en", "name_uk"],
+            fields=[
+                "short_name_en",
+                "short_name_uk",
+                "name_en",
+                "name_uk"
+            ],
         )
 
         if country:
             companies = companies.query(
                 "match",
-                related_countries__to_country_uk={
-                    "query": country, "operator": "and"
-                }
+                related_countries__to_country_uk={"query": country, "operator": "and"},
             )
 
         # Special case when we were looking for one exact company and found it.
@@ -190,6 +191,7 @@ def search(request, sources=("persons", "companies")):
     return render(request, "search.jinja", params)
 
 
+
 def _search_person(request):
     query = request.GET.get("q", "")
     country = request.GET.get("country", "")
@@ -204,6 +206,8 @@ def _search_person(request):
         "related_persons.person_en",
         "inn",
         "passport",
+        "related_countries.to_country_uk",
+        "related_countries.to_country_en",
     ]
 
     if query:
@@ -279,13 +283,14 @@ def _search_company(request):
         "bank_name",
         "edrpou",
         "code_chunks",
+        "related_countries.to_country_uk",
+        "related_countries.to_country_en",
     ]
 
     if query:
         companies = ElasticCompany.search().query(
             "multi_match", query=query, operator="and", fields=_fields
         )
-
         if companies.count() == 0:
             # PLAN B, PLAN B
             companies = ElasticCompany.search().query(
