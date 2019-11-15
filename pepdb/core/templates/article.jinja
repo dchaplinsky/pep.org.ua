@@ -1,7 +1,11 @@
 {% extends "base.jinja" %}
 
 {% block og_tags %}
-    <meta property="og:image" content="{{ SITE_URL }}{{ static("images/pep_fb.png") }}" />
+    {% if article.photo %}
+        <meta property="og:image" content="{{ article.photo.url }}" />
+    {% else %}
+        <meta property="og:image" content="{{ SITE_URL }}{{ static("images/pep_fb.png") }}" />
+    {% endif %}
     <meta property="og:type" content="article" />
     <meta property="og:description" content="{{ article.header }}" />
 {% endblock %}
