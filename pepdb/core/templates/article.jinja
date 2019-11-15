@@ -2,7 +2,7 @@
 
 {% block og_tags %}
     {% if article.photo %}
-        <meta property="og:image" content="{{ article.photo.url }}" />
+        <meta property="og:image" content="{{ SITE_URL }}{{ article.photo.url }}" />
     {% else %}
         <meta property="og:image" content="{{ SITE_URL }}{{ static("images/pep_fb.png") }}" />
     {% endif %}
