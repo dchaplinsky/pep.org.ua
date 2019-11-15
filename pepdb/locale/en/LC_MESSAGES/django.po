@@ -1788,7 +1788,7 @@ msgstr "Profiles of close associates and family members"
 
 #: core/templates/base.jinja:62
 msgid "Menu"
-msgstr ""
+msgstr "Меню"
 
 #: core/templates/base.jinja:107
 msgid "Домівка"
@@ -1894,7 +1894,7 @@ msgstr "Bank customers"
 
 #: core/templates/company.jinja:246
 msgid "Показати всіх клієнтів банку"
-msgstr ""
+msgstr "Show all the clients of the bank"
 
 #: core/templates/company.jinja:253
 msgid "Пов'язані компанії"
@@ -2030,7 +2030,7 @@ msgstr "I've read Q&A section and got no answer"
 
 #: core/templates/company.jinja:19
 msgid "Детальна інформація про компанію, контрагентів та пов'язаних осіб"
-msgstr ""
+msgstr "Detailed information on the company, its counterparts and associates"
 
 #: core/templates/company.jinja:101
 msgid "Державний орган"
