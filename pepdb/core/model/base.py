@@ -117,7 +117,7 @@ class AbstractRelationship(models.Model, AbstractNode):
 
     @property
     def has_additional_info(self):
-        if any([self.date_confirmed, self.date_established, self.date_finished]):
+        if any([self.date_confirmed]):
             return True
 
         return bool(self.proofs.count())

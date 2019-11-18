@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-15 01:44+0200\n"
+"POT-Creation-Date: 2019-11-18 16:27+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -148,8 +148,8 @@ msgid ""
 "табличному та візуалізованому форматах"
 msgstr ""
 
-#: cms_pages/templates/cms_pages/home.jinja:214 core/templates/base.jinja:105
-#: core/templates/base.jinja:157 core/templates/base.jinja:189
+#: cms_pages/templates/cms_pages/home.jinja:214 core/templates/base.jinja:106
+#: core/templates/base.jinja:158 core/templates/base.jinja:190
 msgid "Open Data"
 msgstr ""
 
@@ -164,8 +164,8 @@ msgstr ""
 msgid "Користуються системою"
 msgstr ""
 
-#: cms_pages/templates/cms_pages/home.jinja:275 core/templates/base.jinja:71
-#: core/templates/base.jinja:133
+#: cms_pages/templates/cms_pages/home.jinja:275 core/templates/base.jinja:72
+#: core/templates/base.jinja:134
 msgid "Введіть ім'я або назву компанії"
 msgstr ""
 
@@ -1337,48 +1337,48 @@ msgstr ""
 msgid "Дякуємо за надану інформацію"
 msgstr ""
 
-#: core/templates/article.jinja:20 core/templates/base.jinja:93
-#: core/templates/base.jinja:145 core/templates/base.jinja:177
+#: core/templates/article.jinja:24 core/templates/base.jinja:94
+#: core/templates/base.jinja:146 core/templates/base.jinja:178
 msgid "Про реєстр"
 msgstr ""
 
-#: core/templates/base.jinja:96 core/templates/base.jinja:148
-#: core/templates/base.jinja:180
+#: core/templates/base.jinja:97 core/templates/base.jinja:149
+#: core/templates/base.jinja:181
 msgid "Блог"
 msgstr ""
 
-#: core/templates/base.jinja:99 core/templates/base.jinja:151
-#: core/templates/base.jinja:183
+#: core/templates/base.jinja:100 core/templates/base.jinja:152
+#: core/templates/base.jinja:184
 msgid "Розслідування"
 msgstr ""
 
-#: core/templates/base.jinja:102 core/templates/base.jinja:154
-#: core/templates/base.jinja:186
+#: core/templates/base.jinja:103 core/templates/base.jinja:155
+#: core/templates/base.jinja:187
 msgid "Контакти"
 msgstr ""
 
-#: core/templates/base.jinja:108 core/templates/base.jinja:160
-#: core/templates/base.jinja:192
+#: core/templates/base.jinja:109 core/templates/base.jinja:161
+#: core/templates/base.jinja:193
 msgid "Scoring"
 msgstr ""
 
-#: core/templates/base.jinja:199
+#: core/templates/base.jinja:200
 msgid "Засновники"
 msgstr ""
 
-#: core/templates/base.jinja:217
+#: core/templates/base.jinja:218
 msgid "© ЦЕНТР ПРОТИДІЇ КОРУПЦІЇ, 2015-2019"
 msgstr ""
 
-#: core/templates/base.jinja:218
+#: core/templates/base.jinja:219
 msgid "ДИЗАЙН –"
 msgstr ""
 
-#: core/templates/base.jinja:219
+#: core/templates/base.jinja:220
 msgid "РОЗРОБКА – "
 msgstr ""
 
-#: core/templates/base.jinja:219
+#: core/templates/base.jinja:220
 msgid "КАНЦЕЛЯРСЬКА СОТНЯ"
 msgstr ""
 
@@ -1603,31 +1603,31 @@ msgstr ""
 msgid "ДОСЬЄ"
 msgstr ""
 
-#: core/templates/company.jinja:893
+#: core/templates/company.jinja:893 core/templates/person.jinja:1573
 msgid "члени сім’ї"
 msgstr ""
 
-#: core/templates/company.jinja:899
+#: core/templates/company.jinja:899 core/templates/person.jinja:1579
 msgid "особисті зв’язки"
 msgstr ""
 
-#: core/templates/company.jinja:905
+#: core/templates/company.jinja:905 core/templates/person.jinja:1585
 msgid "ділові зв’язки"
 msgstr ""
 
-#: core/templates/company.jinja:911
+#: core/templates/company.jinja:911 core/templates/person.jinja:1591
 msgid "власник"
 msgstr ""
 
-#: core/templates/company.jinja:917
+#: core/templates/company.jinja:917 core/templates/person.jinja:1597
 msgid "бенефіціарний власник"
 msgstr ""
 
-#: core/templates/company.jinja:923
+#: core/templates/company.jinja:923 core/templates/person.jinja:1603
 msgid "співробітник"
 msgstr ""
 
-#: core/templates/company.jinja:929
+#: core/templates/company.jinja:929 core/templates/person.jinja:1609
 msgid "клієнт"
 msgstr ""
 

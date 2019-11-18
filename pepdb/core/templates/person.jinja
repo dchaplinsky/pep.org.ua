@@ -1158,20 +1158,21 @@
                                                 </td>
                                                 <td class="sort-col col2"><a href="{{ connection.to_company.get_absolute_url() }}" itemscope itemtype="http://schema.org/Organization" itemprop="worksFor"><span itemprop="name">{{ connection.to_company }}</span></a>, {{ connection.relationship_type }}</td>
                                                 <td class="no-wrap">
-                                                    <button class="toggle-row-btn">
-                                                        <svg>
-                                                            <use xlink:href="#arr-right-w2"></use>
-                                                        </svg>
-                                                    </button>
-
                                                     {% if connection.has_additional_info %}
+                                                        <button class="toggle-row-btn">
+                                                            <svg>
+                                                                <use xlink:href="#arr-right-w2"></use>
+                                                            </svg>
+                                                        </button>
                                                         {% set proofs = connection.proofs.all() %}
                                                         <div class="toggle-content">
+                                                            {% if date_confirmed_human %}
                                                             <span class="confirmed-date">{{ _("Підтверджено: ") }}{{ connection.date_confirmed_human }}</span>
+                                                            {% endif %}
                                                             {% if connection.proofs %}
                                                                 {% set comma = joiner(", ") %}
                                                                 {% for proof in proofs -%}
-                                                                    <a href="{% if proof.proof %}{{ proof.proof }}{% else %}{{ proof.proof_document.doc.url }}{% endif%}" class="link confirmed-link">{{ proof.proof_title|default(_("Посилання"), true) }}</a>
+                                                                    <a href="{% if proof.proof %}{{ proof.proof }}{% else %}{{ proof.proof_document.doc.url }}{% endif %}" class="link confirmed-link">{{ proof.proof_title|default(_("Посилання"), true) }}</a>
                                                                 {% endfor %}
                                                             {% endif %}
                                                         </div>
@@ -1179,7 +1180,6 @@
                                                 </td>
                                             </tr>
                                         {% endfor %}
-
                                     </tbody>
                                 </table>
                             </div>
@@ -1570,43 +1570,43 @@
                                         <svg>
                                             <use xlink:href="#legend-dashed-line"></use>
                                         </svg>
-                                        <span>члени сім’ї</span>
+                                        <span>{{ _("члени сім’ї") }}</span>
                                     </li>
                                     <li class="legend__item purple">
                                         <svg>
                                             <use xlink:href="#legend-dashed-line"></use>
                                         </svg>
-                                        <span>особисті зв’язки</span>
+                                        <span>{{ _("особисті зв’язки") }}</span>
                                     </li>
                                     <li class="legend__item sky-blue">
                                         <svg>
                                             <use xlink:href="#legend-dashed-line"></use>
                                         </svg>
-                                        <span>ділові зв’язки</span>
+                                        <span>{{ _("ділові зв’язки") }}</span>
                                     </li>
                                     <li class="legend__item green">
                                         <svg>
                                             <use xlink:href="#legend-line"></use>
                                         </svg>
-                                        <span>власник</span>
+                                        <span>{{ _("власник") }}</span>
                                     </li>
                                     <li class="legend__item blue">
                                         <svg>
                                             <use xlink:href="#legend-line"></use>
                                         </svg>
-                                        <span>бенефіціарний власник</span>
+                                        <span>{{ _("бенефіціарний власник") }}</span>
                                     </li>
                                     <li class="legend__item pink">
                                         <svg>
                                             <use xlink:href="#legend-line"></use>
                                         </svg>
-                                        <span>співробітник</span>
+                                        <span>{{ _("співробітник") }}</span>
                                     </li>
                                     <li class="legend__item orange">
                                         <svg>
                                             <use xlink:href="#legend-line"></use>
                                         </svg>
-                                        <span>клієнт</span>
+                                        <span>{{ _("клієнт") }}</span>
                                     </li>
                                 </ul>
                                 <button class="legend-btn">

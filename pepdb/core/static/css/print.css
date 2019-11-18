@@ -267,3 +267,7 @@ body {
 .print-only {
     display: block!important;
 }
+
+.confirmed-link {
+    display: none!important;
+}
