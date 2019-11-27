@@ -110,7 +110,7 @@ def smart_unquote_plus(v):
     if isinstance(v, basestring):
         return unquote_plus(v)
     if isinstance(v, tuple):
-        return (unquote_plus(m) for m in v)
+        return tuple(unquote_plus(m) for m in v)
     if isinstance(v, list):
         return [unquote_plus(m) for m in v]
 
@@ -142,7 +142,8 @@ def orig_translate_url(url, lang_code, orig_lang_code=None):
             except NoReverseMatch:
                 pass
             else:
-                url = urlunsplit((parsed.scheme, parsed.netloc, url, parsed.query, parsed.fragment))
+                url = urlunsplit(("https", parsed.netloc, url, parsed.query, parsed.fragment))
+
     return url
 
 
