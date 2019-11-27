@@ -7,13 +7,13 @@
     <meta name="author" content="">
     <meta name='yandex-verification' content='5773e8febf6e53a1' />
 
-    {%- for lang in LANGUAGES %}
-        {# Ugly! #}
-        {%- if request.path.startswith("/" + LANGUAGE_CODE + "/") and lang.0 != LANGUAGE_CODE %}
+    {% block hreflang %}
+        {% for language_code, language_name in LANGUAGES %}
+            <link rel="alternate" hreflang="{{ language_code }}" href="{{ translate_url(request, language_code) }}" />
+        {% endfor %}
 
-            <link rel="alternate" href="{{ SITE_URL }}{{ request.path.replace("/" + LANGUAGE_CODE + "/", "/" + lang.0 + "/", 1) }}{% if request.GET %}?{% endif %}{{ request.GET.urlencode() }}" hreflang="{{ lang.0 }}" />
-        {% endif -%}
-    {% endfor -%}
+        <link rel="alternate" hreflang="x-default" href="{{ translate_url(request, "uk") }}" />
+    {% endblock %}
 
     <title>PEP: {% block page_title %}{{ root_page.translated_title }}{% endblock %}</title>
 

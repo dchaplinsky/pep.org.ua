@@ -10,6 +10,8 @@ from core.models import Person, Company, Country
 
 
 class MainXML(RelAlternateHreflangSitemap):
+    protocol = "https"
+
     def items(self):
         pages = [
             ('wagtail_serve', ['']),
@@ -34,6 +36,8 @@ class MainXML(RelAlternateHreflangSitemap):
 
 
 class CountriesXML(RelAlternateHreflangSitemap):
+    protocol = "https"
+
     def items(self):
         return Country.objects.annotate(
             persons_count=Count("person2country"),
@@ -42,6 +46,7 @@ class CountriesXML(RelAlternateHreflangSitemap):
             usages=0, iso2="").order_by("-usages")
 
     def location(self, item):
+        activate(settings.LANGUAGE_CODE)
         return reverse("countries", args=[item.iso2])
 
     def alternate_hreflangs(self, obj):
@@ -57,10 +62,13 @@ class CountriesXML(RelAlternateHreflangSitemap):
 
 
 class PersonXML(RelAlternateHreflangSitemap):
+    protocol = "https"
+
     def items(self):
         return Person.objects.all()
 
     def location(self, item):
+        activate(settings.LANGUAGE_CODE)
         return item.get_absolute_url()
 
     def alternate_hreflangs(self, obj):
@@ -70,10 +78,13 @@ class PersonXML(RelAlternateHreflangSitemap):
 
 
 class CompanyXML(RelAlternateHreflangSitemap):
+    protocol = "https"
+
     def items(self):
         return Company.objects.all()
 
     def location(self, item):
+        activate(settings.LANGUAGE_CODE)
         return item.get_absolute_url()
 
     def alternate_hreflangs(self, obj):
@@ -83,6 +94,8 @@ class CompanyXML(RelAlternateHreflangSitemap):
 
 
 class StaticXML(RelAlternateHreflangSitemap):
+    protocol = "https"
+
     def items(self):
         return list(StaticPage.objects.live())
 

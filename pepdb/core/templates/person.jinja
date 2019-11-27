@@ -15,8 +15,16 @@
     <meta property="og:description" content="{{ _("Детальна інформація про членів сім'ї та інших пов'язаних осіб, задекларовані статки, зобов'язання та банківські рахунки, власність в юридичних особах") }}" />
     <meta property="profile:first_name" content="{{ person.first_name }} {{ person.patronymic }}" />
     <meta property="profile:last_name" content="{{ person.last_name }}" />
-    <link rel="canonical" href="{{ SITE_URL }}{{ person.get_absolute_url() }}" />
 {% endblock %}
+
+{% block hreflang %}
+    {% if person.get_absolute_url() != request.get_full_path() %}
+        <link rel="canonical" href="{{ SITE_URL }}{{ person.get_absolute_url() }}" />
+    {% else %}
+        {{ super() }}
+    {% endif %}
+{% endblock %}
+
 
 {% block page_title %}
 {{_("Профіль:")}} {{ person.last_name }} {{ person.first_name }} {{ person.patronymic }}{% if last_workplace %}, {{ last_workplace.company }}, {{ last_workplace.position }}{% endif %}
