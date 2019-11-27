@@ -9,10 +9,10 @@
 
     {% block hreflang %}
         {% for language_code, language_name in LANGUAGES %}
-            <link rel="alternate" hreflang="{{ language_code }}" href="{{ translate_url(request, language_code) }}" />
+            <link rel="alternate" hreflang="{{ language_code }}" href="{{ translate_url(request, language_code)|safe }}" />
         {% endfor %}
 
-        <link rel="alternate" hreflang="x-default" href="{{ translate_url(request, "uk") }}" />
+        <link rel="alternate" hreflang="x-default" href="{{ translate_url(request, "uk")|safe }}" />
     {% endblock %}
 
     <title>PEP: {% block page_title %}{{ root_page.translated_title }}{% endblock %}</title>

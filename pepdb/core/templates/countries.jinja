@@ -2,7 +2,7 @@
 {% from "macros/_pagination.jinja" import render_pagination with context %}
 
 {% block hreflang %}
-    {% if country.get_absolute_url() != request.get_full_path() %}
+    {% if country and country.get_absolute_url() != request.get_full_path() %}
         <link rel="canonical" href="{{ SITE_URL }}{{ country.get_absolute_url() }}" />
     {% else %}
         {{ super() }}

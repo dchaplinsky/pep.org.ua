@@ -106,6 +106,16 @@ def xmlize(value):
     else:
         return value
 
+def smart_unquote_plus(v):
+    if isinstance(v, basestring):
+        return unquote_plus(v)
+    if isinstance(v, tuple):
+        return (unquote_plus(m) for m in v)
+    if isinstance(v, list):
+        return [unquote_plus(m) for m in v]
+
+    return v
+
 
 def orig_translate_url(url, lang_code, orig_lang_code=None):
     """
@@ -126,8 +136,8 @@ def orig_translate_url(url, lang_code, orig_lang_code=None):
         to_be_reversed = "%s:%s" % (match.namespace, match.url_name) if match.namespace else match.url_name
         with override(lang_code):
             try:
-                match.kwargs = {k: unquote_plus(v) for k, v in match.kwargs.items()}
-                match.args = [unquote_plus(v) for v in match.args]
+                match.kwargs = {k: smart_unquote_plus(v) for k, v in match.kwargs.items()}
+                match.args = [smart_unquote_plus(v) for v in match.args]
                 url = reverse(to_be_reversed, args=match.args, kwargs=match.kwargs)
             except NoReverseMatch:
                 pass
