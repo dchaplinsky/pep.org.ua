@@ -18,6 +18,7 @@ from django.contrib.auth.models import User
 from django.apps import apps
 from django.conf import settings
 from django.views.decorators.cache import never_cache
+from django.utils.timezone import now
 
 from elasticsearch_dsl.query import Q
 from translitua import translit
@@ -120,7 +121,7 @@ def search(request, sources=("persons", "companies")):
     country = request.GET.get("country", "")
     is_exact = request.GET.get("is_exact", "") == "on"
 
-    params = {"query": query, "sources": sources, "today": datetime.now()}
+    params = {"query": query, "sources": sources, "today": now()}
 
     if is_exact:
         persons = ElasticPerson.search().query(
@@ -417,7 +418,7 @@ def countries(request, sources=("persons", "companies"), country_id=None):
     if country_id is not None:
         country = get_object_or_404(Country, iso2=country_id)
 
-    params = {"country": country}
+    params = {"country": country, "today": now(), "query": ""}
 
     if "persons" in sources:
         if country_id is None:
