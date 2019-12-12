@@ -115,6 +115,12 @@
                         <h1 class="profile-name {% if person.terminated %}profile-name--no-active{% endif %}" itemprop="name">{{ person.last_name }} {{ person.first_name }} {{ person.patronymic }}</h1>
                         <table>
                             <tbody>
+                            {% if person.also_known_as %}
+                            <tr>
+                                <td>{{ _("Інші імена") }}</td>
+                                <td itemprop="name">{{ person.also_known_as|replace("\n", "<br/>")|safe }}</td>
+                            </tr>
+                            {% endif %}
                             {% if person.type_of_official %}
                             <tr>
                                 <td>{{ _("Категорія") }}</td>
