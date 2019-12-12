@@ -191,11 +191,11 @@
                     </div>
                 </div>
 
-                {% if scoring_flags %}
+                {% if scoring_flags and not person.died %}
                 <div class="scoring">
                     <div class="scoring__header">
                         <div class="content">
-                            <h6 class="scoring__title">{{ _("Скоринг ризику") }}</h6>
+                            <h6 class="scoring__title">{{ _("Скоринг ризику активів") }}</h6>
                             <!-- добавлять класс index--N, где N - номер индекса от 1 до 10 -->
                             <!-- а что делать для тех, у которых скор — 0 -->
                             <div class="progressbar">
@@ -219,6 +219,7 @@
                             </li>
                             {% endfor %}
                         </ol>
+                        <p>{{ _("Детальніше про методологію оцінювання ризику необгрунтованості доходів публічних діячів ") }}<a href="{{ url('wagtail_serve', 'scoring/') }}">{{ _("читайте тут") }}</a></p>
                     </div>
                 </div>
                 {% endif %}

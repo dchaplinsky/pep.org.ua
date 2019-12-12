@@ -1,10 +1,10 @@
 # coding: utf-8
 from __future__ import unicode_literals
 import re
+from collections import OrderedDict
 
 from django.db import models
 from django.contrib.auth.models import User
-from collections import OrderedDict
 from django.utils.translation import ugettext_lazy
 
 
