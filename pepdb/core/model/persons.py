@@ -694,10 +694,13 @@ class Person(models.Model, AbstractNode):
         )
 
     @property
-    def foreign_citizenship(self):
-        return self.person2country_set.prefetch_related("to_country").filter(
-            relationship_type="citizenship"
-        )
+    def all_related_countries(self):
+        connections = self.person2country_set.prefetch_related("to_country")
+
+        types = defaultdict(list)
+        for c in connections:
+            types[c.relationship_type].append(c)
+        return types
 
     @property
     def url_uk(self):

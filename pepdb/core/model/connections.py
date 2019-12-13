@@ -524,20 +524,22 @@ class Person2Country(AbstractRelationship):
     from_person = models.ForeignKey("Person", verbose_name="Персона")
     to_country = models.ForeignKey("Country", verbose_name="Країна")
 
-    relationship_type = models.CharField(
-        "Тип зв'язку",
-        choices=(
-            ("born_in", _("Народився(-лась)")),
-            ("registered_in", _("Зареєстрований(-а)")),
-            ("lived_in", _("Проживав(-ла)")),
-            ("citizenship", _("Громадянин(-ка)")),
-            ("business", _("Має зареєстрований бізнес")),
-            ("realty", _("Має нерухомість")),
-            ("under_sanctions", _("Під санкціями")),
-        ),
+    _relationships_explained = {
+        "born_in": _("Народився(-лась)"),
+        "registered_in": _("Зареєстрований(-а)"),
+        "lived_in": _("Проживав(-ла)"),
+        "citizenship": _("Громадянин(-ка)"),
+        "business": _("Має зареєстрований бізнес"),
+        "realty": _("Має нерухомість"),
+        "under_sanctions": _("Під санкціями"),
+    }
 
+    relationship_type = models.CharField(
+        _("Тип зв'язку"),
+        choices=_relationships_explained.items(),
         max_length=30,
-        blank=False)
+        blank=False,
+    )
 
     def __unicode__(self):
         return "%s у %s" % (

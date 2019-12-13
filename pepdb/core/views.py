@@ -26,7 +26,7 @@ from cryptography.fernet import InvalidToken
 from cacheops import cached_view
 
 
-from core.models import Person, Declaration, Country, Company, ActionLog, Article
+from core.models import Person, Declaration, Country, Company, ActionLog, Article, Person2Country
 from core.pdf import pdf_response
 from core.utils import is_cyr, add_encrypted_url, unique, blacklist
 from core.paginator import paginated_search
@@ -390,6 +390,7 @@ def person_details(request, person_id):
         "charts_data": person.get_charts_data(),
         "scoring_score": sum(x[0] * x[1] for x in flags_qs.values_list("rule__weight", "rule__scale")),
         "scoring_flags": flags_qs.order_by("-rule__weight", "pk").nocache(),
+        "country_connections_titles": Person2Country._relationships_explained,
         "articles": person.articles.filter(kind="i", publish=True).order_by("-date"),
     }
 

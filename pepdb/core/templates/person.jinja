@@ -48,6 +48,7 @@
 
 {% block content %}
 {% set related_persons = person.all_related_persons %}
+{% set related_countries = person.all_related_countries %}
 {% set related_companies = person.all_related_companies %}
 {% set workplaces = person.workplaces %}
 {% set manhunt_records = person.manhunt_records %}
@@ -144,17 +145,23 @@
                                 </td>
                             </tr>
                             {% endif %}
-                            {% if person.foreign_citizenship %}
-                            <tr>
-                                <td>{{ _("Громадянство") }}</td>
-                                <td>
-                                    {% set comma = joiner(", ") %}
-                                    {% for citizenship in person.foreign_citizenship -%}
-                                    {{ comma() }}{{ citizenship.to_country.name }}
-                                    {%- endfor %}
-                                </td>
-                            </tr>
-                            {% endif %}
+                            {% for country_section, connections_with_country in related_countries.items() %}
+                                <tr>
+                                    <td>{{ country_connections_titles[country_section] }}</td>
+                                    <td>
+                                        {% set comma = joiner(", ") %}
+                                        {% for connection in connections_with_country -%}
+                                        {{ comma() }}<span class="flag flag-{{ connection.to_country.iso3|lower }}" title="{{ connection.to_country.name }}"></span> {{ connection.to_country.name }}
+                                        {% if connection.has_additional_info %}
+                                            <a href="#" class="modalConnectionShow" data-toggle="modal" data-target="#modalCountry-{{ country_section }}-{{ loop.index }}">
+                                               <i class="fa fa-info-circle info-gray"></i>
+                                            </a>
+                                            {{ render_connection(connection, "modalCountry-{}-{}".format(country_section, loop.index)) }}
+                                        {% endif %}
+                                        {%- endfor %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
                             {% if last_workplace %}
                             <tr>
                                 <td>{{ _("Остання посада") }}</td>
