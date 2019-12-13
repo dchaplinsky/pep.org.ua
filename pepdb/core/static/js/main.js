@@ -374,7 +374,12 @@ $(document).ready(function () {
 
         // сортируем
         currTable.find('tr').slice(sliceCnt).sort(function (a, b) {
-            return $(a).find('.sort-col.' + sortColNum).text() > $(b).find('.sort-col.' + sortColNum).text() ? from : to;
+            if ($(a).find('.sort-col.' + sortColNum).text().localeCompare($(b).find('.sort-col.' + sortColNum).text()) > 0) {
+                return from;
+            } else {
+                return to;
+            }
+            // return $(a).find('.sort-col.' + sortColNum).text() > $(b).find('.sort-col.' + sortColNum).text() ? from : to;
         }).appendTo(currTable);
     });
 
