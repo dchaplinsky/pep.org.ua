@@ -442,7 +442,7 @@
                                         {% set income = declaration.get_income() %}
                                         <tr>
                                             <td class="no-wrap sort-col col1">
-                                                <strong>{{ income.year }}</strong>
+                                                <strong><a href="{{ income.url }}" target="_blank"  data-toggle="tooltip" data-placement="bottom" title="{% if declaration.nacp_declaration %}{{ _('Електронна декларація') }}{% else %}{{ _('Паперова декларація') }}{% endif %}">{{ income.year }}</a></strong>
                                             </td>
                                             <td class="position sort-col col2" itemscope="" itemtype="http://schema.org/Organization" itemprop="worksFor">
                                                 <p><span itemprop="name">{{ income.office }}</span>, {{ income.position }}{% if declaration.doc_type == "Кандидата на посаду" %} ({{ _("кандидат") }}){% endif %}</p>
@@ -575,8 +575,8 @@
                                         {% for declaration in  all_declarations %}
                                         {% set assets = declaration.get_assets() %}
                                         <tr>
-                                            <td class="no-wrap sort-col col1"><a href="{{ assets.url }}" target="_blank"  data-toggle="tooltip" data-placement="bottom" title="{% if declaration.nacp_declaration %}{{ _('Електронна декларація') }}{% else %}{{ _('Паперова декларація') }}{% endif %}">
-                                                {{ assets.year }}
+                                            <td class="no-wrap sort-col col1"><strong><a href="{{ assets.url }}" target="_blank"  data-toggle="tooltip" data-placement="bottom" title="{% if declaration.nacp_declaration %}{{ _('Електронна декларація') }}{% else %}{{ _('Паперова декларація') }}{% endif %}">
+                                                {{ assets.year }}</a></strong>
                                             </td>
                                             <td class="no-wrap sort-col col2">
                                                 {{ _("Вклади") }}
@@ -612,8 +612,8 @@
                                         </tr>
                                         {% if declaration.nacp_declaration %}
                                         <tr>
-                                            <td class="no-wrap sort-col col1"><a href="{{ assets.url }}" target="_blank"  data-toggle="tooltip" data-placement="bottom" title="{% if declaration.nacp_declaration %}{{ _('Електронна декларація') }}{% else %}{{ _('Паперова декларація') }}{% endif %}">
-                                                {{ assets.year }}
+                                            <td class="no-wrap sort-col col1"><strong><a href="{{ assets.url }}" target="_blank"  data-toggle="tooltip" data-placement="bottom" title="{% if declaration.nacp_declaration %}{{ _('Електронна декларація') }}{% else %}{{ _('Паперова декларація') }}{% endif %}">
+                                                {{ assets.year }}</a></strong>
                                             </td>
                                             <td class="no-wrap sort-col col2">
                                                 {{ _("Готівка") }}
@@ -648,8 +648,8 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="no-wrap sort-col col1"><a href="{{ assets.url }}" target="_blank"  data-toggle="tooltip" data-placement="bottom" title="{% if declaration.nacp_declaration %}{{ _('Електронна декларація') }}{% else %}{{ _('Паперова декларація') }}{% endif %}">
-                                                {{ assets.year }}
+                                            <td class="no-wrap sort-col col1"><strong><a href="{{ assets.url }}" target="_blank"  data-toggle="tooltip" data-placement="bottom" title="{% if declaration.nacp_declaration %}{{ _('Електронна декларація') }}{% else %}{{ _('Паперова декларація') }}{% endif %}">
+                                                {{ assets.year }}</a></strong>
                                             </td>
                                             <td class="no-wrap sort-col col2">
                                                 {{ _("Інше") }}
@@ -826,7 +826,7 @@
                                         {% set gifts = declaration.get_gifts() %}
                                             <tr>
                                                 <td class="no-wrap sort-col col1">
-                                                    <strong><a href="{{ gifts.url }}" target="_blank"  data-toggle="tooltip" data-placement="bottom" title="{% if declaration.nacp_declaration %}{{ _("Електронна декларація") }}{% else %}{{ _("Паперова декларація") }}{% endif %}">{{ gifts.year }}</strong>
+                                                    <strong><a href="{{ gifts.url }}" target="_blank"  data-toggle="tooltip" data-placement="bottom" title="{% if declaration.nacp_declaration %}{{ _("Електронна декларація") }}{% else %}{{ _("Паперова декларація") }}{% endif %}">{{ gifts.year }}</a></strong>
                                                 </td>
                                                 <td class="no-wrap sort-col col2"><span>{{ gifts.gifts_of_declarant|curformat() }}</span></td>
                                                 <td class="no-wrap sort-col col3"><span>{{ gifts.gifts_of_family|curformat() }}</span></td>
