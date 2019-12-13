@@ -940,6 +940,18 @@
                         </div>
                         <div class="visualization-modal__body">
                             <div class="cy-wrapper">
+                                <div class="visualization-modal__zoom-buttons">
+                                    <div class="zoom-in">
+                                        <svg>
+                                            <use xlink:href="#zoom-in"></use>
+                                        </svg>
+                                    </div>
+                                    <div class="zoom-out">
+                                        <svg>
+                                            <use xlink:href="#zoom-out"></use>
+                                        </svg>
+                                    </div>
+                                </div>
                                 <div class="cy-full"></div>
                             </div>
                         </div>
@@ -1055,7 +1067,19 @@
     <symbol id="legend-line" viewBox="0 0 20 20" fill="none">
         <line x1="0.646447" y1="19.6464" x2="19.6464" y2="0.646447"/>
     </symbol>
-
+    <symbol id="zoom-in" viewBox="0 0 22 22">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+        d="M16 9.5C16 13.0899 13.0899 16 9.5 16C5.91015 16 3 13.0899 3 9.5C3 5.91015 5.91015 3 9.5 3C13.0899 3 16 5.91015 16 9.5ZM14.4271 16.4271C13.0372 17.4175 11.3367 18 9.5 18C4.80558 18 1 14.1944 1 9.5C1 4.80558 4.80558 1 9.5 1C14.1944 1 18 4.80558 18 9.5C18 11.6364 17.2118 13.5887 15.9104 15.082L20.4142 19.5858L19 21L14.4271 16.4271Z"
+        />
+        <line x1="6" y1="9.5" x2="13" y2="9.5" stroke-width="2"/>
+        <line x1="9.5" y1="13" x2="9.5" y2="6" stroke-width="2"/>
+    </symbol>
+    <symbol id="zoom-out" viewBox="0 0 22 22">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+        d="M16 9.5C16 13.0899 13.0899 16 9.5 16C5.91015 16 3 13.0899 3 9.5C3 5.91015 5.91015 3 9.5 3C13.0899 3 16 5.91015 16 9.5ZM14.4271 16.4271C13.0372 17.4175 11.3367 18 9.5 18C4.80558 18 1 14.1944 1 9.5C1 4.80558 4.80558 1 9.5 1C14.1944 1 18 4.80558 18 9.5C18 11.6364 17.2118 13.5887 15.9104 15.082L20.4142 19.5858L19 21L14.4271 16.4271Z"
+        />
+        <line x1="6" y1="9.5" x2="13" y2="9.5" stroke-width="2"/>
+    </symbol>
 </svg>
 <!--SVG elements end-->
 {% endblock %}
