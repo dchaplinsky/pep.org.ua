@@ -152,12 +152,26 @@
                                         {% set comma = joiner(", ") %}
                                         {% for connection in connections_with_country -%}
                                         {{ comma() }}<span class="flag flag-{{ connection.to_country.iso3|lower }}" title="{{ connection.to_country.name }}"></span> {{ connection.to_country.name }}
-                                        {% if connection.has_additional_info %}
-                                            <a href="#" class="modalConnectionShow" data-toggle="modal" data-target="#modalCountry-{{ country_section }}-{{ loop.index }}">
-                                               <i class="fa fa-info-circle info-gray"></i>
-                                            </a>
-                                            {{ render_connection(connection, "modalCountry-{}-{}".format(country_section, loop.index)) }}
-                                        {% endif %}
+
+{#                                         {% if connection.has_additional_info %}
+                                            <button class="toggle-row-btn">
+                                                <svg>
+                                                    <use xlink:href="#arr-right-w2"></use>
+                                                </svg>
+                                            </button>
+                                            {% set proofs = connection.proofs.all() %}
+                                            <div class="toggle-content">
+                                                {% if date_confirmed_human %}
+                                                <span class="confirmed-date">{{ _("Підтверджено: ") }}{{ connection.date_confirmed_human }}</span>
+                                                {% endif %}
+                                                {% if connection.proofs %}
+                                                    {% set comma = joiner(", ") %}
+                                                    {% for proof in proofs -%}
+                                                        <a href="{% if proof.proof %}{{ proof.proof }}{% else %}{{ proof.proof_document.doc.url }}{% endif %}" class="link confirmed-link">{{ proof.proof_title|default(_("Посилання"), true) }}</a>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                        {% endif %} #}
                                         {%- endfor %}
                                     </td>
                                 </tr>
