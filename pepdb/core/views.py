@@ -615,7 +615,7 @@ def articles(request, kind):
 
     return render(request, "articles.jinja", {
         "kind": kind,
-        "kind_readble": Article.ARTICLE_KINDS[kind],
+        "kind_readable": Article.ARTICLE_KINDS[kind],
         "articles": articles
     })
 

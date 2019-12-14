@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PEP\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-13 16:55+0200\n"
+"POT-Creation-Date: 2019-12-13 17:46+0200\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -246,8 +246,8 @@ msgid "блог"
 msgstr "blog"
 
 #: core/model/articles.py:16
-msgid "розслідування"
-msgstr "investigations"
+msgid "наші розслідування"
+msgstr "our investigations"
 
 #: core/model/articles.py:17
 msgid "FAQ (загальний)"
@@ -1369,7 +1369,7 @@ msgstr "Other real estate"
 #: core/templates/_declaration.jinja:421 core/templates/_declaration.jinja:427
 #: core/templates/person.jinja:907 core/templates/person.jinja:918
 #: core/templates/person.jinja:929 core/templates/person.jinja:940
-#: core/templates/person.jinja:1805
+#: core/templates/person.jinja:1804
 msgid "м²"
 msgstr "sq. m"
 
@@ -1450,6 +1450,10 @@ msgstr "Thank you for your message"
 #: core/templates/base.jinja:146 core/templates/base.jinja:178
 msgid "Про реєстр"
 msgstr "About"
+
+#: core/templates/article.jinja:73
+msgid "ПОДІЛИТИСЯ"
+msgstr "Share"
 
 #: core/templates/base.jinja:97 core/templates/base.jinja:149
 #: core/templates/base.jinja:181
@@ -1967,15 +1971,15 @@ msgstr "Vehicles"
 msgid "КАР’ЄРА"
 msgstr "Career"
 
-#: core/templates/person.jinja:1802
+#: core/templates/person.jinja:1801
 msgid "meters"
 msgstr "sq. m"
 
-#: core/templates/person.jinja:1803
+#: core/templates/person.jinja:1802
 msgid "gectars"
 msgstr "hectars"
 
-#: core/templates/person.jinja:1804
+#: core/templates/person.jinja:1803
 msgid "sotok"
 msgstr "ares"
 
@@ -1986,6 +1990,9 @@ msgstr "Ukrainian"
 #: pepdb/settings.py:202
 msgid "English"
 msgstr "English"
+
+#~ msgid "розслідування"
+#~ msgstr "investigations"
 
 #~ msgid "Громадянство"
 #~ msgstr "Citizenship"

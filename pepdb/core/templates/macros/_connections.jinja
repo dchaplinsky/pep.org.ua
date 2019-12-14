@@ -173,7 +173,7 @@
 	                <p class="name name-entities"><a href="{{ company.get_absolute_url() }}">{{ company }}</a></p>
 	            </div>
 	        </td>
-	        <td class="sort-col col2">{{ _(company.rtype) }}</td>
+	        <td class="sort-col col2">{% if company.rtype %}{{ _(company.rtype) }}{% endif %}</td>
 	        <td class="no-wrap sort-col col3">{% if company.edrpou %}{{ company.edrpou }}{% endif %}</td>
 	        <td class="no-wrap">
 	        	{% if company.connection.date_confirmed or proofs %}

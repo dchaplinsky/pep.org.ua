@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-13 16:55+0200\n"
+"POT-Creation-Date: 2019-12-13 17:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -236,7 +236,7 @@ msgid "блог"
 msgstr ""
 
 #: core/model/articles.py:16
-msgid "розслідування"
+msgid "наші розслідування"
 msgstr ""
 
 #: core/model/articles.py:17
@@ -1274,7 +1274,7 @@ msgstr ""
 #: core/templates/_declaration.jinja:421 core/templates/_declaration.jinja:427
 #: core/templates/person.jinja:907 core/templates/person.jinja:918
 #: core/templates/person.jinja:929 core/templates/person.jinja:940
-#: core/templates/person.jinja:1805
+#: core/templates/person.jinja:1804
 msgid "м²"
 msgstr ""
 
@@ -1344,6 +1344,10 @@ msgstr ""
 #: core/templates/article.jinja:24 core/templates/base.jinja:94
 #: core/templates/base.jinja:146 core/templates/base.jinja:178
 msgid "Про реєстр"
+msgstr ""
+
+#: core/templates/article.jinja:73
+msgid "ПОДІЛИТИСЯ"
 msgstr ""
 
 #: core/templates/base.jinja:97 core/templates/base.jinja:149
@@ -1858,15 +1862,15 @@ msgstr ""
 msgid "КАР’ЄРА"
 msgstr ""
 
-#: core/templates/person.jinja:1802
+#: core/templates/person.jinja:1801
 msgid "meters"
 msgstr "м²"
 
-#: core/templates/person.jinja:1803
+#: core/templates/person.jinja:1802
 msgid "gectars"
 msgstr "га"
 
-#: core/templates/person.jinja:1804
+#: core/templates/person.jinja:1803
 msgid "sotok"
 msgstr "соток"
 

@@ -13,7 +13,7 @@ from core.fields import RedactorField
 class Article(models.Model):
     ARTICLE_KINDS = {
         "b": _("блог"),
-        "i": _("розслідування"),
+        "i": _("наші розслідування"),
         "f": _("FAQ (загальний)"),
         "r": _("FAQ (видалення)"),
     }
