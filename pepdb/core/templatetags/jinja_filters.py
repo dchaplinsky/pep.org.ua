@@ -8,7 +8,9 @@ from urllib import unquote_plus
 from django.utils.safestring import mark_safe
 from django_markdown.utils import markdown as _markdown
 from django.core.urlresolvers import reverse, resolve, Resolver404, NoReverseMatch
-from django.utils.translation import override
+from django.utils.translation import override, get_language
+
+from core.utils import get_localized_field
 
 from django_jinja import library
 from jinja2.filters import _GroupTuple
@@ -154,3 +156,14 @@ def translate_url(request, language):
     else:
         url = request.build_absolute_uri()
     return orig_translate_url(url, language)
+
+
+@library.filter
+def translated(value, field, fallback=True):
+    lang = get_language()
+    val = get_localized_field(value, field, lang)
+    if val or not fallback:
+        return val
+    else:
+        return get_localized_field(value, field, settings.LANGUAGE_CODE)
+

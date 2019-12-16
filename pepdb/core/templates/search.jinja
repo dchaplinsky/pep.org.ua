@@ -10,7 +10,7 @@
         <h1 class="page-title">{{_("ПУБЛІЧНІ ДІЯЧІ")}}</h1>
         <div class="profiles-search" id="search-by-country">
             <form action="{{ url("search") }}" method="GET" class="search-form">
-                <input type="text" placeholder="{{ _("Пошук за ПІБ, назвою чи ЄДРПОУ компанії") }}" name="q" data-provide="typeahead" id="search-form-body" autocomplete="off" data-endpoint="{{ url("suggest") }}">
+                <input type="text" placeholder="{{ _("Пошук за ПІБ, назвою чи ЄДРПОУ компанії") }}" name="q" data-provide="typeahead" id="search-form-body" autocomplete="off" data-endpoint="{{ url("suggest") }}" value="{{ query }}">
                 <input type="hidden" name="is_exact" value="" />
                 <button>
                     <svg>
@@ -55,11 +55,28 @@
                                 <img src="{{ static('images/profile-empty-individual.svg') }}" alt="photo" class="profile-card__img">
                             {% endif %}
                             <h6 class="profile-card__title" itemprop="name"><span itemprop="familyName">{{ p.translated_last_name }} {{ p.translated_first_name }} {{ p.translated_patronymic }}</h6>
-                            <span class="profile-card__position">{{_("Остання посада")}}</span>
-                            <p class="profile-card__description">
-                                <span itemprop="worksFor" itemscope itemtype="http://schema.org/Organization"><span itemprop="name">{{ p.translated_last_workplace }}</span></span>,
-                                <span itemprop="jobTitle">{{ p.translated_last_job_title }}</span>
-                            </p>
+
+                            {% if p.last_workplace %}
+                                <span class="profile-card__position">{{_("Остання посада")}}</span>
+                                <p class="profile-card__description">
+                                    <span itemprop="worksFor" itemscope itemtype="http://schema.org/Organization"><span itemprop="name">{{ p.translated_last_workplace }}</span></span>,
+                                    <span itemprop="jobTitle">{{ p.translated_last_job_title }}</span>
+                                </p>
+                            {% endif %}
+
+                            {% if include_related_persons and not p.is_pep %}
+                                {% set relevant_related_persons = p.relevant_related_persons()[:4] %}
+                                {% if relevant_related_persons %}
+                                    <span class="profile-card__position">{{ _("Зв'язок") }}:</span>
+                                    <p class="profile-card__description">
+                                    {% for rel in relevant_related_persons %}
+                                        {% if rel.relationship_type %}{{ _(rel.relationship_type) }}, {% endif %}
+                                        {{ rel|translated("person") }}<br />
+                                    {% endfor %}
+                                    </p>
+                                {% endif %}
+                            {% endif %}
+
                             {% if p.terminated %}
                             <p class="profile-card__description">
                                 <span>{{ p.termination_date_human }}</span> {{ _(p.reason_of_termination) }}

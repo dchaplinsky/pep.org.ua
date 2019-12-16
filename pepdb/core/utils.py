@@ -513,3 +513,26 @@ def get_exchange_rate(curr, year):
     except KeyError:
         return 0.0
 
+
+def localized_field(field_name, lang=settings.LANGUAGE_CODE):
+    return "{}_{}".format(field_name, lang)
+
+
+def get_localized_field(obj, field_name, lang=settings.LANGUAGE_CODE):
+    return getattr(obj, localized_field(field_name, lang))
+
+
+def localized_fields(field_names, langs=None):
+    if langs is None:
+        langs = [settings.LANGUAGE_CODE]
+
+    return [localized_field(field, lang) for field in field_names for lang in langs]
+
+
+def localized_field_map(field_name):
+    mp = {}
+
+    for lang in settings.LANGUAGE_CODES:
+        mp[lang] = localized_field(field_name, lang)
+
+    return mp

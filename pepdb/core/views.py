@@ -121,7 +121,12 @@ def search(request, sources=("persons", "companies")):
     country = request.GET.get("country", "")
     is_exact = request.GET.get("is_exact", "") == "on"
 
-    params = {"query": query, "sources": sources, "today": now()}
+    params = {
+        "query": query,
+        "sources": sources,
+        "today": now(),
+        "include_related_persons": True,
+    }
 
     if is_exact:
         persons = ElasticPerson.search().query(
@@ -419,7 +424,12 @@ def countries(request, sources=("persons", "companies"), country_id=None):
     if country_id is not None:
         country = get_object_or_404(Country, iso2=country_id)
 
-    params = {"country": country, "today": now(), "query": ""}
+    params = {
+        "country": country,
+        "today": now(),
+        "query": "",
+        "include_related_persons": False,
+    }
 
     if "persons" in sources:
         if country_id is None:
