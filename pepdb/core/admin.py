@@ -245,6 +245,7 @@ class Company2PersonInline(TranslationNestedStackedInline):
     extra = 1
     fields = [
         ("relationship_type", "is_employee", "from_person"),
+        ("share",),
         ("date_established", "date_established_details"),
         ("date_finished", "date_finished_details"),
         ("date_confirmed", "date_confirmed_details"),

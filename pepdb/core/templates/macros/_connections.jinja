@@ -131,7 +131,7 @@
 	        		{{ person.connection.relationship_type }}
 				</span>
 	        </td>
-	        <td class="no-wrap sort-col col3">{% if person.share %}{{ person.share }}{% endif %}</td>
+	        <td class="no-wrap sort-col col3">{% if person.connection.share %}{{ "{:2.3f}".format(person.connection.share) }}% {% endif %}</td>
 	        <td>
 	        	{% set connection = person.connection %}
 	            {% if connection.date_established %} {{ connection.date_established_human }}{% endif %} — {% if connection.date_finished %}{{ connection.date_finished_human }}{% endif %}
