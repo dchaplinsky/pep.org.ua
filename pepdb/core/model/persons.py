@@ -501,12 +501,16 @@ class Person(models.Model, AbstractNode):
             p.rtype = rtp
             p.reverse_rtype = rrtp
             p.connection = rel
+            p.category = ""
 
             if rtp in ["особисті зв'язки"]:
+                p.category = "personal"
                 res["personal"].append(p)
             elif rtp in ["ділові зв'язки"]:
+                p.category = "business"
                 res["business"].append(p)
             else:
+                p.category = "family"
                 res["family"].append(p)
 
             res["all"].append(p)

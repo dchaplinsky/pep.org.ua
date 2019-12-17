@@ -553,6 +553,12 @@ class Declaration(models.Model):
                 )
             )
 
+        def parse_int(f):
+            try:
+                return int(f)
+            except ValueError:
+                return f
+
         resp = {
             "year": self.year,
             "url": self.get_url(),
@@ -578,7 +584,7 @@ class Declaration(models.Model):
                             vehicle = "{} {} {}".format(
                                 asset.get("brand", ""),
                                 asset.get("model", ""),
-                                asset.get("graduationYear", "")
+                                parse_int(asset.get("graduationYear", ""))
                             )
 
                             if person == "1":
@@ -601,7 +607,7 @@ class Declaration(models.Model):
                                 seen.add(_get_key_for_paper(f))
 
                                 resp["assets_of_declarant"]["vehicles"].append(
-                                    "{} {} {}".format(f.get("brand", ""), f.get("brand_info", ""), f.get("year", ""))
+                                    "{} {} {}".format(f.get("brand", ""), f.get("brand_info", ""), parse_int(f.get("year", "")))
                                 )
                         except (ValueError, UnicodeEncodeError):
                             pass

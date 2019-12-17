@@ -290,12 +290,14 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        {{ render_related_persons(related_persons.all) }}
+                                        {{ render_related_persons(related_persons.family) }}
+                                        {{ render_related_persons(related_persons.personal) }}
+                                        {{ render_related_persons(related_persons.business) }}
                                     </tbody>
                                 </table>
                             </div>
                             <div class="profile-section__footer">
-                                <button class="more-btn">
+                                <button class="more-btn track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="person_related_persons">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#arr-right-w2"></use>
@@ -305,7 +307,7 @@
                                     <span class="less">{{_("Показати менше")}}</span>
                                 </button>
 
-                                <button class="visualization-btn" data-target="#visualization-modal" data-url="{{ url('connections', 'person', person.pk) }}">
+                                <button class="visualization-btn track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="person_connections_viz" data-target="#visualization-modal" data-url="{{ url('connections', 'person', person.pk) }}">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#visualization"></use>
@@ -359,7 +361,7 @@
                                 </table>
                             </div>
                             <div class="profile-section__footer">
-                                <button class="more-btn">
+                                <button class="more-btn track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="person_related_companies">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#arr-right-w2"></use>
@@ -369,7 +371,7 @@
                                     <span class="less">{{_("Показати менше")}}</span>
                                 </button>
 
-                                <button class="visualization-btn" data-target="#visualization-modal" data-url="{{ url('connections', 'person', person.pk) }}">
+                                <button class="visualization-btn track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="person_connections_viz"  data-target="#visualization-modal" data-url="{{ url('connections', 'person', person.pk) }}">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#visualization"></use>
@@ -442,7 +444,7 @@
                                         {% set income = declaration.get_income() %}
                                         <tr>
                                             <td class="no-wrap sort-col col1">
-                                                <strong><a href="{{ income.url }}" target="_blank"  data-toggle="tooltip" data-placement="bottom" title="{% if declaration.nacp_declaration %}{{ _('Електронна декларація') }}{% else %}{{ _('Паперова декларація') }}{% endif %}">{{ income.year }}</a></strong>
+                                                <strong><a href="{{ income.url }}" target="_blank" data-toggle="tooltip" data-placement="bottom" title="{% if declaration.nacp_declaration %}{{ _('Електронна декларація') }}{% else %}{{ _('Паперова декларація') }}{% endif %}">{{ income.year }}</a></strong>
                                             </td>
                                             <td class="position sort-col col2" itemscope="" itemtype="http://schema.org/Organization" itemprop="worksFor">
                                                 <p><span itemprop="name">{{ income.office }}</span>, {{ income.position }}{% if declaration.doc_type == "Кандидата на посаду" %} ({{ _("кандидат") }}){% endif %}</p>
@@ -472,7 +474,7 @@
                                 </div>
                             </div>
                             <div class="profile-section__footer">
-                                <button class="more-btn">
+                                <button class="more-btn track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="person_declaration_income">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#arr-right-w2"></use>
@@ -704,7 +706,7 @@
                                 </div>
                             </div>
                             <div class="profile-section__footer">
-                                <button class="more-btn">
+                                <button class="more-btn track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="person_declaration_assets">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#arr-right-w2"></use>
@@ -774,7 +776,7 @@
                                 </table>
                             </div>
                             <div class="profile-section__footer">
-                                <button class="more-btn">
+                                <button class="more-btn track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="person_declaration_liabilities">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#arr-right-w2"></use>
@@ -836,7 +838,7 @@
                                 </table>
                             </div>
                             <div class="profile-section__footer">
-                                <button class="more-btn">
+                                <button class="more-btn track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="person_declaration_gifts">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#arr-right-w2"></use>
@@ -898,7 +900,7 @@
                                             {% set asset = declaration.get_real_estate() %}
                                             <tr>
                                                 <td class="no-wrap sort-col col1">
-                                                    <strong><a href="{{ asset.url }}" target="_blank"  data-toggle="tooltip" data-placement="bottom" title="{% if declaration.nacp_declaration %}{{ _("Електронна декларація") }}{% else %}{{ _("Паперова декларація") }}{% endif %}">{{ asset.year }}</a></strong>
+                                                    <strong><a href="{{ asset.url }}" target="_blank">{{ asset.year }}</a></strong>
                                                 </td>
                                                 <td class="no-wrap sort-col col2">
                                                     <span>
@@ -950,7 +952,7 @@
                                 </table>
                             </div>
                             <div class="profile-section__footer">
-                                <button class="more-btn">
+                                <button class="more-btn track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="person_declaration_realestate">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#arr-right-w2"></use>
@@ -1032,7 +1034,7 @@
                                 </table>
                             </div>
                             <div class="profile-section__footer">
-                                <button class="more-btn">
+                                <button class="more-btn track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="person_declaration_vehicles">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#arr-right-w2"></use>
@@ -1077,7 +1079,7 @@
                                         </div>
                                     </div>
                                     <div class="profile-section__footer">
-                                        <button id="show-criminal-story" class="more-link">
+                                        <button id="show-criminal-story" class="more-link track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="person_criminal">
                                             <span class="icon">
                                                 <svg>
                                                     <use xlink:href="#arr-right-w2"></use>
@@ -1115,7 +1117,7 @@
                                         </div>
                                     </div>
                                     <div class="profile-section__footer">
-                                        <button id="show-criminal-story" class="more-link">
+                                        <button id="show-criminal-story" class="more-link track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="person_reputation_income">
                                             <span class="icon">
                                                 <svg>
                                                     <use xlink:href="#arr-right-w2"></use>
@@ -1220,7 +1222,7 @@
                                 </table>
                             </div>
                             <div class="profile-section__footer">
-                                <button class="more-btn">
+                                <button class="more-btn track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="person_career">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#arr-right-w2"></use>
@@ -1263,7 +1265,7 @@
                                 </div>
                             </div>
                             <div class="profile-section__footer">
-                                <button id="show-dossier" class="more-link">
+                                <button id="show-dossier" class="more-link track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="person_wiki">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#arr-right-w2"></use>
@@ -1317,7 +1319,7 @@
                                 </table>
                             </div>
                             <div class="profile-section__footer">
-                                <button class="more-btn more-btn--right-arr">
+                                <button class="more-btn more-btn--right-arr track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="person_bank_accounts">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#arr-right-w2"></use>
@@ -1351,7 +1353,7 @@
                                 </div>
                             </div>
                             <div class="profile-section__footer">
-                                <button class="more-btn">
+                                <button class="more-btn track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="person_documents">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#arr-right-w2"></use>
@@ -1378,7 +1380,7 @@
                             </div>
                         </div>
                         <div class="profile-section__footer">
-                            <button class="more-btn">
+                            <button class="more-btn track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="person_names">
                                 <span class="icon">
                                     <svg>
                                         <use xlink:href="#arr-right-w2"></use>
@@ -1396,7 +1398,7 @@
     </main>
 
     <div class="side-menu">
-        <button class="side-menu-close">
+        <button class="side-menu-close track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="person_toc">
             <svg>
                 <use xlink:href="#close"></use>
             </svg>

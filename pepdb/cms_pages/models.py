@@ -303,9 +303,9 @@ class HomePage(AbstractJinjaPage, Page):
         ctx["investigations_total"] = Article.objects.filter(kind="i", publish=True).count()
         ctx["registries_total"] = 9  # Say 9
         ctx["docs_total"] = Document.objects.filter(doc__isnull=False).count()
-        ctx["persons_pep"] = Person.objects.filter(type_of_official=1).count()
+        ctx["persons_pep"] = Person.objects.filter(type_of_official=1, publish=True).count()
         ctx["persons_related"] = Person.objects.exclude(
-            type_of_official=1).count()
+            type_of_official=1, publish=True).count()
         return ctx
 
 
