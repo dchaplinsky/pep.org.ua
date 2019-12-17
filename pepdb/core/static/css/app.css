@@ -4099,6 +4099,7 @@ body.modal-open {
   padding: 14px 7px;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
   vertical-align: middle;
+  position: relative;
   -moz-text-size-adjust: none;
   -ms-text-size-adjust: none;
   -webkit-text-size-adjust: none; }
@@ -6378,3 +6379,16 @@ body.modal-open {
   .profile-page .side-menu .links-wrap li a {
     font-size: 11px; } }
 
+.tooltip-hilite:after {
+  content: "?";
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #666;
+  width: 11px;
+  height: 11px;
+  text-align: center;
+  line-height: 11px;
+  font-size: 9px;
+  display: inline-block;
+  margin-left: 3px;
+}

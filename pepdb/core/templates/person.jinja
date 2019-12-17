@@ -26,6 +26,8 @@
 {% endblock %}
 
 
+{% macro render_lands(lands) %}{% for land in lands %}{{ land }} {{ _("м²") }}<br/>{% endfor %}{% endmacro %}
+
 {% block page_title %}
 {{_("Профіль:")}} {{ person.last_name }} {{ person.first_name }} {{ person.patronymic }}{% if last_workplace %}, {{ last_workplace.company }}, {{ last_workplace.position }}{% endif %}
 {% endblock %}
@@ -580,8 +582,10 @@
                                             <td class="no-wrap sort-col col1"><strong><a href="{{ assets.url }}" target="_blank"  data-toggle="tooltip" data-placement="bottom" title="{% if declaration.nacp_declaration %}{{ _('Електронна декларація') }}{% else %}{{ _('Паперова декларація') }}{% endif %}">
                                                 {{ assets.year }}</a></strong>
                                             </td>
+                                            {% set banks = assets.accounts.declarant.banks.union(assets.accounts.family.banks) %}
                                             <td class="no-wrap sort-col col2">
-                                                {{ _("Вклади") }}
+                                                <span class="tooltip-anchor{% if banks%} tooltip-hilite{% endif %}" data-toggle="tooltip" data-placement="bottom" title="{{ banks|join(', ')  }}">{{ _("Вклади") }}
+                                                </span>
                                             </td>
                                             <td class="no-wrap sort-col col3">
                                                 {{ assets.accounts.declarant.UAH|curformat() }}
@@ -907,7 +911,8 @@
                                                         {% set cnt = asset.assets_of_declarant.land|count + asset.assets_of_family.land|count %}
                                                         {% if cnt %}
                                                         {{ asset.assets_of_declarant.land|sum + asset.assets_of_family.land|sum }} {{ _("м²") }}
-                                                        ({{ cnt }})
+                                                        <span class="tooltip-anchor tooltip-hilite" data-toggle="tooltip" data-placement="bottom" data-html="true" title="{{ render_lands(asset.assets_of_declarant.land + asset.assets_of_family.land) }}">({{ cnt }})</span>
+
                                                         {% else %}
                                                         —
                                                         {% endif %}
@@ -918,7 +923,8 @@
                                                         {% set cnt = asset.assets_of_declarant.houses|count + asset.assets_of_family.houses|count %}
                                                         {% if cnt %}
                                                         {{ asset.assets_of_declarant.houses|sum + asset.assets_of_family.houses|sum }} {{ _("м²") }}
-                                                        ({{ cnt }})
+                                                        <span class="tooltip-anchor tooltip-hilite" data-toggle="tooltip" data-placement="bottom" data-html="true" title="{{ render_lands(asset.assets_of_declarant.houses + asset.assets_of_family.houses) }}">({{ cnt }})</span>
+
                                                         {% else %}
                                                         —
                                                         {% endif %}
@@ -929,7 +935,8 @@
                                                         {% set cnt = asset.assets_of_declarant.apartments|count + asset.assets_of_family.apartments|count %}
                                                         {% if cnt %}
                                                         {{ asset.assets_of_declarant.apartments|sum + asset.assets_of_family.apartments|sum }} {{ _("м²") }}
-                                                        ({{ cnt }})
+                                                        <span class="tooltip-anchor tooltip-hilite" data-toggle="tooltip" data-placement="bottom" data-html="true" title="{{ render_lands(asset.assets_of_declarant.apartments + asset.assets_of_family.apartments) }}">({{ cnt }})</span>
+
                                                         {% else %}
                                                         —
                                                         {% endif %}
@@ -940,7 +947,8 @@
                                                         {% set cnt = asset.assets_of_declarant.other|count + asset.assets_of_family.other|count %}
                                                         {% if cnt %}
                                                         {{ asset.assets_of_declarant.other|sum + asset.assets_of_family.other|sum }} {{ _("м²") }}
-                                                        ({{ cnt }})
+                                                        <span class="tooltip-anchor tooltip-hilite" data-toggle="tooltip" data-placement="bottom" data-html="true" title="{{ render_lands(asset.assets_of_declarant.other + asset.assets_of_family.other) }}">({{ cnt }})</span>
+
                                                         {% else %}
                                                         —
                                                         {% endif %}
