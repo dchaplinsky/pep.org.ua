@@ -86,7 +86,7 @@ def spaceformat(value):
 
 
 @library.filter
-def groupbyandsort(value, attribute, reverse):
+def groupbyandsort(value, attribute, sort_attribute, reverse):
     attr = lambda x: getattr(x, attribute)
 
     grouped = [
@@ -94,7 +94,7 @@ def groupbyandsort(value, attribute, reverse):
         in groupby(sorted(value, key=attr), attr)
     ]
 
-    return sorted(grouped, key=lambda x: len(x.list), reverse=reverse)
+    return sorted(grouped, key=lambda x: getattr(x.list[0], sort_attribute), reverse=reverse)
 
 
 @library.filter

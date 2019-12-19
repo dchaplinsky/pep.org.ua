@@ -1,5 +1,5 @@
 {% extends "base.jinja" %}
-{% from "macros/_connections.jinja" import render_person_banks, render_related_persons, render_person_companies with context %}
+{% from "macros/_connections.jinja" import render_person_banks, render_related_grouped_persons, render_person_companies with context %}
 {% from "macros/_articles.jinja" import render_article_snippet with context %}
 
 {% set last_workplace = person.translated_last_workplace %}
@@ -292,9 +292,9 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        {{ render_related_persons(related_persons.family) }}
-                                        {{ render_related_persons(related_persons.personal) }}
-                                        {{ render_related_persons(related_persons.business) }}
+                                        {{ render_related_grouped_persons(related_persons.family) }}
+                                        {{ render_related_grouped_persons(related_persons.personal) }}
+                                        {{ render_related_grouped_persons(related_persons.business) }}
                                     </tbody>
                                 </table>
                             </div>
