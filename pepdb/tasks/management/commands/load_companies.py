@@ -198,7 +198,7 @@ class Command(BaseCommand):
 
         parser.add_argument(
             '--guid',
-            default="b0476139-62f2-4ede-9d3b-884ad99afd08",
+            default="06bbccbd-e19c-40d5-9e18-447b110c0b4c",
             help='Dataset to retrieve',
         )
 
@@ -243,7 +243,12 @@ class Command(BaseCommand):
                     self.stderr.write("Unsuccessful response from api.")
                     return
 
-                for rev in response["result"]["resource_revisions"]:
+                revisions = sorted(
+                    response["result"]["resource_revisions"],
+                    key=lambda x: parse(x["resource_created"])
+                )
+
+                for rev in revisions:
                     revision = rev["url"].strip("/").rsplit('/', 1)[-1]
 
                     if not options["revision"]:
