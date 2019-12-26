@@ -49,6 +49,7 @@ urlpatterns = i18n_patterns(
     url(r"^ajax/suggest$", core.views.suggest, name="suggest"),
     # Countries pages
     url(r"^countries/$", core.views.countries, name="countries_home"),
+    url(r"^advanced_search$", core.views.search, name="advanced_search"),
     url(
         r"^countries/(?P<country_id>[a-zA-Z]+)$", core.views.countries, name="countries"
     ),

@@ -1,5 +1,6 @@
 {% extends "base.jinja" %}
 {% from "macros/_pagination.jinja" import render_pagination with context %}
+{% from "macros/_search.jinja" import render_advanced_search with context %}
 
 {% block hreflang %}
     {% if country and country.get_absolute_url() != request.get_full_path() %}
@@ -17,30 +18,7 @@
     <div class="first-section">
         <div id="particles-js"></div>
         <h1 class="page-title">{{_("ПУБЛІЧНІ ДІЯЧІ")}}</h1>
-        <div class="profiles-search" id="search-by-country">
-            <form action="{{ url("search") }}" method="GET" class="search-form">
-                <input type="text" placeholder="{{ _("Пошук за ПІБ, назвою чи ЄДРПОУ компанії") }}" name="q" data-provide="typeahead" id="search-form-body" autocomplete="off" data-endpoint="{{ url("suggest") }}">
-                <input type="hidden" name="is_exact" value="" />
-                <button>
-                    <svg>
-                        <use xlink:href="#arr-right-w2"></use>
-                    </svg>
-                </button>
-            </form>
-            <div class="form-inline" id="country-selection-form">
-                <div class="form-group">
-                    <select class="combobox country-list input-large form-control" name="country">
-                        <option value="" {% if not country %}selected{% endif %}>{{ _("Оберіть країну") }}</option>
-                        <option value="all" data-url="{{ url("countries_home") }}">{{ _("Усі країни") }}</option>
-                        {% for cntry in used_countries %}
-                            <option
-                                {% if country and country.iso2 == cntry.iso2 %}selected{% endif %}
-                                data-url="{{ url("countries", country_id=cntry.iso2) }}" value={{ cntry.iso2 }}>{{ cntry.name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-        </div>
+        {{ render_advanced_search() }}
     </div>
     <main>
         {% if persons or companies %}

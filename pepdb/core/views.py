@@ -119,12 +119,19 @@ def suggest(request):
 def search(request, sources=("persons", "companies")):
     query = request.GET.get("q", "")
     country = request.GET.get("country", "")
+
+    if country:
+        country_obj = Country.objects.filter(iso2=country).first()
+    else:
+        country_obj = None
+
     is_exact = request.GET.get("is_exact", "") == "on"
 
     params = {
         "query": query,
         "sources": sources,
         "today": now(),
+        "country_obj": country_obj,
         "include_related_persons": True,
     }
 
@@ -138,14 +145,17 @@ def search(request, sources=("persons", "companies")):
                 "names",
                 "full_name_en",
                 "also_known_as_uk",
-                "also_known_as_en"
+                "also_known_as_en",
             ],
         )
 
-        if country:
+        if country_obj is not None:
             persons = persons.query(
                 "match",
-                related_countries__to_country_uk={"query": country, "operator": "and"},
+                related_countries__to_country_uk={
+                    "query": country_obj.name_uk,
+                    "operator": "and",
+                },
             )
 
         # Special case when we were looking for one exact person and found it.
@@ -158,18 +168,16 @@ def search(request, sources=("persons", "companies")):
             "multi_match",
             query=query,
             operator="and",
-            fields=[
-                "short_name_en",
-                "short_name_uk",
-                "name_en",
-                "name_uk"
-            ],
+            fields=["short_name_en", "short_name_uk", "name_en", "name_uk"],
         )
 
-        if country:
+        if country_obj is not None:
             companies = companies.query(
                 "match",
-                related_countries__to_country_uk={"query": country, "operator": "and"},
+                related_countries__to_country_uk={
+                    "query": country_obj.name_uk,
+                    "operator": "and",
+                },
             )
 
         # Special case when we were looking for one exact company and found it.
@@ -182,13 +190,13 @@ def search(request, sources=("persons", "companies")):
 
     try:
         if "persons" in sources:
-            params["persons"] = _search_person(request)
+            params["persons"] = _search_person(request, country_obj)
 
             if not params["persons"]:
                 params["suggested_person"] = _suggest_person(request)
 
         if "companies" in sources:
-            params["companies"] = _search_company(request)
+            params["companies"] = _search_company(request, country_obj)
     except EmptyPage:
         raise Http404("Page is empty")
     except PageNotAnInteger:
@@ -197,10 +205,8 @@ def search(request, sources=("persons", "companies")):
     return render(request, "search.jinja", params)
 
 
-
-def _search_person(request):
+def _search_person(request, country_obj=None):
     query = request.GET.get("q", "")
-    country = request.GET.get("country", "")
 
     _fields = [
         "full_name^3",
@@ -227,11 +233,11 @@ def _search_person(request):
     else:
         persons = ElasticPerson.search().query("match_all")
 
-    if country:
+    if country_obj is not None:
         persons = persons.query(
             "match",
             related_countries__to_country_uk={
-                "query": country, "operator": "and"
+                "query": country_obj.name_uk, "operator": "and"
             }
         )
 
@@ -271,9 +277,8 @@ def _suggest_person(request):
             return res[0]
 
 
-def _search_company(request):
+def _search_company(request, country_obj=None):
     query = request.GET.get("q", "")
-    country = request.GET.get("country", "")
 
     _fields = [
         "name_uk",
@@ -310,11 +315,11 @@ def _search_company(request):
     else:
         companies = ElasticCompany.search().query("match_all")
 
-    if country:
+    if country_obj is not None:
         companies = companies.query(
             "match",
             related_countries__to_country_uk={
-                "query": country, "operator": "and"
+                "query": country_obj.name_uk, "operator": "and"
             }
         )
 
