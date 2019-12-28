@@ -119,14 +119,14 @@
                                 {% if related_countries.registered_in and related_countries.registered_in[0].iso2 != "UA" %}
                                     <tr>
                                         <td>{{ _("Реєстраційний №") }}</td>
-                                        <td>
+                                        <td itemprop="taxID">
                                             {{ company.edrpou }}
                                         </td>
                                     </tr>
                                 {% else %}
                                     <tr>
                                         <td>{{ _("ЄДРПОУ") }}</td>
-                                        <td>
+                                        <td itemprop="taxID">
                                             {{ company.edrpou }}
                                         </td>
                                     </tr>

@@ -11,11 +11,11 @@ from django.utils.translation import ugettext_lazy
 class Document(models.Model):
     DOC_TYPE_CHOICES = OrderedDict(
         (
-            ("business_registry", ugettext_lazy("Виписки з реєстру компаній")),
+            ("business_registry", ugettext_lazy("Виписки з реєстру компаній")), 
             ("court_decision", ugettext_lazy("Рішення суду")),
             ("declarations", ugettext_lazy("Декларації")),
-            ("real_estate_registry", ugettext_lazy("Виписки з реєстру нерухомості")),
-            ("order_to_dismiss", ugettext_lazy("Накази про звільнення")),
+            ("real_estate_registry", ugettext_lazy("Виписки з реєстру нерухомості")), 
+            ("order_to_dismiss", ugettext_lazy("Накази про звільнення")), 
             ("media", ugettext_lazy("Публікація в медіа")),
             ("decree", ugettext_lazy("Рішення")),
             ("report", ugettext_lazy("Звіти")),

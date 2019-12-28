@@ -583,6 +583,8 @@ class Company2Country(AbstractRelationship):
             "date_confirmed": self.date_confirmed_human,
             "relationship_type": self.relationship_type,
             "to_country_en": self.to_country.name_en,
+            "iso3": self.to_country.iso3,
+            "iso2": self.to_country.iso2,
             "to_country_uk": self.to_country.name_uk
         }
 

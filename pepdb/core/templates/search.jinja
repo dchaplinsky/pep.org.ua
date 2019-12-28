@@ -72,6 +72,29 @@
                         <a itemprop="url" href="{{ url("company_details", company_id=c.id) }}" class="card-link"></a>
                         <img src="{{ static('images/profile-empty-entities.svg') }}" itemprop="image" alt="photo" class="profile-card__img">
                         <h6 class="profile-card__title" itemprop="name">{{ c.translated_name }}</h6>
+                        {% if c.edrpou %}
+                        <p class="profile-card__position">
+                            <span itemprop="taxID">{{ c.edrpou }}</span>
+                        </p>
+                        {% endif %}
+                        {% if c.status and c.status != "інформація відсутня" %}
+                        <p class="profile-card__description">
+                            {{ _(c.status) }}
+                            {% if c.closed_on %}
+                                {{ _(" з ") }} {{ c.closed_on_human }}
+                            {% endif %}
+                        </p>
+                        {% endif %}
+                        {% set related_countries = c.related_countries|selectattr("relationship_type", "equalto", "registered_in") %}
+                        {% if related_countries %}
+                            <p class="profile-card__description">
+                                {% set comma = joiner(", ") %}
+                                {% for country in related_countries -%}
+                                    {{ comma() }}<span class="flag flag-{{ country.iso3|lower }}" title="{{ country.name }}"></span> {{ country|translated("to_country") }}
+                                {% endfor %}
+                            </p>
+                        {% endif %}
+
                     </article>
                     {% endfor %}
                 </div>

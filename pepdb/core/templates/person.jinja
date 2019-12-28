@@ -911,8 +911,11 @@
                                                         {% set cnt = asset.assets_of_declarant.land|count + asset.assets_of_family.land|count %}
                                                         {% if cnt %}
                                                         {{ asset.assets_of_declarant.land|sum + asset.assets_of_family.land|sum }} {{ _("м²") }}
-                                                        <span class="tooltip-anchor tooltip-hilite" data-toggle="tooltip" data-placement="bottom" data-html="true" title="{{ render_lands(asset.assets_of_declarant.land + asset.assets_of_family.land) }}">({{ cnt }})</span>
-
+                                                            {% if cnt > 1 %}
+                                                                <span class="tooltip-anchor tooltip-hilite" data-toggle="tooltip" data-placement="bottom" data-html="true" title="{{ render_lands(asset.assets_of_declarant.land + asset.assets_of_family.land) }}">({{ cnt }})</span>
+                                                            {% else %}
+                                                                ({{ cnt }})
+                                                            {% endif %}
                                                         {% else %}
                                                         —
                                                         {% endif %}
@@ -923,8 +926,11 @@
                                                         {% set cnt = asset.assets_of_declarant.houses|count + asset.assets_of_family.houses|count %}
                                                         {% if cnt %}
                                                         {{ asset.assets_of_declarant.houses|sum + asset.assets_of_family.houses|sum }} {{ _("м²") }}
-                                                        <span class="tooltip-anchor tooltip-hilite" data-toggle="tooltip" data-placement="bottom" data-html="true" title="{{ render_lands(asset.assets_of_declarant.houses + asset.assets_of_family.houses) }}">({{ cnt }})</span>
-
+                                                            {% if cnt > 1 %}
+                                                                <span class="tooltip-anchor tooltip-hilite" data-toggle="tooltip" data-placement="bottom" data-html="true" title="{{ render_lands(asset.assets_of_declarant.houses + asset.assets_of_family.houses) }}">({{ cnt }})</span>
+                                                            {% else %}
+                                                                ({{ cnt }})
+                                                            {% endif %}
                                                         {% else %}
                                                         —
                                                         {% endif %}
@@ -935,8 +941,11 @@
                                                         {% set cnt = asset.assets_of_declarant.apartments|count + asset.assets_of_family.apartments|count %}
                                                         {% if cnt %}
                                                         {{ asset.assets_of_declarant.apartments|sum + asset.assets_of_family.apartments|sum }} {{ _("м²") }}
-                                                        <span class="tooltip-anchor tooltip-hilite" data-toggle="tooltip" data-placement="bottom" data-html="true" title="{{ render_lands(asset.assets_of_declarant.apartments + asset.assets_of_family.apartments) }}">({{ cnt }})</span>
-
+                                                            {% if cnt > 1 %}
+                                                                <span class="tooltip-anchor tooltip-hilite" data-toggle="tooltip" data-placement="bottom" data-html="true" title="{{ render_lands(asset.assets_of_declarant.apartments + asset.assets_of_family.apartments) }}">({{ cnt }})</span>
+                                                            {% else %}
+                                                                ({{ cnt }})
+                                                            {% endif %}
                                                         {% else %}
                                                         —
                                                         {% endif %}
