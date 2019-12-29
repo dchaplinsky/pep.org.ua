@@ -9,6 +9,7 @@ from django.utils.safestring import mark_safe
 from django_markdown.utils import markdown as _markdown
 from django.core.urlresolvers import reverse, resolve, Resolver404, NoReverseMatch
 from django.utils.translation import override, get_language
+from django.conf import settings
 
 from core.utils import get_localized_field
 

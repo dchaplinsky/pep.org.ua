@@ -44,7 +44,7 @@
         <div class="profile-page__content" itemscope itemtype="http://schema.org/Organization"  data-url="{{ url('connections', 'company', company.pk) }}">
 
             <div class="side-menu-btn">
-                <a href=""><span class="icon"></span>{{_("зміст")}}</a>
+                <a href="" class="track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="company_toc"><span class="icon"></span>{{_("зміст")}}</a>
             </div>
             <div class="profile-page__header">
                 <div class="breadcrumbs-wrap">
@@ -69,10 +69,10 @@
                     {% endif %}
                 </div>
                 <div class="profile-actions">
-                    <a href="?format=pdf" class="pdf" title="pdf">
+                    <a href="?format=pdf" class="pdf track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="company_pdf" title="pdf">
                         PDF
                     </a>
-                    <a href="" class="print" title="print">
+                    <a href="" class="print track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="company_print" title="print">
                         <svg>
                             <use xlink:href="#print"></use>
                         </svg>
@@ -246,7 +246,7 @@
                                 </table>
                             </div>
                             <div class="profile-section__footer">
-                                <button class="more-btn">
+                                <button class="more-btn track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="company_related_persons">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#arr-right-w2"></use>
@@ -256,7 +256,7 @@
                                     <span class="less">{{_("Показати менше")}}</span>
                                 </button>
 
-                                <button class="visualization-btn" data-target="#visualization-modal" data-url="{{ url('connections', 'company', company.pk) }}">
+                                <button class="visualization-btn track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="company_connections_viz" data-target="#visualization-modal" data-url="{{ url('connections', 'company', company.pk) }}">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#visualization"></use>
@@ -315,7 +315,7 @@
                                 </table>
                             </div>
                             <div class="profile-section__footer">
-                                <button class="more-btn">
+                                <button class="more-btn track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="company_related_peps">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#arr-right-w2"></use>
@@ -325,7 +325,7 @@
                                     <span class="less">{{_("Показати менше")}}</span>
                                 </button>
 
-                                <button class="visualization-btn" data-target="#visualization-modal" data-url="{{ url('connections', 'company', company.pk) }}">
+                                <button class="visualization-btn track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="company_connections_viz" data-target="#visualization-modal" data-url="{{ url('connections', 'company', company.pk) }}">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#visualization"></use>
@@ -384,7 +384,7 @@
                                 </table>
                             </div>
                             <div class="profile-section__footer">
-                                <button class="more-btn">
+                                <button class="more-btn track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="company_structure">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#arr-right-w2"></use>
@@ -439,7 +439,7 @@
                                 </table>
                             </div>
                             <div class="profile-section__footer">
-                                <button class="more-btn">
+                                <button class="more-btn track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="company_related_companies">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#arr-right-w2"></use>
@@ -449,7 +449,7 @@
                                     <span class="less">{{_("Показати менше")}}</span>
                                 </button>
 
-                                <button class="visualization-btn" data-target="#visualization-modal" data-url="{{ url('structure', company.pk) }}">
+                                <button class="visualization-btn track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="company_structure_viz" data-target="#visualization-modal" data-url="{{ url('structure', company.pk) }}">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#visualization"></use>
@@ -496,7 +496,7 @@
                                 </table>
                             </div>
                             <div class="profile-section__footer">
-                                <button class="more-btn more-btn--right-arr">
+                                <button class="more-btn more-btn--right-arr track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="company_related_banks">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#arr-right-w2"></use>
@@ -586,7 +586,7 @@
                                 </table>
                             </div>
                             <div class="profile-section__footer">
-                                <button class="more-btn more-btn--right-arr">
+                                <button class="more-btn more-btn--right-arr track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="company_bank_clients">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#arr-right-w2"></use>
@@ -620,7 +620,7 @@
                                 </div>
                             </div>
                             <div class="profile-section__footer">
-                                <button id="show-criminal-story" class="more-link">
+                                <button id="show-criminal-story" class="more-link track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="company_related_sanctions">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#arr-right-w2"></use>
@@ -649,7 +649,7 @@
                                 </div>
                             </div>
                             <div class="profile-section__footer">
-                                <a href="investigations.html" class="more-link">
+                                <a href="{{ url('investigations') }}" class="more-link">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#arr-right-w2"></use>
@@ -697,7 +697,7 @@
                                 </div>
                             </div>
                             <div class="profile-section__footer">
-                                <button id="show-dossier" class="more-link">
+                                <button id="show-dossier" class="more-link track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="company_dossier">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#arr-right-w2"></use>
@@ -733,7 +733,7 @@
                                 </div>
                             </div>
                             <div class="profile-section__footer">
-                                <button class="more-btn">
+                                <button class="more-btn track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="company_documents">
                                     <span class="icon">
                                         <svg>
                                             <use xlink:href="#arr-right-w2"></use>

@@ -60,7 +60,7 @@
     <main>
         <div class="profile-page__content" itemscope itemtype="http://schema.org/Person">
             <div class="side-menu-btn">
-                <a href=""><span class="icon"></span>{{ _("зміст") }}</a>
+                <a href="" class="track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="person_toc"><span class="icon"></span>{{ _("зміст") }}</a>
             </div>
             <div class="profile-page__header">
                 <div class="breadcrumbs-wrap">
@@ -84,10 +84,10 @@
                     {% endif %}
                 </div>
                 <div class="profile-actions">
-                    <a href="?format=pdf" class="pdf" title="pdf">
+                    <a href="?format=pdf" class="pdf track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="person_pdf" title="pdf">
                         {{ _("PDF") }}
                     </a>
-                    <a href="" class="print" title="print">
+                    <a href="" class="print track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="person_print" title="print">
                         <svg>
                             <use xlink:href="#print"></use>
                         </svg>
@@ -231,7 +231,7 @@
                                 <span class="index index--{{ scoring_score|round|int }}">{{ '%0.2f'| format(scoring_score|float) }}</span>
                             </div>
 
-                            <button class="scoring__btn">
+                            <button class="scoring__btn track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="person_scoring">
                                 {{ _("Розгорнути") }}
                                 <svg>
                                     <use xlink:href="#arr-right-w2"></use>
@@ -1415,7 +1415,7 @@
     </main>
 
     <div class="side-menu">
-        <button class="side-menu-close track-ga-event track-ga-event-click" data-ga-event-category="expand" data-ga-event-action="person_toc">
+        <button class="side-menu-close">
             <svg>
                 <use xlink:href="#close"></use>
             </svg>
