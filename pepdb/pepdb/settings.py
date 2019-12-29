@@ -92,7 +92,6 @@ INSTALLED_APPS = (
     'captcha',
     'core',
     'tasks',
-    'raven.contrib.django.raven_compat',
 )
 
 MIDDLEWARE_CLASSES = (
