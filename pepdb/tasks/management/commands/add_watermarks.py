@@ -5,7 +5,6 @@ import os
 import os.path
 
 from django.core.management.base import BaseCommand
-from django.core.files.base import ContentFile
 from core.models import Document
 from core.model.exc import WatermarkException
 
