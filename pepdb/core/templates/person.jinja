@@ -169,7 +169,7 @@
                                                 {% if connection.proofs %}
                                                     {% set comma = joiner(", ") %}
                                                     {% for proof in proofs -%}
-                                                        <a href="{% if proof.proof %}{{ proof.proof }}{% else %}{{ proof.proof_document.doc.url }}{% endif %}" class="link confirmed-link">{{ proof.proof_title|default(_("Посилання"), true) }}</a>
+                                                        <a href="{% if proof.proof %}{{ proof.proof }}{% else %}{{ proof.proof_document.doc_url }}{% endif %}" class="link confirmed-link">{{ proof.proof_title|default(_("Посилання"), true) }}</a>
                                                     {% endfor %}
                                                 {% endif %}
                                             </div>
@@ -1227,7 +1227,7 @@
                                                             {% if connection.proofs %}
                                                                 {% set comma = joiner(", ") %}
                                                                 {% for proof in proofs -%}
-                                                                    <a href="{% if proof.proof %}{{ proof.proof }}{% else %}{{ proof.proof_document.doc.url }}{% endif %}" class="link confirmed-link">{{ proof.proof_title|default(_("Посилання"), true) }}</a>
+                                                                    <a href="{% if proof.proof %}{{ proof.proof }}{% else %}{{ proof.proof_document.doc_url }}{% endif %}" class="link confirmed-link">{{ proof.proof_title|default(_("Посилання"), true) }}</a>
                                                                 {% endfor %}
                                                             {% endif %}
                                                         </div>
@@ -1363,7 +1363,7 @@
                                     <h6 class="documents-type">{{ proof_category }}</h6>
                                     <ul class="documents-list">
                                         {% for doc in documents[proof_category] %}
-                                            <li><a href="{{ doc.proof_document.doc.url }}" target="_blank">{{ doc.proof_document.name|default(_("Посилання"), true) }}</a></li>
+                                            <li><a href="{{ doc.proof_document.doc_url }}" target="_blank">{{ doc.proof_document.name|default(_("Посилання"), true) }}</a></li>
                                         {% endfor %}
                                     </ul>
                                     {% endfor %}

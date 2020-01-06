@@ -724,7 +724,7 @@
                                         <h6 class="documents-type">{{ proof_category }}</h4>
                                         <ul class="documents-list">
                                         {% for doc in documents[proof_category] %}
-                                            <li><a href="{{ doc.proof_document.doc.url }}" target="_blank">
+                                            <li><a href="{{ doc.proof_document.doc_url }}" target="_blank">
                                             {{ doc.proof_document.name|default(_("Посилання"), true) }}</a></li>
                                         </a>
                                         {% endfor %}

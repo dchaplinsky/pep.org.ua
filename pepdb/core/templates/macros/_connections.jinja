@@ -117,7 +117,7 @@
                             {% endif %}
                             {% if proofs %}
                                 {% for proof in proofs -%}
-                                    <a href="{% if proof.proof %}{{ proof.proof }}{% else %}{{ proof.proof_document.doc.url }}{% endif%}" target="_blank" class="link confirmed-link">{{ proof.proof_title|default(_("Посилання"), true) }}</a>
+                                    <a href="{% if proof.proof %}{{ proof.proof }}{% else %}{{ proof.proof_document.doc_url }}{% endif%}" target="_blank" class="link confirmed-link">{{ proof.proof_title|default(_("Посилання"), true) }}</a>
                                 {%- endfor %}
                             {% endif %}
                         </div>
@@ -176,7 +176,7 @@
                         {% endif %}
                         {% if proofs %}
                             {% for proof in proofs -%}
-                                <a href="{% if proof.proof %}{{ proof.proof }}{% else %}{{ proof.proof_document.doc.url }}{% endif%}" target="_blank" class="link confirmed-link">{{ proof.proof_title|default(_("Посилання"), true) }}</a>
+                                <a href="{% if proof.proof %}{{ proof.proof }}{% else %}{{ proof.proof_document.doc_url }}{% endif%}" target="_blank" class="link confirmed-link">{{ proof.proof_title|default(_("Посилання"), true) }}</a>
                             {%- endfor %}
                         {% endif %}
                     </div>
@@ -225,7 +225,7 @@
                     <span class="confirmed-date">{{ _("Підтверджено: ") }}{{ connection.date_confirmed_human }}</span>
                     {% endif %}
                     {% for proof in proofs -%}
-                        <a href="{% if proof.proof %}{{ proof.proof }}{% else %}{{ proof.proof_document.doc.url }}{% endif%}" target="_blank" class="link confirmed-link">{{ proof.proof_title|default(_("Посилання"), true) }}</a>
+                        <a href="{% if proof.proof %}{{ proof.proof }}{% else %}{{ proof.proof_document.doc_url }}{% endif%}" target="_blank" class="link confirmed-link">{{ proof.proof_title|default(_("Посилання"), true) }}</a>
                     {%- endfor %}
                 </div>
                 {% endif %}
@@ -264,7 +264,7 @@
                     {% endif %}
                     {% if proofs %}
                         {% for proof in proofs -%}
-                            <a href="{% if proof.proof %}{{ proof.proof }}{% else %}{{ proof.proof_document.doc.url }}{% endif%}" target="_blank" class="link confirmed-link">{{ proof.proof_title|default(_("Посилання"), true) }}</a>
+                            <a href="{% if proof.proof %}{{ proof.proof }}{% else %}{{ proof.proof_document.doc_url }}{% endif%}" target="_blank" class="link confirmed-link">{{ proof.proof_title|default(_("Посилання"), true) }}</a>
                         {%- endfor %}
                     {% endif %}
                 </div>
@@ -307,7 +307,7 @@
                     {% endif %}
                     {% if proofs %}
                         {% for proof in proofs -%}
-                            <a href="{% if proof.proof %}{{ proof.proof }}{% else %}{{ proof.proof_document.doc.url }}{% endif%}" target="_blank" class="link confirmed-link">{{ proof.proof_title|default(_("Посилання"), true) }}</a>
+                            <a href="{% if proof.proof %}{{ proof.proof }}{% else %}{{ proof.proof_document.doc_url }}{% endif%}" target="_blank" class="link confirmed-link">{{ proof.proof_title|default(_("Посилання"), true) }}</a>
                         {%- endfor %}
                     {% endif %}
 

@@ -80,6 +80,14 @@ class Document(models.Model):
     def autocomplete_search_fields():
         return ("id__iexact", "name__icontains", "source__icontains")
 
+    @property
+    def doc_url(self):
+        if self.doc_watermarked:
+            return self.doc_watermarked.url
+        else:
+            return self.doc.url
+    
+
     def guess_doc_type(self, force=False):
         if not force and self.doc_type_set_manually:
             return
