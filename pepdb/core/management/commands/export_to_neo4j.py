@@ -170,8 +170,8 @@ class Command(BaseCommand):
         self.export_relations(
             os.path.join(output_dir, "company2company.csv"),
             Company2Company.objects.all().nocache(),
-            "from_company",
             "to_company",
+            "from_company",
             neo_model=NeoCompany2Company,
         )
 

@@ -164,7 +164,7 @@ class Document(models.Model):
                 raise WatermarkException(
                     "Cannot find file {}, skipping".format(self.doc.name)
                 )
-            except (PyPDF2.utils.PdfReadError, ValueError) as e:
+            except (PyPDF2.utils.PdfReadError, ValueError, OSError) as e:
                 raise WatermarkException(
                     "Cannot read file {}, error was {}".format(self.doc.name, e)
                 )

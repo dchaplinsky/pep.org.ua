@@ -656,9 +656,6 @@ def structure(request, obj_id):
     except NeoCompany.DoesNotExist:
         return HttpResponseNotFound()
 
-    # node_info = obj.get_node_info(True)
-
-    # node_info["nodes"][0]["data"]["is_main"] = True
     nodes, edges = obj.org_structure()
 
     node_info = neo4j_to_cytoscape(nodes, edges, obj)
