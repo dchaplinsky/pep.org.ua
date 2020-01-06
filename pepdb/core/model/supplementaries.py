@@ -172,14 +172,20 @@ class Document(models.Model):
             with BytesIO() as fp:
                 pdf_writer.write(fp)
                 random.seed(self.pk)
-                self.doc_watermarked.save(
-                    "{}_{}_{}.pdf".format(
-                        random.randrange(1000, 10000),
-                        os.path.basename(fname),
-                        random.randrange(1000, 10000),
-                    ),
-                    File(fp),
-                )
+                try:
+                    self.doc_watermarked.save(
+                        "{}_{}_{}.pdf".format(
+                            random.randrange(1000, 10000),
+                            os.path.basename(fname)[:500],
+                            random.randrange(1000, 10000),
+                        ),
+                        File(fp),
+                    )
+                except (OSError) as e:
+                    raise WatermarkException(
+                        "Cannot store watermark for file {}, error was {}".format(self.doc.name, e)
+                    )
+
         else:
             return False
 
