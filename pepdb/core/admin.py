@@ -994,6 +994,7 @@ class DocumentAdmin(TranslationAdmin):
                             )
 
                             doc_instance.guess_doc_type()
+                            doc_instance.generate_watermark()
 
             return redirect(reverse("admin:core_document_changelist"))
 
@@ -1009,6 +1010,12 @@ class DocumentAdmin(TranslationAdmin):
     search_fields = ["name", "doc"]
     list_filter = ["doc_type"]
     list_editable = ("name_uk", "uploader", "doc_type", "doc")
+    readonly_fields = ("doc_watermarked", )
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(DocumentAdmin, self).get_form(request, obj, **kwargs)
+        form.base_fields['uploader'].initial = request.user
+        return form
 
     def get_urls(self):
         urls = super(DocumentAdmin, self).get_urls()
@@ -1026,6 +1033,8 @@ class DocumentAdmin(TranslationAdmin):
             obj.doc_type_set_manually = True
         else:
             obj.guess_doc_type()
+
+        obj.generate_watermark()
 
         if obj.doc_type != "other":
             obj.doc_type_set_manually = True

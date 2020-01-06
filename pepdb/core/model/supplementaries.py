@@ -1,21 +1,38 @@
 # coding: utf-8
 from __future__ import unicode_literals
 import re
+import os.path
 from collections import OrderedDict
+from glob import glob
+from io import BytesIO
+import random
 
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy
+from django.core.files.base import File
+
+import PyPDF2
+
+from core.model.exc import WatermarkException
+
+
+WATERMARKS = {}
+for f in glob(settings.WATERMARKS_PATH):
+    name, _ = os.path.splitext(os.path.basename(f))
+
+    WATERMARKS[name] = PyPDF2.PdfFileReader(open(f, "rb")).getPage(0)
 
 
 class Document(models.Model):
     DOC_TYPE_CHOICES = OrderedDict(
         (
-            ("business_registry", ugettext_lazy("Виписки з реєстру компаній")), 
+            ("business_registry", ugettext_lazy("Виписки з реєстру компаній")),
             ("court_decision", ugettext_lazy("Рішення суду")),
             ("declarations", ugettext_lazy("Декларації")),
-            ("real_estate_registry", ugettext_lazy("Виписки з реєстру нерухомості")), 
-            ("order_to_dismiss", ugettext_lazy("Накази про звільнення")), 
+            ("real_estate_registry", ugettext_lazy("Виписки з реєстру нерухомості")),
+            ("order_to_dismiss", ugettext_lazy("Накази про звільнення")),
             ("media", ugettext_lazy("Публікація в медіа")),
             ("decree", ugettext_lazy("Рішення")),
             ("report", ugettext_lazy("Звіти")),
@@ -25,7 +42,22 @@ class Document(models.Model):
         )
     )
 
+    DOC_TYPE_TO_WATERMARK = [
+        "misc",
+        "other",
+        "business_registry",
+        "court_decision",
+        "real_estate_registry",
+        "order_to_dismiss",
+        "decree",
+        "report",
+        "ownership_structure",
+    ]
+
     doc = models.FileField("Файл", upload_to="documents", max_length=1000)
+    doc_watermarked = models.FileField(
+        "Файл з водяним знаком", upload_to="documents/_", max_length=1000, blank=True
+    )
     name = models.CharField("Людська назва", max_length=255)
     uploaded = models.DateTimeField("Був завантажений", auto_now=True)
     source = models.CharField("Першоджерело", blank=True, max_length=255)
@@ -87,6 +119,63 @@ class Document(models.Model):
 
         self.doc_type = outcome
         self.save()
+
+    def generate_watermark(self, force=False):
+        fname, ext = os.path.splitext(self.doc.name)
+
+        if self.doc_type not in self.DOC_TYPE_TO_WATERMARK:
+            return None
+
+        if self.doc_watermarked:
+            if not force:
+                return None
+            else:
+                self.doc_watermarked.delete()
+
+        watermark = WATERMARKS["a4_portrait"]
+        watermark_box = watermark.artBox
+        watermark_w = float(watermark_box[2] - watermark_box[0])
+        watermark_h = float(watermark_box[3] - watermark_box[1])
+
+        if ext.lower() == ".pdf":
+            try:
+                curr_file = PyPDF2.PdfFileReader(self.doc.file, strict=False)
+                pdf_writer = PyPDF2.PdfFileWriter()
+                for page_no in range(curr_file.getNumPages()):
+                    curr_page = curr_file.getPage(page_no)
+                    file_box = curr_page.artBox
+                    file_w = float(file_box[2] - file_box[0])
+                    file_h = float(file_box[3] - file_box[1])
+
+                    scale = min(
+                        file_w / (watermark_w + 0.01), file_h / (watermark_h + 0.01)
+                    )
+                    curr_page.mergeScaledPage(watermark, scale, expand=True)
+                    pdf_writer.addPage(curr_page)
+            except IOError as e:
+                raise WatermarkException(
+                    "Cannot find file {}, skipping".format(self.doc.name)
+                )
+            except PyPDF2.utils.PdfReadError as e:
+                raise WatermarkException(
+                    "Cannot read file {}, error was {}".format(self.doc.name, e)
+                )
+
+            with BytesIO() as fp:
+                pdf_writer.write(fp)
+                random.seed(self.pk)
+                self.doc_watermarked.save(
+                    "{}_{}_{}.pdf".format(
+                        random.randrange(1000, 10000),
+                        os.path.basename(fname),
+                        random.randrange(1000, 10000),
+                    ),
+                    File(fp),
+                )
+        else:
+            return False
+
+        return True
 
     def __unicode__(self):
         return self.name

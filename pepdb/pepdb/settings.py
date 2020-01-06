@@ -386,6 +386,8 @@ ES_NUMBER_OF_REPLICAS = get_env_int("ES_NUMBER_OF_REPLICAS", 0)
 ES_MAX_RESULT_WINDOW = 100000
 DATA_UPLOAD_MAX_NUMBER_FIELDS = None
 
+WATERMARKS_PATH = "tasks/static/watermarks/*.pdf"
+
 try:
     from local_settings import *
 except ImportError:
