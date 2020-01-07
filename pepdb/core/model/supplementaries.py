@@ -6,6 +6,7 @@ from collections import OrderedDict
 from glob import glob
 from io import BytesIO
 import random
+import zlib
 
 from django.db import models
 from django.conf import settings
@@ -168,6 +169,10 @@ class Document(models.Model):
                 raise WatermarkException(
                     "Cannot read file {}, error was {}".format(self.doc.name, e)
                 )
+            except zlib.error as e:
+                raise WatermarkException(
+                    "Cannot decompress page of {}, error was {}".format(self.doc.name, e)
+                )
 
             with BytesIO() as fp:
                 pdf_writer.write(fp)
@@ -176,7 +181,7 @@ class Document(models.Model):
                     self.doc_watermarked.save(
                         "{}_{}_{}.pdf".format(
                             random.randrange(1000, 10000),
-                            os.path.basename(fname)[:500],
+                            os.path.basename(fname)[:127],
                             random.randrange(1000, 10000),
                         ),
                         File(fp),
