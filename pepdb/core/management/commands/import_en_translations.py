@@ -27,7 +27,7 @@ class Command(BaseCommand):
         with open(file_path, "r") as fp:
             r = reader(fp)
 
-            for term, trans in r:
+            for term, trans in r[:2]:
                 term = term.strip()
                 trans = trans.strip()
 

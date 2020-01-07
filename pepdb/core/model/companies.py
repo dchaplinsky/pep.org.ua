@@ -535,6 +535,7 @@ class Company(models.Model, AbstractNode):
             "full_name": self.name,
             "description": self.edrpou,
             "state_company": self.state_company,
+            "category": self.category,
             "is_closed": bool(self.closed_on_human),
             "kind": unicode(
                 ugettext_lazy("Державна компанія чи установа")
