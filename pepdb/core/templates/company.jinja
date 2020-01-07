@@ -84,11 +84,7 @@
 
                 <div class="profile-page__top">
                     <div class="profile-image">
-                        {% if company.photo %}
-                            <img src="{{ company.photo | thumbnail_url("avatar") }}" alt="{{ company.name }}">
-                           {% else %}
-                            <img src="{{ static('images/profile-empty-entities.svg') }}" alt="photo">
-                        {% endif %}
+                        <img src="{{ static('images/icons/' + company.category + '.svg') }}" alt="photo">
                         {% if ((company.sanctions_en or company.sanctions_uk) and LANGUAGE_CODE == "en") or (company.sanctions_uk and LANGUAGE_CODE == "uk") %}
                         <div class="icon">
                             <svg>

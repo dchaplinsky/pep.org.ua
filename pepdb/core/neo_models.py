@@ -143,6 +143,7 @@ class BaseRel(StructuredRel):
 
 class Company2Company(BaseRel):
     equity_part = FloatProperty()
+    category = StringProperty()
 
     def to_cytoscape(self):
         res = super(Company2Company, self).to_cytoscape()

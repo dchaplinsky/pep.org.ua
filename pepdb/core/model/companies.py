@@ -248,6 +248,7 @@ class Company(models.Model, AbstractNode):
         d["status"] = self.get_status_display()
         d["status_en"] = translate_into(self.get_status_display())
         d["founded"] = self.founded_human
+        d["category"] = self.category
         d["closed"] = self.closed_on_human
         d["last_modified"] = self.last_modified
 
@@ -497,6 +498,7 @@ class Company(models.Model, AbstractNode):
             "affiliated_with_pep": self.affiliated_with_pep,
             "bank": self.bank,
             "service_provider": self.service_provider,
+            "category": self.category,
         }
 
         curr_lang = get_language()
@@ -652,6 +654,24 @@ class Company(models.Model, AbstractNode):
         )
         if seq:
             return max(seq)
+
+    @property
+    def category(self):
+        if self.public_office:
+            return "public_office"
+
+        if self.political_party:
+            return "political_party"
+        if self.state_enterprise:
+            return "state_enterprise"
+        if self.affiliated_with_pep:
+            return "affiliated_with_pep"
+        if self.bank:
+            return "bank"
+        if self.bank:
+            return "service_provider"
+
+        return "none"
 
     @property
     def all_documents(self):
