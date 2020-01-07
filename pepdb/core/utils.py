@@ -477,7 +477,7 @@ def parse_address(location):
         if u"буд" in appt.lower() or appt == "" or appt.isdigit():
             return (zip_code, city, street, appt)
         else:
-            logger.error(
+            logger.warning(
                 "Cannot parse %s, best results so far is %s" % (
                     location,
                     ", ".join([zip_code, city, street, appt])
@@ -486,7 +486,7 @@ def parse_address(location):
 
             return None
     except IndexError:
-        logger.error(
+        logger.warning(
             "Cannot parse %s" % location
         )
 

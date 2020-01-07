@@ -133,11 +133,11 @@ class Document(models.Model):
         fname, ext = os.path.splitext(self.doc.name)
 
         if self.doc_type not in self.DOC_TYPE_TO_WATERMARK:
-            return None
+            return False
 
         if self.doc_watermarked:
             if not force:
-                return None
+                return False
             else:
                 self.doc_watermarked.delete()
 

@@ -40,10 +40,8 @@ class Command(BaseCommand):
                 res = d.generate_watermark(options["force"])
                 if res:
                     tagged_successfully += 1
-                elif res is None:
-                    continue
                 else:
-                    tagged_errors += 1
+                    continue
 
             except WatermarkException as e:
                 self.stderr.write(unicode(e))
