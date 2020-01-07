@@ -1571,12 +1571,41 @@ class Person2CompanyAdmin(TranslationAdmin):
         "from_person",
         "to_company",
         "relationship_type_uk",
+        "category",
         "is_employee",
         "share",
     ]
-    list_editable = ["relationship_type_uk", "is_employee"]
+    list_editable = ["relationship_type_uk", "is_employee", "category"]
     search_fields = ["relationship_type_uk", "relationship_type_en"]
-    list_filter = ("is_employee", RelationshipTypeFilter)
+    list_filter = ("is_employee", RelationshipTypeFilter, "category")
+
+    def set_bank_customer(self, request, queryset):
+        queryset.update(category="bank_customer")
+    set_bank_customer.short_description = "Відмитити, як клієнт банку"
+
+    def set_by_position(self, request, queryset):
+        queryset.update(category="by_position")
+    set_by_position.short_description = "Відмитити, як за посадою"
+
+    def set_owner(self, request, queryset):
+        queryset.update(category="set_owner")
+    set_owner.short_description = "Відмитити, як власник"
+
+    def set_manager(self, request, queryset):
+        queryset.update(category="manager")
+    set_manager.short_description = "Відмитити, як керівник"
+
+    def set_other(self, request, queryset):
+        queryset.update(category="other")
+    set_other.short_description = "Відмитити, як не категоризовано"
+
+    actions = [
+        set_bank_customer,
+        set_by_position,
+        set_owner,
+        set_manager,
+        set_other,
+    ]
 
     def has_delete_permission(self, request, obj=None):
         return False

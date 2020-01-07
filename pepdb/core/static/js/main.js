@@ -141,17 +141,17 @@ $(document).ready(function () {
             $(this).addClass('active');
             $('#entities-filter').removeClass('active');
             $('#entities-items').removeClass('active');
-            $('.pagination .entities').removeClass('active');
+            $('.pagination.entities').removeClass('active');
             $('#individuals-items').addClass('active');
-            $('.pagination .individuals').addClass('active');
+            $('.pagination.individuals').addClass('active');
 
         } else if ($(this).attr('id') == 'entities-filter') {
             $(this).addClass('active');
             $('#individuals-filter').removeClass('active');
             $('#individuals-items').removeClass('active');
-            $('.pagination .individuals').removeClass('active');
+            $('.pagination.individuals').removeClass('active');
             $('#entities-items').addClass('active');
-            $('.pagination .entities').addClass('active');
+            $('.pagination.entities').addClass('active');
         }
     });
 

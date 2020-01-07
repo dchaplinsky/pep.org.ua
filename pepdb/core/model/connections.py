@@ -199,6 +199,14 @@ class Person2Company(AbstractRelationship):
         "Клієнт банку",
     ]
 
+    CATEGORIES = {
+        "bank_customer": _("клієнт банку"),
+        "by_position": _("за посадою"),
+        "owner": _("власник"),
+        "manager": _("керівник"),
+        "other": _("не категоризовано"),
+    }
+
     from_person = models.ForeignKey("Person")
     to_company = models.ForeignKey(
         "Company", verbose_name="Компанія або установа",
@@ -211,6 +219,13 @@ class Person2Company(AbstractRelationship):
     is_employee = models.BooleanField(
         "Працює(-вав)",
         default=False
+    )
+
+    category = models.CharField(
+        "Категорія зв'язку",
+        choices=CATEGORIES.items(),
+        default="other",
+        max_length=15,
     )
 
     created_from_edr = models.NullBooleanField(
@@ -290,9 +305,11 @@ class Person2Company(AbstractRelationship):
         if self.relationship_type_uk in [
             "Бенефіціарний власник",
             "Власність",
+            "Власник",
             "Засновник/учасник",
             "Номінальний власник",
             "Номінальний директор",
+            "Учасник",
         ]:
             return "owner"
 
