@@ -790,6 +790,7 @@ class CompanyCategoriesAdmin(CompanyAdmin):
         "affiliated_with_pep",
         "bank",
         "service_provider",
+        "associated_persons",
     )
     list_editable = (
         "state_company",
@@ -802,7 +803,14 @@ class CompanyCategoriesAdmin(CompanyAdmin):
         "bank",
         "service_provider",
     )
-    search_fields = ["name_uk", "short_name_uk", "edrpou"]
+    search_fields = [
+        "name_uk",
+        "short_name_uk",
+        "edrpou",
+        "from_persons__from_person__last_name_uk",
+        "from_persons__from_person__first_name_uk",
+        "from_persons__from_person__patronymic_uk"
+    ]
     readonly_fields = ("last_change", "last_editor", "_last_modified")
     list_filter = (
         "state_company",
@@ -816,6 +824,23 @@ class CompanyCategoriesAdmin(CompanyAdmin):
         "service_provider",
     )
     list_display_links = ("name_uk",)
+
+    def associated_persons(self, obj):
+        rel_persons = obj.all_related_persons
+
+        persons = (rel_persons["managers"] + rel_persons["founders"] + rel_persons["rest"])[:10]
+        return "<br/>".join(
+            [
+                '<a href="%s" target="_blank">%s</a>'
+                % (
+                    reverse("admin:core_person_change", args=(person.pk,)),
+                    unicode(person),
+                )
+                for person in persons
+            ]
+        )
+
+    associated_persons.allow_tags = True
 
     def set_public_office(self, request, queryset):
         queryset.update(public_office=True)
