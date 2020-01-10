@@ -11,5 +11,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        HStoreExtension(),
+        # HStoreExtension(),
     ]
