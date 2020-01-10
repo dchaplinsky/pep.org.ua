@@ -62,6 +62,7 @@ from core.models import (
     CompanyCategories,
     Rule,
     Article,
+    ExchangeRate,
 )
 
 from core.forms import EDRImportForm, ForeignImportForm, ZIPImportForm
@@ -1713,6 +1714,37 @@ class ArticleAdmin(TranslationAdmin):
     list_filter = (NoTranslationArticleFilter, "kind")
 
 
+class ExchangeRateAdmin(admin.ModelAdmin):
+    list_display = [
+        "pk",
+        "dt",
+        "is_annual",
+        "rates_readable",
+    ]
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_edit_permission(self, request):
+        return False
+
+    def rates_readable(self, obj):
+        res = []
+        for currency in ["USD", "EUR", "GBP", "RUB"]:
+            if currency not in obj.rates:
+                continue
+
+            res.append("<strong>{}</strong>: {:3.5f}".format(currency, 1 / float(obj.rates[currency])))
+
+        return "<br/>".join(res)
+
+    rates_readable.allow_tags = True
+
+    list_filter = ("dt", "is_annual")
+
 admin.site.register(Person, PersonAdmin)
 admin.site.register(Company, CompanyAdmin)
 admin.site.register(Country, CountryAdmin)
@@ -1728,6 +1760,7 @@ admin.site.register(Person2Company, Person2CompanyAdmin)
 admin.site.register(CompanyCategories, CompanyCategoriesAdmin)
 admin.site.register(Rule, RuleAdmin)
 admin.site.register(Article, ArticleAdmin)
+admin.site.register(ExchangeRate, ExchangeRateAdmin)
 
 admin.site.unregister(TOTPDevice)
 admin.site.register(TOTPDevice, RiggedTOTPDeviceAdmin)

@@ -13,6 +13,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy
 from django.core.files.base import File
+from django.contrib.postgres.fields import HStoreField
 
 import PyPDF2
 
@@ -87,7 +88,6 @@ class Document(models.Model):
             return self.doc_watermarked.url
         else:
             return self.doc.url
-    
 
     def guess_doc_type(self, force=False):
         if not force and self.doc_type_set_manually:
@@ -171,7 +171,9 @@ class Document(models.Model):
                 )
             except zlib.error as e:
                 raise WatermarkException(
-                    "Cannot decompress page of {}, error was {}".format(self.doc.name, e)
+                    "Cannot decompress page of {}, error was {}".format(
+                        self.doc.name, e
+                    )
                 )
 
             with BytesIO() as fp:
@@ -188,7 +190,9 @@ class Document(models.Model):
                     )
                 except (OSError) as e:
                     raise WatermarkException(
-                        "Cannot store watermark for file {}, error was {}".format(self.doc.name, e)
+                        "Cannot store watermark for file {}, error was {}".format(
+                            self.doc.name, e
+                        )
                     )
 
         else:
@@ -240,3 +244,14 @@ class ActionLog(models.Model):
         verbose_name_plural = "Дії користувачів"
 
         index_together = [["user", "action", "timestamp"]]
+
+
+class ExchangeRate(models.Model):
+    dt = models.DateField("Дата курсу", db_index=True)
+    is_annual = models.BooleanField(
+        "Is annual exchange rate (31.12.x)", default=False, db_index=True
+    )
+    rates = HStoreField()
+
+    class Meta:
+        ordering = ("-dt",)

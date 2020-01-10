@@ -44,3 +44,4 @@ jmespath==0.9.3
 django-neomodel==0.0.4
 gunicorn==19.9.0
 PyPDF2==1.26.0
+openexchangerates==0.1.1

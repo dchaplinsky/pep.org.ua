@@ -27,7 +27,7 @@ from core.model.connections import (
 )
 from core.model.flags import Rule, Flag
 from core.model.articles import Article
-from core.model.supplementaries import ActionLog, Document, FeedbackMessage
+from core.model.supplementaries import ActionLog, Document, FeedbackMessage, ExchangeRate
 
 __all__ = [
     Person,
@@ -53,6 +53,7 @@ __all__ = [
     Rule,
     Flag,
     Article,
+    ExchangeRate,
 ]
 
 
