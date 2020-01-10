@@ -45,10 +45,14 @@ class Command(BaseCommand):
                 .distinct()
             ):
                 year = int(year)
+                dt = date(int(year), 12, 31)
+
                 if year < 1999:
                     continue
+                if dt > now().date():
+                    continue
 
-                dates[date(int(year), 12, 31)] = True
+                dates[dt] = True
 
         for dt, annual in tqdm(dates.items()):
             rates = self.transform_rates(client.historical(dt)["rates"])
