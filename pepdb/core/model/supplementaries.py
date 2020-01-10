@@ -255,3 +255,5 @@ class ExchangeRate(models.Model):
 
     class Meta:
         ordering = ("-dt",)
+        verbose_name = "Курс валют"
+        verbose_name_plural = "Курси валют"

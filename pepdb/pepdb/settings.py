@@ -387,6 +387,7 @@ ES_MAX_RESULT_WINDOW = 100000
 DATA_UPLOAD_MAX_NUMBER_FIELDS = None
 
 WATERMARKS_PATH = "tasks/static/watermarks/*.pdf"
+OPENEXCHANGERATES_KEY = ""
 
 try:
     from local_settings import *
