@@ -4,6 +4,7 @@ import re
 import os.path
 from collections import OrderedDict
 from glob import glob
+from decimal import Decimal
 from io import BytesIO
 import random
 import zlib
@@ -246,12 +247,29 @@ class ActionLog(models.Model):
         index_together = [["user", "action", "timestamp"]]
 
 
+class ExchangeRateManager(models.Manager):
+    def get_rates_on_date(self, dt):
+        """
+        This will return rates closest to today +
+        annual rates
+        """
+        rates = {}
+
+        for rate in self.filter(is_annual=True):
+            rates[rate.dt.year] = dict(
+                (k, Decimal("1.0") / Decimal(v)) for k, v in rate.rates.items()
+            )
+
+        return rates
+
+
 class ExchangeRate(models.Model):
     dt = models.DateField("Дата курсу", db_index=True)
     is_annual = models.BooleanField(
         "Is annual exchange rate (31.12.x)", default=False, db_index=True
     )
     rates = HStoreField()
+    objects = ExchangeRateManager()
 
     class Meta:
         ordering = ("-dt",)

@@ -1745,6 +1745,64 @@ class ExchangeRateAdmin(admin.ModelAdmin):
 
     list_filter = ("dt", "is_annual")
 
+
+class Company2CompanyAdmin(admin.ModelAdmin):
+    verbose_name = "Зв'язок компанія-компанія"
+    verbose_name_plural = "Зв'язки компанія-компанія"
+
+    list_display = [
+        "pk",
+        "from_company_readable",
+        "from_company_last_editor_readable",
+        "relationship_type",
+        "reverse_relationship_type",
+        "to_company_readable",
+    ]
+
+    search_fields = [
+        "from_company__name",
+        "from_company__short_name",
+        "to_company__name",
+        "to_company__short_name",
+        "relationship_type",
+    ]
+
+    list_select_related = ("from_company", "to_company", "from_company__last_editor")
+    list_filter = ("relationship_type", "from_company__last_editor",)
+    list_per_page = 100
+
+    def from_company_readable(self, obj):
+        return '<a href="%s" target="_blank">%s</a>' % (
+            reverse("admin:core_company_change", args=(obj.from_company.pk,)),
+            unicode(obj.from_company),
+        )
+    from_company_readable.allow_tags = True
+    from_company_readable.short_description = "Компанія 1"
+
+    def from_company_last_editor_readable(self, obj):
+        return obj.from_company.last_editor
+
+    from_company_last_editor_readable.short_description = "Останній редактор компанії 1"
+    from_company_last_editor_readable.admin_order_field = 'from_company__last_editor'
+
+    def to_company_readable(self, obj):
+        return '<a href="%s" target="_blank">%s</a>' % (
+            reverse("admin:core_company_change", args=(obj.to_company.pk,)),
+            unicode(obj.to_company),
+        )
+
+
+    to_company_readable.allow_tags = True
+    to_company_readable.short_description = "Компанія 2"
+
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_add_permission(self, request):
+        return False
+
+
 admin.site.register(Person, PersonAdmin)
 admin.site.register(Company, CompanyAdmin)
 admin.site.register(Country, CountryAdmin)
@@ -1761,6 +1819,7 @@ admin.site.register(CompanyCategories, CompanyCategoriesAdmin)
 admin.site.register(Rule, RuleAdmin)
 admin.site.register(Article, ArticleAdmin)
 admin.site.register(ExchangeRate, ExchangeRateAdmin)
+admin.site.register(Company2Company, Company2CompanyAdmin)
 
 admin.site.unregister(TOTPDevice)
 admin.site.register(TOTPDevice, RiggedTOTPDeviceAdmin)
