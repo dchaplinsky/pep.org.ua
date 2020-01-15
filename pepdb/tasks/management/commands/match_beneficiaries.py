@@ -26,25 +26,34 @@ class Command(BaseCommand):
     def _search_db(self, company):
         try:
             # Search by code first
-            company_db = Company.objects.deep_get([
-                ("edrpou__iexact", (company["beneficial_owner_company_code"] or "").replace(" ", "")),
-            ])
+            company_db = Company.objects.deep_get(
+                [
+                    (
+                        "edrpou__iexact",
+                        (company["beneficial_owner_company_code"] or "").replace(
+                            " ", ""
+                        ),
+                    )
+                ]
+            )
         except (Company.DoesNotExist, Company.MultipleObjectsReturned):
             try:
                 # Then refine the search if needed
-                company_db = Company.objects.deep_get([
-                    ("name_uk__iexact", company["company_name"]),
-                    ("name_uk__iexact", company["en_name"]),
-                    ("name_en__iexact", company["company_name"]),
-                    ("name_en__iexact", company["en_name"])
-                ])
+                company_db = Company.objects.deep_get(
+                    [
+                        ("name_uk__iexact", company["company_name"]),
+                        ("name_uk__iexact", company["en_name"]),
+                        ("name_en__iexact", company["company_name"]),
+                        ("name_en__iexact", company["en_name"]),
+                    ]
+                )
 
             except Company.DoesNotExist:
                 return None
             except Company.MultipleObjectsReturned:
                 self.stderr.write(
-                    "Too much companies returned for record '%s'" % json.dumps(
-                        company, ensure_ascii=False)
+                    "Too much companies returned for record '%s'"
+                    % json.dumps(company, ensure_ascii=False)
                 )
                 return None
 
@@ -59,16 +68,15 @@ class Command(BaseCommand):
         ans = None
         if company["beneficial_owner_company_code"]:
             res = EDRPOU.search().query(
-                "term",
-                edrpou=company["beneficial_owner_company_code"].lstrip("0")
+                "term", edrpou=company["beneficial_owner_company_code"].lstrip("0")
             )
             ans = res.execute()
             if not ans:
                 self.stdout.write(
-                    "Cannot find a company by code %s, falling back to search by name %s" %
-                    (
+                    "Cannot find a company by code %s, falling back to search by name %s"
+                    % (
                         company["beneficial_owner_company_code"],
-                        company["company_name"]
+                        company["company_name"],
                     )
                 )
 
@@ -79,7 +87,7 @@ class Command(BaseCommand):
                     query=company["company_name"],
                     fuzziness=fuzziness,
                     fields=["name", "short_name", "location"],
-                    boost=2.
+                    boost=2.0,
                 )
             ]
 
@@ -87,21 +95,22 @@ class Command(BaseCommand):
                 should.append(
                     Q(
                         "match",
-                        location={
-                            "query": company["address"],
-                            "fuzziness": fuzziness
-                        }
+                        location={"query": company["address"], "fuzziness": fuzziness},
                     )
                 )
 
-            res = EDRPOU.search() \
-                .query(Q("bool", should=should)) \
+            res = (
+                EDRPOU.search()
+                .query(Q("bool", should=should))
                 .highlight_options(
-                    order='score',
+                    order="score",
                     fragment_size=500,
                     number_of_fragments=100,
-                    pre_tags=['<u class="match">'], post_tags=["</u>"]) \
+                    pre_tags=['<u class="match">'],
+                    post_tags=["</u>"],
+                )
                 .highlight("name", "short_name", "location")
+            )
 
             ans = res.execute()
 
@@ -131,23 +140,31 @@ class Command(BaseCommand):
                 for a in ans[:candidates]:
                     highlight = getattr(a.meta, "highlight", {})
 
-                    name = " ".join(a.meta.highlight.name) \
-                        if "name" in highlight else a.name
-                    short_name = " ".join(a.meta.highlight.short_name) \
-                        if "short_name" in highlight else a.short_name
-                    location = " ".join(a.meta.highlight.location) \
-                        if "location" in highlight else a.location
+                    name = (
+                        " ".join(a.meta.highlight.name)
+                        if "name" in highlight
+                        else a.name
+                    )
+                    short_name = (
+                        " ".join(a.meta.highlight.short_name)
+                        if "short_name" in highlight
+                        else a.short_name
+                    )
+                    location = (
+                        " ".join(a.meta.highlight.location)
+                        if "location" in highlight
+                        else a.location
+                    )
 
                     rec = {
                         "name": name,
                         "short_name": short_name,
                         "location": location,
-
                         "head": a.head,
                         "edrpou": a.edrpou,
                         "status": a.status,
                         "company_profile": a.company_profile,
-                        "score": a._score
+                        "score": a._score,
                     }
 
                     if rec["edrpou"] not in edrpous_found:
@@ -165,16 +182,10 @@ class Command(BaseCommand):
 
     def get_key(self, obj, declarant):
         company_name = re.sub(
-            "[\s%s]+" % (re.escape("'\"-.,№()")),
-            "",
-            obj["company_name"].lower(),
-            re.U
+            "[\s%s]+" % (re.escape("'\"-.,№()")), "", obj["company_name"].lower(), re.U
         )
 
-        return "!!".join((
-            declarant.full_name,
-            company_name,
-        ))
+        return "!!".join((declarant.full_name, company_name))
 
     def insert_record(self, obj, declaration, type_of_connection):
         if obj["declarant_id"] is None:
@@ -185,19 +196,17 @@ class Command(BaseCommand):
 
         try:
             rec = BeneficiariesMatching.objects.get(
-                company_key=key,
-                type_of_connection=type_of_connection
+                company_key=key, type_of_connection=type_of_connection
             )
 
             if obj["country"] != "Україна" and rec.status not in ["y", "n"]:
                 self.stderr.write(
-                    "Same company %s listed in different sources as domestic and foreign!" % key
+                    "Same company %s listed in different sources as domestic and foreign!"
+                    % key
                 )
 
         except BeneficiariesMatching.DoesNotExist:
-            rec = BeneficiariesMatching(
-                company_key=key, pep_company_information=[]
-            )
+            rec = BeneficiariesMatching(company_key=key, pep_company_information=[])
 
             if obj["country"] != "Україна":
                 rec.status = "n"
@@ -206,8 +215,7 @@ class Command(BaseCommand):
         rec.type_of_connection = type_of_connection
         rec.person_json = declarant.to_dict()
         rec.is_family_member = obj["owner"] == "FAMILY"
-        rec.declarations = list(
-            set(rec.declarations or []) | set([declaration.pk]))
+        rec.declarations = list(set(rec.declarations or []) | set([declaration.pk]))
 
         if obj not in rec.pep_company_information:
             rec.pep_company_information.append(obj)
@@ -218,10 +226,10 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '--type',
+            "--type",
             choices=["beneficiary", "founder", "stakeholder"],
             required=True,
-            help='Which type of connection to use',
+            help="Which type of connection to use",
         )
 
     def handle(self, *args, **options):
@@ -241,27 +249,35 @@ class Command(BaseCommand):
             code_field = "emitent_ua_company_code"
 
         self.stdout.write("Retrieving ownership information")
-        for d in Declaration.objects.filter(
-                nacp_declaration=True, confirmed="a").select_related(
-                "person").nocache().iterator():
+        for d in (
+            Declaration.objects.filter(
+                nacp_declaration=True,
+                confirmed="a"
+            )
+            .select_related("person")
+            .nocache()
+            .iterator()
+        ):
             data = d.source["nacp_orig"]
 
             if isinstance(data.get(section), dict):
                 for ownership in data[section].values():
                     if not isinstance(ownership, dict):
-                        self.stderr.write("Ownership record '%s' is invalid" % ownership)
+                        self.stderr.write(
+                            "Ownership record '%s' is invalid" % ownership
+                        )
                         continue
 
                     base_rec = {
                         "declarant_id": (
-                            d.person_id if ownership.get("person") == "1"
+                            d.person_id
+                            if ownership.get("person") == "1"
                             else self.resolve_person(d, ownership.get("person"))
                         ),
                         "declarant_name": d.person.full_name,
                         "company_name": ownership.get("name"),
                         "legalForm": ownership.get("legalForm"),
-                        "country": COUNTRIES[
-                            ownership.get("country", "1") or "1"],
+                        "country": COUNTRIES[ownership.get("country", "1") or "1"],
                         "en_name": ownership.get("en_name"),
                         "location": ownership.get("location"),
                         "en_address": ownership.get("en_address"),
@@ -271,8 +287,9 @@ class Command(BaseCommand):
                         "year_declared": d.year,
                         "is_fixed": d.source["intro"].get("corrected", False),
                         "beneficial_owner_company_code": ownership.get(code_field),
-                        "owner": "DECLARANT" if ownership.get(
-                            "person") == "1" else "FAMILY"
+                        "owner": "DECLARANT"
+                        if ownership.get("person") == "1"
+                        else "FAMILY",
                     }
 
                     if options["type"] == "founder":
@@ -285,20 +302,26 @@ class Command(BaseCommand):
                             if person:
                                 rec = base_rec.copy()
 
-                                link_type = right.get("otherOwnership") or right.get("ownershipType")
+                                link_type = right.get("otherOwnership") or right.get(
+                                    "ownershipType"
+                                )
 
                                 # If declarant specified himself in co-owners but forget to specify the share
                                 # we'll grab that value from the ownership record
                                 percent_of_cost = right.get("percent-ownership")
                                 if percent_of_cost:
-                                    rec["percent_of_cost"] = str(percent_of_cost).replace(",", ".")
+                                    rec["percent_of_cost"] = str(
+                                        percent_of_cost
+                                    ).replace(",", ".")
                                 elif person_declaration_id == ownership.get("person"):
                                     rec["percent_of_cost"] = str(
-                                        ownership.get("cost_percent", "100.")).replace(",", ".")
+                                        ownership.get("cost_percent", "100.")
+                                    ).replace(",", ".")
 
                                 if not link_type:
-                                    self.stderr.write("Cannot determine type of ownership in the record %s" % (
-                                        json.dumps(ownership, ensure_ascii=False))
+                                    self.stderr.write(
+                                        "Cannot determine type of ownership in the record %s"
+                                        % (json.dumps(ownership, ensure_ascii=False))
                                     )
                                     link_type = "Співвласник"
 
@@ -307,7 +330,7 @@ class Command(BaseCommand):
                                 self.insert_record(
                                     rec,
                                     declaration=d,
-                                    type_of_connection=type_of_connection
+                                    type_of_connection=type_of_connection,
                                 )
 
                         # Ignoring ownership record if declarant already specified his ownership rights
@@ -316,12 +339,14 @@ class Command(BaseCommand):
 
                             link_type = "Співвласник"
                             rec["link_type"] = link_type
-                            rec["percent_of_cost"] = str(ownership.get("cost_percent", "100.")).replace(",", ".")
+                            rec["percent_of_cost"] = str(
+                                ownership.get("cost_percent", "100.")
+                            ).replace(",", ".")
 
                             self.insert_record(
                                 rec,
                                 declaration=d,
-                                type_of_connection=type_of_connection
+                                type_of_connection=type_of_connection,
                             )
                     elif options["type"] == "beneficiary":
                         rec = base_rec.copy()
@@ -330,38 +355,38 @@ class Command(BaseCommand):
                         self.insert_record(
                             rec,
                             declaration=d,
-                            type_of_connection=type_of_connection
+                            type_of_connection=type_of_connection,
                         )
                     else:
                         rec = base_rec.copy()
                         rec["link_type"] = "Акціонер"
 
-                        rec["company_name"] = (
-                            ownership.get("emitent_ua_company_name") or
-                            ownership.get("emitent_ukr_company_name")
-                        )
+                        rec["company_name"] = ownership.get(
+                            "emitent_ua_company_name"
+                        ) or ownership.get("emitent_ukr_company_name")
 
                         rec["en_name"] = ownership.get("emitent_eng_company_name")
                         rec["en_address"] = ownership.get("emitent_eng_company_address")
                         rec["address"] = ownership.get("emitent_ukr_company_address")
                         if ownership.get("owningDate"):
-                            rec["owning_date"] = dt_parse(ownership.get("owningDate"), dayfirst=True)
+                            rec["owning_date"] = dt_parse(
+                                ownership.get("owningDate"), dayfirst=True
+                            )
                         rec["cost"] = ownership.get("cost")
                         rec["amount"] = ownership.get("amount")
 
-                        rec["beneficial_owner_company_code"] = (
-                            ownership.get(code_field) or ownership.get("emitent_eng_company_code")
-                        )
+                        rec["beneficial_owner_company_code"] = ownership.get(
+                            code_field
+                        ) or ownership.get("emitent_eng_company_code")
 
                         self.insert_record(
-                            rec,
-                            declaration=d,
-                            type_of_connection=type_of_connection
+                            rec, declaration=d, type_of_connection=type_of_connection
                         )
 
         self.stdout.write("Matching with EDR registry")
         for ownership in BeneficiariesMatching.objects.filter(
-                status__in=["p", "n"], type_of_connection=type_of_connection):
+            status__in=["p", "n"], type_of_connection=type_of_connection
+        ):
             candidates = self.search_me(ownership)
             ownership.candidates_json = candidates
 
