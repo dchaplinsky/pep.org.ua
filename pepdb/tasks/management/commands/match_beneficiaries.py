@@ -248,12 +248,17 @@ class Command(BaseCommand):
             section = "step_7"
             code_field = "emitent_ua_company_code"
 
+        overrides = {
+            "ua_company_name_beneficial_owner": "name",
+            "en_company_name_beneficial_owner": "en_name",
+            "ua_company_address_beneficial_owner": "address",
+            "en_company_address_beneficial_owner": "en_address",
+            "company_code_beneficial_owner": code_field,
+        }
+
         self.stdout.write("Retrieving ownership information")
         for d in (
-            Declaration.objects.filter(
-                nacp_declaration=True,
-                confirmed="a"
-            )
+            Declaration.objects.filter(nacp_declaration=True, confirmed="a")
             .select_related("person")
             .nocache()
             .iterator()
@@ -267,6 +272,10 @@ class Command(BaseCommand):
                             "Ownership record '%s' is invalid" % ownership
                         )
                         continue
+
+                    for k, target in overrides.items():
+                        if ownership.get(k):
+                            ownership[target] = ownership[k]
 
                     base_rec = {
                         "declarant_id": (
@@ -352,11 +361,17 @@ class Command(BaseCommand):
                         rec = base_rec.copy()
                         rec["link_type"] = "Бенефіціарний власник"
 
-                        self.insert_record(
-                            rec,
-                            declaration=d,
-                            type_of_connection=type_of_connection,
-                        )
+                        try:
+                            self.insert_record(
+                                rec,
+                                declaration=d,
+                                type_of_connection=type_of_connection,
+                            )
+                        except AttributeError as e:
+                            self.stderr.write(
+                                "Problem with declaration {}: {}".format(d, str(e))
+                            )
+                            raise
                     else:
                         rec = base_rec.copy()
                         rec["link_type"] = "Акціонер"
