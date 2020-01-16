@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 import re
 import json
+import logging
 
 from django.core.management.base import BaseCommand
 from django.utils.translation import activate
@@ -15,6 +16,10 @@ from core.model.exc import CannotResolveRelativeException
 from tasks.elastic_models import EDRPOU
 from tasks.models import BeneficiariesMatching
 from tasks.constants import COUNTRIES
+
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
@@ -250,10 +255,13 @@ class Command(BaseCommand):
 
         overrides = {
             "ua_company_name_beneficial_owner": "name",
+            "address_beneficial_owner": "address",
+            "company_name_beneficial_owner": "name",
             "en_company_name_beneficial_owner": "en_name",
             "ua_company_address_beneficial_owner": "address",
             "en_company_address_beneficial_owner": "en_address",
             "company_code_beneficial_owner": code_field,
+            "ua_company_code_beneficial_owner": code_field,
         }
 
         self.stdout.write("Retrieving ownership information")
@@ -277,11 +285,23 @@ class Command(BaseCommand):
                         if ownership.get(k):
                             ownership[target] = ownership[k]
 
+                    ownership_person = ownership.get("person")
+                    if isinstance(ownership_person, dict):
+                        if len(ownership_person) == 1:
+                            ownership_person = ownership_person.keys()[0]
+                        else:
+                            logger.error(
+                                "Too much ownership records ({}) in declaration {}".format(
+                                    len(ownership_person), d.declaration_id
+                                )
+                            )
+                            continue
+
                     base_rec = {
                         "declarant_id": (
                             d.person_id
-                            if ownership.get("person") == "1"
-                            else self.resolve_person(d, ownership.get("person"))
+                            if ownership_person == "1"
+                            else self.resolve_person(d, ownership_person)
                         ),
                         "declarant_name": d.person.full_name,
                         "company_name": ownership.get("name"),
