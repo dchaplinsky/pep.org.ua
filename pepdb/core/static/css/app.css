@@ -2000,9 +2000,10 @@ body.modal-open {
 #dossier-modal .dossier-modal__body p:last-child, #criminal-modal .dossier-modal__body p:last-child {
   margin-bottom: 0; }
 #dossier-modal .dossier-modal__body a, #criminal-modal .dossier-modal__body a {
-  color: #f39200; }
+  color: #43942c; }
 #dossier-modal .dossier-modal__body a:hover, #dossier-modal .dossier-modal__body a:active, #criminal-modal .dossier-modal__body a:hover, #criminal-modal .dossier-modal__body a:active {
-  color: #4ead33; }
+  color: #4ead33;
+  text-decoration: underline; }
 #dossier-modal .dossier-modal__body strong, #criminal-modal .dossier-modal__body strong {
   font-weight: 800; }
 #dossier-modal .dossier-modal__body img, #criminal-modal .dossier-modal__body img {
@@ -3317,6 +3318,9 @@ body.modal-open {
 
 .article-content h2 {
   font-size: 28px; }
+.article-content h2.article-header {
+  font-weight: 500;
+  font-size: 20px; }
 
 .article-content h3 {
   font-size: 24px; }
@@ -3378,9 +3382,10 @@ body.modal-open {
   color: #f39200; }
 
 .article-content a {
-  color: #f39200; }
+  color: #43942c; }
 .article-content a:hover, .article-content a:active {
-  color: #4ead33; }
+  color: #4ead33;
+  text-decoration: underline; }
 
 .article-content b {
   font-weight: 600; }
@@ -3665,9 +3670,10 @@ body.modal-open {
 .profile-page__top .profile-main-info table tr td:last-child {
   padding-left: 40px; }
 .profile-page__top .profile-main-info table tr td a {
-  color: #f39200; }
+  color: #43942c; }
 .profile-page__top .profile-main-info table tr td a:hover, .profile-page__top .profile-main-info table tr td a:active {
-  color: #4ead33; }
+  color: #4ead33;
+  text-decoration: underline; }
 .profile-page__top .profile-main-info table tr td strong {
   font-weight: 600; }
 
@@ -3727,6 +3733,8 @@ body.modal-open {
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
   width: calc(100% / 10);
   height: 60px;
   font-weight: 900;
@@ -3858,6 +3866,7 @@ body.modal-open {
 .profile-page .scoring__list {
   margin-top: 50px;
   counter-reset: myCounter;
+  width: 100%;
   max-width: 608px;
   padding-bottom: 60px; }
 .profile-page .scoring__list li {
@@ -3866,11 +3875,11 @@ body.modal-open {
   padding-bottom: 20px;
   margin-bottom: 12px;
   font-size: 16px;
-  line-height: 1.6;
+  line-height: 32px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.07); }
 .profile-page .scoring__list li::before {
   position: absolute;
-  top: 4px;
+  top: 0;
   left: 0;
   counter-increment: myCounter;
   content: counter(myCounter) ".";
@@ -3889,7 +3898,18 @@ body.modal-open {
   background-color: #f39200;
   color: #fff;
   padding: 0 12px;
-  height: 32px; }
+  height: 30px; }
+.profile-page .scoring__more {
+  max-width: 608px;
+  margin-bottom: 60px;
+  text-align: center;
+  line-height: 1.4; }
+.profile-page .scoring__more a {
+  font-weight: 600;
+  color: #43942c; }
+.profile-page .scoring__more a:hover, .profile-page .scoring__more a:active {
+  color: #4ead33;
+  text-decoration: underline; }
 .profile-page .scoring--open {
   padding-bottom: 60px; }
 .profile-page .scoring--open .progressbar {
@@ -4099,7 +4119,6 @@ body.modal-open {
   padding: 14px 7px;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
   vertical-align: middle;
-  position: relative;
   -moz-text-size-adjust: none;
   -ms-text-size-adjust: none;
   -webkit-text-size-adjust: none; }
@@ -4110,15 +4129,23 @@ body.modal-open {
 .profile-page .profile-section__body .table td.no-wrap, .profile-page .profile-section__content .table td.no-wrap {
   white-space: nowrap; }
 .profile-page .profile-section__body .table td strong, .profile-page .profile-section__content .table td strong {
-  font-weight: bold; }
+  font-weight: 600; }
 .profile-page .profile-section__body .table td a, .profile-page .profile-section__content .table td a {
-  color: #f39200; }
+  font-weight: 600;
+  color: #43942c; }
 .profile-page .profile-section__body .table td a:hover, .profile-page .profile-section__body .table td a:active, .profile-page .profile-section__content .table td a:hover, .profile-page .profile-section__content .table td a:active {
-  color: #4ead33; }
+  color: #4ead33;
+  text-decoration: underline; }
+.profile-page .profile-section__body .table td .last-workplace a, .profile-page .profile-section__content .table td .last-workplace a {
+  font-weight: 300; }
+.profile-page .profile-section__body .table .toggle-row, .profile-page .profile-section__content .table .toggle-row {
+  background-color: #F9F9F9; }
 .profile-page .profile-section__body .table .toggle-row td, .profile-page .profile-section__content .table .toggle-row td {
   padding: 0;
   padding-left: 47px;
   border-top: none; }
+.profile-page .profile-section__body .table .toggle-row .toggle-content, .profile-page .profile-section__content .table .toggle-row .toggle-content {
+  padding: 8px 0; }
 .profile-page .profile-section__body .table .toggle-row .toggle-content span, .profile-page .profile-section__body .table .toggle-row .toggle-content p, .profile-page .profile-section__body .table .toggle-row .toggle-content a, .profile-page .profile-section__content .table .toggle-row .toggle-content span, .profile-page .profile-section__content .table .toggle-row .toggle-content p, .profile-page .profile-section__content .table .toggle-row .toggle-content a {
   font-weight: 300;
   font-size: 12px;
@@ -4310,9 +4337,10 @@ body.modal-open {
 .profile-page .profile-section__body .criminal-status p, .profile-page .profile-section__content .criminal-status p {
   font-weight: 300; }
 .profile-page .profile-section__body .criminal-status a, .profile-page .profile-section__content .criminal-status a {
-  color: #f39200; }
+  color: #43942c; }
 .profile-page .profile-section__body .criminal-status a:hover, .profile-page .profile-section__body .criminal-status a:active, .profile-page .profile-section__content .criminal-status a:hover, .profile-page .profile-section__content .criminal-status a:active {
-  color: #4ead33; }
+  color: #4ead33;
+  text-decoration: underline; }
 .profile-page .profile-section__body .investigation-grid, .profile-page .profile-section__content .investigation-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -4344,9 +4372,10 @@ body.modal-open {
 .profile-page .profile-section__body .dossier-content p, .profile-page .profile-section__content .dossier-content p {
   font-weight: 300; }
 .profile-page .profile-section__body .dossier-content a, .profile-page .profile-section__content .dossier-content a {
-  color: #f39200; }
+  color: #43942c; }
 .profile-page .profile-section__body .dossier-content a:hover, .profile-page .profile-section__body .dossier-content a:active, .profile-page .profile-section__content .dossier-content a:hover, .profile-page .profile-section__content .dossier-content a:active {
-  color: #4ead33; }
+  color: #4ead33;
+  text-decoration: underline; }
 .profile-page .profile-section__body .documents-type, .profile-page .profile-section__content .documents-type {
   font-weight: bold;
   font-size: 14px;
@@ -4374,9 +4403,10 @@ body.modal-open {
   top: 8px;
   background-color: #c4c4c4; }
 .profile-page .profile-section__body .documents-list li a, .profile-page .profile-section__content .documents-list li a {
-  color: #f39200; }
+  color: #43942c; }
 .profile-page .profile-section__body .documents-list li a:hover, .profile-page .profile-section__body .documents-list li a:active, .profile-page .profile-section__content .documents-list li a:hover, .profile-page .profile-section__content .documents-list li a:active {
-  color: #4ead33; }
+  color: #4ead33;
+  text-decoration: underline; }
 .profile-page .profile-section__body--hidden, .profile-page .profile-section__content--hidden {
   max-height: 340px;
   -webkit-transition: .2s;
@@ -6100,6 +6130,8 @@ body.modal-open {
     font-size: 22px; }
   .article-content h2 {
     font-size: 20px; }
+  .article-content h2.article-header {
+    font-size: 16px; }
   .article-content h3 {
     font-size: 18px; }
   .article-content h4 {
@@ -6247,15 +6279,17 @@ body.modal-open {
   .profile-page .scoring__list {
     margin-top: 20px;
     padding-bottom: 28px; }
-  .profile-page .scoring__list li::before {
-    top: 0; }
   .profile-page .scoring__list li {
     padding-left: 25px;
     padding-bottom: 12px;
-    font-size: 12px; }
+    font-size: 12px;
+    line-height: 22px; }
   .profile-page .scoring__list li strong {
     padding: 0 8px;
     height: 20px; }
+  .profile-page .scoring__more {
+    margin-bottom: 28px;
+    font-size: 12px; }
   .profile-page .scoring--open {
     padding-bottom: 0; }
   .profile-page .profile-section {

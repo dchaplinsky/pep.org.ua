@@ -36,7 +36,7 @@
 					<img src="{{ article.photo.url }}" alt="{{ article.caption }}"  class="single-page-top-img"/>
 				{% endif %}
                 <div class="article-content">
-                    {% if article.header %}<h2>{{ article.header }}</h2>{% endif %}
+                    {% if article.header %}<h2 class="article-header">{{ article.header }}</h2>{% endif %}
                 	{{ article.text|safe }}
                 </div>
             </div>
