@@ -410,6 +410,7 @@ class PersonAdmin(nested_admin.NestedModelAdminMixin, TranslationAdmin):
     )
 
     list_display = (
+        "pk_link",
         "last_name_uk",
         "first_name_uk",
         "patronymic_uk",
@@ -423,6 +424,7 @@ class PersonAdmin(nested_admin.NestedModelAdminMixin, TranslationAdmin):
     readonly_fields = ("names", "last_change", "last_editor", "_last_modified")
     search_fields = ["last_name_uk", "first_name_uk", "patronymic_uk", "names"]
     list_editable = ("dob", "dob_details", "publish")
+    list_display_links = ("pk_link",)
     list_filter = ("last_editor", HasSanctionsListFilter, NoTranslationPersonFilter)
 
     actions = [make_published, make_unpublished]
@@ -491,13 +493,26 @@ class PersonAdmin(nested_admin.NestedModelAdminMixin, TranslationAdmin):
         extra_context["person2person_rels"] = json.dumps(
             Person2Person._relationships_explained
         )
+
         extra_context["person2company_rels"] = json.dumps(
             Person2Company._relationships_explained
         )
 
-        return super(PersonAdmin, self).change_view(
+
+        self.inlines = list(self.inlines)
+        inlines = copy(self.inlines)
+
+        if request.GET.get("lean"):
+            self.inlines.remove(Person2CompanyInline)
+            self.inlines.remove(Person2PersonInline)
+            self.inlines.remove(Person2PersonBackInline)
+
+        resp = super(PersonAdmin, self).change_view(
             request, object_id, form_url, extra_context=extra_context
         )
+
+        self.inlines = inlines
+        return resp
 
     def add_view(self, request, form_url="", extra_context=None):
         extra_context = extra_context or {}
@@ -511,6 +526,9 @@ class PersonAdmin(nested_admin.NestedModelAdminMixin, TranslationAdmin):
         return super(PersonAdmin, self).add_view(
             request, form_url, extra_context=extra_context
         )
+
+    def pk_link(self, obj):
+        return render_to_string("admin/core/person/pk_link.html", {"obj": obj})
 
 
 class CompanyAdmin(nested_admin.NestedModelAdminMixin, TranslationAdmin):
