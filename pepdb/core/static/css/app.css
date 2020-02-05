@@ -792,7 +792,7 @@ body.modal-open {
 .faq-item--open .faq-item__header .icon .minus {
   display: block; }
 .faq-item--open .faq-item__body {
-  max-height: 600px;
+  max-height: none;
   margin-top: 16px; }
 
 .check {
@@ -2920,7 +2920,7 @@ body.modal-open {
   z-index: 2;
   width: 100%;
   max-width: 1720px;
-  top: -170px;
+  top: -140px;
   margin: 0 auto;
   background-color: #fff;
   padding: 50px 0 75px; }
@@ -4776,7 +4776,8 @@ body.modal-open {
   .profiles .first-section .page-title {
     margin-top: 100px; }
   .profiles .profiles-no-results {
-    max-width: 1246px; }
+    max-width: 1246px;
+    top: -70px; }
   .blogs .page-title, .investigations .page-title {
     margin-top: 240px; }
   .contacts .page-title {
@@ -5353,7 +5354,8 @@ body.modal-open {
     grid-row-gap: 36px; }
   .profiles .profiles-no-results {
     width: calc(100% - 80px);
-    padding: 50px 80px; }
+    padding: 50px 80px;
+    top: -40px; }
   .profiles main {
     padding: 80px 0 120px; }
   .profiles .profiles-filters {
@@ -6025,7 +6027,7 @@ body.modal-open {
   .profiles .profiles-no-results {
     width: calc(100% - 40px);
     padding: 40px 16px;
-    top: -55px; }
+    top: -20px; }
   .profiles .profiles-no-results .title {
     font-size: 14px;
     margin-bottom: 12px; }
