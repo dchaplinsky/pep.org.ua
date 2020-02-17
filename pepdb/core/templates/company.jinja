@@ -132,7 +132,7 @@
                             <tr>
                                 <td>{{ _("Поточний стан") }}</td>
                                 <td>
-                                    <span class="status status--{company.status}">
+                                    <span class="status status--{{company.status}}">
                                     {{ _(company.get_status_display()) }}
                                     {% if company.closed_on %}
                                         {{ _(" з ") }} {{ company.closed_on_human }}
