@@ -156,13 +156,14 @@
                                         {{ comma() }}<span class="flag flag-{{ connection.to_country.iso3|lower }}" title="{{ connection.to_country.name }}"></span> {{ connection.to_country.name }}
 
                                         {% if connection.has_additional_info %}
-                                            <button class="toggle-row-btn">
+                                            (
+                                            {# <button class="toggle-row-btn">
                                                 <svg>
                                                     <use xlink:href="#arr-right-w2"></use>
                                                 </svg>
-                                            </button>
+                                            </button> #}
                                             {% set proofs = connection.proofs.all() %}
-                                            <div class="toggle-content">
+                                            <div class="additional-info">
                                                 {% if date_confirmed_human %}
                                                 <span class="confirmed-date">{{ _("Підтверджено: ") }}{{ connection.date_confirmed_human }}</span>
                                                 {% endif %}
@@ -173,6 +174,7 @@
                                                     {% endfor %}
                                                 {% endif %}
                                             </div>
+                                            )
                                         {% endif %}
                                         {%- endfor %}
                                     </td>
