@@ -155,14 +155,10 @@
                                         {% for connection in connections_with_country -%}
                                         {{ comma() }}<span class="flag flag-{{ connection.to_country.iso3|lower }}" title="{{ connection.to_country.name }}"></span> {{ connection.to_country.name }}
 
-{#                                         {% if connection.has_additional_info %}
-                                            <button class="toggle-row-btn">
-                                                <svg>
-                                                    <use xlink:href="#arr-right-w2"></use>
-                                                </svg>
-                                            </button>
+                                        {% if connection.has_additional_info %}
+                                            (
                                             {% set proofs = connection.proofs.all() %}
-                                            <div class="toggle-content">
+                                            <div class="additional-info">
                                                 {% if date_confirmed_human %}
                                                 <span class="confirmed-date">{{ _("Підтверджено: ") }}{{ connection.date_confirmed_human }}</span>
                                                 {% endif %}
@@ -173,7 +169,8 @@
                                                     {% endfor %}
                                                 {% endif %}
                                             </div>
-                                        {% endif %} #}
+                                            )
+                                        {% endif %}
                                         {%- endfor %}
                                     </td>
                                 </tr>
@@ -225,8 +222,7 @@
                     <div class="scoring__header">
                         <div class="content">
                             <h6 class="scoring__title">{{ _("Скоринг ризику активів") }}</h6>
-                            <!-- добавлять класс index--N, где N - номер индекса от 1 до 10 -->
-                            <!-- а что делать для тех, у которых скор — 0 -->
+                            
                             <div class="progressbar">
                                 <span class="index index--{{ scoring_score|round|int }}">{{ '%0.2f'| format(scoring_score|float) }}</span>
                             </div>
@@ -248,7 +244,7 @@
                             </li>
                             {% endfor %}
                         </ol>
-                        <p>{{ _("Детальніше про методологію оцінювання ризику необгрунтованості доходів публічних діячів ") }}<a href="{{ url('wagtail_serve', 'scoring/') }}">{{ _("читайте тут") }}</a></p>
+                        <p class="scoring__more">{{ _("Детальніше про методологію оцінювання ризику необгрунтованості доходів публічних діячів ") }}<a href="{{ url('wagtail_serve', 'scoring/') }}">{{ _("читайте тут") }}</a></p>
                     </div>
                 </div>
                 {% endif %}
