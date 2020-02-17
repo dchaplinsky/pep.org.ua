@@ -386,7 +386,6 @@ $(document).ready(function () {
     // скрытие/отображение доп инфо
     $(".toggle-row-btn").click(function (event) {
         var infoRow = $(this).parent().parent();
-        console.log(infoRow);
 
         // если для текущего ряда доп инфо уже отображается - скрываем (по факту удаляем)
         if ($(this).hasClass("open")) {
@@ -396,8 +395,6 @@ $(document).ready(function () {
 
             // если доп инфо еще не было отображено - показываем
         } else {
-            // удаляем другие ряды с доп инфо, если были открыты
-            // infoRow.siblings(".toggle-row").remove();
 
             // копируем лежащий рядом с кнопкой блок контента с доп инфо (который имеет класс .toggle-content)
             var content = $(this).siblings(".toggle-content")[0].outerHTML;
