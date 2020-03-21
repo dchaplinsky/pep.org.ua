@@ -29,12 +29,12 @@ $(document).ready(function () {
         if ($("section").is(".partners")) {
             if ($(window).width() <= 767) {
                 $('.partners .items').slick({
-                        slidesToShow: 1,
-                        slidesToScroll: 1,
-                        dots: true,
-                        arrows: false,
-                        infinite: false
-                    }
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    dots: true,
+                    arrows: false,
+                    infinite: false
+                }
                 );
             } else {
                 $('.partners .items').filter('.slick-initialized').slick('unslick');
@@ -45,13 +45,13 @@ $(document).ready(function () {
         if ($("section").is(".opportunities")) {
             if ($(window).width() <= 767) {
                 $('.opportunities .items').slick({
-                        slidesToShow: 1,
-                        slidesToScroll: 1,
-                        dots: true,
-                        arrows: false,
-                        infinite: false,
-                        adaptiveHeight: true
-                    }
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    dots: true,
+                    arrows: false,
+                    infinite: false,
+                    adaptiveHeight: true
+                }
                 );
             } else {
                 $('.opportunities .items').filter('.slick-initialized').slick('unslick');
@@ -232,7 +232,7 @@ $(document).ready(function () {
         event.preventDefault();
         var id = $(this).attr('href');
         var top = $(id).offset().top;
-        $('body,html').animate({scrollTop: top}, 1500);
+        $('body,html').animate({ scrollTop: top }, 1500);
         $('.side-menu').removeClass('side-menu--open');
         $('body').removeClass('no-scroll');
     });
@@ -313,7 +313,7 @@ $(document).ready(function () {
     $('.visualization-btn').on('click', function () {
         $('#visualization-modal').addClass('modal--open');
         $('body').addClass('modal-open');
-        $(function modalBodyHeight () {
+        $(function modalBodyHeight() {
             var modal = $('#visualization-modal'),
                 modalHeight = modal.find('.visualization-modal').height(),
                 headerHeight = modal.find('.visualization-modal__header').outerHeight(),
@@ -390,13 +390,11 @@ $(document).ready(function () {
         // если для текущего ряда доп инфо уже отображается - скрываем (по факту удаляем)
         if ($(this).hasClass("open")) {
             // удаляем ряд с доп инфо
-            infoRow.siblings(".toggle-row").remove();
+            infoRow.next(".toggle-row").remove();
             $(this).removeClass("open");
 
             // если доп инфо еще не было отображено - показываем
         } else {
-            // удаляем другие ряды с доп инфо, если были открыты
-            infoRow.siblings(".toggle-row").remove();
 
             // копируем лежащий рядом с кнопкой блок контента с доп инфо (который имеет класс .toggle-content)
             var content = $(this).siblings(".toggle-content")[0].outerHTML;
@@ -405,7 +403,7 @@ $(document).ready(function () {
             $(this).parent().parent().after('<tr class="toggle-row"><td colspan="4">' + content + '</td></tr>');
 
             // отображаем скрытый контент
-            infoRow.siblings(".toggle-row").find(".toggle-content").show();
+            infoRow.next(".toggle-row").find(".toggle-content").show();
 
             // добавляем класс на будущее, чтобы знать, что для текущего ряда инфо блок уже открыт
             $(this).addClass("open");

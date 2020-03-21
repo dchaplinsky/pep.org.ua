@@ -82,12 +82,14 @@
                             {% set last_workplace = person.translated_last_workplace %}
                             {% if last_workplace %}
                                 <br />
-                                {% if last_workplace.company_id %}
-                                    <a href="{{ url("company_details", company_id=last_workplace.company_id) }}" itemscope itemtype="http://schema.org/Organization" itemprop="worksFor"><span itemprop="name">{{ last_workplace.company }}</span></a>,
-                                {% else %}
-                                    <span itemscope itemtype="http://schema.org/Organization" itemprop="worksFor"><span itemprop="name">{{ last_workplace.company }}</span></span>,
-                                {% endif %}
-                                <span itemprop="jobTitle">{{ last_workplace.position }}</span>
+                                <span class="last-workplace">  
+                                    {% if last_workplace.company_id %}
+                                        <a href="{{ url("company_details", company_id=last_workplace.company_id) }}" itemscope itemtype="http://schema.org/Organization" itemprop="worksFor"><span itemprop="name">{{ last_workplace.company }}</span></a>,
+                                    {% else %}
+                                        <span itemscope itemtype="http://schema.org/Organization" itemprop="worksFor"><span itemprop="name">{{ last_workplace.company }}</span></span>,
+                                    {% endif %}
+                                    <span itemprop="jobTitle">{{ last_workplace.position }}</span>
+                                </span>
                             {% endif %}
                         </p>
                     </div>
