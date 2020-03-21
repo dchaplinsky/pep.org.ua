@@ -266,7 +266,10 @@ class Command(BaseCommand):
 
         self.stdout.write("Retrieving ownership information")
         for d in (
-            Declaration.objects.filter(nacp_declaration=True, confirmed="a")
+            Declaration.objects.filter(
+                nacp_declaration=True,
+                confirmed="a"
+            )
             .select_related("person")
             .nocache()
             .iterator()
@@ -285,138 +288,133 @@ class Command(BaseCommand):
                         if ownership.get(k):
                             ownership[target] = ownership[k]
 
-                    ownership_person = ownership.get("person")
-                    if isinstance(ownership_person, dict):
-                        if len(ownership_person) == 1:
-                            ownership_person = ownership_person.keys()[0]
-                        else:
-                            logger.error(
-                                "Too much ownership records ({}) in declaration {}".format(
-                                    len(ownership_person), d.declaration_id
-                                )
-                            )
-                            continue
+                    ownership_persons = ownership.get("person")
 
-                    base_rec = {
-                        "declarant_id": (
-                            d.person_id
-                            if ownership_person == "1"
-                            else self.resolve_person(d, ownership_person)
-                        ),
-                        "declarant_name": d.person.full_name,
-                        "company_name": ownership.get("name"),
-                        "legalForm": ownership.get("legalForm"),
-                        "country": COUNTRIES[ownership.get("country", "1") or "1"],
-                        "en_name": ownership.get("en_name"),
-                        "location": ownership.get("location"),
-                        "en_address": ownership.get("en_address"),
-                        "phone": ownership.get("phone"),
-                        "address": ownership.get("address"),
-                        "mail": ownership.get("mail"),
-                        "year_declared": d.year,
-                        "is_fixed": d.source["intro"].get("corrected", False),
-                        "beneficial_owner_company_code": ownership.get(code_field),
-                        "owner": "DECLARANT"
-                        if ownership.get("person") == "1"
-                        else "FAMILY",
-                    }
+                    if not isinstance(ownership_persons, dict):
+                        ownership_persons = [None]
 
-                    if options["type"] == "founder":
-                        rights = ownership.get("rights", {}) or {}
+                    for ownership_person in ownership_persons:
+                        base_rec = {
+                            "declarant_id": (
+                                d.person_id
+                                if ownership_person == "1"
+                                else self.resolve_person(d, ownership_person)
+                            ),
+                            "declarant_name": d.person.full_name,
+                            "company_name": ownership.get("name"),
+                            "legalForm": ownership.get("legalForm"),
+                            "country": COUNTRIES[ownership.get("country", "1") or "1"],
+                            "en_name": ownership.get("en_name"),
+                            "location": ownership.get("location"),
+                            "en_address": ownership.get("en_address"),
+                            "phone": ownership.get("phone"),
+                            "address": ownership.get("address"),
+                            "mail": ownership.get("mail"),
+                            "year_declared": d.year,
+                            "is_fixed": d.source["intro"].get("corrected", False),
+                            "beneficial_owner_company_code": ownership.get(code_field),
+                            "owner": "DECLARANT"
+                            if ownership.get("person") == "1"
+                            else "FAMILY",
+                        }
 
-                        # Adding all family members declared as coowners/cofounders
-                        for person_declaration_id, right in rights.items():
-                            person = self.resolve_person(d, person_declaration_id)
+                        if options["type"] == "founder":
+                            rights = ownership.get("rights", {}) or {}
 
-                            if person:
+                            # Adding all family members declared as coowners/cofounders
+                            for person_declaration_id, right in rights.items():
+                                person = self.resolve_person(d, person_declaration_id)
+
+                                if person:
+                                    rec = base_rec.copy()
+                                    rec["declarant_id"] = person
+
+                                    link_type = right.get("otherOwnership") or right.get(
+                                        "ownershipType"
+                                    )
+
+                                    # If declarant specified himself in co-owners but forget to specify the share
+                                    # we'll grab that value from the ownership record
+                                    percent_of_cost = right.get("percent-ownership")
+                                    if percent_of_cost:
+                                        rec["percent_of_cost"] = str(
+                                            percent_of_cost
+                                        ).replace(",", ".")
+                                    elif person_declaration_id == ownership.get("person"):
+                                        rec["percent_of_cost"] = str(
+                                            ownership.get("cost_percent", "100.")
+                                        ).replace(",", ".")
+
+                                    if not link_type:
+                                        self.stderr.write(
+                                            "Cannot determine type of ownership in the record %s"
+                                            % (json.dumps(ownership, ensure_ascii=False))
+                                        )
+                                        link_type = "Співвласник"
+
+                                    rec["link_type"] = link_type
+
+                                    self.insert_record(
+                                        rec,
+                                        declaration=d,
+                                        type_of_connection=type_of_connection,
+                                    )
+
+                            # Ignoring ownership record if declarant already specified his ownership rights
+                            if ownership.get("person") not in rights:
                                 rec = base_rec.copy()
 
-                                link_type = right.get("otherOwnership") or right.get(
-                                    "ownershipType"
-                                )
-
-                                # If declarant specified himself in co-owners but forget to specify the share
-                                # we'll grab that value from the ownership record
-                                percent_of_cost = right.get("percent-ownership")
-                                if percent_of_cost:
-                                    rec["percent_of_cost"] = str(
-                                        percent_of_cost
-                                    ).replace(",", ".")
-                                elif person_declaration_id == ownership.get("person"):
-                                    rec["percent_of_cost"] = str(
-                                        ownership.get("cost_percent", "100.")
-                                    ).replace(",", ".")
-
-                                if not link_type:
-                                    self.stderr.write(
-                                        "Cannot determine type of ownership in the record %s"
-                                        % (json.dumps(ownership, ensure_ascii=False))
-                                    )
-                                    link_type = "Співвласник"
-
+                                link_type = "Співвласник"
                                 rec["link_type"] = link_type
+                                rec["percent_of_cost"] = str(
+                                    ownership.get("cost_percent", "100.")
+                                ).replace(",", ".")
 
                                 self.insert_record(
                                     rec,
                                     declaration=d,
                                     type_of_connection=type_of_connection,
                                 )
-
-                        # Ignoring ownership record if declarant already specified his ownership rights
-                        if ownership.get("person") not in rights:
+                        elif options["type"] == "beneficiary":
                             rec = base_rec.copy()
+                            rec["link_type"] = "Бенефіціарний власник"
 
-                            link_type = "Співвласник"
-                            rec["link_type"] = link_type
-                            rec["percent_of_cost"] = str(
-                                ownership.get("cost_percent", "100.")
-                            ).replace(",", ".")
+                            try:
+                                self.insert_record(
+                                    rec,
+                                    declaration=d,
+                                    type_of_connection=type_of_connection,
+                                )
+                            except AttributeError as e:
+                                self.stderr.write(
+                                    "Problem with declaration {}: {}".format(d, str(e))
+                                )
+                                raise
+                        else:
+                            rec = base_rec.copy()
+                            rec["link_type"] = "Акціонер"
+
+                            rec["company_name"] = ownership.get(
+                                "emitent_ua_company_name"
+                            ) or ownership.get("emitent_ukr_company_name")
+
+                            rec["en_name"] = ownership.get("emitent_eng_company_name")
+                            rec["en_address"] = ownership.get("emitent_eng_company_address")
+                            rec["address"] = ownership.get("emitent_ukr_company_address")
+                            if ownership.get("owningDate"):
+                                rec["owning_date"] = dt_parse(
+                                    ownership.get("owningDate"), dayfirst=True
+                                )
+                            rec["cost"] = ownership.get("cost")
+                            rec["amount"] = ownership.get("amount")
+
+                            rec["beneficial_owner_company_code"] = ownership.get(
+                                code_field
+                            ) or ownership.get("emitent_eng_company_code")
 
                             self.insert_record(
-                                rec,
-                                declaration=d,
-                                type_of_connection=type_of_connection,
+                                rec, declaration=d, type_of_connection=type_of_connection
                             )
-                    elif options["type"] == "beneficiary":
-                        rec = base_rec.copy()
-                        rec["link_type"] = "Бенефіціарний власник"
-
-                        try:
-                            self.insert_record(
-                                rec,
-                                declaration=d,
-                                type_of_connection=type_of_connection,
-                            )
-                        except AttributeError as e:
-                            self.stderr.write(
-                                "Problem with declaration {}: {}".format(d, str(e))
-                            )
-                            raise
-                    else:
-                        rec = base_rec.copy()
-                        rec["link_type"] = "Акціонер"
-
-                        rec["company_name"] = ownership.get(
-                            "emitent_ua_company_name"
-                        ) or ownership.get("emitent_ukr_company_name")
-
-                        rec["en_name"] = ownership.get("emitent_eng_company_name")
-                        rec["en_address"] = ownership.get("emitent_eng_company_address")
-                        rec["address"] = ownership.get("emitent_ukr_company_address")
-                        if ownership.get("owningDate"):
-                            rec["owning_date"] = dt_parse(
-                                ownership.get("owningDate"), dayfirst=True
-                            )
-                        rec["cost"] = ownership.get("cost")
-                        rec["amount"] = ownership.get("amount")
-
-                        rec["beneficial_owner_company_code"] = ownership.get(
-                            code_field
-                        ) or ownership.get("emitent_eng_company_code")
-
-                        self.insert_record(
-                            rec, declaration=d, type_of_connection=type_of_connection
-                        )
 
         self.stdout.write("Matching with EDR registry")
         for ownership in BeneficiariesMatching.objects.filter(
