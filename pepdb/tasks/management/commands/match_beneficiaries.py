@@ -255,11 +255,9 @@ class Command(BaseCommand):
 
         overrides = {
             "company_name_beneficial_owner": "name",
-            "en_company_address_beneficial_owner": "en_name",
             "ua_company_name_beneficial_owner": "name",
-            "address_beneficial_owner": "address",
-            "company_name_beneficial_owner": "name",
             "en_company_name_beneficial_owner": "en_name",
+            "address_beneficial_owner": "address",
             "ua_company_address_beneficial_owner": "address",
             "en_company_address_beneficial_owner": "en_address",
             "company_code_beneficial_owner": code_field,
@@ -289,6 +287,9 @@ class Command(BaseCommand):
                     for k, target in overrides.items():
                         if ownership.get(k):
                             ownership[target] = ownership[k]
+
+                    if not ownership.get("name"):
+                        ownership["name"] = ownership.get("en_name")
 
                     ownership_persons = ownership.get("person")
 
