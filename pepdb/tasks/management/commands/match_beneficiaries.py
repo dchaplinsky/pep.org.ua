@@ -254,6 +254,8 @@ class Command(BaseCommand):
             code_field = "emitent_ua_company_code"
 
         overrides = {
+            "company_name_beneficial_owner": "name",
+            "en_company_address_beneficial_owner": "en_name",
             "ua_company_name_beneficial_owner": "name",
             "address_beneficial_owner": "address",
             "company_name_beneficial_owner": "name",
