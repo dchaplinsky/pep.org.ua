@@ -162,6 +162,9 @@ class Declaration(models.Model):
                         person = income.get("person", "1")
                         income_size = float(income.get("sizeIncome", "0"))
 
+                        if isinstance(person, dict) and person:
+                            person = person.keys()[0]
+
                         if person == "1":
                             resp["income_of_declarant"] += income_size
                         else:
