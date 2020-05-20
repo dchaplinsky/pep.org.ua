@@ -37,7 +37,8 @@ unicodecsv==0.9.4
 wagtail==1.13.4
 WeasyPrint==0.42.3
 XlsxWriter==1.0.0
-django-compressor==2.2
+django-compressor==2.4
+django-appconf==1.0.3
 django-otp==0.4.3
 qrcode==6.0
 jmespath==0.9.3
