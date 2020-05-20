@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from itertools import groupby
 from urlparse import urlsplit, urlunsplit
 from urllib import unquote_plus
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 
 from django.utils.safestring import mark_safe
 from django_markdown.utils import markdown as _markdown
@@ -174,8 +174,8 @@ def convert_curr(value, year):
 
     if lang == "en" and value:
         try:
-            value = Decimal(value) / get_exchange_rate("USD", year)
-        except (TypeError, ZeroDivisionError):
+            value = Decimal(str(value).replace(",", ".")) / get_exchange_rate("USD", year)
+        except (TypeError, ZeroDivisionError, InvalidOperation):
             pass
 
     return value
