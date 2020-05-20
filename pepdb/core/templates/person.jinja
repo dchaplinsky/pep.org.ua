@@ -420,17 +420,19 @@
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th class="sort-head" data-colnum="col3">{{_("Доходи декларанта")}}, {{ _("UAH") }}
+                                        <th class="sort-head" data-colnum="col3">{{_("Доходи декларанта")}}, 
+                                            {% if LANGUAGE_CODE == "en" %}{{ _("USD") }}{% else %}{{ _("UAH") }}{% endif %}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th class="sort-head" data-colnum="col4">{{ _("Доходи родини") }}, {{ _("UAH") }}
+                                        <th class="sort-head" data-colnum="col4">{{ _("Доходи родини") }},
+                                            {% if LANGUAGE_CODE == "en" %}{{ _("USD") }}{% else %}{{ _("UAH") }}{% endif %}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th class="sort-head" data-colnum="col5">{{ _("Витрати та інші правочини декларанта") }}, {{ _("UAH") }}
+                                        <th class="sort-head" data-colnum="col5">{{ _("Витрати та інші правочини декларанта") }}, {% if LANGUAGE_CODE == "en" %}{{ _("USD") }}{% else %}{{ _("UAH") }}{% endif %}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
@@ -447,9 +449,9 @@
                                             <td class="position sort-col col2" itemscope="" itemtype="http://schema.org/Organization" itemprop="worksFor">
                                                 <p><span itemprop="name">{{ income.office }}</span>, {{ income.position }}{% if declaration.doc_type == "Кандидата на посаду" %} ({{ _("кандидат") }}){% endif %}</p>
                                             </td>
-                                            <td class="no-wrap sort-col col3"><span>{{ income.income_of_declarant|curformat() }}</span></td>
-                                            <td class="no-wrap sort-col col4"><span>{{ income.income_of_family|curformat() }}</span></td>
-                                            <td class="no-wrap sort-col col5"><span>{{ income.expenses_of_declarant|curformat() }}</span></td>
+                                            <td class="no-wrap sort-col col3"><span>{{ income.income_of_declarant|convert_curr(income.year)|curformat() }}</span></td>
+                                            <td class="no-wrap sort-col col4"><span>{{ income.income_of_family|convert_curr(income.year)|curformat() }}</span></td>
+                                            <td class="no-wrap sort-col col5"><span>{{ income.expenses_of_declarant|convert_curr(income.year)|curformat() }}</span></td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>
@@ -741,12 +743,12 @@
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th class="sort-head" data-colnum="col2">{{_("Cума в декларанта, UAH")}}
+                                        <th class="sort-head" data-colnum="col2">{{ _("Cума в декларанта") }}, 
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th class="sort-head" data-colnum="col3">{{_("Сума в сім'ї, UAH")}}
+                                        <th class="sort-head" data-colnum="col3">{{ _("Сума в сім'ї") }},
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
@@ -811,12 +813,12 @@
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th class="no-wrap sort-head" data-colnum="col2">{{ _("Cума в декларанта") }}, {{ _("UAH") }}
+                                        <th class="no-wrap sort-head" data-colnum="col2">{{ _("Cума в декларанта") }}, {% if LANGUAGE_CODE == "en" %}{{ _("USD") }}{% else %}{{ _("UAH") }}{% endif %}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
                                         </th>
-                                        <th class="no-wrap sort-head" data-colnum="col3">{{ _("Сума в сім'ї") }}, {{ _("UAH") }}
+                                        <th class="no-wrap sort-head" data-colnum="col3">{{ _("Сума в сім'ї") }}, {% if LANGUAGE_CODE == "en" %}{{ _("USD") }}{% else %}{{ _("UAH") }}{% endif %}
                                             <svg class="sort-arr">
                                                 <use xlink:href="#arr-right-w2"></use>
                                             </svg>
@@ -830,8 +832,8 @@
                                                 <td class="no-wrap sort-col col1">
                                                     <strong><a href="{{ gifts.url }}" target="_blank"  data-toggle="tooltip" data-placement="bottom" title="{% if declaration.nacp_declaration %}{{ _("Електронна декларація") }}{% else %}{{ _("Паперова декларація") }}{% endif %}">{{ gifts.year }}</a></strong>
                                                 </td>
-                                                <td class="no-wrap sort-col col2"><span>{{ gifts.gifts_of_declarant|curformat() }}</span></td>
-                                                <td class="no-wrap sort-col col3"><span>{{ gifts.gifts_of_family|curformat() }}</span></td>
+                                                <td class="no-wrap sort-col col2"><span>{{ gifts.gifts_of_declarant|convert_curr(gifts.year)|curformat() }}</span></td>
+                                                <td class="no-wrap sort-col col3"><span>{{ gifts.gifts_of_family|convert_curr(gifts.year)|curformat() }}</span></td>
                                             </tr>
                                         {% endfor %}
                                     </tbody>

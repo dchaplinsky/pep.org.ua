@@ -17,6 +17,7 @@ from django.core.files.base import File
 from django.contrib.postgres.fields import HStoreField
 
 import PyPDF2
+from cacheops import cached
 
 from core.model.exc import WatermarkException
 
@@ -248,10 +249,10 @@ class ActionLog(models.Model):
 
 
 class ExchangeRateManager(models.Manager):
-    def get_rates_on_date(self, dt):
+    @cached(timeout=24 * 60 * 60)
+    def get_annual_rates(self):
         """
-        This will return rates closest to today +
-        annual rates
+        This will return annual rates
         """
         rates = {}
 

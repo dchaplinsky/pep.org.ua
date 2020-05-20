@@ -32,7 +32,7 @@ requests>=2.20.0
 rfc6266==0.0.4
 Pillow>=6.2.0
 tqdm==4.19.8
-translitua==1.3.0
+translitua==1.3.1
 unicodecsv==0.9.4
 wagtail==1.13.4
 WeasyPrint==0.42.3

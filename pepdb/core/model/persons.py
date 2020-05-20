@@ -36,6 +36,7 @@ from core.utils import (
     translate_into,
     ceil_date,
 )
+from core.templatetags.jinja_filters import convert_curr
 from core.model.declarations import Declaration
 from core.model.supplementaries import Document
 from core.model.connections import Person2Person, Person2Company, Person2Country
@@ -797,16 +798,16 @@ class Person(models.Model, AbstractNode):
             income = d.get_income()
             incomes.append([
                 unicode(income["year"]),
-                cleanse(income["income_of_declarant"]),
-                cleanse(income["income_of_family"]),
-                cleanse(income["expenses_of_declarant"]),
+                cleanse(convert_curr(income["income_of_declarant"], income["year"])),
+                cleanse(convert_curr(income["income_of_family"], income["year"])),
+                cleanse(convert_curr(income["expenses_of_declarant"], income["year"])),
             ])
 
             asset = d.get_assets()
             assets.append([
                 unicode(asset["year"]),
-                cleanse(asset["total_uah"]["declarant"]),
-                cleanse(asset["total_uah"]["family"])
+                cleanse(convert_curr(asset["total_uah"]["declarant"], asset["year"])),
+                cleanse(convert_curr(asset["total_uah"]["family"], asset["year"]))
             ])
 
         return {

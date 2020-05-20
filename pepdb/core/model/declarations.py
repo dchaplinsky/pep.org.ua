@@ -277,7 +277,7 @@ class Declaration(models.Model):
                                 {"amount": amount, "currency": currency}
                             )
 
-                        resp["total_uah"][owner] += amount * get_exchange_rate(currency, self.year)
+                        resp["total_uah"][owner] += amount * float(get_exchange_rate(currency, self.year))
 
         else:
             for d_key, owner in (("45", "declarant"), ("51", "family")):
@@ -288,7 +288,7 @@ class Declaration(models.Model):
                         if currency == "грн":
                             currency = "UAH"
 
-                        resp["total_uah"][owner] += amount * get_exchange_rate(currency, self.year)
+                        resp["total_uah"][owner] += amount * float(get_exchange_rate(currency, self.year))
 
                         if currency in ("UAH", "USD", "EUR"):
                             resp["accounts"][owner][currency] += amount

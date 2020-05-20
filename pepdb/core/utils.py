@@ -18,7 +18,7 @@ from dateutil import parser, relativedelta
 from rfc6266 import parse_requests_response
 from oauth2client.client import SignedJwtAssertionCredentials
 
-from core.dicts.rates import UAH_rates
+from core.model.supplementaries import ExchangeRate
 
 import logging
 logger = logging.getLogger(__name__)
@@ -502,14 +502,15 @@ def translate_into(chunk, lang="en"):
     return res
 
 
-# Cheesy implementation for now
 def get_exchange_rate(curr, year):
+    rates = ExchangeRate.objects.get_annual_rates()
+
     year = int(year)
-    if year not in UAH_rates:
-        year = 2018
+    if year not in rates:
+        year = 2019
 
     try:
-        return UAH_rates[int(year)][curr.upper()]
+        return rates[int(year)][curr.upper()]
     except KeyError:
         return 0.0
 
