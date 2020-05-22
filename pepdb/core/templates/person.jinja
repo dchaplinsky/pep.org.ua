@@ -382,7 +382,7 @@
                         {% endif %}
 
                         {% if all_declarations %}
-                        <section id="declarations" class="profile-section" data-chart-data="{{ charts_data.incomes|tojson|forceescape }}">
+                        <section id="declarations" class="profile-section" data-chart-data="{{ charts_data.incomes|tojson|forceescape }}" data-chart-title="{% if LANGUAGE_CODE == "en" %}{{ _("USD") }}{% else %}{{ _("UAH") }}{% endif %}">
                             <div class="profile-section__header">
                                 <div class="title-wrap">
                                     <img src="{{ static('images/icon-income-expenses.svg') }}" alt="icon" class="icon">
@@ -488,7 +488,7 @@
                         {% endif %}
 
                         {% if all_declarations %}
-                        <section id="cash-assets" class="profile-section" data-chart-data="{{ charts_data.assets|tojson|forceescape }}">
+                        <section id="cash-assets" class="profile-section" data-chart-data="{{ charts_data.assets|tojson|forceescape }}" data-chart-title="{% if LANGUAGE_CODE == "en" %}{{ _("USD") }}{% else %}{{ _("UAH") }}{% endif %}">
                             <div class="profile-section__header">
                                 <div class="title-wrap">
                                     <img src="{{ static('images/icon-cash-assets.svg') }}" alt="icon" class="icon">

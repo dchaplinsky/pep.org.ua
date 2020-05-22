@@ -80,7 +80,8 @@ function drawChart() {
                 gridlines: {
                     color: 'transparent'
                 },
-                format: 'short'
+                format: 'short',
+                title: $("#cash-assets").data("chart-title"),
             },
             legend: {
                 position: 'bottom',
@@ -121,7 +122,8 @@ function drawChart() {
                 gridlines: {
                     color: 'transparent'
                 },
-                format: 'short'
+                format: 'short',
+                title: $("#declarations").data("chart-title"),
             },
             legend: {
                 position: 'bottom',
@@ -173,7 +175,5 @@ function drawChart() {
             var cashAssetsLineChart = new google.visualization.LineChart(document.getElementById('cash-assets-line-chart'));
             cashAssetsLineChart.draw(dataCashAssetsLineChart, options);
         }
-
-
     }
 }

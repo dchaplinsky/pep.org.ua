@@ -174,7 +174,7 @@ def convert_curr(value, year):
 
     if lang == "en" and value:
         try:
-            value = Decimal(str(value).replace(",", ".")) / get_exchange_rate("USD", year)
+            value = Decimal(str(value).replace(" ", "").replace(",", ".")) / get_exchange_rate("USD", year)
         except (TypeError, ZeroDivisionError, InvalidOperation):
             pass
 
