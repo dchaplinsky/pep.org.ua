@@ -157,12 +157,19 @@ function drawChart() {
             }
         };
 
+        var formatter = new google.visualization.NumberFormat(
+            {pattern: $("#declarations").data("chart-currency") + '###,###'}
+        );
+
         // declarationLineChart start
         if ($("#declarations-line-chart").length) {
             var dataDeclarationsLineChart = google.visualization.arrayToDataTable(
                 $("#declarations").data("chart-data")
             );
 
+            formatter.format(dataDeclarationsLineChart, 1);
+            formatter.format(dataDeclarationsLineChart, 2);
+            formatter.format(dataDeclarationsLineChart, 3);
             var declarationLineChart = new google.visualization.LineChart(document.getElementById('declarations-line-chart'));
             declarationLineChart.draw(dataDeclarationsLineChart, options2);
         }
@@ -172,6 +179,10 @@ function drawChart() {
             var dataCashAssetsLineChart = google.visualization.arrayToDataTable(
                 $("#cash-assets").data("chart-data")
             );
+
+            formatter.format(dataCashAssetsLineChart, 1);
+            formatter.format(dataCashAssetsLineChart, 2);
+
             var cashAssetsLineChart = new google.visualization.LineChart(document.getElementById('cash-assets-line-chart'));
             cashAssetsLineChart.draw(dataCashAssetsLineChart, options);
         }
