@@ -680,35 +680,49 @@ class Declaration(models.Model):
                     self.declaration_id)
             )
 
+        try:
+            lastname = member["lastname"].strip()
+            firstname = member["firstname"].strip()
+            middlename = member["middlename"].strip()
+        except KeyError:
+            if "ukr_full_name" in member:
+                lastname, firstname, middlename, _ = parse_fullname(member["ukr_full_name"])
+            else:
+                raise CannotResolveRelativeException(
+                    "Cannot find name of a person %s in the declaration %s" % (
+                        family_id, self.declaration_id)
+                )
+
+
         chunk1 = list(Person2Person.objects.filter(
             from_person_id=self.person_id,
-            to_person__last_name_uk__iexact=member["lastname"].strip(),
-            to_person__first_name_uk__iexact=member["firstname"].strip(),
-            to_person__patronymic_uk__iexact=member["middlename"].strip()
+            to_person__last_name_uk__iexact=lastname.strip(),
+            to_person__first_name_uk__iexact=firstname.strip(),
+            to_person__patronymic_uk__iexact=middlename.strip()
         ).select_related("to_person")) + list(Person2Person.objects.filter(
             from_person_id=self.person_id,
-            to_person__last_name_uk__trigram_similar=member["lastname"].strip(),
-            to_person__first_name_uk__trigram_similar=member["firstname"].strip(),
-            to_person__patronymic_uk__trigram_similar=member["middlename"].strip()
+            to_person__last_name_uk__trigram_similar=lastname.strip(),
+            to_person__first_name_uk__trigram_similar=firstname.strip(),
+            to_person__patronymic_uk__trigram_similar=middlename.strip()
         ).select_related("to_person"))
 
         chunk2 = list(Person2Person.objects.filter(
             to_person_id=self.person_id,
-            from_person__last_name_uk__iexact=member["lastname"].strip(),
-            from_person__first_name_uk__iexact=member["firstname"].strip(),
-            from_person__patronymic_uk__iexact=member["middlename"].strip()
+            from_person__last_name_uk__iexact=lastname.strip(),
+            from_person__first_name_uk__iexact=firstname.strip(),
+            from_person__patronymic_uk__iexact=middlename.strip()
         ).select_related("from_person")) + list(Person2Person.objects.filter(
             to_person_id=self.person_id,
-            from_person__last_name_uk__trigram_similar=member["lastname"].strip(),
-            from_person__first_name_uk__trigram_similar=member["firstname"].strip(),
-            from_person__patronymic_uk__trigram_similar=member["middlename"].strip()
+            from_person__last_name_uk__trigram_similar=lastname.strip(),
+            from_person__first_name_uk__trigram_similar=firstname.strip(),
+            from_person__patronymic_uk__trigram_similar=middlename.strip()
         ).select_related("from_person"))
 
         if len(set(chunk1)) + len(set(chunk2)) > 1:
             raise CannotResolveRelativeException(
                 "Uh, oh, more than one connection between %s and %s %s %s" %
-                (self.person, member["lastname"], member["firstname"],
-                 member["middlename"])
+                (self.person, lastname, firstname,
+                 middlename)
             )
 
         for conn in chunk1:
@@ -716,8 +730,8 @@ class Declaration(models.Model):
             if fuzzy_match:
                 logger.warning(
                     "It was fuzzy match between %s %s %s and the declarant %s" % (
-                        member["lastname"], member["firstname"],
-                        member["middlename"], conn.to_person)
+                        lastname, firstname,
+                        middlename, conn.to_person)
                 )
             return conn.to_person, fuzzy_match
 
@@ -726,15 +740,15 @@ class Declaration(models.Model):
             if fuzzy_match:
                 logger.warning(
                     "It was fuzzy match between %s %s %s and the declarant %s" % (
-                        member["lastname"], member["firstname"],
-                        member["middlename"], conn.from_person)
+                        lastname, firstname,
+                        middlename, conn.from_person)
                 )
 
             return conn.from_person, fuzzy_match
 
         raise CannotResolveRelativeException(
             "Cannot find person %s %s %s for the declarant %s" % (
-                member["lastname"], member["firstname"], member["middlename"],
+                lastname, firstname, middlename,
                 self.person
             )
         )
