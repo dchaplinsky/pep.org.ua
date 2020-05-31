@@ -505,13 +505,21 @@ def translate_into(chunk, lang="en"):
 def get_exchange_rate(curr, year):
     rates = ExchangeRate.objects.get_annual_rates()
 
-    year = int(year)
+    try:
+        year = int(year)
+    except ValueError:
+        year = 2015
+        logger.error("Cannot parse '{}' as year".format(year))
+
+
     if year not in rates:
         year = 2019
+        logger.error("Cannot find '{}' in a list of years".format(year))
 
     try:
         return rates[int(year)][curr.upper()]
     except KeyError:
+        logger.error("Cannot find currency '{}' for year '{}'".format(curr, year))
         return 0.0
 
 
