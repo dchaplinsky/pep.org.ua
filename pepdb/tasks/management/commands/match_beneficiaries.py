@@ -268,8 +268,7 @@ class Command(BaseCommand):
         for d in (
             Declaration.objects.filter(
                 nacp_declaration=True,
-                confirmed="a",
-                declaration_id="nacp_679ba4a4-0329-49cb-afad-21cba68db906"
+                confirmed="a"
             )
             .select_related("person")
             .nocache()
