@@ -15,8 +15,12 @@ from cacheops import cached
 
 from core.fields import RedactorField
 from core.utils import (
-    parse_fullname, parse_family_member, RELATIONS_MAPPING, render_date,
-    get_exchange_rate)
+    parse_fullname,
+    parse_family_member,
+    RELATIONS_MAPPING,
+    render_date,
+    get_exchange_rate,
+)
 
 from core.model.connections import Person2Person
 from core.model.exc import CannotResolveRelativeException
@@ -26,14 +30,13 @@ logger = logging.getLogger(__name__)
 
 class Declaration(models.Model):
     STATUS_CHOICES = (
-        ('p', 'Не перевірено'),
-        ('r', 'Не підходить'),
-        ('a', 'Опубліковано'),
-        ('c', 'Перевірити'),
+        ("p", "Не перевірено"),
+        ("r", "Не підходить"),
+        ("a", "Опубліковано"),
+        ("c", "Перевірити"),
     )
 
-    declaration_id = models.CharField(
-        "Ідентифікатор", max_length=50, db_index=True)
+    declaration_id = models.CharField("Ідентифікатор", max_length=50, db_index=True)
 
     last_name = models.CharField("Прізвище", max_length=40, blank=True)
     first_name = models.CharField("Ім'я", max_length=40, blank=True)
@@ -46,27 +49,29 @@ class Declaration(models.Model):
     source = JSONField(blank=True)
     url = models.URLField("Посилання", max_length=512, blank=True)
     confirmed = models.CharField(
-        "Підтверджено", max_length=1, choices=STATUS_CHOICES, default="p",
-        db_index=True)
+        "Підтверджено", max_length=1, choices=STATUS_CHOICES, default="p", db_index=True
+    )
     fuzziness = models.IntegerField("Відстань", default=0)
     person = models.ForeignKey("Person", default=None, related_name="declarations")
     nacp_declaration = models.BooleanField(
-        "Декларація НАЗК", default=False, db_index=True)
+        "Декларація НАЗК", default=False, db_index=True
+    )
 
     relatives_populated = models.BooleanField(
-        "Родини немає, або вже внесена до БД", default=False, db_index=True)
+        "Родини немає, або вже внесена до БД", default=False, db_index=True
+    )
 
     to_link = models.BooleanField(
-        "Декларація для профілів", default=False, db_index=True)
+        "Декларація для профілів", default=False, db_index=True
+    )
 
     to_watch = models.BooleanField(
-        "Декларація для моніторінгу звільнень", default=False, db_index=True)
+        "Декларація для моніторінгу звільнень", default=False, db_index=True
+    )
 
-    acknowledged = models.BooleanField(
-        "Відмоніторено", default=False, db_index=True)
+    acknowledged = models.BooleanField("Відмоніторено", default=False, db_index=True)
 
-    submitted = models.DateField(
-        "Подана", blank=True, null=True, db_index=True)
+    submitted = models.DateField("Подана", blank=True, null=True, db_index=True)
 
     batch_number = models.IntegerField("Номер теки", default=0, db_index=True)
 
@@ -78,10 +83,19 @@ class Declaration(models.Model):
         return url
 
     def to_dict(self):
-        d = model_to_dict(self, fields=[
-            "year", "position_uk", "office_uk", "region_uk",
-            "position_en", "office_en", "region_en", "url"
-        ])
+        d = model_to_dict(
+            self,
+            fields=[
+                "year",
+                "position_uk",
+                "office_uk",
+                "region_uk",
+                "position_en",
+                "office_en",
+                "region_en",
+                "url",
+            ],
+        )
 
         income = self.get_income()
 
@@ -103,37 +117,43 @@ class Declaration(models.Model):
             return []
 
         res = []
-        if ("family" in self.source["general"] and
-                self.source["general"]["family"]):
+        if "family" in self.source["general"] and self.source["general"]["family"]:
 
             res = [
                 {
-                    "relation":
-                        member.get(
-                            "relations",
-                            member.get("relations_other", "")),
-
-                    "name": member.get("family_name", "")
-                } for member in self.source["general"]["family"]
+                    "relation": member.get(
+                        "relations", member.get("relations_other", "")
+                    ),
+                    "name": member.get("family_name", ""),
+                }
+                for member in self.source["general"]["family"]
                 if (
-                    member.get("family_name", "") and
-                    (member["relations"] + member.get("relations_other", ""))
+                    member.get("family_name", "")
+                    and (member["relations"] + member.get("relations_other", ""))
                 )
             ]
-        elif ("family_raw" in self.source["general"] and
-                self.source["general"]["family_raw"]):
+        elif (
+            "family_raw" in self.source["general"]
+            and self.source["general"]["family_raw"]
+        ):
             res = map(
                 parse_family_member,
-                filter(None, self.source["general"]["family_raw"].split(";")))
+                filter(None, self.source["general"]["family_raw"].split(";")),
+            )
 
         res = filter(None, res)
 
         for i, r in enumerate(res):
             res[i]["mapped"] = RELATIONS_MAPPING.get(
-                r["relation"].lower(), "особи, які спільно проживають")
+                r["relation"].lower(), "особи, які спільно проживають"
+            )
 
-            (res[i]["last_name"], res[i]["first_name"], res[i]["patronymic"],
-                res[i]["dob"]) = parse_fullname(r["name"])
+            (
+                res[i]["last_name"],
+                res[i]["first_name"],
+                res[i]["patronymic"],
+                res[i]["dob"],
+            ) = parse_fullname(r["name"])
 
         return res
 
@@ -183,13 +203,14 @@ class Declaration(models.Model):
             resp["expenses_of_declarant"] = ugettext_lazy("Не зазначалось")
 
             if "income" in self.source:
-                resp["income_of_declarant"] = self.source["income"]['5'].get(
-                    "value", ugettext_lazy("Не зазначено"))
-                resp["income_of_family"] = self.source["income"]['5'].get(
-                    "family", ugettext_lazy("Не зазначено"))
+                resp["income_of_declarant"] = self.source["income"]["5"].get(
+                    "value", ugettext_lazy("Не зазначено")
+                )
+                resp["income_of_family"] = self.source["income"]["5"].get(
+                    "family", ugettext_lazy("Не зазначено")
+                )
 
         return resp
-
 
     @cached(timeout=60 * 60)
     def get_assets(self):
@@ -197,54 +218,31 @@ class Declaration(models.Model):
             "year": self.year,
             "url": self.get_url(),
             "nacp_declaration": self.nacp_declaration,
-            "total_uah": {
-                "declarant": 0.,
-                "family": 0.,
-            },
+            "total_uah": {"declarant": 0.0, "family": 0.0},
             "cash": {
-                "declarant": {
-                    "USD": 0.,
-                    "UAH": 0.,
-                    "EUR": 0.,
-                    "OTH": [],
-                },
-                "family": {
-                    "USD": 0.,
-                    "UAH": 0.,
-                    "EUR": 0.,
-                    "OTH": [],
-                }
+                "declarant": {"USD": 0.0, "UAH": 0.0, "EUR": 0.0, "OTH": []},
+                "family": {"USD": 0.0, "UAH": 0.0, "EUR": 0.0, "OTH": []},
             },
             "accounts": {
                 "declarant": {
-                    "USD": 0.,
-                    "UAH": 0.,
-                    "EUR": 0.,
+                    "USD": 0.0,
+                    "UAH": 0.0,
+                    "EUR": 0.0,
                     "OTH": [],
                     "banks": set(),
                 },
                 "family": {
-                    "USD": 0.,
-                    "UAH": 0.,
-                    "EUR": 0.,
+                    "USD": 0.0,
+                    "UAH": 0.0,
+                    "EUR": 0.0,
                     "OTH": [],
                     "banks": set(),
-                }
+                },
             },
             "misc": {
-                "declarant": {
-                    "USD": 0.,
-                    "UAH": 0.,
-                    "EUR": 0.,
-                    "OTH": [],
-                },
-                "family": {
-                    "USD": 0.,
-                    "UAH": 0.,
-                    "EUR": 0.,
-                    "OTH": [],
-                }
-            }
+                "declarant": {"USD": 0.0, "UAH": 0.0, "EUR": 0.0, "OTH": []},
+                "family": {"USD": 0.0, "UAH": 0.0, "EUR": 0.0, "OTH": []},
+            },
         }
 
         if self.nacp_declaration:
@@ -255,14 +253,21 @@ class Declaration(models.Model):
                     if isinstance(cash_rec, dict):
                         k = "misc"
                         rec_type = cash_rec.get("objectType", "").lower()
-                        owner = "declarant" if cash_rec.get("person", "1") == "1" else "family"
+                        owner = (
+                            "declarant"
+                            if cash_rec.get("person", "1") == "1"
+                            else "family"
+                        )
                         amount = float(cash_rec.get("sizeAssets", "0") or "0")
 
-                        currency = cash_rec.get("assetsCurrency", "UAH").upper() or "UAH"
+                        currency = (
+                            cash_rec.get("assetsCurrency", "UAH").upper() or "UAH"
+                        )
 
                         if rec_type == "кошти, розміщені на банківських рахунках":
-                            bank_name = cash_rec.get("organization_ua_company_name") or \
-                                cash_rec.get("organization_ukr_company_name", "")
+                            bank_name = cash_rec.get(
+                                "organization_ua_company_name"
+                            ) or cash_rec.get("organization_ukr_company_name", "")
 
                             bank_name = bank_name.strip()
                             k = "accounts"
@@ -277,18 +282,22 @@ class Declaration(models.Model):
                                 {"amount": amount, "currency": currency}
                             )
 
-                        resp["total_uah"][owner] += amount * float(get_exchange_rate(currency, self.year))
+                        resp["total_uah"][owner] += amount * float(
+                            get_exchange_rate(currency, self.year)
+                        )
 
         else:
             for d_key, owner in (("45", "declarant"), ("51", "family")):
                 for a in self.source.get("banks", {}).get(d_key, []):
                     try:
                         currency = a.get("sum_units", "UAH") or "UAH"
-                        amount = float(a.get("sum", 0.))
+                        amount = float(a.get("sum", 0.0))
                         if currency == "грн":
                             currency = "UAH"
 
-                        resp["total_uah"][owner] += amount * float(get_exchange_rate(currency, self.year))
+                        resp["total_uah"][owner] += amount * float(
+                            get_exchange_rate(currency, self.year)
+                        )
 
                         if currency in ("UAH", "USD", "EUR"):
                             resp["accounts"][owner][currency] += amount
@@ -317,9 +326,11 @@ class Declaration(models.Model):
                     try:
                         rec_type = income.get("objectType", "").lower()
                         if rec_type not in [
-                                "подарунок у негрошовій формі",
-                                "подарунок у грошовій формі",
-                                "благодійна допомога", "приз"]:
+                            "подарунок у негрошовій формі",
+                            "подарунок у грошовій формі",
+                            "благодійна допомога",
+                            "приз",
+                        ]:
                             continue
 
                         person = income.get("person", "1")
@@ -333,11 +344,13 @@ class Declaration(models.Model):
                         pass
         else:
             if "income" in self.source:
-                resp["gifts_of_declarant"] = self.source["income"]['11'].get(
-                    "value", ugettext_lazy("Не зазначено"))
+                resp["gifts_of_declarant"] = self.source["income"]["11"].get(
+                    "value", ugettext_lazy("Не зазначено")
+                )
 
-                resp["gifts_of_family"] = self.source["income"]['11'].get(
-                    "family", ugettext_lazy("Не зазначено"))
+                resp["gifts_of_family"] = self.source["income"]["11"].get(
+                    "family", ugettext_lazy("Не зазначено")
+                )
 
         return resp
 
@@ -354,11 +367,15 @@ class Declaration(models.Model):
                 for liability in self.source["nacp_orig"]["step_13"].values():
                     try:
                         person = liability.get("person", "1")
-                        liability_amount = float(liability.get("sizeObligation", "0") or 0)
+                        liability_amount = float(
+                            liability.get("sizeObligation", "0") or 0
+                        )
                         currency = liability.get("currency", "UAH") or "UAH"
 
                         if person == "1":
-                            resp["liabilities_of_declarant"][currency] += liability_amount
+                            resp["liabilities_of_declarant"][
+                                currency
+                            ] += liability_amount
                         else:
                             resp["liabilities_of_family"][currency] += liability_amount
                     except (ValueError, AttributeError):
@@ -369,7 +386,11 @@ class Declaration(models.Model):
                     if field in self.source["liabilities"]:
                         try:
                             resp["liabilities_of_declarant"]["UAH"] += float(
-                                (self.source["liabilities"][field].get("sum", "0") or "0").replace(",", "."))
+                                (
+                                    self.source["liabilities"][field].get("sum", "0")
+                                    or "0"
+                                ).replace(",", ".")
+                            )
                         except (ValueError, UnicodeEncodeError):
                             pass
 
@@ -377,7 +398,11 @@ class Declaration(models.Model):
                     if field in self.source["liabilities"]:
                         try:
                             resp["liabilities_of_family"]["UAH"] += float(
-                                (self.source["liabilities"][field].get("sum", "0") or "0").replace(",", "."))
+                                (
+                                    self.source["liabilities"][field].get("sum", "0")
+                                    or "0"
+                                ).replace(",", ".")
+                            )
                         except (ValueError, UnicodeEncodeError):
                             pass
 
@@ -403,13 +428,10 @@ class Declaration(models.Model):
 
     def get_real_estate(self):
         def _convert_space_values(total_area, area_units):
-            areas_koef = {
-                "га": 10000,
-                "cоток": 100
-            }
+            areas_koef = {"га": 10000, "cоток": 100}
 
             try:
-                total_area = str(total_area).replace(',', '.')
+                total_area = str(total_area).replace(",", ".")
 
                 if not total_area:
                     return 0
@@ -425,7 +447,9 @@ class Declaration(models.Model):
             return "{}.{}.{}".format(f.get("space"), field, f.get("region")).lower()
 
         def _get_key_for_nacp(f, total_area):
-            return "{}.{}.{}".format(f.get("ua_cityType"), total_area, f.get("objectType")).lower()
+            return "{}.{}.{}".format(
+                f.get("ua_cityType"), total_area, f.get("objectType")
+            ).lower()
 
         resp = {
             "year": self.year,
@@ -438,14 +462,14 @@ class Declaration(models.Model):
 
         if self.nacp_declaration:
             ESTATE_OBJECT_TYPE_MAPPING = {
-                'квартира': 'apartments',
-                'земельна ділянка': 'land',
-                'житловий будинок': 'houses',
-                'кімната': 'other',
-                'гараж': 'other',
-                'садовий (дачний) будинок': 'other',
-                'офіс': 'other',
-                'інше': 'other'
+                "квартира": "apartments",
+                "земельна ділянка": "land",
+                "житловий будинок": "houses",
+                "кімната": "other",
+                "гараж": "other",
+                "садовий (дачний) будинок": "other",
+                "офіс": "other",
+                "інше": "other",
             }
             if isinstance(self.source["nacp_orig"].get("step_3"), dict):
                 for src in ["declarant", "family"]:
@@ -458,7 +482,9 @@ class Declaration(models.Model):
                             if src == "family" and person == "1":
                                 continue
 
-                            area = _convert_space_values(asset.get("totalArea", "0"), "")
+                            area = _convert_space_values(
+                                asset.get("totalArea", "0"), ""
+                            )
                             k = _get_key_for_nacp(asset, area)
                             rec_type = asset.get("objectType", "").lower()
                             section = ESTATE_OBJECT_TYPE_MAPPING[rec_type]
@@ -502,7 +528,9 @@ class Declaration(models.Model):
                             for f in self.source["estate"][field]:
                                 seen.add(_get_key_for_paper(f, section))
                                 resp["assets_of_declarant"][section].append(
-                                    _convert_space_values(f.get("space", "0"), f.get("space_units"))
+                                    _convert_space_values(
+                                        f.get("space", "0"), f.get("space_units")
+                                    )
                                 )
                         except (ValueError, UnicodeEncodeError):
                             pass
@@ -521,7 +549,9 @@ class Declaration(models.Model):
                                 seen.add(k)
 
                                 resp["assets_of_family"][section].append(
-                                    _convert_space_values(f.get("space", "0"), f.get("space_units"))
+                                    _convert_space_values(
+                                        f.get("space", "0"), f.get("space_units")
+                                    )
                                 )
                         except (ValueError, UnicodeEncodeError):
                             pass
@@ -530,29 +560,21 @@ class Declaration(models.Model):
 
     def get_vehicles(self):
         def _normalize_key(src):
-            s = re.sub(
-                "[.,\/#!$%\^&\*;:{}=\-_`~()]",
-                "",
-                src
-            )
+            s = re.sub("[.,\/#!$%\^&\*;:{}=\-_`~()]", "", src)
 
             return re.sub("\s+", "", s).lower()
 
         def _get_key_for_paper(f):
             return _normalize_key(
                 "{}|{}|{}".format(
-                    f.get("brand", ""),
-                    f.get("model", ""),
-                    f.get("graduationYear", "")
+                    f.get("brand", ""), f.get("model", ""), f.get("graduationYear", "")
                 )
             )
 
         def _get_key_for_nacp(f):
             return _normalize_key(
                 "{}|{}|{}".format(
-                    f.get("brand", ""),
-                    f.get("brand_info", ""),
-                    f.get("year", "")
+                    f.get("brand", ""), f.get("brand_info", ""), f.get("year", "")
                 )
             )
 
@@ -587,7 +609,7 @@ class Declaration(models.Model):
                             vehicle = "{} {} {}".format(
                                 asset.get("brand", ""),
                                 asset.get("model", ""),
-                                parse_int(asset.get("graduationYear", ""))
+                                parse_int(asset.get("graduationYear", "")),
                             )
 
                             if person == "1":
@@ -610,7 +632,11 @@ class Declaration(models.Model):
                                 seen.add(_get_key_for_paper(f))
 
                                 resp["assets_of_declarant"]["vehicles"].append(
-                                    "{} {} {}".format(f.get("brand", ""), f.get("brand_info", ""), parse_int(f.get("year", "")))
+                                    "{} {} {}".format(
+                                        f.get("brand", ""),
+                                        f.get("brand_info", ""),
+                                        parse_int(f.get("year", "")),
+                                    )
                                 )
                         except (ValueError, UnicodeEncodeError):
                             pass
@@ -626,7 +652,11 @@ class Declaration(models.Model):
 
                                 seen.add(k)
                                 resp["assets_of_family"]["vehicles"].append(
-                                    "{} {} {}".format(f.get("brand", ""), f.get("brand_info", ""), f.get("year", ""))
+                                    "{} {} {}".format(
+                                        f.get("brand", ""),
+                                        f.get("brand_info", ""),
+                                        f.get("year", ""),
+                                    )
                                 )
                         except (ValueError, UnicodeEncodeError):
                             pass
@@ -650,15 +680,12 @@ class Declaration(models.Model):
         if str(family_id) == "1":
             return self.person, False
 
-        def _is_fuzzy_match(declaration_rec, person_rec):
-            if (declaration_rec["lastname"].strip().lower() !=
-                    person_rec.last_name.strip().lower()):
+        def _is_fuzzy_match(lastname, firstname, middlename, person_rec):
+            if lastname.strip().lower() != person_rec.last_name.strip().lower():
                 return True
-            if (declaration_rec["firstname"].strip().lower() !=
-                    person_rec.first_name.strip().lower()):
+            if firstname.strip().lower() != person_rec.first_name.strip().lower():
                 return True
-            if (declaration_rec["middlename"].strip().lower() !=
-                    person_rec.patronymic.strip().lower()):
+            if middlename.strip().lower() != person_rec.patronymic.strip().lower():
                 return True
 
             return False
@@ -669,15 +696,15 @@ class Declaration(models.Model):
         if isinstance(family, dict):
             if not family_id or family_id not in family:
                 raise CannotResolveRelativeException(
-                    "Cannot find person %s in the declaration %s" % (
-                        family_id, self.declaration_id)
+                    "Cannot find person %s in the declaration %s"
+                    % (family_id, self.declaration_id)
                 )
 
             member = family[family_id]
         else:
             raise CannotResolveRelativeException(
-                "Cannot find family section in the declaration %s" % (
-                    self.declaration_id)
+                "Cannot find family section in the declaration %s"
+                % (self.declaration_id)
             )
 
         try:
@@ -686,83 +713,87 @@ class Declaration(models.Model):
             middlename = member["middlename"].strip()
         except KeyError:
             if "ukr_full_name" in member:
-                lastname, firstname, middlename, _ = parse_fullname(member["ukr_full_name"])
+                lastname, firstname, middlename, _ = parse_fullname(
+                    member["ukr_full_name"]
+                )
             else:
                 raise CannotResolveRelativeException(
-                    "Cannot find name of a person %s in the declaration %s" % (
-                        family_id, self.declaration_id)
+                    "Cannot find name of a person %s in the declaration %s"
+                    % (family_id, self.declaration_id)
                 )
 
+        chunk1 = list(
+            Person2Person.objects.filter(
+                from_person_id=self.person_id,
+                to_person__last_name_uk__iexact=lastname.strip(),
+                to_person__first_name_uk__iexact=firstname.strip(),
+                to_person__patronymic_uk__iexact=middlename.strip(),
+            ).select_related("to_person")
+        ) + list(
+            Person2Person.objects.filter(
+                from_person_id=self.person_id,
+                to_person__last_name_uk__trigram_similar=lastname.strip(),
+                to_person__first_name_uk__trigram_similar=firstname.strip(),
+                to_person__patronymic_uk__trigram_similar=middlename.strip(),
+            ).select_related("to_person")
+        )
 
-        chunk1 = list(Person2Person.objects.filter(
-            from_person_id=self.person_id,
-            to_person__last_name_uk__iexact=lastname.strip(),
-            to_person__first_name_uk__iexact=firstname.strip(),
-            to_person__patronymic_uk__iexact=middlename.strip()
-        ).select_related("to_person")) + list(Person2Person.objects.filter(
-            from_person_id=self.person_id,
-            to_person__last_name_uk__trigram_similar=lastname.strip(),
-            to_person__first_name_uk__trigram_similar=firstname.strip(),
-            to_person__patronymic_uk__trigram_similar=middlename.strip()
-        ).select_related("to_person"))
-
-        chunk2 = list(Person2Person.objects.filter(
-            to_person_id=self.person_id,
-            from_person__last_name_uk__iexact=lastname.strip(),
-            from_person__first_name_uk__iexact=firstname.strip(),
-            from_person__patronymic_uk__iexact=middlename.strip()
-        ).select_related("from_person")) + list(Person2Person.objects.filter(
-            to_person_id=self.person_id,
-            from_person__last_name_uk__trigram_similar=lastname.strip(),
-            from_person__first_name_uk__trigram_similar=firstname.strip(),
-            from_person__patronymic_uk__trigram_similar=middlename.strip()
-        ).select_related("from_person"))
+        chunk2 = list(
+            Person2Person.objects.filter(
+                to_person_id=self.person_id,
+                from_person__last_name_uk__iexact=lastname.strip(),
+                from_person__first_name_uk__iexact=firstname.strip(),
+                from_person__patronymic_uk__iexact=middlename.strip(),
+            ).select_related("from_person")
+        ) + list(
+            Person2Person.objects.filter(
+                to_person_id=self.person_id,
+                from_person__last_name_uk__trigram_similar=lastname.strip(),
+                from_person__first_name_uk__trigram_similar=firstname.strip(),
+                from_person__patronymic_uk__trigram_similar=middlename.strip(),
+            ).select_related("from_person")
+        )
 
         if len(set(chunk1)) + len(set(chunk2)) > 1:
             raise CannotResolveRelativeException(
-                "Uh, oh, more than one connection between %s and %s %s %s" %
-                (self.person, lastname, firstname,
-                 middlename)
+                "Uh, oh, more than one connection between %s and %s %s %s"
+                % (self.person, lastname, firstname, middlename)
             )
 
         for conn in chunk1:
-            fuzzy_match = _is_fuzzy_match(member, conn.to_person)
+            fuzzy_match = _is_fuzzy_match(
+                lastname, firstname, middlename, conn.to_person
+            )
             if fuzzy_match:
                 logger.warning(
-                    "It was fuzzy match between %s %s %s and the declarant %s" % (
-                        lastname, firstname,
-                        middlename, conn.to_person)
+                    "It was fuzzy match between %s %s %s and the declarant %s"
+                    % (lastname, firstname, middlename, conn.to_person)
                 )
             return conn.to_person, fuzzy_match
 
         for conn in chunk2:
-            fuzzy_match = _is_fuzzy_match(member, conn.from_person)
+            fuzzy_match = _is_fuzzy_match(
+                lastname, firstname, middlename, conn.from_person
+            )
             if fuzzy_match:
                 logger.warning(
-                    "It was fuzzy match between %s %s %s and the declarant %s" % (
-                        lastname, firstname,
-                        middlename, conn.from_person)
+                    "It was fuzzy match between %s %s %s and the declarant %s"
+                    % (lastname, firstname, middlename, conn.from_person)
                 )
 
             return conn.from_person, fuzzy_match
 
         raise CannotResolveRelativeException(
-            "Cannot find person %s %s %s for the declarant %s" % (
-                lastname, firstname, middlename,
-                self.person
-            )
+            "Cannot find person %s %s %s for the declarant %s"
+            % (lastname, firstname, middlename, self.person)
         )
 
     class Meta:
         verbose_name = "Декларація"
         verbose_name_plural = "Декларації"
-        indexes = [
-            models.Index(fields=['confirmed', 'fuzziness', 'batch_number']),
-        ]
+        indexes = [models.Index(fields=["confirmed", "fuzziness", "batch_number"])]
 
-        unique_together = [
-            ["person", "declaration_id"],
-        ]
+        unique_together = [["person", "declaration_id"]]
 
 
 class DeclarationToLinkManager(models.Manager):
@@ -781,8 +812,11 @@ class DeclarationToLink(Declaration):
 
 class DeclarationToWatchManager(models.Manager):
     def get_queryset(self):
-        return super(DeclarationToWatchManager, self).get_queryset().filter(to_watch=True).order_by(
-            "-submitted"
+        return (
+            super(DeclarationToWatchManager, self)
+            .get_queryset()
+            .filter(to_watch=True)
+            .order_by("-submitted")
         )
 
 
@@ -798,22 +832,17 @@ class DeclarationToWatch(Declaration):
 class DeclarationExtra(models.Model):
     person = models.ForeignKey("Person", related_name="declaration_extras")
 
-    date_confirmed = models.DateField(
-        "Дата", blank=True, null=True, db_index=True)
+    date_confirmed = models.DateField("Дата", blank=True, null=True, db_index=True)
 
     date_confirmed_details = models.IntegerField(
         "точність",
-        choices=(
-            (0, "Точна дата"),
-            (1, "Рік та місяць"),
-            (2, "Тільки рік"),
-        ),
-        default=0)
+        choices=((0, "Точна дата"), (1, "Рік та місяць"), (2, "Тільки рік")),
+        default=0,
+    )
 
     @property
     def date_confirmed_human(self):
-        return render_date(self.date_confirmed,
-                           self.date_confirmed_details)
+        return render_date(self.date_confirmed, self.date_confirmed_details)
 
     section = models.IntegerField(
         "Розділ декларації",
@@ -830,7 +859,7 @@ class DeclarationExtra(models.Model):
             (9, _("Інші активи")),
         ),
         default=0,
-        db_index=True
+        db_index=True,
     )
 
     note = RedactorField("Текст")

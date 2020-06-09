@@ -268,7 +268,8 @@ class Command(BaseCommand):
         for d in (
             Declaration.objects.filter(
                 nacp_declaration=True,
-                confirmed="a"
+                confirmed="a",
+                declaration_id="nacp_679ba4a4-0329-49cb-afad-21cba68db906"
             )
             .select_related("person")
             .nocache()
@@ -294,7 +295,10 @@ class Command(BaseCommand):
                     ownership_persons = ownership.get("person")
 
                     if not isinstance(ownership_persons, dict):
-                        ownership_persons = [None]
+                        if isinstance(ownership_persons, (basestring, int)):
+                            ownership_persons = [str(ownership_persons)]
+                        else:
+                            ownership_persons = [None]
 
                     for ownership_person in ownership_persons:
                         base_rec = {

@@ -508,13 +508,12 @@ def get_exchange_rate(curr, year):
     try:
         year = int(year)
     except ValueError:
-        year = 2015
         logger.error("Cannot parse '{}' as year".format(year))
-
+        year = 2015
 
     if year not in rates:
-        year = 2019
         logger.error("Cannot find '{}' in a list of years".format(year))
+        year = 2019
 
     try:
         return rates[int(year)][curr.upper()]
