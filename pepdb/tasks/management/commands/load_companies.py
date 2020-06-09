@@ -10,6 +10,7 @@ from xml.etree.ElementTree import ParseError
 import logging
 from io import TextIOWrapper, open
 from unicodecsv import DictReader
+from itertools import islice
 from zipfile import ZipFile
 from cStringIO import StringIO
 
@@ -28,6 +29,10 @@ from tasks.elastic_models import EDRPOU
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("reader")
+
+
+class EDRImportException(Exception):
+    pass
 
 
 class EDR_Reader(object):
@@ -226,7 +231,7 @@ class Command(BaseCommand):
                 update_after = latest[0].last_update
                 self.stdout.write("Only loading dumps after {}".format(update_after))
             else:
-                update_after = None
+                raise EDRImportException("Current index is empty, please run manual import. For fuck sake")
 
         if not options["filename"]:
             data_url = None
@@ -291,11 +296,18 @@ class Command(BaseCommand):
         else:
             self.stderr.write("You should provide (possibly fake) revision id and date of dump when loading files manually")
 
-        Index(EDRPOU._doc_type.index).delete(ignore=404)
-        EDRPOU.init()
-        es = connections.get_connection()
+        iterator = reader.iter_docs()
 
-        bulk(es, reader.iter_docs(), chunk_size=10000)
+        first_portion = list(islice(iterator, 1000))
+        if first_portion:
+            Index(EDRPOU._doc_type.index).delete(ignore=404)
+            EDRPOU.init()
+            es = connections.get_connection()
+
+            bulk(es, first_portion)
+            bulk(es, iterator, chunk_size=10000)
+        else:
+            raise EDRImportException("Less than 1000 valid records, for fuck sake")
 
         if fp:
             fp.close()
