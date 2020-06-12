@@ -193,7 +193,7 @@ class Command(BaseCommand):
         return "!!".join((declarant.full_name, company_name))
 
     def insert_record(self, obj, declaration, type_of_connection):
-        if obj["declarant_id"] is None:
+        if obj["declarant_id"] is None or obj["company_name"] is None:
             return
 
         declarant = Person.objects.get(pk=obj["declarant_id"])
@@ -262,6 +262,7 @@ class Command(BaseCommand):
             "en_company_address_beneficial_owner": "en_address",
             "company_code_beneficial_owner": code_field,
             "ua_company_code_beneficial_owner": code_field,
+            "country_beneficial_owner": "country"
         }
 
         self.stdout.write("Retrieving ownership information")
