@@ -36,6 +36,7 @@ translitua==1.3.1
 unicodecsv==0.9.4
 wagtail==1.13.4
 WeasyPrint==0.42.3
+-e git+https://github.com/dchaplinsky/WeasyPrint.git@backport#egg=backport
 XlsxWriter==1.0.0
 django-compressor==2.4
 django-appconf==1.0.3
