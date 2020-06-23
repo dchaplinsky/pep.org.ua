@@ -3382,7 +3382,7 @@ body {
     margin-top: 5px;
     margin-bottom: 5px; }
   .profile-page__header .date time {
-	  padding-left: 5px;
+      padding-left: 5px;
   }
   .profile-page__header .profile-actions {
     display: -webkit-box;
@@ -3491,9 +3491,9 @@ body {
             color: #4ead33; }
         .profile-page__top .profile-main-info table tr td strong {
           font-weight: 600; }
-		.profile-page__top .profile-main-info table tr td .status {
-			padding: 0;
-		}
+        .profile-page__top .profile-main-info table tr td .status {
+            padding: 0;
+        }
 
 .profile-page .scoring {
   background-color: #fff; }
@@ -3866,10 +3866,10 @@ body {
     position: relative;
     padding-top: 40px;
      }
-	.profile-page:not(#real-estate) .profile-section__body, .profile-page:not(#real-estate) .profile-section__content {
-		overflow-y: hidden !important;
-	    overflow-x: auto;
-	}
+    .profile-page:not(#real-estate) .profile-section__body, .profile-page:not(#real-estate) .profile-section__content {
+        overflow-y: hidden !important;
+        overflow-x: auto;
+    }
     .profile-page .profile-section__body .simplebar-track.vertical, .profile-page .profile-section__content .simplebar-track.vertical {
       display: none; }
     .profile-page .profile-section__body .simplebar-track.horizontal, .profile-page .profile-section__content .simplebar-track.horizontal {
@@ -6063,10 +6063,10 @@ body {
         width: 100%;
         padding-top: 20px;
          }
-		.profile-page:not(#real-estate) .profile-section__body, .profile-page:not(#real-estate) .profile-section__content {
-			overflow: hidden;
-	        overflow-x: auto;
-		}
+        .profile-page:not(#real-estate) .profile-section__body, .profile-page:not(#real-estate) .profile-section__content {
+            overflow: hidden;
+            overflow-x: auto;
+        }
         .profile-page .profile-section__body .table, .profile-page .profile-section__content .table {
           min-width: 500px; }
           .profile-page .profile-section__body .table th:first-child, .profile-page .profile-section__content .table th:first-child {
@@ -6144,57 +6144,143 @@ body {
             font-size: 11px; } }
 
 @media print {
-	header, footer .footer__top .content, .profile-page .profile-page__header, .profile-page .names-section, img, .profile-page .profile-image, .profile-page .profile-section__footer, .print {
-		display: none;
-	}
+    header, footer .footer__top .content, .profile-page .profile-page__header, .profile-page .names-section, .profile-page .profile-image, .profile-page .profile-section__footer, .print, .side-menu-btn, .profile-section__footer {
+        display: none !important;
+    }
 
-	body {
-		font-family: 'Montserrat',Arial,sans-serif;
-		font-weight: 400;
-	}
+    body {
+        font-family: 'Montserrat',Arial,sans-serif;
+        font-weight: 400;
+    }
 
-	.profile-page .profile-section__header .title-wrap .title {
-		font-weight: 900;
-		font-size: 20px;
-		line-height: 1.7;
-		letter-spacing: .1em;
-		text-transform: uppercase;
-		color: #1d1d1b;
-		margin-left: 24px;
-	}
+    .profile-page__top .profile-main-info .profile-name {
+        font-weight: 800;
+        font-size: 30px;
+        line-height: 1.7;
+        color: #1d1d1b;
+    }
 
-	.profile-page__blocks {
-		display: flex;
-		flex-flow: column;
-	}
+    .profile-page__top .profile-main-info table tr td {
+        font-size: 14px;
+        line-height: 160%;
+        color: #000;
+        padding: 6px 0;
+    }
 
-	.profile-page__blocks .column-right {
-		order: 1;
-		display: flex;
-		flex-flow: column;
-	}
+    .profile-page__top .profile-main-info table tr td:first-child {
+        color: #0000004d;
+    }
 
-	.profile-page__blocks .column-right #career {
-		order: 1;
-	}
+    .profile-page .profile-section__body .table {
+        border-top: 1px solid #E0DEDE;
+        border-bottom: 1px solid #E0DEDE;
+    }
 
-	.profile-page__blocks .column-right #criminal {
-		order: 2;
-	}
+    .profile-page .profile-section__body .table td {
+        text-align: left;
+        font-weight: 300;
+        font-size: 12px;
+        line-height: 1.9;
+        padding: 14px 7px;
+        color: #000;
+        border-top: 1px solid #0000000d;
+    }
 
-	.profile-page__blocks .column-right #dossier {
-		order: 3;
-	}
+    .profile-page .profile-section__header .title-wrap .title {
+        font-weight: 900;
+        font-size: 20px;
+        line-height: 1.7;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        color: #1d1d1b;
+    }
 
-	.profile-page__blocks .column-right #documents {
-		order: 4;
-	}
+    .profile-page__blocks {
+        display: flex;
+        flex-flow: column;
+    }
 
-	.profile-page__blocks .column-left {
-		order: 2;
-	}
+    .profile-page__blocks .column-right {
+        order: 1;
+        display: flex;
+        flex-flow: column;
+    }
 
-	.table {
-		display: table;
-	}
+    .profile-page__blocks .column-right #career {
+        order: 1;
+    }
+
+    .profile-page__blocks .column-right #criminal {
+        order: 2;
+    }
+
+    .profile-page__blocks .column-right #dossier {
+        order: 3;
+    }
+
+    .profile-page__blocks .column-right #documents {
+        order: 4;
+    }
+
+    .profile-page__blocks .column-left {
+        order: 2;
+    }
+
+    .profile-section__header h6 {
+        font-weight: 900;
+        font-size: 20px;
+        line-height: 1.7;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        color: #1d1d1b;
+    }
+
+    .profile-section__body p {
+        font-size: 14px;
+        font-weight: 200;
+        color: #000;
+        line-height: 160%;
+    }
+
+    .profile-section__body p:not(:last-child) {
+        margin-bottom: 20px;
+    }
+
+    .table {
+        display: table;
+    }
+
+    /* .table th, td {
+        color: #1d1d1b33;
+    } */
+
+    .profile-page .profile-section__body .table .name-wrap .flags {
+        width: 18px;
+        height: 12px;
+        position: relative;
+        -ms-flex-negative: 0;
+        flex-shrink: 0;
+    }
+
+    .profile-page .profile-section__body .table tbody tr {
+        border-top: 1px solid #0000000d;
+    }
+
+    .profile-page .profile-section__body .table th {
+        font-weight: 800;
+    }
+
+    .footer__founders p, .footer__bottom p, .profile-page .profile-section__body .table th, .profile-page .profile-section__body .table td {
+        font-size: 12px;
+        line-height: 169.8%;
+    }
+
+    .footer__founders p, .footer__bottom p, .profile-page .profile-section__body .table td {
+        font-weight: 200;
+    }
+
+    .footer__bottom .copy-wrap p {
+        font-weight: 500;
+        letter-spacing: .05em;
+    }
 }
