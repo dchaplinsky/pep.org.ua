@@ -6144,13 +6144,21 @@ body {
             font-size: 11px; } }
 
 @media print {
-    header, footer .footer__top .content, .profile-page .profile-page__header, .profile-page .names-section, .profile-page .profile-image, .profile-page .profile-section__footer, .print, .side-menu-btn, .profile-section__footer {
+    *,*:before,*:after,*:first-letter,p:first-line,div:first-line,blockquote:first-line,li:first-line { background: transparent !important; color: #000 !important; box-shadow: none !important; text-shadow: none !important;}
+
+    header, footer .footer__top .content, .profile-page .profile-page__header, .profile-page .names-section, .profile-page .profile-section__footer, .print, .side-menu-btn, .profile-section__footer {
         display: none !important;
     }
 
     body {
         font-family: 'Montserrat',Arial,sans-serif;
         font-weight: 400;
+    }
+
+    .profile-page .profile-image {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
     }
 
     .profile-page__top .profile-main-info .profile-name {
@@ -6283,4 +6291,8 @@ body {
         font-weight: 500;
         letter-spacing: .05em;
     }
+
+	@page {
+		bleed: 8pt;
+	}
 }
