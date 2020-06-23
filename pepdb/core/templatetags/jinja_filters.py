@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from itertools import groupby
 from urlparse import urlsplit, urlunsplit
 from urllib import unquote_plus
+from decimal import Decimal, InvalidOperation
 
 from django.utils.safestring import mark_safe
 from django_markdown.utils import markdown as _markdown
@@ -11,8 +12,7 @@ from django.core.urlresolvers import reverse, resolve, Resolver404, NoReverseMat
 from django.utils.translation import override, get_language
 from django.conf import settings
 
-from core.utils import get_localized_field
-
+from core.utils import get_localized_field, get_exchange_rate
 from django_jinja import library
 from jinja2.filters import _GroupTuple
 
@@ -168,3 +168,14 @@ def translated(value, field, fallback=True):
     else:
         return get_localized_field(value, field, settings.LANGUAGE_CODE)
 
+@library.filter
+def convert_curr(value, year):
+    lang = get_language()
+
+    if lang == "en" and value:
+        try:
+            value = Decimal(str(value).replace(" ", "").replace(",", ".")) / get_exchange_rate("USD", year)
+        except (TypeError, ZeroDivisionError, InvalidOperation):
+            pass
+
+    return value
