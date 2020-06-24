@@ -6145,13 +6145,13 @@ body {
 
 @media print {
     *,*:before,*:after,*:first-letter,p:first-line,div:first-line,blockquote:first-line,li:first-line {
-		background: transparent !important;
-		color: #000 !important; box-shadow:
-		none !important;
-		text-shadow: none !important;
-	}
+        background: transparent !important;
+        color: #000 !important; box-shadow:
+        none !important;
+        text-shadow: none !important;
+    }
 
-    header, footer .footer__top .content, .profile-page .profile-page__header, .profile-page .names-section, .profile-page .profile-section__footer, .print, .side-menu-btn, .profile-section__footer {
+    header, footer .footer__top .content, .profile-page .profile-page__header, .profile-page .names-section, .profile-page .profile-section__footer, .print, .side-menu-btn, .profile-section__footer, #dossier-modal, #criminal-modal, #visualization-modal {
         display: none !important;
     }
 
@@ -6160,46 +6160,21 @@ body {
         font-weight: 400;
     }
 
-    .profile-page .profile-image {
-        width: 100px !important;
-        height: 100px !important;
-        border-radius: 50% !important;
+    img[itemprop='image'] {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
     }
 
-    .profile-page__top .profile-main-info .profile-name {
-        font-weight: 800 !important;
-        font-size: 30px !important;
-        line-height: 1.7 !important;
-        color: #1d1d1b !important;
+    h1 {
+        font-weight: 800;
+        font-size: 30px;
+        line-height: 1.7;
+        color: #1d1d1b;
+        border-bottom: none;
     }
 
-    .profile-page__top .profile-main-info table tr td {
-        font-size: 14px !important;
-        line-height: 160% !important;
-        color: #000 !important;
-        padding: 6px 0 !important;
-    }
-
-    .profile-page__top .profile-main-info table tr td:first-child {
-        color: #0000004d !important;
-    }
-
-    .profile-page .profile-section__body .table {
-        border-top: 1px solid #E0DEDE !important;
-        border-bottom: 1px solid #E0DEDE !important;
-    }
-
-    .profile-page .profile-section__body .table td {
-        text-align: left !important;
-        font-weight: 300 !important;
-        font-size: 12px !important;
-        line-height: 1.9 !important;
-        padding: 14px 7px !important;
-        color: #000 !important;
-        border-top: 1px solid #0000000d !important;
-    }
-
-    .profile-page__blocks {
+	.profile-page__blocks {
         display: flex !important;
         flex-flow: column !important;
     }
@@ -6210,81 +6185,95 @@ body {
         flex-flow: column !important;
     }
 
-    .profile-page__blocks .column-right #career {
+    section #career {
         order: 1 !important;
     }
 
-    .profile-page__blocks .column-right #criminal {
+    section #criminal {
         order: 2 !important;
     }
 
-    .profile-page__blocks .column-right #dossier {
+    section #dossier {
         order: 3 !important;
     }
 
-    .profile-page__blocks .column-right #documents {
+    section #documents {
         order: 4 !important;
     }
 
-    .profile-page__blocks .column-left {
+    section .column-left {
         order: 2 !important;
     }
 
-    .profile-page .profile-section__header .title-wrap .title, .profile-section__header h6 {
-        font-weight: 900 !important;
-        font-size: 20px !important;
-        line-height: 1.7 !important;
-        letter-spacing: .1em !important;
-        text-transform: uppercase !important;
-        color: #1d1d1b !important;
+    h6 {
+        font-weight: 900;
+        font-size: 20px;
+        line-height: 1.7;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        color: #1d1d1b;
     }
 
-    .profile-section__body p {
-        font-size: 14px !important;
-        font-weight: 200 !important;
-        color: #000 !important;
-        line-height: 160% !important;
-    }
-
-    .profile-section__body p:not(:last-child) {
-        margin-bottom: 20px !important;
-    }
-
-    .table {
-        display: table !important;
+    table {
+        display: table;
+        border-top: 1px solid #E0DEDE !important;
+        border-bottom: 1px solid #E0DEDE !important;
     }
 
     /* .table th, td {
         color: #1d1d1b33;
     } */
 
-    .profile-page .profile-section__body .table .name-wrap .flags {
+    /* .profile-page .profile-section__body .table .name-wrap .flags {
         width: 18px !important;
         height: 12px !important;
         position: relative !important;
         -ms-flex-negative: 0 !important;
         flex-shrink: 0 !important;
+    } */
+
+	table tr td {
+        font-size: 14px;
+        line-height: 160%;
+        color: #000;
+        padding: 6px 0;
     }
 
-    .profile-page .profile-section__body .table tbody tr {
+    /* .profile-page__top .profile-main-info table tr td:first-child {
+        color: #0000004d !important;
+    } */
+
+    /* .profile-page .profile-section__body .table td {
+        text-align: left !important;
+        font-weight: 300 !important;
+        font-size: 12px !important;
+        line-height: 1.9 !important;
+        padding: 14px 7px !important;
+        color: #000 !important;
+        border-top: 1px solid #0000000d !important;
+    } */
+
+    tbody tr {
         border-top: 1px solid #0000000d !important;
     }
 
-    .profile-page .profile-section__body .table th {
-        font-weight: 800 !important;
+	p {
+		font-weight: 200 !important;
+		line-height: 160% !important;
+        font-size: 14px !important;
+        color: #000 !important;
     }
 
-    .footer__founders p, .footer__bottom p, .profile-page .profile-section__body .table th, .profile-page .profile-section__body .table td {
-        font-size: 12px !important;
-        line-height: 170% !important;
+	th {
+		font-weight: 800 !important;
+		font-size: 14px !important;
+	}
+
+    p:not(:last-child) {
+        margin-bottom: 20px !important;
     }
 
-    .footer__founders p, .footer__bottom p, .profile-page .profile-section__body .table td {
+    td {
         font-weight: 200 !important;
-    }
-
-    .footer__bottom .copy-wrap p {
-        font-weight: 500 !important;
-        letter-spacing: .05em !important;
     }
 }
