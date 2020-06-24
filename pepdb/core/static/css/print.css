@@ -36,7 +36,7 @@ nav,section {
     color: #1d1d1b !important;
 }
 
-header, footer .footer__top .content, .profile-page .profile-page__header, .profile-page .names-section, .profile-page .profile-section__footer, .print, .side-menu-btn, .profile-section__footer, .modal, .profile-page .profile-section__body .table td.no-wrap:last-child {
+header, footer .footer__top .content, .profile-page .profile-page__header, .profile-page .names-section, .profile-page .profile-section__footer, .print, .side-menu-btn, .profile-section__footer, .modal, .profile-page .profile-section__body .table td.no-wrap:last-child, .profile-page .profile-section__body .simplebar-track.vertical {
 	    display: none !important;
 	}
 
@@ -120,6 +120,7 @@ body {
     text-transform: uppercase !important;
     color: #1d1d1b !important;
 	padding-left: 15px;
+	margin: 0 !important;
 }
 
 .profile-section__body p {
@@ -145,9 +146,9 @@ table {
 	display: flex;
 }
 
-/* .table th, td {
+.table th, td {
     color: #1d1d1b33;
-} */
+}
 
 .profile-page .profile-section__body .table .name-wrap .flags {
     width: 18px !important;
@@ -176,7 +177,7 @@ table {
     line-height: 170% !important;
 }
 
-.footer__founders p, .footer__bottom p, .profile-page .profile-section__body .table td, .profile-page .profile-section__body .criminal-status strong {
+.footer__founders p, .footer__bottom p, .profile-page .profile-section__body .table td, .profile-page .profile-section__body .criminal-status strong:not(:last-child) {
     font-weight: 200 !important;
 }
 
@@ -208,21 +209,11 @@ table, figure {
     page-break-inside: avoid;
 }
 
-td {
-    padding: 10px 20px;
-}
-
 @page :right {
     @bottom-right {
         content: counter(page);
     }
 }
-
-body {
-    font-family: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 16px;
-}
-
 /* PROFILE PAGE */
 #profile .avatar {
     float: left;
