@@ -26,7 +26,7 @@ nav,section {
 
 @page {
     size: A4 portrait;
-    margin: 1cm 1cm 1cm 1.5cm;
+    margin: 110px 50px 95px 50px;
 }
 
 .profile-page__top .profile-main-info .profile-name {
@@ -36,11 +36,9 @@ nav,section {
     color: #1d1d1b !important;
 }
 
-header, footer .footer__top .content, .profile-page .profile-page__header, .profile-page .names-section, .profile-page .profile-section__footer, .print, .side-menu-btn, .profile-section__footer {
-    display: none !important;
-}
-
-h1,
+header, footer .footer__top .content, .profile-page .profile-page__header, .profile-page .names-section, .profile-page .profile-section__footer, .print, .side-menu-btn, .profile-section__footer, .modal, .profile-page .profile-section__body .table td.no-wrap:last-child {
+	    display: none !important;
+	}
 
 body {
     font-family: 'Montserrat',Arial,sans-serif;
@@ -141,6 +139,12 @@ table {
     width: 100%;
 }
 
+.profile-page .profile-section__body .table td.no-wrap:first-child {
+	display: -webkit-flex;
+	display: -ms-flex;
+	display: flex;
+}
+
 /* .table th, td {
     color: #1d1d1b33;
 } */
@@ -151,6 +155,12 @@ table {
     position: relative !important;
     -ms-flex-negative: 0 !important;
     flex-shrink: 0 !important;
+	margin-right: 20px;
+}
+
+.profile-page .profile-section__body .table .name-wrap .flags img {
+	width: 100%;
+	height: auto;
 }
 
 .profile-page .profile-section__body .table tbody tr {
