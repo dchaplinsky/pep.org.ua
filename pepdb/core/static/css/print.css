@@ -1,3 +1,10 @@
+*,*:before,*:after,*:first-letter,p:first-line,div:first-line,blockquote:first-line,li:first-line {
+    background: transparent !important;
+    color: #000 !important; box-shadow:
+    none !important;
+    text-shadow: none !important;
+}
+
 #profile-nav,
 #navbar,
 #breadcrumbs,
@@ -19,16 +26,144 @@ button.close,
     margin: 1cm 1cm 1cm 1.5cm;
 }
 
-
-h1 {
-    /*page-break-before: always;*/
-    font-size: 36px;
-    border-bottom: black 2px solid;
+.profile-page__top .profile-main-info .profile-name {
+    font-weight: 800 !important;
+    font-size: 30px !important;
+    line-height: 1.7 !important;
+    color: #1d1d1b !important;
 }
 
-h1.pep-name {
+header, footer .footer__top .content, .profile-page .profile-page__header, .profile-page .names-section, .profile-page .profile-section__footer, .print, .side-menu-btn, .profile-section__footer {
+    display: none !important;
+}
+
+body {
+    font-family: 'Montserrat',Arial,sans-serif;
+    font-weight: 400;
+}
+
+
+
+
+
+.profile-page__top .profile-main-info table tr td {
+    font-size: 14px !important;
+    line-height: 160% !important;
+    color: #000 !important;
+    padding: 6px 0 !important;
+}
+
+.profile-page__top .profile-main-info table tr td:first-child {
+    color: #0000004d !important;
+}
+
+.profile-page .profile-section__body .table {
+    border-top: 1px solid #E0DEDE !important;
+    border-bottom: 1px solid #E0DEDE !important;
+}
+
+.profile-page .profile-section__body .table td {
+    text-align: left !important;
+    font-weight: 300 !important;
+    font-size: 12px !important;
+    line-height: 1.9 !important;
+    padding: 14px 7px !important;
+    color: #000 !important;
+    border-top: 1px solid #0000000d !important;
+}
+
+.profile-page__blocks {
+    display: flex !important;
+    flex-flow: column !important;
+}
+
+.profile-page__blocks .column-right {
+    order: 1 !important;
+    display: flex !important;
+    flex-flow: column !important;
+}
+
+.profile-page__blocks .column-right #career {
+    order: 1 !important;
+}
+
+.profile-page__blocks .column-right #criminal {
+    order: 2 !important;
+}
+
+.profile-page__blocks .column-right #dossier {
+    order: 3 !important;
+}
+
+.profile-page__blocks .column-right #documents {
+    order: 4 !important;
+}
+
+.profile-page__blocks .column-left {
+    order: 2 !important;
+}
+
+.profile-page .profile-section__header .title-wrap .title, .profile-section__header h6 {
+    font-weight: 900 !important;
+    font-size: 20px !important;
+    line-height: 1.7 !important;
+    letter-spacing: .1em !important;
+    text-transform: uppercase !important;
+    color: #1d1d1b !important;
+}
+
+.profile-section__body p {
+    font-size: 14px !important;
+    font-weight: 200 !important;
+    color: #000 !important;
+    line-height: 160% !important;
+}
+
+.profile-section__body p:not(:last-child) {
+    margin-bottom: 20px !important;
+}
+
+table {
+    display: table !important;
+}
+
+/* .table th, td {
+    color: #1d1d1b33;
+} */
+
+.profile-page .profile-section__body .table .name-wrap .flags {
+    width: 18px !important;
+    height: 12px !important;
+    position: relative !important;
+    -ms-flex-negative: 0 !important;
+    flex-shrink: 0 !important;
+}
+
+.profile-page .profile-section__body .table tbody tr {
+    border-top: 1px solid #0000000d !important;
+}
+
+.profile-page .profile-section__body .table th {
+    font-weight: 800 !important;
+}
+
+.footer__founders p, .footer__bottom p, .profile-page .profile-section__body .table th, .profile-page .profile-section__body .table td {
+    font-size: 12px !important;
+    line-height: 170% !important;
+}
+
+.footer__founders p, .footer__bottom p, .profile-page .profile-section__body .table td {
+    font-weight: 200 !important;
+}
+
+.footer__bottom .copy-wrap p {
+    font-weight: 500 !important;
+    letter-spacing: .05em !important;
+}
+
+/* h1.pep-name {
     font-size: 42px;
-}
+} */
 
 h1, h2, h3, h4, h5 {
     page-break-after: avoid;
@@ -47,7 +182,6 @@ td {
         content: counter(page);
     }
 }
-
 
 body {
     font-family: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
