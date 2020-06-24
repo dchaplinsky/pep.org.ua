@@ -6144,7 +6144,12 @@ body {
             font-size: 11px; } }
 
 @media print {
-    *,*:before,*:after,*:first-letter,p:first-line,div:first-line,blockquote:first-line,li:first-line { background: transparent !important; color: #000 !important; box-shadow: none !important; text-shadow: none !important;}
+    *,*:before,*:after,*:first-letter,p:first-line,div:first-line,blockquote:first-line,li:first-line {
+		background: transparent !important;
+		color: #000 !important; box-shadow:
+		none !important;
+		text-shadow: none !important;
+	}
 
     header, footer .footer__top .content, .profile-page .profile-page__header, .profile-page .names-section, .profile-page .profile-section__footer, .print, .side-menu-btn, .profile-section__footer {
         display: none !important;
@@ -6156,106 +6161,97 @@ body {
     }
 
     .profile-page .profile-image {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
+        width: 100px !important;
+        height: 100px !important;
+        border-radius: 50% !important;
     }
 
     .profile-page__top .profile-main-info .profile-name {
-        font-weight: 800;
-        font-size: 30px;
-        line-height: 1.7;
-        color: #1d1d1b;
+        font-weight: 800 !important;
+        font-size: 30px !important;
+        line-height: 1.7 !important;
+        color: #1d1d1b !important;
     }
 
     .profile-page__top .profile-main-info table tr td {
-        font-size: 14px;
-        line-height: 160%;
-        color: #000;
-        padding: 6px 0;
+        font-size: 14px !important;
+        line-height: 160% !important;
+        color: #000 !important;
+        padding: 6px 0 !important;
     }
 
     .profile-page__top .profile-main-info table tr td:first-child {
-        color: #0000004d;
+        color: #0000004d !important;
     }
 
     .profile-page .profile-section__body .table {
-        border-top: 1px solid #E0DEDE;
-        border-bottom: 1px solid #E0DEDE;
+        border-top: 1px solid #E0DEDE !important;
+        border-bottom: 1px solid #E0DEDE !important;
     }
 
     .profile-page .profile-section__body .table td {
-        text-align: left;
-        font-weight: 300;
-        font-size: 12px;
-        line-height: 1.9;
-        padding: 14px 7px;
-        color: #000;
-        border-top: 1px solid #0000000d;
-    }
-
-    .profile-page .profile-section__header .title-wrap .title {
-        font-weight: 900;
-        font-size: 20px;
-        line-height: 1.7;
-        letter-spacing: .1em;
-        text-transform: uppercase;
-        color: #1d1d1b;
+        text-align: left !important;
+        font-weight: 300 !important;
+        font-size: 12px !important;
+        line-height: 1.9 !important;
+        padding: 14px 7px !important;
+        color: #000 !important;
+        border-top: 1px solid #0000000d !important;
     }
 
     .profile-page__blocks {
-        display: flex;
-        flex-flow: column;
+        display: flex !important;
+        flex-flow: column !important;
     }
 
     .profile-page__blocks .column-right {
-        order: 1;
-        display: flex;
-        flex-flow: column;
+        order: 1 !important;
+        display: flex !important;
+        flex-flow: column !important;
     }
 
     .profile-page__blocks .column-right #career {
-        order: 1;
+        order: 1 !important;
     }
 
     .profile-page__blocks .column-right #criminal {
-        order: 2;
+        order: 2 !important;
     }
 
     .profile-page__blocks .column-right #dossier {
-        order: 3;
+        order: 3 !important;
     }
 
     .profile-page__blocks .column-right #documents {
-        order: 4;
+        order: 4 !important;
     }
 
     .profile-page__blocks .column-left {
-        order: 2;
+        order: 2 !important;
     }
 
-    .profile-section__header h6 {
-        font-weight: 900;
-        font-size: 20px;
-        line-height: 1.7;
-        letter-spacing: .1em;
-        text-transform: uppercase;
-        color: #1d1d1b;
+    .profile-page .profile-section__header .title-wrap .title, .profile-section__header h6 {
+        font-weight: 900 !important;
+        font-size: 20px !important;
+        line-height: 1.7 !important;
+        letter-spacing: .1em !important;
+        text-transform: uppercase !important;
+        color: #1d1d1b !important;
     }
 
     .profile-section__body p {
-        font-size: 14px;
-        font-weight: 200;
-        color: #000;
-        line-height: 160%;
+        font-size: 14px !important;
+        font-weight: 200 !important;
+        color: #000 !important;
+        line-height: 160% !important;
     }
 
     .profile-section__body p:not(:last-child) {
-        margin-bottom: 20px;
+        margin-bottom: 20px !important;
     }
 
     .table {
-        display: table;
+        display: table !important;
     }
 
     /* .table th, td {
@@ -6263,36 +6259,32 @@ body {
     } */
 
     .profile-page .profile-section__body .table .name-wrap .flags {
-        width: 18px;
-        height: 12px;
-        position: relative;
-        -ms-flex-negative: 0;
-        flex-shrink: 0;
+        width: 18px !important;
+        height: 12px !important;
+        position: relative !important;
+        -ms-flex-negative: 0 !important;
+        flex-shrink: 0 !important;
     }
 
     .profile-page .profile-section__body .table tbody tr {
-        border-top: 1px solid #0000000d;
+        border-top: 1px solid #0000000d !important;
     }
 
     .profile-page .profile-section__body .table th {
-        font-weight: 800;
+        font-weight: 800 !important;
     }
 
     .footer__founders p, .footer__bottom p, .profile-page .profile-section__body .table th, .profile-page .profile-section__body .table td {
-        font-size: 12px;
-        line-height: 169.8%;
+        font-size: 12px !important;
+        line-height: 170% !important;
     }
 
     .footer__founders p, .footer__bottom p, .profile-page .profile-section__body .table td {
-        font-weight: 200;
+        font-weight: 200 !important;
     }
 
     .footer__bottom .copy-wrap p {
-        font-weight: 500;
-        letter-spacing: .05em;
+        font-weight: 500 !important;
+        letter-spacing: .05em !important;
     }
-
-	@page {
-		bleed: 8pt;
-	}
 }
