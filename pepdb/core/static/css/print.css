@@ -47,6 +47,7 @@ body {
 }
 
 .profile-page__top .profile-main-info table tr td {
+	font-family: 'Montserrat',Arial,sans-serif !important;
     font-size: 14px !important;
     line-height: 160% !important;
     color: #000 !important;
@@ -63,8 +64,15 @@ body {
 }
 
 .profile-page .profile-section__body .table {
-    border-top: 1px solid #E0DEDE !important;
     border-bottom: 1px solid #E0DEDE !important;
+}
+
+.profile-page .profile-section__body .dossier-content p strong {
+	font-family: 'Montserrat',Arial,sans-serif !important;
+	font-size: 14px !important;
+	line-height: 160% !important;
+	color: #000 !important;
+	font-weight: 800 !important;
 }
 
 .profile-page .profile-section__body .table td {
@@ -151,7 +159,7 @@ table {
     width: 100%;
 }
 
-.profile-page .profile-section__body .table td.no-wrap:first-child {
+.profile-page .profile-section__body .table td.no-wrap .name-wrap {
     display: -webkit-flex;
     display: -ms-flex;
     display: flex;
@@ -164,6 +172,10 @@ table {
     -ms-flex-negative: 0 !important;
     flex-shrink: 0 !important;
     margin-right: 20px;
+}
+
+#career .profile-page .profile-section__body .table td strong {
+	font-weight: 900 !important;
 }
 
 .profile-page .profile-section__body .table .name-wrap .flags img {
@@ -184,7 +196,7 @@ table {
     line-height: 170% !important;
 }
 
-.footer__founders p, .footer__bottom p, .profile-page .profile-section__body .table td, .profile-page .profile-section__body .criminal-status strong:not(:last-child) {
+.footer__founders p, .footer__bottom p, .profile-page .profile-section__body .profile-page__blocks .table td, .profile-page .profile-section__body .criminal-status strong:not(:last-child) {
     font-weight: 200 !important;
 }
 
