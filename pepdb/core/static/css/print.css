@@ -162,9 +162,13 @@ table {
     width: 100%;
 }
 
-img {
+.profile-page .profile-section__body .dossier-content img {
 	width: 100% !important;
 	height: auto;
+}
+
+.profile-page .profile-section__body .dossier-content figure {
+	margin: 0;
 }
 
 .profile-page .profile-section__body .table td.no-wrap .name-wrap {
@@ -223,6 +227,14 @@ img {
     height: 200px;
     border-radius: 50%;
     margin: 80px 0 40px;
+}
+
+.profile-page .profile-section__body .documents-list li {
+	padding: 7px 0;
+}
+
+.profile-page .profile-section__body .documents-list li a {
+	color: #000;
 }
 
 /* h1.pep-name {
