@@ -26,7 +26,7 @@ nav,section {
 
 @page {
     size: A4 portrait;
-    margin: 110px 150px 95px 150px;
+    margin: 110px 50px 95px 50px;
 }
 
 .profile-page__top .profile-main-info .profile-name {
@@ -36,13 +36,14 @@ nav,section {
     color: #1d1d1b !important;
 }
 
-header, footer .footer__top .content, .profile-page .profile-page__header, .profile-page .names-section, .profile-page .profile-section__footer, .print, .side-menu-btn, .profile-section__footer, .modal, .profile-page .profile-section__body .table td.no-wrap:last-child, .profile-page .profile-section__body .simplebar-track.vertical, .profile-page .profile-section__body .table th .sort-arr, .profile-page .side-menu {
+header, footer .footer__top .content, .profile-page .profile-page__header, .profile-page .names-section, .profile-page .profile-section__footer, .print, .side-menu-btn, .profile-section__footer, .modal, .profile-page .profile-section__body .table td.no-wrap:last-child, .profile-page .profile-section__body .simplebar-track.vertical, .profile-page .profile-section__body .table th .sort-arr, .profile-page .side-menu, .profile-page .profile-section__body .table thead, .profile-page .profile-section__body .criminal-status p br {
         display: none !important;
     }
 
 body {
     font-family: 'Montserrat',Arial,sans-serif !important;
     font-weight: 400;
+    margin: 110px 50px 95px 50px;
 }
 
 .profile-page__top .profile-main-info table tr td {
@@ -54,6 +55,11 @@ body {
 
 .profile-page__top .profile-main-info table tr td:first-child {
     color: #0000004d !important;
+}
+
+.profile-page__top .profile-main-info table tr td a {
+    color: #000;
+    border-bottom: none;
 }
 
 .profile-page .profile-section__body .table {
@@ -113,6 +119,7 @@ body {
     padding-top: 60px;
     padding-bottom: 15px;
     border-bottom: 1px solid #E0DEDE;
+    margin-bottom: 20px;
 }
 
 .profile-page .profile-section__header .title-wrap .title, .profile-section__header h6 {
