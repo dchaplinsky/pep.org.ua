@@ -1209,7 +1209,7 @@
                                                     {{ _("до") }}
                                                     {{ connection.date_finished_human }}{% endif %}</strong>
                                                 </td>
-                                                <td class="sort-col col2"><a href="{{ connection.to_company.get_absolute_url() }}" itemscope itemtype="http://schema.org/Organization" itemprop="worksFor"><meta itemprop="name" value="{{ connection.to_company }}" />{{ connection.to_company }}</a>, {{ connection.relationship_type }}</td>
+                                                <td class="sort-col col2"><a href="{{ connection.to_company.get_absolute_url() }}" itemscope itemtype="http://schema.org/Organization" itemprop="worksFor"><meta itemprop="name" content="{{ connection.to_company }}" />{{ connection.to_company }}</a>, {{ connection.relationship_type }}</td>
                                                 <td class="no-wrap">
                                                     {% if connection.has_additional_info %}
                                                         <button class="toggle-row-btn">

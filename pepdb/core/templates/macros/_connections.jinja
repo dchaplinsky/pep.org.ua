@@ -84,9 +84,9 @@
                                 <br />
                                 <span class="last-workplace">  
                                     {% if last_workplace.company_id %}
-                                        <a href="{{ url("company_details", company_id=last_workplace.company_id) }}" itemscope itemtype="http://schema.org/Organization" itemprop="worksFor"><span itemprop="name">{{ last_workplace.company }}</span></a>,
+                                        <a href="{{ url("company_details", company_id=last_workplace.company_id) }}" itemscope itemtype="http://schema.org/Organization" itemprop="worksFor">{{ last_workplace.company }} <meta itemprop="name" content="{{ last_workplace.company }}" /></a>,
                                     {% else %}
-                                        <span itemscope itemtype="http://schema.org/Organization" itemprop="worksFor"><span itemprop="name">{{ last_workplace.company }}</span></span>,
+                                        <span itemscope itemtype="http://schema.org/Organization" itemprop="worksFor">{{ last_workplace.company }} <meta itemprop="name" content="{{ last_workplace.company }}" /></span>,
                                     {% endif %}
                                     <span itemprop="jobTitle">{{ last_workplace.position }}</span>
                                 </span>
