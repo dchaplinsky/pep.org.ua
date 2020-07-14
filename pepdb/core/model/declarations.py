@@ -560,9 +560,9 @@ class Declaration(models.Model):
 
     def get_vehicles(self):
         def _normalize_key(src):
-            s = re.sub("[.,\/#!$%\^&\*;:{}=\-_`~()]", "", src)
+            s = re.sub(r"[.,\/#!$%\^&\*;:{}=\-_`~()]", "", src)
 
-            return re.sub("\s+", "", s).lower()
+            return re.sub(r"\s+", "", s).lower()
 
         def _get_key_for_paper(f):
             return _normalize_key(
@@ -598,7 +598,18 @@ class Declaration(models.Model):
                 for src in ["declarant", "family"]:
                     for asset in self.source["nacp_orig"]["step_6"].values():
                         try:
-                            person = asset.get("person", "1")
+                            person = None
+                            if "person" not in asset:
+                                for k, v in asset.get("rights", {}).iteritems():
+                                    if (v.get("ownershipType", "") or "").lower() in [
+                                        "власність",
+                                        "спільна власність",
+                                    ]:
+                                        person = k
+                                        break
+                            else:
+                                person = asset["person"]
+
                             if src == "declarant" and person != "1":
                                 continue
 
