@@ -6,10 +6,10 @@ fp = open("/tmp/p2p.csv", "w")
 w = DictWriter(fp, fieldnames=["person1", "person1_is", "person2", "person2_is", "proofs"])
 
 
-qs = Person2Person.objects.select_related("from_person", "to_person").nocache().iterator()
+qs = Person2Person.objects.select_related("from_person", "to_person").nocache()
 w.writeheader()
 
-for p2p in tqdm(qs, total=qs.count()):
+for p2p in tqdm(qs.iterator(), total=qs.count()):
     w.writerow({
         "person1": p2p.from_person,
         "person2": p2p.to_person,
